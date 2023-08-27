@@ -1,26 +1,27 @@
-// import './ScreenClient.css';
-import {
-  connect,
-  NatsConnection
-} from 'nats.ws';
-// } from '../../../node_modules/nats.ws/lib/src/mod.js';
-// } from 'nats';
 import { useEffect, useState } from 'react';
 
 const HOST = 'localhost';
-const PORT = 4222;
+const PORT = 1235;
 
-const initializeNatsConnection = async (): Promise<NatsConnection> => {
+const initializeSocketConnection = async (onMessageAction: any): Promise<WebSocket> => {
   try {
-    console.log('initialize NATS Connection');
-    const connection = await connect({
-      debug: true,
-      pedantic: true,
-      reconnect: true,
-      servers: [`${HOST}:${PORT}`]
+    const wsUrl = `ws://${HOST}:${PORT}`;
+    const ws = new WebSocket(wsUrl)
+
+    ws.addEventListener('open', () => {
+      console.log(`WebSocket Connected ${wsUrl}`);
+      ws.send('Hi! This is a client');
     });
-    console.log('NATS Connection established');
-    return connection;
+    
+    ws.addEventListener('message', (message) => {
+      onMessageAction(JSON.parse(message.data));
+    });
+
+    ws.addEventListener('error', (error) => {
+      console.log(`ERROR: ${error}`)
+    });
+
+    return ws;
   } catch (error) {
     console.error('NATS Connection ERROR: ', error);
     throw error;
@@ -28,11 +29,17 @@ const initializeNatsConnection = async (): Promise<NatsConnection> => {
 }
 
 function ScreenClient() {
-  const [natsConnection,  setNatsConnection] = useState<NatsConnection>();
-  const [error, setError] = useState<NatsConnection>();
+  const [natsConnection,  setNatsConnection] = useState<any>();
+  const [error, setError] = useState<any>();
+  const [messages, setMessages] = useState<any[]>([]);
+
+  const handlerOnMessage = (message: any) => {
+    // TODO: Algunos mensajes no se mapean idk why, Fixear
+    setMessages([...messages, message]);
+  };
 
   useEffect(() => {
-    initializeNatsConnection()
+    initializeSocketConnection(handlerOnMessage)
       .then((connection) => {
         setNatsConnection(connection);
       })
@@ -40,24 +47,16 @@ function ScreenClient() {
         setError(error);
         throw error;
       });
-    // (async () => {
-    //   console.log('initialize NATS Connection');
-    //   const connection = await connect({ servers: [`wss://${HOST}:${PORT}`] });
-    //   setNatsConnection(connection);
-    //   console.log('NATS Connection established');
-    // })()
-    // 4
-    // return () => {
-    //   natsConnection?.drain();
-    //   console.log("closed NATS connection")
-    // }
   }, [])
 
   return (
     <div>
       <h1>ScreenClient</h1>
       <h3>{natsConnection ? 'CONNECTED' : 'NOT CONNECTED'}</h3>
-      <h5>{`nats://${HOST}:${PORT}`}</h5>
+      <h5>{`ws://${HOST}:${PORT}`}</h5>
+      {messages.map((message: any) => <div key={message.id}>
+        <h5>{message.data}</h5>
+      </div>)}
     </div>
   );
 }
