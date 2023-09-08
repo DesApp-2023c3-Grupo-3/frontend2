@@ -50,15 +50,32 @@ function ScreenClient() {
   }, [])
 
   return (
-    <div>
-      <h1>ScreenClient</h1>
-      <h3>{natsConnection ? 'CONNECTED' : 'NOT CONNECTED'}</h3>
-      <h5>{`ws://${HOST}:${PORT}`}</h5>
-      {messages.map((message: any) => <div key={message.id}>
-        <h5>{message.data}</h5>
-      </div>)}
-    </div>
+    <main className='grid grid-cols-12 gap-1 bg-[#D9D9D9] h-screen'>
+      <section className='col-start-1 col-end-4 flex flex-col gap-1'>
+        <article className='h-2/4 bg-white'>
+          aaaaa
+        </article>
+        <article className='h-2/4 bg-white rounded-tr-xl'>
+          aaaaaa
+        </article>
+      </section>
+      <section className='col-start-4 col-end-13'>
+        <article className='bg-white h-full'>
+          aaaaaa
+        </article>
+      </section>
+    </main>
   );
 }
+
+{/* <div>
+<h1>ScreenClient</h1>
+<h3>{natsConnection ? 'CONNECTED' : 'NOT CONNECTED'}</h3>
+<h5>{`ws://${HOST}:${PORT}`}</h5>
+  {messages.map((message: any) => <div key={message.id}>
+  <h5>{message.data}</h5>
+</div>)}
+</div> */}
+
 
 export default ScreenClient;
