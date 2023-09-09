@@ -1,0 +1,68 @@
+[
+    {
+        "materia":"Matematica I",
+        "comision": "Mat-1",
+        "aula": 203,
+        "horario": "13:00 - 16:00"
+    },
+    {
+        "materia":"Ingles I",
+        "comision": "Ing-1",
+        "aula": 12,
+        "horario": "13:00 - 16:00"
+    },
+    {
+        "materia":"Ingles II",
+        "comision": "Ing-2",
+        "aula": 20,
+        "horario": "13:00 - 16:00"
+    },
+    {
+        "materia":"Matematica II",
+        "comision": "Mat-2",
+        "aula": 123,
+        "horario": "13:00 - 16:00"
+    },
+    {
+        "materia":"Intro",
+        "comision": "Intro",
+        "aula": 1,
+        "horario": "14:00 - 16:00"
+    },
+    {
+        "materia":"Organizacion de computadoras",
+        "comision": "Orga-1",
+        "aula": 23,
+        "horario": "19:00 - 22:00"
+    },
+    {
+        "materia":"Matematica III",
+        "comision": "Mat-3",
+        "aula": 20,
+        "horario": "15:00 - 16:00"
+    },
+    {
+        "materia":"Estrategias de persistencia",
+        "comision": "ep-1",
+        "aula": 54,
+        "horario": "18:00 - 22:00"
+    },
+    {
+        "materia":"CIU",
+        "comision": "ciu-1",
+        "aula": 34,
+        "horario": "18:00 - 22:00"
+    },
+    {
+        "materia":"Base de datos",
+        "comision": "base-1",
+        "aula": 22,
+        "horario": "13:00 - 16:00"
+    },
+    {
+        "materia":"Estructura de datos",
+        "comision": "Est",
+        "aula": 23,
+        "horario": "13:00 - 16:00"
+    }
+]
