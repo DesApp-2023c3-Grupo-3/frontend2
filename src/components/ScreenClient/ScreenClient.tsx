@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import Informacion from './Informacion';
+import Comisiones from './Comisiones';
 
 const HOST = 'localhost';
 const PORT = 1235;
@@ -51,19 +53,8 @@ function ScreenClient() {
 
   return (
     <main className='grid grid-cols-12 gap-1 bg-[#D9D9D9] h-screen'>
-      <section className='col-start-1 col-end-4 flex flex-col gap-1'>
-        <article className='h-2/4 bg-white'>
-          aaaaa
-        </article>
-        <article className='h-2/4 bg-white rounded-tr-xl'>
-          aaaaaa
-        </article>
-      </section>
-      <section className='col-start-4 col-end-13'>
-        <article className='bg-white h-full'>
-          aaaaaa
-        </article>
-      </section>
+      <Informacion />
+      <Comisiones />
     </main>
   );
 }
