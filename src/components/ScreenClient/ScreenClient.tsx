@@ -1,3 +1,5 @@
+import "./css/ScreenClient.css"
+
 import { useEffect, useState } from 'react';
 import Informacion from './Informacion';
 import Comisiones from './Comisiones';
@@ -52,7 +54,7 @@ function ScreenClient() {
   }, [])
 
   return (
-    <main className='grid grid-cols-12 gap-1 bg-[#D9D9D9] h-screen'>
+    <main className='container'>
       <Informacion />
       <Comisiones />
     </main>

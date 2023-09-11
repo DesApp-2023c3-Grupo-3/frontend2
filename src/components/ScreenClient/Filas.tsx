@@ -1,4 +1,5 @@
 import comisiones from "./mocks/comisiones.json"
+import "./css/Tabla.css"
 
 function Filas() {
     let esCambioDeFila = true
@@ -10,17 +11,17 @@ function Filas() {
                     esCambioDeFila = !esCambioDeFila
 
                     return (
-                        <tr key={index} className={`${esCambioDeFila ? 'bg-white' : 'bg-[#D9D9D9]'}`}>
-                            <th scope="row" className="py-1 font-normal">
+                        <tr key={index} className={`${esCambioDeFila ? 'bg-white' : 'bg-light-grey'}`}>
+                            <td>
                                 {comision.materia}
-                            </th>
-                            <td className="py-1">
+                            </td>
+                            <td>
                                 {comision.comision}
                             </td>
-                            <td className="py-1">
+                            <td>
                                 {comision.aula}
                             </td>
-                            <td className="py-1">
+                            <td>
                                 {comision.horario}
                             </td>
                         </tr>
