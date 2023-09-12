@@ -30,3 +30,8 @@
     background-color: #ffff;
     position: relative;
 }
+
+
+.image-carousel {
+    border-radius: 35px;
+}

@@ -1,10 +1,18 @@
-import { useState } from "react";
-import "./css/CarouselCard.css"
+import { useEffect, useState } from "react";
+import Dots from "./Dots";
 
 function CarouselCard(props: any) {
     const images = ["imagen1.png", "imagen2.png"]
     const [selectedIndex, setSelectedIndex] = useState(0)
     const [selectedImage, setSelectedImage] = useState(images[0])
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            selectNewImage(selectedIndex, images)
+        }, 10000)
+
+        return () => clearInterval(interval) 
+    })
 
     const selectNewImage = (index:number, images: string[], next = true) => {
         const condition = next ? 
@@ -18,17 +26,10 @@ function CarouselCard(props: any) {
         setSelectedImage(images[newIndex])
     }
 
-    const previousImage = () => {
-        selectNewImage(selectedIndex, images, false)
-    }
-
-    const nextImage = () => {
-        selectNewImage(selectedIndex, images)
-    }
-
     return(
         <>
             <img src={require(`./assets/${selectedImage}`)} alt="avisos" className="image-carousel" />
+            <Dots items={images} selectedIndex={selectedIndex} />
         </>
     )
 
