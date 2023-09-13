@@ -4,7 +4,7 @@ import {
   Routes
 } from 'react-router-dom';
 import './App.css';
-import ScreenClient from './components/ScreenClient/ScreenClient';
+import ScreenClient from './components/ScreenClient/components/ScreenClient';
 import AdminWeb from './components/AdminWeb/AdminWeb';
 
 function App() {

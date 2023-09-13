@@ -1,4 +1,4 @@
-import comisiones from "./mocks/comisiones.json"
+import comisiones from "../mocks/comisiones.json"
 
 function Filas() {
     let esCambioDeFila = true
