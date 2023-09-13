@@ -1,8 +1,10 @@
 import CarouselCard from "./CarouselCard"
 
+
 function Informacion() {
   return (
-    <section className='informacion-section'>
+    <section>
+        <CarouselCard />
         <CarouselCard />
     </section>
   )

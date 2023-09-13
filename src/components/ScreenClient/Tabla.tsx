@@ -1,10 +1,9 @@
-import "./css/Tabla.css"
 import Filas from "./Filas";
 
 function Tabla() {
   return (
-        <main className="cartelera">
-            <table className="tabla-cartelera">
+        <main>
+            <table>
                 <thead>
                     <tr>
                         <th scope="col">

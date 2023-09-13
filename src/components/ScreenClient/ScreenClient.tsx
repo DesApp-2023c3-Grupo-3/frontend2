@@ -1,5 +1,3 @@
-import "./css/ScreenClient.css"
-
 import { useEffect, useState } from 'react';
 import Informacion from './Informacion';
 import Comisiones from './Comisiones';
@@ -54,7 +52,7 @@ function ScreenClient() {
   }, [])
 
   return (
-    <main className='container'>
+    <main>
       <Informacion />
       <Comisiones />
     </main>
