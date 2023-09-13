@@ -2,7 +2,7 @@ import Tabla from "./Tabla"
 
 function Comisiones() {
     return (
-      <section className='comisiones'>
+      <section className='col-start-4 col-end-13'>
         <Tabla />
       </section>
     )

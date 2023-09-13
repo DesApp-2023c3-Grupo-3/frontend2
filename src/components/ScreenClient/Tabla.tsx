@@ -2,8 +2,8 @@ import Filas from "./Filas";
 
 function Tabla() {
   return (
-        <main>
-            <table>
+        <main className="p-4">
+            <table className="w-full">
                 <thead>
                     <tr>
                         <th scope="col">
