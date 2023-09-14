@@ -10,7 +10,10 @@ const initializeSocketConnection = async (onMessageAction: any): Promise<WebSock
 
     ws.addEventListener('open', () => {
       console.log(`WebSocket Connected ${wsUrl}`);
-      ws.send('Hi! This is a client');
+      ws.send(JSON.stringify({
+        sectorId: 1,
+        message: 'Hi! This is a client'
+      }));
     });
     
     ws.addEventListener('message', (message) => {
@@ -35,7 +38,23 @@ function ScreenClient() {
 
   const handlerOnMessage = (message: any) => {
     // TODO: Algunos mensajes no se mapean idk why, Fixear
-    setMessages([...messages, message]);
+    switch (message.topic) {
+      case 'advertising':
+        console.log('ESTE ES EL MENSAJE DE UN AVISO');
+        console.log(message.data)
+        break;
+      case 'course':
+        console.log('ESTE ES EL MENSAJE DE UN CURSO');
+        console.log(message.data)
+        break;
+      case 'connection':
+        console.log('ESTE ES EL MENSAJE DE CONEXION');
+        break;
+      default:
+        console.error(`Invalid topic ${message.topic}`);
+        break;
+    }
+    setMessages([...messages, message.title]);
   };
 
   useEffect(() => {
