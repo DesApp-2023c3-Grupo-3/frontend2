@@ -3,7 +3,8 @@ import { initializeSocketConnection } from "../services/webSocketConection";
 import { Message, webSocketStore } from "../store/webSocketStore";
 
 const filterMessages = (messages: Message [], topic:string) => {
-  return messages.filter(message => message.topic === topic) 
+  const advertisingMessages = messages.filter(message => message.topic === topic) 
+  return advertisingMessages.map(message => message.data)
 }
 
 const TYPE_MESSAGES = {
@@ -12,8 +13,9 @@ const TYPE_MESSAGES = {
 }
 
 export function useWebSocket() {
-    const [natsConnection,  setNatsConnection] = useState<any>();
-    const [error, setError] = useState<any>();
+    const [natsConnection,  setNatsConnection] = useState<any>()
+    const [error, setError] = useState<any>()
+
     const [
        messages,
        addMessage, 
@@ -27,7 +29,7 @@ export function useWebSocket() {
 
     const handlerOnMessage = (message: Message) => {
       addMessage(message)
-    };
+    }
   
     useEffect(() => {
       initializeSocketConnection(handlerOnMessage)

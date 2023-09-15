@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 
 const INTERVAL_SECONDS = 10000
 
-export function useCarousel(items: string[]) {
+export function useCarousel(items: any []) {
     const [selectedIndex, setSelectedIndex] = useState(0)
     const [selectedImage, setSelectedImage] = useState(items[0])
 
