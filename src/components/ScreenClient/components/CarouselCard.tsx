@@ -1,9 +1,9 @@
 import { useCarousel } from "../hooks/useCarousel";
+import { useWebSocket } from "../hooks/useWebSocket";
 import Dots from "./Dots";
-import advertisingMessages from "../mocks/imagenes.json"
 
 function CarouselCard(props: any) {
-    // TODO: Agregar contexto "advertisingMessages" aca.
+    const { advertisingMessages } = useWebSocket()
     const { selectedIndex, selectedImage } = useCarousel(advertisingMessages)
 
     return(

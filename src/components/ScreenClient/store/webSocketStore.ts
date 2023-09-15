@@ -1,26 +1,11 @@
 import { create } from "zustand";
+import { Message, Store } from "../../types";
+import { advertisingMessages } from "../mocks/imagenes";
 
-export type Data = {
-    advertisingTypeId: number,
-    id: number,
-    payload: string,
-    title: string
-}
-
-export type Message = {
-    topic: string,
-    id: number,
-    data: Data 
-}
-
-type Store = {
-    messages: Message [],
-    addMessage: (message:Message) => void,
-    deleteMessage: (id: number) => void 
-}
+const INITIAL_STATE : Message [] = advertisingMessages
 
 export const webSocketStore = create<Store>() (set => ({
-    messages: [],
+    messages: INITIAL_STATE,
     addMessage: (message) => { 
         set(state => ({ 
             messages: [

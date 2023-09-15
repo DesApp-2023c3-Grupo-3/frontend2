@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { initializeSocketConnection } from "../services/webSocketConection";
-import { Message, webSocketStore } from "../store/webSocketStore";
+import { webSocketStore } from "../store/webSocketStore";
+import { Message } from "../../types";
 
 const filterMessages = (messages: Message [], topic:string) => {
   const advertisingMessages = messages.filter(message => message.topic === topic) 
