@@ -1,14 +1,22 @@
 import { useEffect, useState } from "react";
 import { initializeSocketConnection } from "../services/webSocketConection";
+import { webSocketStore } from "../store/webSocketStore";
 
 export function useWebSocket() {
     const [natsConnection,  setNatsConnection] = useState<any>();
     const [error, setError] = useState<any>();
-    const [messages, setMessages] = useState<any[]>([]);
-  
+    const [
+       courseMessages, 
+       advertisingMessages,
+       addMessage, 
+    ] = webSocketStore(state => [
+      state.courseMessages,
+      state.advertisingMessages,
+      state.addMessage
+    ])
+
     const handlerOnMessage = (message: any) => {
-      // TODO: Algunos mensajes no se mapean idk why, Fixear
-      setMessages([...messages, message]);
+      addMessage(message)
     };
   
     useEffect(() => {
@@ -21,5 +29,5 @@ export function useWebSocket() {
         });
     }, [])
 
-    return { natsConnection, error, messages }
+    return { natsConnection, error, courseMessages, advertisingMessages }
 }

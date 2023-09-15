@@ -1,5 +1,5 @@
 const HOST = 'localhost';
-const PORT = 1235;
+const PORT = 1234;
 
 export const initializeSocketConnection = async (onMessageAction: any): Promise<WebSocket> => {
     try {
@@ -8,7 +8,10 @@ export const initializeSocketConnection = async (onMessageAction: any): Promise<
   
       ws.addEventListener('open', () => {
         console.log(`WebSocket Connected ${wsUrl}`);
-        ws.send('Hi! This is a client');
+        ws.send(JSON.stringify({
+          sectorId: 1,
+          message: 'Hi! This is a client'
+        }));
       });
       
       ws.addEventListener('message', (message) => {
