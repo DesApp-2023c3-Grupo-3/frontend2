@@ -1,6 +1,6 @@
-import Filas from "./Filas";
+import RowsCourse from "./RowsCourse";
 
-function Tabla() {
+function TableCourse() {
   return (
         <main className="p-4">
             <table className="w-full">
@@ -20,11 +20,11 @@ function Tabla() {
                         </th>
                     </tr>
                 </thead>
-                <Filas />
+                <RowsCourse />
             </table>
         </main>
   );
 }
 
 
-export default Tabla
+export default TableCourse

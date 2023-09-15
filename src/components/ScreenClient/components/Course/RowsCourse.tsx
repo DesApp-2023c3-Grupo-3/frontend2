@@ -1,6 +1,6 @@
-import comisiones from "../mocks/comisiones.json"
+import comisiones from "../../mocks/comisiones.json"
 
-function Filas() {
+function RowsCourse() {
     let esCambioDeFila = true
 
     return(
@@ -32,4 +32,4 @@ function Filas() {
     )
 }
 
-export default Filas
+export default RowsCourse

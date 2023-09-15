@@ -13,6 +13,8 @@ export type Message = {
 
 export type Store = {
     messages: Message [],
+    getAdvertisingMessages: () => Data [],
+    getCoursesMessages: () => Data [],
     addMessage: (message:Message) => void,
-    deleteMessage: (id: number) => void 
+    deleteMessage: (id: number) => void,
 }
