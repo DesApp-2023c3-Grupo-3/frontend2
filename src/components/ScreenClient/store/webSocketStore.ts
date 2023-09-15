@@ -7,7 +7,7 @@ type Data = {
     title: string
 }
 
-type Message = {
+export type Message = {
     topic: string,
     id: number,
     data: Data 
@@ -15,20 +15,11 @@ type Message = {
 
 type Store = {
     messages: Message [],
-    advertisingMessages: Message [],
-    courseMessages: Message [],
     addMessage: (message:Message) => void
 }
 
-const filterMessages = (messages: Message [], topic:string) => {
-    return messages?.filter(message => message.topic === topic) ?? []
-}
-
-export const webSocketStore = create<Store>() ((set, get) => ({
+export const webSocketStore = create<Store>() (set => ({
     messages: [],
-    advertisingMessages: filterMessages(get()?.messages, "advertising"),
-    courseMessages: filterMessages(get()?.messages, "course"),
-
     addMessage: (message) => { 
         set((state) => ({ 
             messages: [

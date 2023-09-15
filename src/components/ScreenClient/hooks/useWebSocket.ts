@@ -1,21 +1,31 @@
 import { useEffect, useState } from "react";
 import { initializeSocketConnection } from "../services/webSocketConection";
-import { webSocketStore } from "../store/webSocketStore";
+import { Message, webSocketStore } from "../store/webSocketStore";
+
+const filterMessages = (messages: Message [], topic:string) => {
+  return messages.filter(message => message.topic === topic) 
+}
+
+const TYPE_MESSAGES = {
+  advertising: "advertising",
+  course: "course"
+}
 
 export function useWebSocket() {
     const [natsConnection,  setNatsConnection] = useState<any>();
     const [error, setError] = useState<any>();
     const [
-       courseMessages, 
-       advertisingMessages,
+       messages,
        addMessage, 
     ] = webSocketStore(state => [
-      state.courseMessages,
-      state.advertisingMessages,
+      state.messages,
       state.addMessage
     ])
 
-    const handlerOnMessage = (message: any) => {
+    const advertisingMessages = filterMessages(messages, TYPE_MESSAGES.advertising)
+    const courseMessages = filterMessages(messages, TYPE_MESSAGES.course)
+
+    const handlerOnMessage = (message: Message) => {
       addMessage(message)
     };
   
