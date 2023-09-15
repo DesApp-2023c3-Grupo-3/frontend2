@@ -1,13 +1,27 @@
 import { create } from "zustand";
-import { Message, Store } from "../../types";
-import { advertisingMessages } from "../mocks/imagenes";
+import { messages } from "../mocks/imagenes";
 import { filterMessages } from "../utils/filter";
 
-const INITIAL_STATE : Message [] = advertisingMessages
+export interface Message {
+    topic: string,
+    id: number,
+    data: any
+}
+
+export type Store = {
+    messages: Message [],
+    getAdvertisingMessages: () => any [],
+    getCoursesMessages: () => any [],
+    addMessage: (message:Message) => void,
+    deleteMessage: (id: number) => void,
+}
+
+const INITIAL_STATE : Message [] = messages
 
 const TYPE_MESSAGES = {
     advertising: "advertising",
-    courses: "courses"
+    courses: "course",
+    connection: "connection"
 }
 
 export const useSocketStore = create<Store>() ((set, get) => ({

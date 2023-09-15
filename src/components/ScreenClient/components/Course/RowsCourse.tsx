@@ -1,27 +1,28 @@
-import comisiones from "../../mocks/comisiones.json"
+import { useSocketStore } from "../../store/socketStore"
 
 function RowsCourse() {
+    const courseMessages = useSocketStore(state => state.getCoursesMessages())
     let esCambioDeFila = true
 
     return(
         <tbody>
             {
-                comisiones.map((comision, index) => {
+                courseMessages.map((data, index) => {
                     esCambioDeFila = !esCambioDeFila
 
                     return (
                         <tr key={index} className={`${esCambioDeFila ? 'bg-white' : 'bg-slate-400'}`}>
                             <td>
-                                {comision.materia}
+                                {data.subject}
                             </td>
                             <td>
-                                {comision.comision}
+                                {data.title}
                             </td>
                             <td>
-                                {comision.aula}
+                                {data.classroom}
                             </td>
                             <td>
-                                {comision.horario}
+                                {data.schedule}
                             </td>
                         </tr>
                         )

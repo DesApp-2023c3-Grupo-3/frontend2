@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import { initializeSocketConnection } from "../services/webSocketConection";
-import { useSocketStore } from "../store/socketStore";
-import { Message } from "../../types";
+import { Message, useSocketStore } from "../store/socketStore";
 
 export function useConnectionSocket() {
-    const [natsConnection,  setNatsConnection] = useState<any>()
+    const [socketConnection,  setSocketConnection] = useState<any>()
     const [error, setError] = useState<any>()
 
     const addMessage = useSocketStore(state => state.addMessage)
@@ -16,12 +15,12 @@ export function useConnectionSocket() {
     useEffect(() => {
       initializeSocketConnection(handlerOnMessage)
         .then((connection) => {
-          setNatsConnection(connection);
+          setSocketConnection(connection);
         })
         .catch((error) => {
           setError(error);
         });
     }, [])
 
-    return { natsConnection, error }
+    return { socketConnection, error }
 }

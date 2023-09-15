@@ -1,6 +1,7 @@
 import RowsCourse from "./RowsCourse";
 
 function TableCourse() {
+
   return (
         <main className="p-4">
             <table className="w-full">

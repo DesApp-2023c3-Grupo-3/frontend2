@@ -6,8 +6,6 @@ function AdvertisingCard(props: any) {
     const advertisingMessages = useSocketStore(state => state.getAdvertisingMessages())
     const { selectedIndex, selectedImage } = useCarousel(advertisingMessages)
 
-    console.log(advertisingMessages)
-
     return(
         <article className={`relative h-2/4 ${props.sx} bg-white h-full w-full flex flex-col items-center justify-center`}>
             <div className="h-[88%] w-[85%] rounded-[10%] overflow-hidden">
