@@ -2,7 +2,7 @@
 function Dots(props: any) {
     
     return (
-        <div className="absolute bottom-0 flex">
+        <div className={`${props.sx} flex`}>
             {
                 props.items.map((item:string, index: number) => (
                     <svg key={index} className="h-[18px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">

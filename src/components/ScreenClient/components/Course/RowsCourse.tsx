@@ -1,17 +1,14 @@
-import { useSocketStore } from "../../store/socketStore"
-
-function RowsCourse() {
-    const courseMessages = useSocketStore(state => state.getCoursesMessages())
+function RowsCourse(props: any) {
     let esCambioDeFila = true
 
     return(
         <tbody>
             {
-                courseMessages.map((data, index) => {
+                props.items.map((data : any, index : number) => {
                     esCambioDeFila = !esCambioDeFila
 
                     return (
-                        <tr key={index} className={`text-[#343434] ${esCambioDeFila ? 'bg-white' : 'bg-[#D9D9D9]'}`}>
+                        <tr key={index} className={`text-[#343434] ${esCambioDeFila ? 'bg-white' : 'bg-[#D9D9D9]'} py-1`}>
                             <td>
                                 {data.subject}
                             </td>

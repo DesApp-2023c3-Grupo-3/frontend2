@@ -1,26 +1,24 @@
 import { useEffect, useState } from "react"
 
-const INTERVAL_SECONDS = 10000
-
-export function useCarousel(items: any []) {
+export function useCarousel(items: any [], time: number) {
     const [selectedIndex, setSelectedIndex] = useState(0)
-    const [selectedImage, setSelectedImage] = useState(items[0])
+    const [selectedItem, setSelectedItem] = useState(items[0])
 
     useEffect(() => {
         const interval = setInterval(() => {
-            selectNewImage(selectedIndex, items)
-        }, INTERVAL_SECONDS)
+            selectNewItem(selectedIndex, items)
+        }, (time * 1000))
 
         return () => clearInterval(interval) 
     })
 
-    const selectNewImage = (index:number, items: string[]) => {
+    const selectNewItem = (index:number, items: string[]) => {
         const condition = index < items.length - 1 
         const newIndex = condition ? index + 1 : 0    
 
         setSelectedIndex(newIndex)
-        setSelectedImage(items[newIndex])
+        setSelectedItem(items[newIndex])
     }
 
-    return { selectedIndex, selectedImage }
+    return { selectedIndex, selectedItem }
 }
