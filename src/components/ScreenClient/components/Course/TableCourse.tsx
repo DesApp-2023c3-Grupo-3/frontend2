@@ -11,7 +11,7 @@ function TableCourse() {
     const { selectedIndex, selectedItem } = useCarousel(courseMessagesCarousel, 20)
 
     return (
-            <main className="p-4">
+            <main className="px-4 py-2">
                 <div className="relative overflow-x-auto rounded-lg">
                     <table className="w-full bg-[#74B235] text-center text-lg">
                         <thead className="text-white uppercase">
