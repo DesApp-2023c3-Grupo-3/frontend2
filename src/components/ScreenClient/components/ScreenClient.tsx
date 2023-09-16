@@ -8,7 +8,7 @@ function ScreenClient() {
   console.log(socketConnection?.url, error)
 
   return (
-    <main className='bg-[#D9D9D9] h-screen grid grid-cols-12'>
+    <main className='bg-[#D9D9D9] h-screen grid grid-cols-12 gap-1'>
       <Advertising />
       <Courses />
     </main>

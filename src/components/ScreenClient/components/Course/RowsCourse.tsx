@@ -11,7 +11,7 @@ function RowsCourse() {
                     esCambioDeFila = !esCambioDeFila
 
                     return (
-                        <tr key={index} className={`${esCambioDeFila ? 'bg-white' : 'bg-slate-400'}`}>
+                        <tr key={index} className={`text-[#343434] ${esCambioDeFila ? 'bg-white' : 'bg-[#D9D9D9]'}`}>
                             <td>
                                 {data.subject}
                             </td>
