@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import ScreenClient from './components/ScreenClient/ScreenClient';
 import AdminWeb from './components/AdminWeb/AdminWeb';
+import Avisos from './components/AdminWeb/pages/Avisos';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         />
         <Route path="/screen" element={<ScreenClient />} />
         <Route path="/admin" element={<AdminWeb />} />
+        <Route path="/admin/avisos" element={<Avisos />}></Route>
       </Routes>
     </BrowserRouter>
   );
