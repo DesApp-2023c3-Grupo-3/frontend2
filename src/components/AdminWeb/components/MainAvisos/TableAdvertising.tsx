@@ -111,7 +111,7 @@ function TableAdvertising({ advertisingsJSON }: TableAdvertisingProps) {
           </tbody>
         </table>
         <Pagination
-          className="flex justify-center"
+          className="flex justify-center bg-white"
           count={Math.ceil(totalItems / itemsPerPage)}
           page={currentPage}
           onChange={handlePageChange}

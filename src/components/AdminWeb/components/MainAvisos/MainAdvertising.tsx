@@ -49,18 +49,14 @@ function MainAdvertising() {
 
   return (
     <>
-      <div>
-        <div>
-          <h1 className="text-[64px] font-bold text-[#484848] tracking-[-1.28px] ml-[48px] mt-[80px]">
-            Avisos
-          </h1>
-        </div>
-        <div>
-          <TableAdvertising advertisingsJSON={advertisings} />
-          <div className="flex justify-end mr-10">
-            <ButtonCreateAdvertising onCreateAdvertising={newAdvertising} />{' '}
-            {/** Este boton tendría que hacer el modal de createAdvertising **/}
-          </div>
+      <div className="">
+        <h1 className="text-[64px] font-bold text-[#484848] tracking-[-1.28px] ml-[48px] mt-[70px]">
+          Avisos
+        </h1>
+        <TableAdvertising advertisingsJSON={advertisings} />
+        <div className="flex justify-end mr-10">
+          <ButtonCreateAdvertising onCreateAdvertising={newAdvertising} />{' '}
+          {/** Este boton tendría que hacer el modal de createAdvertising **/}
         </div>
       </div>
     </>
