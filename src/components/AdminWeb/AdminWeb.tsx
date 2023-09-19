@@ -10,9 +10,9 @@ function AdminWeb() {
     <section className="h-screen flex flex-row">
       <Navbar />
       <Routes>
-        <Route path="/avisos" element={<Avisos />} />
-        <Route path="/comisiones" element={<Comisiones />} />
-        <Route path="/usuarios" element={<Usuarios />} />
+        <Route path="/advertising" element={<Avisos />} />
+        <Route path="/couser" element={<Comisiones />} />
+        <Route path="/users" element={<Usuarios />} />
       </Routes>
     </section>
   );
