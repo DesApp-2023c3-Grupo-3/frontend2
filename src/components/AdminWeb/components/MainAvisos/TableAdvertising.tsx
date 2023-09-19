@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { abbreviateSectorName } from '../../utils/AbbreviateSectorName';
-import { Pagination } from '@mui/material';
+import { Pagination, ThemeProvider } from '@mui/material';
+import theme from '../../config/createTheme';
 
 type Advertising = {
   id: number;
@@ -110,13 +111,15 @@ function TableAdvertising({ advertisingsJSON }: TableAdvertisingProps) {
             )}
           </tbody>
         </table>
-        <Pagination
-          className="flex justify-center bg-white"
-          count={Math.ceil(totalItems / itemsPerPage)}
-          page={currentPage}
-          onChange={handlePageChange}
-          color="primary"
-        />
+        <ThemeProvider theme={theme}>
+          <Pagination
+            className="flex justify-center bg-white"
+            count={Math.ceil(totalItems / itemsPerPage)}
+            page={currentPage}
+            onChange={handlePageChange}
+            color="primary"
+          />
+        </ThemeProvider>
       </div>
     </>
   );

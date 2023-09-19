@@ -30,9 +30,9 @@ function Navbar() {
         </span>
         <h3 className="font-semibold itim">Administrador</h3>
       </div>
-      <NavLink to="/admin/avisos">Avisos</NavLink>
-      <NavLink to="/admin/comisiones">Comisiones</NavLink>
-      <NavLink to="/admin/usuarios">Administrar usuarios</NavLink>
+      <NavLink to="/admin/advertising">Avisos</NavLink>
+      <NavLink to="/admin/course">Comisiones</NavLink>
+      <NavLink to="/admin/users">Administrar usuarios</NavLink>
       <a className="sign-out mt-auto" href="/">
         Cerrar sesion
       </a>

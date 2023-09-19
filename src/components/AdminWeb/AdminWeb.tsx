@@ -11,7 +11,7 @@ function AdminWeb() {
       <Navbar />
       <Routes>
         <Route path="/advertising" element={<Avisos />} />
-        <Route path="/couser" element={<Comisiones />} />
+        <Route path="/course" element={<Comisiones />} />
         <Route path="/users" element={<Usuarios />} />
       </Routes>
     </section>
