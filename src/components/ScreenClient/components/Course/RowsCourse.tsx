@@ -4,9 +4,8 @@ function RowsCourse(props: any) {
     return(
         <tbody>
             {
-                props.items.map((data : any, index : number) => {
+                props.items.map((data : any, index: number) => {
                     esCambioDeFila = !esCambioDeFila
-
                     return (
                         <tr key={index} className={`text-[#343434] ${esCambioDeFila ? 'bg-white' : 'bg-[#D9D9D9]'} py-1`}>
                             <td>

@@ -2,8 +2,10 @@ import { useCarousel } from "../../hooks/useCarousel";
 import Dots from "../Dots";
 import unahur from "../../assets/unahur.png"
 
+const TIME_CAROUSEL_ADVERTISING = 20
+
 function AdvertisingCard(props: any) {
-    const { selectedIndex, selectedItem } = useCarousel(props.messages, 15)
+    const { selectedIndex, selectedItem } = useCarousel(props.messages, TIME_CAROUSEL_ADVERTISING)
 
     return(
         <article className={`relative h-2/4 ${props.sx}`}>

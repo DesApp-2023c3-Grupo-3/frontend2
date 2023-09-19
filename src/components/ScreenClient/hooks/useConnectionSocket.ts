@@ -4,7 +4,7 @@ import { Message, useSocketStore } from "../store/socketStore";
 
 export function useConnectionSocket() {
     const [socketConnection,  setSocketConnection] = useState<any>()
-    const [error, setError] = useState<any>()
+    const [error, setError] = useState<Error>()
 
     const addMessage = useSocketStore(state => state.addMessage)
 

@@ -4,11 +4,13 @@ import { carouselTableArray } from "../../utils/carousel";
 import Dots from "../Dots";
 import RowsCourse from "./RowsCourse";
 
+const TIME_CAROUSEL_COURSES = 20
+
 function TableCourse() {
     const courseMessages = useSocketStore(state => state.getCoursesMessages())
     const courseMessagesCarousel = carouselTableArray(courseMessages, 11)
 
-    const { selectedIndex, selectedItem } = useCarousel(courseMessagesCarousel, 20)
+    const { selectedIndex, selectedItem } = useCarousel(courseMessagesCarousel, TIME_CAROUSEL_COURSES)
 
     return (
             <main className="px-4 py-2">
