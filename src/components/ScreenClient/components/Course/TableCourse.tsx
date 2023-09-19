@@ -33,7 +33,10 @@ function TableCourse() {
                         <RowsCourse items={selectedItem} />
                     </table>
                 </div>
-                <Dots selectedIndex={selectedIndex} items={courseMessagesCarousel} sx="mx-auto w-full justify-center" />
+                {
+                    courseMessages.length > 1 && 
+                        <Dots selectedIndex={selectedIndex} items={courseMessagesCarousel} sx="mx-auto w-full justify-center" />
+                }
             </main>
     );
 }
