@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { messages } from "../mocks/imagenes";
-import { filterMessages } from "../utils/filter";
+import { filterMessages } from "../utils/arrays";
+
 
 export interface Message {
     topic: string,
