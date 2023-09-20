@@ -32,10 +32,10 @@ export const advertisingData = [
     },
     {
       "id": 2,
-      "name": "Foto de Edificio Malvinas",
+      "name": "Becas de apuntes",
       "advertisingType": {
         "id": 2,
-        "name": "Foto de Edificio Malvinas"
+        "name": "Becas de apuntes"
       },
       "user": {
         "id": 2,
