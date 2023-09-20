@@ -50,7 +50,7 @@ function MainAdvertising() {
   return (
     <>
       <div className="">
-        <h1 className="text-[64px] font-bold text-[#484848] tracking-[-1.28px] ml-[48px] mt-[70px]">
+        <h1 className="text-[4rem] font-[700] text-[#484848] tracking-[-1.28px] ml-[48px] mt-[20px]">
           Avisos
         </h1>
         <TableAdvertising advertisingsJSON={advertisings} />

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { abbreviateSectorName } from '../../utils/AbbreviateSectorName';
 import { Pagination, ThemeProvider } from '@mui/material';
 import theme from '../../config/createTheme';
@@ -90,7 +90,7 @@ function TableRow({
     >
       <td
         id="User"
-        className="px-4 py-2 m-2 flex justify-center items-center text-white text-[32px] font-[500] bg-[#2C9CBF] rounded-full w-[60px] h-[60px] text-center"
+        className="px-4 py-2 m-2 ml-10 flex justify-center items-center text-white text-[32px] font-[500] bg-[#2C9CBF] rounded-full w-[60px] h-[60px] text-center"
       >
         {advertising.user.role.name.charAt(0)}
       </td>
@@ -113,8 +113,8 @@ function TableRow({
 // Componente para la tabla completa
 function Table({ advertisings }: { advertisings: Advertising[] }) {
   return (
-    <table className="table-auto border-collapse overflow-hidden rounded-tl-[20px] rounded-tr-[20px] ml-10 mt-10 font-[500] w-full">
-      <thead className="bg-[#484848] text-[#BABABA] text-[24px] text-left">
+    <table className="table-auto border-collapse overflow-hidden rounded-tl-[20px] rounded-tr-[20px] ml-10 mt-10 font-[500]">
+      <thead className="bg-[#484848] text-[#BABABA] text-[1.5em] text-left">
         <tr>
           <th className="px-4 py-4 w-0"></th>
           <th className="px-4 py-4 w-[393px]">Nombre</th>
@@ -124,7 +124,7 @@ function Table({ advertisings }: { advertisings: Advertising[] }) {
           <th className="px-4 py-4 w-[178px]">Estado</th>
         </tr>
       </thead>
-      <tbody className="text-[20px]">
+      <tbody className="text-[20px] font[500]">
         {advertisings.map((data, index) => (
           <TableRow key={data.id} advertising={data} index={index} />
         ))}
@@ -139,8 +139,28 @@ function TableAdvertising({
 }: {
   advertisingsJSON: Advertising[];
 }) {
+  //filas por pagina
+  const [itemsPerPage, setItemsPerPage] = useState(7);
+
+  useEffect(() => {
+    const adjustItemsPerPage = () => {
+      const windowHeight = window.innerHeight;
+      const rowHeight = 130;
+      const maxRowsToShow = Math.floor(windowHeight / rowHeight);
+      setItemsPerPage(maxRowsToShow);
+    };
+
+    adjustItemsPerPage();
+
+    window.addEventListener('resize', adjustItemsPerPage);
+
+    return () => {
+      window.removeEventListener('resize', adjustItemsPerPage);
+    };
+  }, []);
+
+  //barra de busqueda y paginacion
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 7;
   const [searchTerm, setSearchTerm] = useState('');
 
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -170,7 +190,7 @@ function TableAdvertising({
       <Table advertisings={currentData} />
       <ThemeProvider theme={theme}>
         <Pagination
-          className="flex justify-center bg-white"
+          className="flex justify-center bg-white pt-10"
           count={Math.ceil(filteredData.length / itemsPerPage)}
           page={currentPage}
           onChange={handlePageChange}
