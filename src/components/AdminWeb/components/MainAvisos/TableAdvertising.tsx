@@ -113,7 +113,7 @@ function TableRow({
 // Componente para la tabla completa
 function Table({ advertisings }: { advertisings: Advertising[] }) {
   return (
-    <table className="table-auto border-collapse overflow-hidden rounded-tl-[20px] rounded-tr-[20px] m-10">
+    <table className="table-auto border-collapse overflow-hidden rounded-tl-[20px] rounded-tr-[20px] m-10 font-[500]">
       <thead className="bg-[#484848] text-[#BABABA] text-[24px] text-left">
         <tr>
           <th className="px-4 py-4"></th>
@@ -124,7 +124,7 @@ function Table({ advertisings }: { advertisings: Advertising[] }) {
           <th className="px-4 py-4 w-[178px]">Estado</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody className="text-[20px]">
         {advertisings.map((data, index) => (
           <TableRow key={data.id} advertising={data} index={index} />
         ))}
