@@ -54,7 +54,7 @@ function MainAdvertising() {
           Avisos
         </h1>
         <TableAdvertising advertisingsJSON={advertisings} />
-        <div className="flex justify-end mr-10">
+        <div className="flex justify-end">
           <ButtonCreateAdvertising onCreateAdvertising={newAdvertising} />{' '}
           {/** Este boton tendría que hacer el modal de createAdvertising **/}
         </div>

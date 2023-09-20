@@ -47,7 +47,7 @@ function SearchBar({
     <div className="flex justify-end h-[50px]">
       <div
         id="input"
-        className="flex justify-center mr-10 border-2 hover:border-[3px] border-[#484848] rounded-[55px] py-[10px] w-[390px] cursor-text "
+        className="flex justify-center border-2 hover:border-[3px] border-[#484848] rounded-[55px] py-[10px] w-[390px] cursor-text "
       >
         <div className="flex items-center">
           <svg
@@ -113,10 +113,10 @@ function TableRow({
 // Componente para la tabla completa
 function Table({ advertisings }: { advertisings: Advertising[] }) {
   return (
-    <table className="table-auto border-collapse overflow-hidden rounded-tl-[20px] rounded-tr-[20px] m-10 font-[500]">
+    <table className="table-auto border-collapse overflow-hidden rounded-tl-[20px] rounded-tr-[20px] ml-10 mt-10 font-[500] w-full">
       <thead className="bg-[#484848] text-[#BABABA] text-[24px] text-left">
         <tr>
-          <th className="px-4 py-4"></th>
+          <th className="px-4 py-4 w-0"></th>
           <th className="px-4 py-4 w-[393px]">Nombre</th>
           <th className="px-4 py-4 w-[170px]">Sector/es</th>
           <th className="px-4 py-4 w-[267px]">Días</th>
