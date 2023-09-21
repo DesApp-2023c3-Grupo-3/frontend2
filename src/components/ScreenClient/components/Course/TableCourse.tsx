@@ -1,22 +1,11 @@
-import { useCarousel } from "../../hooks/useCarousel";
-import { useSocketStore } from "../../store/socketStore";
-import { carouselTableArray } from "../../utils/carousel";
-import Dots from "../Dots";
 import RowsCourse from "./RowsCourse";
 
-const TIME_CAROUSEL_COURSES = 20
-
-function TableCourse() {
-    const courseMessages = useSocketStore(state => state.getCoursesMessages())
-    const courseMessagesCarousel = carouselTableArray(courseMessages, 11)
-
-    const { selectedIndex, selectedItem } = useCarousel(courseMessagesCarousel, TIME_CAROUSEL_COURSES)
-
+function TableCourse(props:any) {
     return (
-            <main className="px-4 py-2">
+            <main className="px-4 h-[70%]">
                 <div className="relative overflow-x-auto rounded-lg">
-                    <table className="w-full bg-[#74B235] text-center text-lg 2xl:text-3xl">
-                        <thead className="text-white uppercase">
+                    <table className="w-full bg-[#74B235] text-center text-lg xl:text-2xl 2xl:text-4xl">
+                        <thead className="text-white uppercase xl:h-[2.6rem] 2xl:h-[4rem]">
                             <tr>
                                 <th className="font-normal w-1/4" scope="col">
                                     Materia
@@ -32,13 +21,9 @@ function TableCourse() {
                                 </th>
                             </tr>
                         </thead>
-                        <RowsCourse items={selectedItem} />
+                        <RowsCourse items={props.selectedItem} />
                     </table>
                 </div>
-                {
-                    courseMessages.length > 1 && 
-                        <Dots selectedIndex={selectedIndex} items={courseMessagesCarousel} sx="mx-auto w-full justify-center" />
-                }
             </main>
     );
 }

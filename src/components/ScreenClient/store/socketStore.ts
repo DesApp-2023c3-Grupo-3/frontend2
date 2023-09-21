@@ -9,6 +9,21 @@ export interface Message {
     data: any
 }
 
+export interface DataAdvertesing {
+    advertisingTypeId: number
+    id: number
+    payload: string
+    title: string
+}
+
+export interface DataCourse {
+        id: number,
+        subject: string,
+        title: string,
+        classroom: string,
+        schedule: string
+}
+
 export type Store = {
     messages: Message [],
     getAdvertisingMessages: () => any [],
