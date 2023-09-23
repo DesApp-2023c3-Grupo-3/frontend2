@@ -9,7 +9,7 @@ function Advertising() {
   const [firstHalf, secondHalf] = splitList(advertisingMessages);
 
   return (
-    <section className="h-full flex flex-col col-start-1 col-end-4 gap-[0.9%]">
+    <section className="h-screen flex flex-col col-start-1 col-end-4 gap-[1%]">
       <AdvertisingCard sx="rounded-br-2xl" messages={firstHalf} />
       <AdvertisingCard sx="rounded-tr-2xl" messages={secondHalf} />
     </section>

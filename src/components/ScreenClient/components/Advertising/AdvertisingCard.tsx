@@ -11,10 +11,12 @@ function AdvertisingCard(props: any) {
   );
 
   return (
-    <article className="relative h-2/4">
+    <article
+      className={`${props.sx} bg-white w-full flex flex-col items-center justify-center relative h-[49.4vh]`}
+    >
       {props.messages.length > 0 ? (
         <Card sx={`${props.sx}`}>
-          <div className="h-[85%] w-[90%] rounded-[10%] overflow-hidden">
+          <div className="h-[85%] w-[85%] rounded-[10%] overflow-hidden">
             <img
               className="w-full h-full"
               src={selectedItem.payload}
@@ -39,13 +41,7 @@ function AdvertisingCard(props: any) {
 }
 
 function Card(props: any) {
-  return (
-    <div
-      className={`bg-white h-full w-full flex flex-col items-center justify-center ${props.sx}`}
-    >
-      {props.children}
-    </div>
-  );
+  return <>{props.children}</>;
 }
 
 export default AdvertisingCard;
