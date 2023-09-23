@@ -1,9 +1,9 @@
-function Comisiones() {
+function Pantallas() {
   return (
     <section className="h-screen flex flex-row">
-      <h1>Comisiones</h1>
+      <h1>Pantallas</h1>
     </section>
   );
 }
 
-export default Comisiones;
+export default Pantallas;
