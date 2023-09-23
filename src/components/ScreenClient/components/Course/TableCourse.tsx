@@ -1,11 +1,34 @@
 import RowsCourse from './RowsCourse';
+import { useCarousel } from '../../hooks/useCarousel';
+import { DataCourse, useSocketStore } from '../../store/socketStore';
+import Dots from '../Dots';
+import { carouselTableArray } from '../../utils/carousel';
+
+const TIME_CAROUSEL_COURSES = 20;
+
+const sortCourse = (course: DataCourse[]) => {
+  return course.sort((course, otherCourse) =>
+    course.subject.localeCompare(otherCourse.subject),
+  );
+};
 
 function TableCourse(props: any) {
+  const courseMessages = useSocketStore((state) => state.getCoursesMessages());
+  const courseMessagesCarousel = carouselTableArray(
+    sortCourse(courseMessages),
+    11,
+  );
+
+  const { selectedIndex, selectedItem } = useCarousel(
+    courseMessagesCarousel,
+    TIME_CAROUSEL_COURSES,
+  );
+
   return (
-    <main className="px-4 h-[70%]">
+    <main className="p-5 h-[75%]">
       <div className="relative overflow-x-auto rounded-lg">
-        <table className="w-full bg-[#74B235] text-center text-lg xl:text-2xl 2xl:text-4xl">
-          <thead className="text-white uppercase xl:h-[2.6rem] 2xl:h-[4rem]">
+        <table className="h-full w-full bg-[#74B235] text-center text-lg xl:text-2xl 2xl:text-4xl">
+          <thead className="text-white uppercase h-[1.7em]">
             <tr>
               <th className="font-normal w-1/4" scope="col">
                 Materia
@@ -21,9 +44,16 @@ function TableCourse(props: any) {
               </th>
             </tr>
           </thead>
-          <RowsCourse items={props.selectedItem} />
+          <RowsCourse items={selectedItem} />
         </table>
       </div>
+      {courseMessages.length > 1 && (
+        <Dots
+          selectedIndex={selectedIndex}
+          items={courseMessagesCarousel}
+          sx="mx-auto w-full justify-center"
+        />
+      )}
     </main>
   );
 }

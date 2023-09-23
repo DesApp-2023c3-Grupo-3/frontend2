@@ -3,7 +3,7 @@ import Clock from './Date';
 
 function Header() {
   return (
-    <header className="flex justify-between bg-[#DFDFDF] text-2xl xl:text-3xl 2xl:text-5xl">
+    <header className="h-[5%] flex justify-between bg-[#DFDFDF] text-2xl xl:text-3xl 2xl:text-5xl">
       <section className="w-1/4">
         <img className="w-2/4 ml-auto" src={logoUnahur} alt="logo" />
       </section>
