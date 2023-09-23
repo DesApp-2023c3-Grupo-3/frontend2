@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
+import './components/AdminWeb/AdminWeb.sass';
 import ScreenClient from './components/ScreenClient/components/ScreenClient';
 import AdminWeb from './components/AdminWeb/AdminWeb';
 
@@ -16,7 +17,7 @@ function App() {
           }
         />
         <Route path="/screen" element={<ScreenClient />} />
-        <Route path="/admin/*" element={<AdminWeb/>} />
+        <Route path="/admin/*" element={<AdminWeb />} />
       </Routes>
     </BrowserRouter>
   );
