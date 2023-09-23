@@ -1,14 +1,12 @@
 type ButtonCreateadvertisingProps = {
-  onCreateAdvertising: () => void;
+  onClick: () => void;
 };
 
-function ButtonCreateAdvertising({
-  onCreateAdvertising,
-}: ButtonCreateadvertisingProps) {
+function ButtonCreateAdvertising({ onClick }: ButtonCreateadvertisingProps) {
   return (
     <>
       <button
-        onClick={onCreateAdvertising}
+        onClick={onClick}
         className="bg-[#2C9CBF] rounded-[15px] py-[16px] w-[236px] text-white font-[600] text-[20px]"
       >
         NUEVO AVISO
