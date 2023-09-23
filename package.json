@@ -10,28 +10,35 @@
     "@types/node": "^16.18.46",
     "@types/react": "^18.2.21",
     "@types/react-dom": "^18.2.7",
-    "eslint": "^8.50.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.15.0",
     "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.4"
+    "typescript": "^4.9.5",
+    "web-vitals": "^2.1.4",
+    "zustand": "^4.4.1"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "lint": "eslint .",
-    "prepare": "husky install",
     "eject": "react-scripts eject",
-    "format": "prettier --write \"**/*.{ts,tsx}\""
+    "prepare": "husky install",
+    "lint": "run-p lint:*",
+    "lint:eslint": "eslint --fix ./src",
+    "lint:prettier": "prettier --write ./src"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
   },
   "devDependencies": {
     "husky": "^8.0.0",
     "lint-staged": "^10.5.4",
     "npm-run-all": "^4.1.5",
-    "prettier": "^2.2.1",
-    "typescript": "^4.9.5"
+    "prettier": "^2.2.1"
   },
   "husky": {
     "hooks": {
@@ -39,10 +46,8 @@
     }
   },
   "lint-staged": {
-    "*.{js,css,md,tsx}": [
-      "prettier --write",
-      "eslint --fix"
-    ]
+    "*.{js,tsx}": "eslint --cache --fix",
+    "*.{js,css,md,tsx}": "prettier --write"
   },
   "browserslist": {
     "production": [
@@ -55,5 +60,13 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@babel/core": "^7.22.11",
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@babel/preset-env": "^7.22.10",
+    "babel-loader": "^9.1.3",
+    "tailwindcss": "^3.3.3",
+    "webpack": "^5.88.2"
   }
 }
