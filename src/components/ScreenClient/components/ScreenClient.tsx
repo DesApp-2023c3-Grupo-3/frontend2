@@ -3,15 +3,15 @@ import Advertising from './Advertising/Advertising';
 import Courses from './Course/Courses';
 
 function ScreenClient() {
-  const { socketConnection, error } = useConnectionSocket()
+  const { socketConnection, error } = useConnectionSocket();
 
-  console.log(socketConnection?.url, error)
+  console.log(socketConnection?.url, error);
 
   return (
-      <main className='bg-[#D9D9D9] h-screen grid grid-cols-12 gap-[0.5%]'>
-        <Advertising />
-        <Courses />
-      </main>
+    <main className="bg-[#D9D9D9] h-screen grid grid-cols-12 gap-[0.5%]">
+      <Advertising />
+      <Courses />
+    </main>
   );
 }
 
