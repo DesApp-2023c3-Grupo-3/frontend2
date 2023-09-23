@@ -1,5 +1,5 @@
-const HOST = 'localhost';
-const PORT = 1234;
+const HOST = process.env.REACT_APP_WEBSOCKET_HOST  || 'localhost';
+const PORT = process.env.REACT_APP_WEBSOCKET_PORT|| 1234;
 
 export const initializeSocketConnection = async (
   onMessageAction: any,
