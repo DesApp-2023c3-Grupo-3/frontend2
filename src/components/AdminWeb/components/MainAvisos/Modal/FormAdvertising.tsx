@@ -1,3 +1,4 @@
+import { Button } from '@mui/base';
 import { useState } from 'react';
 
 function FormAdvertising() {
@@ -16,12 +17,12 @@ function FormAdvertising() {
           placeholder="Nombre del aviso..."
           className="text-[20px] font-[400] tracking-[-0.4px] rounded-[30px] bg-[#D9D9D9] flex w-[365px] h-[50px] px-[40px] py-[12px] items-center"
         ></input>
-        <div
+        <Button
           onClick={handleMostrarOpcionesClick}
           className="text-[20px] font-[400] tracking-[-0.4px] rounded-[30px] bg-[#D9D9D9] flex w-[365px] h-[50px] px-[40px] py-[12px]"
         >
           Sector/es
-        </div>
+        </Button>
         {mostrarOpciones && (
           <div className="shadow-md p-4 rounded-t-[2px] rounded-b-[10px] bg-[#ffffff] absolute w-[198px] h-[254px] ml-[500px]">
             {opciones.map((opcion) => (

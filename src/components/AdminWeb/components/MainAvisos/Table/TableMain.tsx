@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Pagination, ThemeProvider } from '@mui/material';
 import theme from '../../../config/createTheme';
-import advertisingJson from '../Mocks/advertisingData.json';
 import SearchBar from './SearchBar';
 import TableAdvertising from './TableAdvertising';
+import { Advertising } from '../../../types/customTypes';
 
-function TableMain() {
-  const [advertisingsJSON, setAdvertisingsJSON] = useState(
-    //Esto tendría que ser un JSON que viene del backend
-    advertisingJson,
-  );
+function TableMain({ advertisingsJSON }: { advertisingsJSON: Advertising[] }) {
   //filas por pagina
   const [itemsPerPage, setItemsPerPage] = useState(7);
 

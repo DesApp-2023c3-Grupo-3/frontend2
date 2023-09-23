@@ -1,3 +1,5 @@
+import React from 'react';
+
 // Componente para la barra de búsqueda
 function SearchBar({
   searchTerm,
