@@ -1,0 +1,188 @@
+[
+    {
+      "id": 1,
+      "name": "Foto de Edificio Malvinas",
+      "advertisingType": {
+        "id": 1,
+        "name": "Foto de Edificio Malvinas"
+      },
+      "user": {
+        "id": 1,
+        "name": "Juan Lopez",
+        "dni": "43567876",
+        "password": "1234",
+        "role": {
+          "id": 1,
+          "name": "Gestión Estudiantil"
+        }
+      },
+      "sector": {
+        "id": 1,
+        "name": "Edificio Malvinas",
+        "topic": "Materias"
+      },
+      "schedule": {
+        "id": 1,
+        "startDate": "2010",
+        "endDate": "2002",
+        "startHour": "9:00",
+        "endHour": "16:00",
+        "scheduleDays": "Lu-Mi-Vi"
+      }
+    },
+    {
+      "id": 2,
+      "name": "Becas de apuntes",
+      "advertisingType": {
+        "id": 2,
+        "name": "Becas de apuntes"
+      },
+      "user": {
+        "id": 2,
+        "name": "Juan Lopez",
+        "dni": "43567876",
+        "password": "1234",
+        "role": {
+          "id": 2,
+          "name": "Gestión Estudiantil"
+        }
+      },
+      "sector": {
+        "id": 2,
+        "name": "Edificio Malvinas",
+        "topic": "Materias"
+      },
+      "schedule": {
+        "id": 2,
+        "startDate": "2010",
+        "endDate": "2002",
+        "startHour": "9:00",
+        "endHour": "16:00",
+        "scheduleDays": "Lu-Mi-Vi"
+      }
+    },
+    {
+      "id": 3,
+      "name": "Primavera Unahur",
+      "advertisingType": {
+        "id": 3,
+        "name": "Primavera Unahur"
+      },
+      "user": {
+        "id": 3,
+        "name": "Juan Lopez",
+        "dni": "43567876",
+        "password": "1234",
+        "role": {
+          "id": 3,
+          "name": "Comunicaciones"
+        }
+      },
+      "sector": {
+        "id": 3,
+        "name": "Sector 6",
+        "topic": "Materias"
+      },
+      "schedule": {
+        "id": 3,
+        "startDate": "2010",
+        "endDate": "2002",
+        "startHour": "9:00",
+        "endHour": "16:00",
+        "scheduleDays": "Lu-Mi-Vi"
+      }
+    },
+    {
+      "id": 4,
+      "name": "Primavera Unahur",
+      "advertisingType": {
+        "id": 4,
+        "name": "Primavera Unahur"
+      },
+      "user": {
+        "id": 4,
+        "name": "Juan Lopez",
+        "dni": "43567876",
+        "password": "1234",
+        "role": {
+          "id": 4,
+          "name": "Comunicaciones"
+        }
+      },
+      "sector": {
+        "id": 4,
+        "name": "Sector 6",
+        "topic": "Materias"
+      },
+      "schedule": {
+        "id": 4,
+        "startDate": "2010",
+        "endDate": "2002",
+        "startHour": "9:00",
+        "endHour": "16:00",
+        "scheduleDays": "Lu-Mi-Vi"
+      }
+    },
+    {
+      "id": 5,
+      "name": "Primavera Unahur",
+      "advertisingType": {
+        "id": 5,
+        "name": "Primavera Unahur"
+      },
+      "user": {
+        "id": 5,
+        "name": "Juan Lopez",
+        "dni": "43567876",
+        "password": "1234",
+        "role": {
+          "id": 5,
+          "name": "Comunicaciones"
+        }
+      },
+      "sector": {
+        "id": 5,
+        "name": "Sector 6",
+        "topic": "Materias"
+      },
+      "schedule": {
+        "id": 5,
+        "startDate": "2010",
+        "endDate": "2002",
+        "startHour": "9:00",
+        "endHour": "16:00",
+        "scheduleDays": "Lu-Mi-Vi"
+      }
+    },
+    {
+      "id": 6,
+      "name": "Primavera Unahur",
+      "advertisingType": {
+        "id": 6,
+        "name": "Primavera Unahur"
+      },
+      "user": {
+        "id": 6,
+        "name": "Juan Lopez",
+        "dni": "43567876",
+        "password": "1234",
+        "role": {
+          "id": 6,
+          "name": "Comunicaciones"
+        }
+      },
+      "sector": {
+        "id": 6,
+        "name": "Sector 6",
+        "topic": "Materias"
+      },
+      "schedule": {
+        "id": 6,
+        "startDate": "2010",
+        "endDate": "2002",
+        "startHour": "9:00",
+        "endHour": "16:00",
+        "scheduleDays": "Lu-Mi-Vi"
+      }
+    }
+  ]
