@@ -2,7 +2,7 @@ import { useCarousel } from '../../hooks/useCarousel';
 import Dots from '../Dots';
 import unahur from '../../assets/unahur.png';
 
-const TIME_CAROUSEL_ADVERTISING = 20;
+const TIME_CAROUSEL_ADVERTISING = 15;
 
 function AdvertisingCard(props: any) {
   const { selectedIndex, selectedItem } = useCarousel(
@@ -18,7 +18,7 @@ function AdvertisingCard(props: any) {
             <img
               className="w-full h-full"
               src={selectedItem.payload}
-              alt="avisos"
+              alt={selectedItem.title}
             />
           </div>
           {props.messages.length > 1 && (

@@ -145,7 +145,7 @@ function TableAdvertising({
   useEffect(() => {
     const adjustItemsPerPage = () => {
       const windowHeight = window.innerHeight;
-      const rowHeight = 130;
+      const rowHeight = 150;
       const maxRowsToShow = Math.floor(windowHeight / rowHeight);
       setItemsPerPage(maxRowsToShow);
     };
