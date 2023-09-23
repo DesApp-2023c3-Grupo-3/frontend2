@@ -16,7 +16,7 @@ function App() {
           }
         />
         <Route path="/screen" element={<ScreenClient />} />
-        <Route path="/admin" element={<AdminWeb />} />
+        <Route path="/admin/*" element={<AdminWeb/>} />
       </Routes>
     </BrowserRouter>
   );
