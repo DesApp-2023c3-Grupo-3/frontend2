@@ -4,7 +4,7 @@ function Dots(props: any) {
       {props.items.map((item: string, index: number) => (
         <svg
           key={index}
-          className="h-[18px] xl:h-[25px] 2xl:h-[35px]"
+          className="h-[3.6vh]"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 48 48"
           fill="none"

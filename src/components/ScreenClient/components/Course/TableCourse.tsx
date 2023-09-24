@@ -4,7 +4,7 @@ import { DataCourse, useSocketStore } from '../../store/socketStore';
 import Dots from '../Dots';
 import { carouselTableArray } from '../../utils/carousel';
 
-const TIME_CAROUSEL_COURSES = 20;
+const TIME_CAROUSEL_COURSES = 2;
 
 const sortCourse = (course: DataCourse[]) => {
   return course.sort((course, otherCourse) =>
@@ -25,10 +25,10 @@ function TableCourse(props: any) {
   );
 
   return (
-    <main className="p-5 h-[75%]">
+    <main className="p-[2vh] pb-0">
       <div className="relative overflow-x-auto rounded-lg">
-        <table className="h-full w-full bg-[#74B235] text-center text-lg xl:text-2xl 2xl:text-4xl">
-          <thead className="text-white uppercase h-[1.7em]">
+        <table className="w-full bg-[#74B235] text-center text-[3.6vh]">
+          <thead className="text-white uppercase">
             <tr>
               <th className="font-normal w-1/4" scope="col">
                 Materia

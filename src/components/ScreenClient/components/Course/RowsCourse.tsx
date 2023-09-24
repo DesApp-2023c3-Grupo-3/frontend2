@@ -7,7 +7,7 @@ function RowsCourse(props: any) {
             key={index}
             className={`whitespace-nowrap text-[#343434] ${
               index % 2 === 0 ? 'bg-white' : 'bg-[#D9D9D9]'
-            } h-[1.7em]`}
+            }`}
           >
             <td className="">{data.subject}</td>
             <td>{data.title}</td>
