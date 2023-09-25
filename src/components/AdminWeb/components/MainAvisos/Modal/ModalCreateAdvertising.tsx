@@ -4,6 +4,7 @@ import ButtonSave from '../ButtonSave';
 import { useState } from 'react';
 import FormAdvertising from './FormAdvertising';
 import * as React from 'react';
+import { Box, Button } from '@mui/material';
 
 type ModalCreateAdvertisingProps = {
   createAdvertising: () => void;
@@ -20,12 +21,9 @@ const ModalCreateAdvertising: React.FC<ModalCreateAdvertisingProps> = ({
     <>
       <ButtonCreateAdvertising onClick={handleOpenClose} />
       <Modal open={open} onClose={handleOpenClose}>
-        <div
-          id="box"
-          className="top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] absolute max-w-[1000px] w-[100%] max-h-[600px] h-[100%] bg-white rounded-[30px]"
-        >
+        <Box className="top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] absolute max-w-[62.5em] w-[100%] max-h-[37.5em] h-[100%] bg-white rounded-[30px]">
           <div className="bg-[#484848] rounded-tr-[30px] rounded-tl-[30px] h-[67px] flex justify-end items-center">
-            <button onClick={handleOpenClose}>
+            <Button onClick={handleOpenClose}>
               <svg
                 className="mr-[15px]"
                 xmlns="http://www.w3.org/2000/svg"
@@ -40,13 +38,15 @@ const ModalCreateAdvertising: React.FC<ModalCreateAdvertisingProps> = ({
                   fill="white"
                 />
               </svg>
-            </button>
+            </Button>
           </div>
-          <FormAdvertising />
-          <div className="flex justify-end m-5">
+          <div>
+            <FormAdvertising />
+          </div>
+          <div className=" flex justify-end mr-[4.5em] mt-[2.5em]">
             <ButtonSave onClick={createAdvertising} />
           </div>
-        </div>
+        </Box>
       </Modal>
     </>
   );
