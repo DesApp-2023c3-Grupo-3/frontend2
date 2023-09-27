@@ -10,8 +10,12 @@ const sectors = [
   { id: 4, name: 'Origone A' },
 ];
 
-function Sectores() {
-  const [selectedSector, setSelectedSector] = useState<Array<Sector>>([]);
+interface SectoresProps {
+  selectedSector: Sector[];
+  onSelectedSectorChange: (newSelectedSector: Sector[]) => void;
+}
+
+function Sectores({ selectedSector, onSelectedSectorChange }: SectoresProps) {
   const [selectAll, setSelectAll] = useState(false);
 
   const handleSelectAllChange = (event: {
@@ -20,22 +24,25 @@ function Sectores() {
     setSelectAll(event.target.checked);
 
     if (!selectAll) {
-      setSelectedSector(sectors);
+      onSelectedSectorChange(sectors);
     } else {
-      setSelectedSector([]);
+      onSelectedSectorChange([]);
     }
   };
 
-  const [closeBox, setCloseBox] = useState(false);
-
   return (
     <div className="w-[365px] h-[50px]">
-      <Listbox value={selectedSector} onChange={setSelectedSector} multiple>
+      <Listbox
+        value={selectedSector}
+        onChange={onSelectedSectorChange}
+        multiple
+      >
         <div className="fixed flex-row justify-center">
           <Listbox.Button
             className={
-              'text-[20px] font-[400] tracking-[-0.4px] rounded-[30px] bg-[#D9D9D9] flex w-[365px] h-[50px] px-[40px] py-[12px] '
+              'text-[20px] font-[400] tracking-[-0.4px] rounded-[30px] bg-[#D9D9D9] flex w-[365px] h-[50px] px-[40px] py-[12px] items-center'
             }
+            placeholder="Sector/es"
           >
             <div className="mr-3">
               <svg
@@ -59,7 +66,7 @@ function Sectores() {
                 />
               </svg>
             </div>
-            <span className="flex">
+            <span className="flex text-black opacity-[0.33] items-center">
               {selectedSector.length === 0
                 ? 'Sector/es'
                 : selectedSector
@@ -81,7 +88,6 @@ function Sectores() {
                 <div key={sextorIdx} className="flex justify-center">
                   <div>
                     <Listbox.Option
-                      disabled={closeBox}
                       className={({ active, selected }) =>
                         ` border-2 border-[#919191] flex justify-start items-center relative cursor-pointer mb-[3px] pl-2 rounded-[20px] h-[30px] w-[82px] 
                                 ${
@@ -98,7 +104,7 @@ function Sectores() {
                       }
                       value={sector}
                       onClick={() => {
-                        setSelectedSector([...selectedSector, sector]);
+                        onSelectedSectorChange([...selectedSector, sector]);
                       }}
                     >
                       {({ selected }) => (
@@ -124,14 +130,6 @@ function Sectores() {
                   onChange={handleSelectAllChange}
                 />
                 <span>Seleccionar todo</span>
-              </div>
-              <div className="flex justify-center items-center">
-                {/*<button
-                onClick={() => {setCloseBox(true)}}
-                  className="mb-3 flex justify-center items-center rounded-[20px] bg-[#74B235] w-[107px] text-[#FFF]"
-                >
-                  Listo
-                </button> */}
               </div>
             </Listbox.Options>
           </Transition>

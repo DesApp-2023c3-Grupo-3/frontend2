@@ -4,10 +4,10 @@ function ImageTextVideo() {
   return (
     <div className="rounded-[20px] bg-[#D9D9D9] w-[300px] h-[328px]">
       <Tab.Group>
-        <Tab.List className=" text-[white] text-[12px] font-[400] flex justify-center items-center h-[28px]">
+        <Tab.List className="rounded-t-[20px] text-[white] text-[12px] font-[400] flex justify-center items-center h-[28px] bg-[#484848]">
           <Tab
             className={({ selected }) =>
-              ` rounded-ss-[20px] w-[100px] flex justify-center items-center h-[28px] bg-[#484848]
+              ` rounded-ss-[20px] w-[100px] flex justify-center items-center h-[28px] 
                                 
                                 ${selected ? 'bg-[#292929]' : ''}
                                 `
@@ -17,7 +17,7 @@ function ImageTextVideo() {
           </Tab>
           <Tab
             className={({ selected }) =>
-              ` w-[100px] flex justify-center items-center h-[28px] bg-[#484848]
+              ` w-[100px] flex justify-center items-center h-[28px]
                                 
                                 ${selected ? 'bg-[#292929]' : ''}
                                 `
@@ -27,7 +27,7 @@ function ImageTextVideo() {
           </Tab>
           <Tab
             className={({ selected }) =>
-              `rounded-se-[20px] w-[100px] flex justify-center items-center h-[28px] bg-[#484848]
+              `rounded-se-[20px] w-[100px] flex justify-center items-center h-[28px] 
                                 
                                 ${selected ? 'bg-[#292929]' : ''}
                                 `
