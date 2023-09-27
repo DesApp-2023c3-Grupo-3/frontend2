@@ -1,4 +1,5 @@
 import { Tab } from '@headlessui/react';
+import TextEditor from './TextEditor';
 
 function ImageTextVideo() {
   return (
@@ -37,7 +38,9 @@ function ImageTextVideo() {
           </Tab>
         </Tab.List>
         <Tab.Panels>
-          <Tab.Panel>Subi el texto</Tab.Panel>
+          <Tab.Panel>
+            <TextEditor />
+          </Tab.Panel>
           <Tab.Panel className="flex justify-center items-center mt-[125px]">
             <svg
               xmlns="http://www.w3.org/2000/svg"

@@ -1,5 +1,3 @@
-import React, { useState } from 'react';
-
 interface DayPickerProps {
   selectedDays: string[];
   onSelectedDaysChange: (newSelectedDays: string[]) => void;

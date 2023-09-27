@@ -1,6 +1,6 @@
 import DatePickerDays from './DatePickerDays';
 import Sectores from './Sectores';
-import ImageTextVideo from './ImageTextVideo';
+import ImageTextVideo from './ImageTextVideo/ImageTextVideo';
 import DayPicker from './DayPicker';
 import ButtonSave from '../ButtonSave';
 import PickerTime from './PickerTime';
