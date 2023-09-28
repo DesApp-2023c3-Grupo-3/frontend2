@@ -19,6 +19,7 @@ export const initializeSocketConnection = async (
     });
 
     ws.addEventListener('message', (message) => {
+      console.info('message', message)
       onMessageAction(JSON.parse(message.data));
     });
 
