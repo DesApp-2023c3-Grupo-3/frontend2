@@ -1,10 +1,10 @@
 import './AdminWeb.sass';
 import { Route, Routes } from 'react-router-dom';
 import Navbar from './Navbar';
-import Avisos from './Avisos/Avisos';
-import Usuarios from './Usuarios/Usuarios';
+import Avisos from './Pages/Avisos/Avisos';
+import Usuarios from './Pages/Usuarios/Usuarios';
 import Comisiones from './Comisiones/Comisiones';
-import Pantallas from './Pantallas/Pantallas';
+import Pantallas from './Pages/Pantallas/Pantallas';
 
 function AdminWeb() {
   return (
