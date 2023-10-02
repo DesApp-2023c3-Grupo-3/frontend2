@@ -10,7 +10,8 @@ function DayPicker({ onSelectedDaysChange, selectedDays }: DayPickerProps) {
     'Miércoles',
     'Jueves',
     'Viernes',
-    'Sábado',
+    'Sabado',
+    'Domingo',
   ];
 
   const handleDayClick = (day: string) => {

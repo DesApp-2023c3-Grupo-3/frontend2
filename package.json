@@ -28,6 +28,8 @@
     "react-time-picker": "^6.5.0",
     "sass": "^1.67.0",
     "styled-components": "^5.3.11",
+    "sweetalert2": "^11.7.31",
+    "sweetalert2-react-content": "^5.0.7",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4",
     "zustand": "^4.4.1"

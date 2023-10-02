@@ -18,7 +18,6 @@ function TextEditor() {
   };
 
   const formats = [
-    'header',
     'font',
     'list',
     'bold',
@@ -31,16 +30,14 @@ function TextEditor() {
   ];
 
   return (
-    <div className="flex-row h-[300px]">
-      <ReactQuill
-        theme="snow"
-        modules={modules}
-        formats={formats}
-        value={editorHtml}
-        onChange={(html) => setEditorHtml(html)}
-        className="bg-white flex-row m-3"
-      />
-    </div>
+    <ReactQuill
+      theme="snow"
+      modules={modules}
+      formats={formats}
+      value={editorHtml}
+      onChange={(html) => setEditorHtml(html)}
+      className="bg-white m-1 static max-h-[17em] overflow-y-auto "
+    />
   );
 }
 

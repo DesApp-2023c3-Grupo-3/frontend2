@@ -7,30 +7,40 @@ import PickerTime from './PickerTime';
 import React, { useState } from 'react';
 import { Advertising } from '../../../types/customTypes';
 import { abbreviateSectorName } from '../../../utils/AbbreviateSectorName';
+import Swal from 'sweetalert2';
 
 interface FormAdvertisingProps {
   advertisingsJSON: Advertising[]; // Un array de días seleccionados
   setAdvertisingsJSON: React.Dispatch<React.SetStateAction<Advertising[]>>; // Función para actualizar los días seleccionados
+  onCloseClick: () => void;
 }
 
 function FormAdvertising({
   advertisingsJSON,
   setAdvertisingsJSON,
+  onCloseClick,
 }: FormAdvertisingProps) {
-  //ejemplo
-  const newAdvertising = () => {
+  const handleSendAdvertisingClick = () => {
     const locale = 'es-AR';
     //fecha
     const startDay = startDate.toLocaleDateString();
-    const endtDay = endDate.toLocaleDateString();
+    const endDay = endDate.toLocaleDateString();
 
     //hora
-    const [localeStartHour, localeStartMinutes] = startHour
-      .toLocaleTimeString(locale)
-      .split(':');
-    const [localeEndHour, localeEndMinutes] = endHour
-      .toLocaleTimeString(locale)
-      .split(':');
+    let localeStartHour: null | String = null,
+      localeStartMinutes: null | String = null;
+    if (startHour !== null) {
+      [localeStartHour, localeStartMinutes] = startHour
+        .toLocaleTimeString(locale)
+        .split(':');
+    }
+    let localeEndHour: null | String = null,
+      localeEndMinutes: null | String = null;
+    if (endHour !== null) {
+      [localeEndHour, localeEndMinutes] = endHour
+        .toLocaleTimeString(locale)
+        .split(':');
+    }
 
     //dias
     const days = selectedDays.map((dia) => dia.slice(0, 2)).join('-');
@@ -40,48 +50,88 @@ function FormAdvertising({
       .map((sector) => abbreviateSectorName(sector.name))
       .join(', ');
 
-    //Prueba de ejemplo
-    const newAdvertising = {
-      id: advertisingsJSON.length + 1,
-      name: advertisingName,
-      advertisingType: {
-        id: advertisingsJSON.length + 1,
-        name: advertisingName,
+    //Alerts
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer);
+        toast.addEventListener('mouseleave', Swal.resumeTimer);
       },
-      user: {
-        id: 1,
-        name: 'Juan Lopez',
-        dni: '43567876',
-        password: '1234',
-        role: {
-          id: 1,
-          name: 'Gestión Estudiantil',
-        },
-      },
-      sector: {
-        id: advertisingsJSON.length + 1,
-        name: sectores,
-        topic: 'Materias',
-      },
-      schedule: {
-        id: advertisingsJSON.length + 1,
-        startDate: startDay,
-        endDate: endtDay,
-        startHour: `${localeStartHour}:${localeStartMinutes}`,
-        endHour: `${localeEndHour}:${localeEndMinutes}`,
-        scheduleDays: days,
-      },
-    };
+    });
 
-    setAdvertisingsJSON([...advertisingsJSON, newAdvertising]);
+    if (
+      !advertisingName ||
+      selectedSector.length === 0 ||
+      selectedDays.length === 0 ||
+      advertisingName.length === 0 ||
+      startDate === null ||
+      endDate === null ||
+      startHour === null ||
+      endHour === null
+    ) {
+      Swal.fire({
+        title: 'Hay campos sin completar. ¿Deseas continuar creando el aviso?',
+        showDenyButton: true,
+        confirmButtonText: 'Si',
+        denyButtonText: `No`,
+        confirmButtonColor: '#2C9CBF',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const newAdvertising = {
+            id: advertisingsJSON.length + 1,
+            name: advertisingName,
+            advertisingType: {
+              id: advertisingsJSON.length + 1,
+              name: advertisingName,
+            },
+            user: {
+              id: 1,
+              name: 'Juan Lopez',
+              dni: '43567876',
+              password: '1234',
+              role: {
+                id: 1,
+                name: 'Gestión Estudiantil',
+              },
+            },
+            sector: {
+              id: advertisingsJSON.length + 1,
+              name: sectores,
+              topic: 'Materias',
+            },
+            schedule: {
+              id: advertisingsJSON.length + 1,
+              startDate: startDay,
+              endDate: endDay,
+              startHour: `${localeStartHour}:${localeStartMinutes}`,
+              endHour: `${localeEndHour}:${localeEndMinutes}`,
+              scheduleDays: days,
+            },
+          };
+
+          // Envía el objeto a la tabla o realiza las acciones necesarias aquí
+
+          setAdvertisingsJSON([...advertisingsJSON, newAdvertising]);
+          onCloseClick();
+          Toast.fire({
+            icon: 'success',
+            title: 'Se ha creado el aviso',
+          });
+        }
+      });
+    }
   };
 
   //Nombre del aviso
   const [advertisingName, setAdvertisingName] = useState('');
 
   //Hora del aviso
-  const [startHour, setStartHour] = useState<Date>(new Date());
-  const [endHour, setEndHour] = useState<Date>(new Date());
+  const [startHour, setStartHour] = useState<Date | null>(null);
+  const [endHour, setEndHour] = useState<Date | null>(null);
 
   const handleStartHourChange = (newStartHour: Date) => {
     setStartHour(newStartHour);
@@ -128,7 +178,7 @@ function FormAdvertising({
   return (
     <div>
       <form className="mx-10">
-        <div className=" flex h-[90px] justify-between items-center">
+        <div className=" flex h-[90px] justify-between items-center relative">
           <input
             id="advertisingName"
             type="text"
@@ -163,7 +213,7 @@ function FormAdvertising({
         </div>
       </form>
       <div className="flex justify-end mr-[4.5em] mt-6">
-        <ButtonSave onClick={newAdvertising} />
+        <ButtonSave onClick={handleSendAdvertisingClick} />
       </div>
     </div>
   );

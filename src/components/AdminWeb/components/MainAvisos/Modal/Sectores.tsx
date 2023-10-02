@@ -31,7 +31,7 @@ function Sectores({ selectedSector, onSelectedSectorChange }: SectoresProps) {
   };
 
   return (
-    <div className="w-[365px] h-[50px]">
+    <div className="w-[365px] h-[50px] z-[998]">
       <Listbox
         value={selectedSector}
         onChange={onSelectedSectorChange}
@@ -80,7 +80,7 @@ function Sectores({ selectedSector, onSelectedSectorChange }: SectoresProps) {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Listbox.Options className="bg-white w-[254px] ml-auto flex-row justify-center items-center shadow-lg rounded-t-[2px] rounded-b-[10px] ">
+            <Listbox.Options className="bg-white w-[254px] ml-auto flex-row justify-center items-center shadow-lg rounded-t-[2px] rounded-b-[10px] fixed">
               <span className="m-3 flex justify-center text-[#00000080] text-[20px]">
                 Edificio
               </span>
