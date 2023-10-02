@@ -73,6 +73,7 @@ function FormAdvertising({
       startHour === null ||
       endHour === null
     ) {
+      //advertencia
       Swal.fire({
         title: 'Hay campos sin completar. ¿Deseas crear el aviso igual?',
         showDenyButton: true,
@@ -81,6 +82,7 @@ function FormAdvertising({
         confirmButtonColor: '#2C9CBF',
       }).then((result) => {
         if (result.isConfirmed) {
+          //Enviar el aviso al backend acá
           const newAdvertising = {
             id: advertisingsJSON.length + 1,
             name: advertisingName,
@@ -112,8 +114,6 @@ function FormAdvertising({
               scheduleDays: days,
             },
           };
-
-          // Envía el objeto a la tabla o realiza las acciones necesarias aquí
 
           setAdvertisingsJSON([...advertisingsJSON, newAdvertising]);
           onCloseClick();
