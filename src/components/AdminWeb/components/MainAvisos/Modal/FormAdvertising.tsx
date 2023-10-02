@@ -74,7 +74,7 @@ function FormAdvertising({
       endHour === null
     ) {
       Swal.fire({
-        title: 'Hay campos sin completar. ¿Deseas continuar creando el aviso?',
+        title: 'Hay campos sin completar. ¿Deseas crear el aviso igual?',
         showDenyButton: true,
         confirmButtonText: 'Si',
         denyButtonText: `No`,
