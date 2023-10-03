@@ -8,7 +8,7 @@ export interface Message {
   data: any;
 }
 
-export interface DataAdvertesing {
+export interface DataAdvertising {
   advertisingTypeId: number;
   id: number;
   payload: string;
