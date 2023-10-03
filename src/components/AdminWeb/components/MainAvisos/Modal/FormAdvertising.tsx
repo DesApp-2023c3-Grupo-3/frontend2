@@ -23,12 +23,18 @@ function FormAdvertising({
   const handleSendAdvertisingClick = () => {
     const locale = 'es-AR';
     //fecha
-    const startDay = startDate.toLocaleDateString();
-    const endDay = endDate.toLocaleDateString();
+    var startDay: string | null = null;
+    if (startDate !== null) {
+      startDay = startDate.toLocaleDateString();
+    }
+    var endDay: string | null = null;
+    if (endDate !== null) {
+      endDay = endDate.toLocaleDateString();
+    }
 
     //hora
-    let localeStartHour: null | String = null,
-      localeStartMinutes: null | String = null;
+    let localeStartHour: null | string = null,
+      localeStartMinutes: null | string = null;
     if (startHour !== null) {
       [localeStartHour, localeStartMinutes] = startHour
         .toLocaleTimeString(locale)
@@ -63,6 +69,48 @@ function FormAdvertising({
       },
     });
 
+    //Enviar el aviso al backend acá
+    function CreateAdvetising() {
+      const newAdvertising = {
+        id: advertisingsJSON.length + 1,
+        name: advertisingName,
+        advertisingType: {
+          id: advertisingsJSON.length + 1,
+          name: advertisingName,
+        },
+        user: {
+          id: 1,
+          name: 'Juan Lopez',
+          dni: '43567876',
+          password: '1234',
+          role: {
+            id: 1,
+            name: 'Gestión Estudiantil',
+          },
+        },
+        sector: {
+          id: advertisingsJSON.length + 1,
+          name: sectores,
+          topic: 'Materias',
+        },
+        schedule: {
+          id: advertisingsJSON.length + 1,
+          startDate: `${startDay}`,
+          endDate: `${endDay}`,
+          startHour: `${localeStartHour}:${localeStartMinutes}`,
+          endHour: `${localeEndHour}:${localeEndMinutes}`,
+          scheduleDays: days,
+        },
+      };
+
+      setAdvertisingsJSON([...advertisingsJSON, newAdvertising]);
+      onCloseClick();
+      Toast.fire({
+        icon: 'success',
+        title: 'Se ha creado el aviso',
+      });
+    }
+
     if (
       !advertisingName ||
       selectedSector.length === 0 ||
@@ -82,47 +130,11 @@ function FormAdvertising({
         confirmButtonColor: '#2C9CBF',
       }).then((result) => {
         if (result.isConfirmed) {
-          //Enviar el aviso al backend acá
-          const newAdvertising = {
-            id: advertisingsJSON.length + 1,
-            name: advertisingName,
-            advertisingType: {
-              id: advertisingsJSON.length + 1,
-              name: advertisingName,
-            },
-            user: {
-              id: 1,
-              name: 'Juan Lopez',
-              dni: '43567876',
-              password: '1234',
-              role: {
-                id: 1,
-                name: 'Gestión Estudiantil',
-              },
-            },
-            sector: {
-              id: advertisingsJSON.length + 1,
-              name: sectores,
-              topic: 'Materias',
-            },
-            schedule: {
-              id: advertisingsJSON.length + 1,
-              startDate: startDay,
-              endDate: endDay,
-              startHour: `${localeStartHour}:${localeStartMinutes}`,
-              endHour: `${localeEndHour}:${localeEndMinutes}`,
-              scheduleDays: days,
-            },
-          };
-
-          setAdvertisingsJSON([...advertisingsJSON, newAdvertising]);
-          onCloseClick();
-          Toast.fire({
-            icon: 'success',
-            title: 'Se ha creado el aviso',
-          });
+          CreateAdvetising();
         }
       });
+    } else {
+      CreateAdvetising();
     }
   };
 
@@ -142,8 +154,8 @@ function FormAdvertising({
   };
 
   //fechas del aviso
-  const [startDate, setStartDate] = useState<Date>(new Date());
-  const [endDate, setEndDate] = useState<Date>(new Date());
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
 
   const handleStartDateChange = (newStartDate: Date) => {
     setStartDate(newStartDate);

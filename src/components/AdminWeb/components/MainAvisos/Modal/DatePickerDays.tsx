@@ -1,6 +1,9 @@
 import * as React from 'react';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { DatePicker } from '@mui/x-date-pickers';
+import dayjs from 'dayjs';
+
+dayjs.locale('es');
 
 interface DatePickerDaysProps {
   onChangeStartDate: (newStartDate: Date) => void;
@@ -18,20 +21,20 @@ function DatePickerDays({
     null,
   );
 
-  const handleStartDateChange = (newStartHour: string) => {
-    console.log('handleStartHourChange newStartHour', newStartHour);
-    const newDate = new Date(newStartHour);
-    console.log('handleStartHourChange newDate', newDate);
+  const handleStartDateChange = (newStartDate: string) => {
+    const newDate = dayjs(newStartDate).toDate();
+
     setSelectedDateInit(newDate);
     onChangeStartDate(newDate);
+    console.log('Fecha de inicio: ', newDate);
   };
 
-  const handleEndDateChange = (newEndHour: string) => {
-    console.log('handleEndHourChange newEndHour', newEndHour);
-    const newDate = new Date(newEndHour);
-    console.log('handleEndHourChange newDate', newDate);
-    setSelectedDateFinal(newDate);
-    onChangeEndDate(newDate);
+  const handleEndDateChange = (newEndDate: string) => {
+    const newDateEnd = dayjs(newEndDate).toDate();
+
+    setSelectedDateFinal(newDateEnd);
+    onChangeEndDate(newDateEnd);
+    console.log('Fecha de Final: ', newDateEnd);
   };
 
   return (
@@ -41,16 +44,20 @@ function DatePickerDays({
           <DatePicker
             className=" w-[100px] text-b"
             value={selectedDateInit}
-            onChange={(newDate: any) => {
-              handleStartDateChange(newDate.format());
+            onChange={(newDate: Date | null) => {
+              if (newDate !== null) {
+                handleStartDateChange(dayjs(newDate).format());
+              }
             }}
             label="Inicio"
           />
           <DatePicker
             className=" w-[100px] text-b"
             value={selectedDateFinal}
-            onChange={(newDate: any) => {
-              handleEndDateChange(newDate.format());
+            onChange={(newDate: Date | null) => {
+              if (newDate !== null) {
+                handleEndDateChange(dayjs(newDate).format());
+              }
             }}
             label="Final"
           />
