@@ -10,7 +10,6 @@ function MainAdvertising() {
   );
   //ejemplo
   const newAdvertising = () => {
-    //Prueba de ejemplo
     const newAdvertising = {
       id: advertisingsJSON.length + 1,
       name: 'Foto de Edificio Malvinas',

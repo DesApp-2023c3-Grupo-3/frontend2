@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Pagination, ThemeProvider } from '@mui/material';
-import theme from '../../../config/createTheme';
+import theme from '../../config/createTheme';
 import SearchBar from './SearchBar';
-import TableAdvertising from './TableAdvertising';
-import { Advertising } from '../../../types/customTypes';
+import TableCommisions from './TableCommisions';
+import { Commission } from '../../types/customTypes';
 
-function TableMain({ advertisingsJSON }: { advertisingsJSON: Advertising[] }) {
+function TableMain({ commisionsJSON }: { commisionsJSON: Commission[] }) {
   //filas por pagina
   const [itemsPerPage, setItemsPerPage] = useState(7);
 
@@ -45,8 +45,8 @@ function TableMain({ advertisingsJSON }: { advertisingsJSON: Advertising[] }) {
     setCurrentPage(1);
   };
 
-  const filteredData = advertisingsJSON.filter((advertising) =>
-    advertising.name.toLowerCase().includes(searchTerm.toLowerCase()),
+  const filteredData = commisionsJSON.filter((commision) =>
+    commision.name.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   const currentData = filteredData.slice(startIndex, endIndex);
@@ -54,7 +54,7 @@ function TableMain({ advertisingsJSON }: { advertisingsJSON: Advertising[] }) {
   return (
     <div className="tableMain">
       <SearchBar searchTerm={searchTerm} onSearchChange={handleSearchChange} />
-      <TableAdvertising advertisings={currentData} />
+      <TableCommisions commisions={currentData} />
       <ThemeProvider theme={theme}>
         <Pagination
           className="flex justify-center bg-white pt-10"

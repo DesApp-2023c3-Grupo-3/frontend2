@@ -1,0 +1,142 @@
+[
+  {
+    "id": 1,
+    "name": "C1",
+    "user": {
+      "id": 1,
+      "name": "Pablo",
+      "dni": "1234",
+      "password": "contra",
+      "role": {
+        "id": 1,
+        "name": "Gestión Estudiantil"
+      }
+    },
+    "sector": {
+      "id": 1,
+      "name": "Origone A",
+      "topic": "Comisión"
+    },
+    "schedule": {
+      "id": 1,
+      "startDate": "2023",
+      "endDate": "2023",
+      "startHour": "12:00",
+      "endHour": "14:00",
+      "scheduleDays": "Lu-Mi-Vi"
+    },
+    "subject": {
+      "id": 1,
+      "name": "Matemática I"
+    },
+    "classroom": {
+      "id": 1,
+      "name": "Lab 1"
+    }
+  },
+  {
+    "id": 2,
+    "name": "C2",
+    "user": {
+      "id": 1,
+      "name": "Pablo",
+      "dni": "1234",
+      "password": "contra",
+      "role": {
+        "id": 1,
+        "name": "Gestión Estudiantil"
+      }
+    },
+    "sector": {
+      "id": 1,
+      "name": "Origone A",
+      "topic": "Comisión"
+    },
+    "schedule": {
+      "id": 2,
+      "startDate": "2023",
+      "endDate": "2023",
+      "startHour": "16:00",
+      "endHour": "18:00",
+      "scheduleDays": "Lu-Mi-Vi"
+    },
+    "subject": {
+      "id": 1,
+      "name": "Matemática I"
+    },
+    "classroom": {
+      "id": 1,
+      "name": "Lab 1"
+    }
+  },
+  {
+    "id": 3,
+    "name": "C1",
+    "user": {
+      "id": 2,
+      "name": "José",
+      "dni": "5678",
+      "password": "contra",
+      "role": {
+        "id": 1,
+        "name": "Gestión Estudiantil"
+      }
+    },
+    "sector": {
+      "id": 2,
+      "name": "Sector 6",
+      "topic": "Comisión"
+    },
+    "schedule": {
+      "id": 3,
+      "startDate": "2023",
+      "endDate": "2023",
+      "startHour": "10:00",
+      "endHour": "12:00",
+      "scheduleDays": "Ma-Ju"
+    },
+    "subject": {
+      "id": 2,
+      "name": "Bases de Datos"
+    },
+    "classroom": {
+      "id": 2,
+      "name": "109"
+    }
+  },
+  {
+    "id": 4,
+    "name": "C2",
+    "user": {
+      "id": 2,
+      "name": "José",
+      "dni": "5678",
+      "password": "contra",
+      "role": {
+        "id": 1,
+        "name": "Gestión Estudiantil"
+      }
+    },
+    "sector": {
+      "id": 2,
+      "name": "Sector 6",
+      "topic": "Comisión"
+    },
+    "schedule": {
+      "id": 4,
+      "startDate": "2023",
+      "endDate": "2023",
+      "startHour": "18:00",
+      "endHour": "20:00",
+      "scheduleDays": "Ma-Ju"
+    },
+    "subject": {
+      "id": 2,
+      "name": "Bases de Datos"
+    },
+    "classroom": {
+      "id": 2,
+      "name": "109"
+    }
+  }
+]
