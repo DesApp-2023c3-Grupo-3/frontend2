@@ -1,9 +1,6 @@
 import * as React from 'react';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { DatePicker } from '@mui/x-date-pickers';
-import dayjs from 'dayjs';
-
-dayjs.locale('es');
 
 interface DatePickerDaysProps {
   onChangeStartDate: (newStartDate: Date) => void;
@@ -21,20 +18,14 @@ function DatePickerDays({
     null,
   );
 
-  const handleStartDateChange = (newStartDate: string) => {
-    const newDate = dayjs(newStartDate).toDate();
-
-    setSelectedDateInit(newDate);
-    onChangeStartDate(newDate);
-    console.log('Fecha de inicio: ', newDate);
+  const handleStartDateChange = (newStartDate: Date) => {
+    setSelectedDateInit(newStartDate);
+    onChangeStartDate(newStartDate);
   };
 
-  const handleEndDateChange = (newEndDate: string) => {
-    const newDateEnd = dayjs(newEndDate).toDate();
-
-    setSelectedDateFinal(newDateEnd);
-    onChangeEndDate(newDateEnd);
-    console.log('Fecha de Final: ', newDateEnd);
+  const handleEndDateChange = (newEndDate: Date) => {
+    setSelectedDateFinal(newEndDate);
+    onChangeEndDate(newEndDate);
   };
 
   return (
@@ -42,11 +33,12 @@ function DatePickerDays({
       <div className="m-3 mt-1 ">
         <DemoContainer components={['Inicio', 'Final']}>
           <DatePicker
+            disablePast
             className=" w-[100px] text-b"
             value={selectedDateInit}
             onChange={(newDate: Date | null) => {
               if (newDate !== null) {
-                handleStartDateChange(dayjs(newDate).format());
+                handleStartDateChange(newDate);
               }
             }}
             label="Inicio"
@@ -54,12 +46,13 @@ function DatePickerDays({
           <DatePicker
             className=" w-[100px] text-b"
             value={selectedDateFinal}
-            onChange={(newDate: Date | null) => {
+            onChange={(newDate: any) => {
               if (newDate !== null) {
-                handleEndDateChange(dayjs(newDate).format());
+                handleEndDateChange(newDate);
               }
             }}
             label="Final"
+            minDate={selectedDateInit || undefined}
           />
         </DemoContainer>
       </div>

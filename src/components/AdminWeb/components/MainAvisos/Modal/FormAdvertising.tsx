@@ -10,8 +10,8 @@ import { abbreviateSectorName } from '../../../utils/AbbreviateSectorName';
 import Swal from 'sweetalert2';
 
 interface FormAdvertisingProps {
-  advertisingsJSON: Advertising[]; // Un array de días seleccionados
-  setAdvertisingsJSON: React.Dispatch<React.SetStateAction<Advertising[]>>; // Función para actualizar los días seleccionados
+  advertisingsJSON: Advertising[];
+  setAdvertisingsJSON: React.Dispatch<React.SetStateAction<Advertising[]>>;
   onCloseClick: () => void;
 }
 
@@ -25,11 +25,11 @@ function FormAdvertising({
     //fecha
     var startDay: string | null = null;
     if (startDate !== null) {
-      startDay = startDate.toLocaleDateString();
+      startDay = startDate.format('DD-MM-YYYY');
     }
     var endDay: string | null = null;
     if (endDate !== null) {
-      endDay = endDate.toLocaleDateString();
+      endDay = endDate.format('DD-MM-YYYY');
     }
 
     //hora
@@ -154,12 +154,11 @@ function FormAdvertising({
   };
 
   //fechas del aviso
-  const [startDate, setStartDate] = useState<Date | null>(null);
-  const [endDate, setEndDate] = useState<Date | null>(null);
+  const [startDate, setStartDate] = useState<any>(null);
+  const [endDate, setEndDate] = useState<any>(null);
 
   const handleStartDateChange = (newStartDate: Date) => {
     setStartDate(newStartDate);
-    console.log(newStartDate.toLocaleDateString());
   };
 
   const handleEndDateChange = (newEndDate: Date) => {
@@ -184,7 +183,6 @@ function FormAdvertising({
 
   const handleSelectedSectorChange = (newSelectedSector: Sector[]) => {
     setSelectedSector(newSelectedSector);
-    console.log('Sectores', selectedSector);
   };
 
   return (
