@@ -1,11 +1,13 @@
-import { useCarousel } from '../../hooks/useCarousel';
 import Dots from '../Dots';
 import unahur from '../../assets/unahur.png';
 import { DataAdvertising } from '../../store/socketStore';
+import { useCarousel } from '../../hooks/useCarousel';
+import { itsArrayWithVideos } from '../../utils/arrays';
+import Youtube from 'react-youtube';
+import { obtenerIDdeVideo } from '../../utils/strings';
 
 const TIME_CAROUSEL_ADVERTISING = 15;
 const ADVERTISING_TYPE_IMAGE = 1;
-const ADVERTISING_TYPE_VIDEO = 2;
 
 function AdvertisingCard({
   messages,
@@ -14,20 +16,20 @@ function AdvertisingCard({
   messages: DataAdvertising[];
   sx: string;
 }) {
-  const { selectedIndex, selectedItem } = useCarousel(
+  const { selectedIndex, selectedItem, changeSelectedItem } = useCarousel(
     messages,
     TIME_CAROUSEL_ADVERTISING,
   );
 
   return (
-    <AdvertisingItem messages={messages} sx={sx}>
-      <AdvertisingType item={selectedItem} />
-      {messages.length > 1 && (
-        <Dots
-          selectedIndex={selectedIndex}
-          items={messages}
-          sx="absolute bottom-0"
+    <AdvertisingItem messages={messages} sx={sx} selectedIndex={selectedIndex}>
+      {itsArrayWithVideos(messages) ? (
+        <AdvertisingVideo
+          payload={selectedItem.payload}
+          changeSelectedItem={changeSelectedItem}
         />
+      ) : (
+        <AdvertisingType item={selectedItem} />
       )}
     </AdvertisingItem>
   );
@@ -37,9 +39,6 @@ function AdvertisingType({ item }: { item: DataAdvertising }) {
   return (
     (item.advertisingTypeId === ADVERTISING_TYPE_IMAGE && (
       <AdvertisingImage payload={item.payload} />
-    )) ||
-    (item.advertisingTypeId === ADVERTISING_TYPE_VIDEO && (
-      <AdvertisingVideo payload={item.payload} />
     )) || <AdvertisingText payload={item.payload} />
   );
 }
@@ -54,13 +53,27 @@ function AdvertisingText({ payload }: { payload: string }) {
   );
 }
 
-function AdvertisingVideo({ payload }: { payload: string }) {
+function AdvertisingVideo({
+  payload,
+  changeSelectedItem,
+}: {
+  payload: string;
+  changeSelectedItem: () => void;
+}) {
+  const videoId = obtenerIDdeVideo(payload);
+
+  const opts = {
+    playerVars: {
+      autoplay: 1,
+      controls: 0,
+      mute: 1,
+    },
+  };
+
   return (
-    <iframe
-      className="w-full h-[90%]"
-      src={payload}
-      title="YouTube video player"
-    ></iframe>
+    <div id="youtube-player-id" className="h-[65%] w-full p-1">
+      <Youtube videoId={videoId} onEnd={changeSelectedItem} opts={opts} />
+    </div>
   );
 }
 
@@ -75,10 +88,12 @@ function AdvertisingImage({ payload }: { payload: string }) {
 function AdvertisingItem({
   children,
   messages,
+  selectedIndex,
   sx,
 }: {
   children: any;
   messages: DataAdvertising[];
+  selectedIndex: number;
   sx: string;
 }) {
   return (
@@ -91,6 +106,13 @@ function AdvertisingItem({
         <Card sx={sx}>
           <img src={unahur} alt="Logo de la UNAHUR" />
         </Card>
+      )}
+      {messages.length > 1 && (
+        <Dots
+          selectedIndex={selectedIndex}
+          items={messages}
+          sx="absolute bottom-0"
+        />
       )}
     </article>
   );

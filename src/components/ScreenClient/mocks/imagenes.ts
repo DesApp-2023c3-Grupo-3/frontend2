@@ -30,18 +30,18 @@ export const messages: Message[] = [
       advertisingTypeId: 2,
       id: 2,
       payload:
-        'https://www.youtube.com/embed/QYtyYu3JK3s?rel=0&modestbranding=1&autohide=1&mute=1&showinfo=0&controls=0&autoplay=1',
-      title: 'imagen',
+       'https://www.youtube.com/watch?v=K8gihOKBo2k&ab_channel=UNAHUR',
+      title: 'imagen'
     },
   },
   {
     topic: 'advertising',
     id: 4,
     data: {
-      advertisingTypeId: 1,
+      advertisingTypeId: 2,
       id: 1,
       payload:
-        'https://scontent.faep6-2.fna.fbcdn.net/v/t39.30808-6/380356453_325363286828458_4330202494216748796_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=49d041&_nc_ohc=C4UIyQv59kAAX9AP8Zw&_nc_ht=scontent.faep6-2.fna&oh=00_AfCRgDqFMnjf-uwe-vUU3As2ni1wsCATf1FE4ej9HUx3dw&oe=65137A8C',
+        'https://www.youtube.com/watch?v=0Sj8N9KTtds&ab_channel=UNAHUR',
       title: 'imagen',
     },
   },
