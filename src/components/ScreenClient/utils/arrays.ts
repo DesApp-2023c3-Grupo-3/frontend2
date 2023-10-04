@@ -14,12 +14,10 @@ export function itsArrayWithVideos(array: DataAdvertising[]) {
 }
 
 export function splitList(array: DataAdvertising[]) {
-  if(itsArrayWithVideos(array)) {
+  if(itsArrayWithVideos(array))
     return splitListWithVideos(array)
-  }
-  else {
+  else 
     return splitListWithoutVideos(array)
-  }
 }
 
 function splitListWithoutVideos(array: DataAdvertising[]) {
