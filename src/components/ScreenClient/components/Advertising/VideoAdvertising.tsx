@@ -1,5 +1,6 @@
 import YouTube from 'react-youtube';
 import { obtenerIDdeVideo } from '../../utils/strings';
+import '../../index.css';
 
 export default function AdvertisingVideo({
   payload,
@@ -15,7 +16,7 @@ export default function AdvertisingVideo({
   const opts = {
     playerVars: {
       autoplay: 1,
-      controls: 0,
+      controls: 1,
       mute: 1,
     },
   };
