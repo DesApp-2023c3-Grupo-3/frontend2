@@ -1,7 +1,7 @@
 const HOST = 'localhost';
 const PORT = 1234;
 
-export const initializeSocketConnection = async (onMessageAction: any): Promise<WebSocket> => {
+export const initializeSocketConnection = async (screenId: number, onMessageAction: any): Promise<WebSocket> => {
     try {
       const wsUrl = `ws://${HOST}:${PORT}`;
       const ws = new WebSocket(wsUrl)
@@ -9,7 +9,7 @@ export const initializeSocketConnection = async (onMessageAction: any): Promise<
       ws.addEventListener('open', () => {
         console.log(`WebSocket Connected ${wsUrl}`);
         ws.send(JSON.stringify({
-          sectorId: 1,
+          sectorId: screenId,
           message: 'Hi! This is a client'
         }));
       });
