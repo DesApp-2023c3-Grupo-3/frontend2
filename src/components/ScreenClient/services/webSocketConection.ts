@@ -12,7 +12,7 @@ export const initializeSocketConnection = async (
       console.log(`WebSocket Connected ${wsUrl}`);
       ws.send(
         JSON.stringify({
-          sectorId: 1,
+          screenId: 1, // TODO: Implementar multiples pantallas.
           message: 'Hi! This is a client',
         }),
       );
