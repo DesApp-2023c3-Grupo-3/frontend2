@@ -1,0 +1,46 @@
+@tailwind base
+@tailwind components
+@tailwind utilities
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;0,9..40,900;1,9..40,100&display=swap')
+@import url('https://fonts.googleapis.com/css2?family=Itim&display=swap')
+
+:root
+  color: #484848
+  font-family: 'DM Sans', sans-serif
+
+.login
+  img
+    object-fit: contain
+
+  input
+    background: #ffffffd0
+    border-radius: 10rem
+    color: #575656
+    padding: 0.6rem 1.7rem
+    width: 100%
+    outline: none
+
+    &::placeholder
+      font-family: 'DM Sans', sans-serif
+      color: #181A1C
+      opacity: 0.4
+      font-size: 0.875rem
+
+  button
+    background: #2C9CBFff
+    border: 1px solid #2C9CBF
+    border-radius: 10rem
+    padding: 0.6rem 1.7rem
+    transition-duration: 200ms
+
+    &:hover
+      filter: contrast(0.6) brightness(1.2)
+
+  .line
+    background: linear-gradient(270deg, #2C9CBF 4.71%, #74C91E 50.03%)
+    height: 10px
+
+    &.thin
+      height: 6px
+
+
