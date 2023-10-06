@@ -16,6 +16,7 @@ export const initializeSocketConnection = async (screenId: number, onMessageActi
       
       ws.addEventListener('message', (message) => {
         onMessageAction(JSON.parse(message.data));
+        console.log(message)
       });
   
       ws.addEventListener('error', (error) => {
