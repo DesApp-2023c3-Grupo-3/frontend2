@@ -1,9 +1,9 @@
-const HOST = 'localhost';
-const PORT = 1234;
+const HOST = process.env.REACT_APP_WEBSOCKET_HOST  || window.location.hostname;
+const PORT = process.env.REACT_APP_WEBSOCKET_PORT|| window.location.port;
 
 export const initializeSocketConnection = async (screenId: number, onMessageAction: any): Promise<WebSocket> => {
     try {
-      const wsUrl = `ws://${HOST}:${PORT}`;
+      const wsUrl = `ws://${HOST}:${PORT}/messaging`;
       const ws = new WebSocket(wsUrl)
   
       ws.addEventListener('open', () => {

@@ -1,7 +1,9 @@
+import MainAdvertising from '../components/MainAvisos/MainAdvertising';
+
 function Avisos() {
   return (
-    <section className='h-screen flex flex-row'>
-      <h1>Avisos</h1>
+    <section className="h-screen flex flex-row">
+      <MainAdvertising />
     </section>
   );
 }
