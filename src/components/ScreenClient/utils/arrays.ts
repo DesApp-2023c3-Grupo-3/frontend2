@@ -20,10 +20,12 @@ export function splitList(array: DataAdvertising[]) {
     return splitListWithoutVideos(array)
 }
 
-function splitListWithoutVideos(array: DataAdvertising[]) {
-  const half = Math.ceil(array.length / 2);
-  const firstHalf = array.splice(0, half);
-  const secondHalf = array.splice(0, array.length);
+export function splitListWithoutVideos(array: DataAdvertising[]) {
+  const newList = array.filter(element => element.advertisingTypeId !== 2)
+
+  const half = Math.ceil(newList.length / 2);
+  const firstHalf = newList.splice(0, half);
+  const secondHalf = newList.splice(0, newList.length);
 
   return [firstHalf, secondHalf];
 }
