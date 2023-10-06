@@ -25,6 +25,7 @@ function AdvertisingCard({
         <AdvertisingVideo
           payload={selectedItem.payload}
           changeSelectedItem={changeSelectedItem}
+          sx="h-[65%] w-full p-1"
         />
       ) : (
         <AdvertisingType item={selectedItem} />

@@ -2,6 +2,7 @@ import { useSocketStore } from '../../store/socketStore';
 import { splitListWithoutVideos } from '../../utils/arrays';
 import Advertising from '../Advertising/Advertising';
 import AdvertisingCard from '../Advertising/AdvertisingCard';
+import Video from '../Video/Video';
 
 export default function VideoBillboard() {
   const advertisingMessages = useSocketStore((state) =>
@@ -15,6 +16,7 @@ export default function VideoBillboard() {
         <AdvertisingCard sx="rounded-br-2xl" messages={first} />
         <AdvertisingCard sx="rounded-tr-2xl" messages={second} />
       </Advertising>
+      <Video />
     </main>
   );
 }
