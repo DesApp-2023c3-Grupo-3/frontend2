@@ -9,12 +9,12 @@ export const filterMessages = (messages: Message[], topic: string) => {
   return advertisingMessages.map((message) => message.data);
 };
 
-export function itsArrayWithVideos(array: DataAdvertising[]) {
+export function isArrayWithVideos(array: DataAdvertising[]) {
   return array.some(element => element.advertisingTypeId === ADVERTISING_TYPE_VIDEO)
 }
 
 export function splitList(array: DataAdvertising[]) {
-  if(itsArrayWithVideos(array))
+  if(isArrayWithVideos(array))
     return splitListWithVideos(array)
   else 
     return splitListWithoutVideos(array)

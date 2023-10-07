@@ -1,6 +1,6 @@
 import { DataAdvertising } from '../../store/socketStore';
 import { useCarousel } from '../../hooks/useCarousel';
-import { itsArrayWithVideos } from '../../utils/arrays';
+import { isArrayWithVideos } from '../../utils/arrays';
 import AdvertisingItem from './ItemAdvertising';
 import AdvertisingVideo from './VideoAdvertising';
 import AdvertisingType from './TypeAdvertising';
@@ -21,7 +21,7 @@ function AdvertisingCard({
 
   return (
     <AdvertisingItem messages={messages} sx={sx} selectedIndex={selectedIndex}>
-      {itsArrayWithVideos(messages) ? (
+      {isArrayWithVideos(messages) ? (
         <AdvertisingVideo
           payload={selectedItem.payload}
           changeSelectedItem={changeSelectedItem}
