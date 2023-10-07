@@ -3,7 +3,7 @@ import { useConnectionSocket } from '../hooks/useConnectionSocket';
 import CourseBillboard from './Billboard/CourseBillboard';
 import VideoBillboard from './Billboard/VideoBillboard';
 
-const PANTALLA: number = 1;
+const PANTALLA: number = 2;
 
 function ScreenClient() {
   const { socketConnection } = useConnectionSocket();

@@ -4,7 +4,7 @@ import TableCourse from './TableCourse';
 
 function Courses() {
   return (
-    <section className="h-screen col-start-4 col-end-13 bg-white flex flex-col justify-between">
+    <section className="h-screen col-start-7 col-end-21 bg-white flex flex-col justify-between">
       <div>
         <Header />
         <TableCourse />

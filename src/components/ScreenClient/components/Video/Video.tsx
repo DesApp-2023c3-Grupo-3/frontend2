@@ -18,7 +18,7 @@ export default function Video() {
   );
 
   return (
-    <section className="h-screen col-start-4 col-end-13 bg-white flex flex-col justify-between">
+    <section className="h-screen col-start-7 col-end-21 bg-white flex flex-col justify-between">
       <Header />
       <article className="h-full w-full p-2 mx-auto">
         <main className="h-full w-full shadow-[0px_0px_10px_rgba(0,0,0,0.15)] rounded-xl overflow-hidden">
