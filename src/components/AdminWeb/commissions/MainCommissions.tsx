@@ -1,9 +1,10 @@
 import './comisiones.sass'
-//import TableMain from '../components/Table/TableMain';
-import Table from '../components/Table/Table';
+import TableMain from './Table/TableMain';
+//import Table from './Table/TableMain';
 import { useState } from 'react';
 import commissionData from '../mock/commisionData.json';
 import { Commission } from '../types/customTypes';
+import ModalCreateCommission from './modal/ModalCreateCommission';
 
 function MainCommissions() {
   const [commissionsJSON, setCommissionsJSON] = useState(commissionData as Commission[]);
@@ -53,11 +54,13 @@ function MainCommissions() {
         <h1 className="text-[4rem] font-[700] text-[#484848] tracking-[-1.28px] mt-[20px]">
           Comisiones
         </h1>
-        {/*<TableMain commisionsJSON={commissionsJSON} />*/}
-        <Table headerRow={["Materia","Comision","Aula","Horario"]}/>
-        <div className="flex justify-end">
-          {/** Boton para insertar un excel con las nuevas comisiones **/}
-          <span>boton</span>
+        <div className='mt-[-70px] mr-[4.8%]'>
+          {/*<TableMain commisionsJSON={commissionsJSON} />*/}
+          <TableMain commissionsJSON={commissionsJSON}/>
+          <div className="flex justify-end">
+            {/** Boton para insertar un excel con las nuevas comisiones **/}
+            <ModalCreateCommission createCommission={addNewCommission} />
+        </div>
         </div>
       </div>
   );

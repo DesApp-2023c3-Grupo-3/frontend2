@@ -5,7 +5,7 @@ import SearchBar from './SearchBar';
 import TableCommisions from './TableCommisions';
 import { Commission } from '../../types/customTypes';
 
-function TableMain({ commisionsJSON }: { commisionsJSON: Commission[] }) {
+function TableMain({ commissionsJSON }: { commissionsJSON: Commission[] }) {
   //filas por pagina
   const [itemsPerPage, setItemsPerPage] = useState(7);
 
@@ -45,7 +45,7 @@ function TableMain({ commisionsJSON }: { commisionsJSON: Commission[] }) {
     setCurrentPage(1);
   };
 
-  const filteredData = commisionsJSON.filter((commision) =>
+  const filteredData = commissionsJSON.filter((commision) =>
     commision.name.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
