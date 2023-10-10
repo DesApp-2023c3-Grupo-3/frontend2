@@ -1,8 +1,9 @@
-import { useSocketStore } from '../../store/socketStore';
-import { splitList } from '../../utils/arrays';
-import Advertising from '../Advertising/Advertising';
-import AdvertisingCard from '../Advertising/AdvertisingCard';
-import Courses from '../Course/Courses';
+import { useSocketStore } from '../../../store/socketStore';
+import { splitList } from '../../../utils/arrays';
+import Advertising from '../../../styled-components/Advertising';
+import AdvertisingCard from '../../Advertising/AdvertisingCard';
+import Courses from './Courses';
+import MainBillboard from '../../../styled-components/MainBillboard';
 
 export default function CourseBillboard() {
   const advertisingMessages = useSocketStore((state) =>
@@ -11,12 +12,12 @@ export default function CourseBillboard() {
   const [first, second] = splitList(advertisingMessages);
 
   return (
-    <main className="bg-[#D9D9D9] h-screen grid grid-cols-20 gap-[1vh]">
+    <MainBillboard>
       <Advertising>
         <AdvertisingCard sx="rounded-br-2xl" messages={first} />
         <AdvertisingCard sx="rounded-tr-2xl" messages={second} />
       </Advertising>
       <Courses />
-    </main>
+    </MainBillboard>
   );
 }

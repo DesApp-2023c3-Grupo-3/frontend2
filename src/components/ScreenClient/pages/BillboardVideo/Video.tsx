@@ -1,8 +1,9 @@
 import { useCarousel } from '../../hooks/useCarousel';
 import { useSocketStore } from '../../store/socketStore';
 import AdvertisingVideo from '../Advertising/VideoAdvertising';
-import Footer from '../Course/Footer';
-import Header from '../Course/Header';
+import Footer from '../../styled-components/Footer';
+import Header from '../../styled-components/Header';
+import BillboardCard from '../../styled-components/BillboardCard';
 
 export default function Video() {
   const advertisingMessages = useSocketStore((state) =>
@@ -18,7 +19,7 @@ export default function Video() {
   );
 
   return (
-    <section className="h-screen col-start-7 col-end-21 bg-white flex flex-col justify-between">
+    <BillboardCard>
       <Header />
       <article className="h-full w-full p-2 mx-auto">
         <main className="h-full w-full shadow-[0px_0px_10px_rgba(0,0,0,0.15)] rounded-xl overflow-hidden">
@@ -30,6 +31,6 @@ export default function Video() {
         </main>
       </article>
       <Footer />
-    </section>
+    </BillboardCard>
   );
 }

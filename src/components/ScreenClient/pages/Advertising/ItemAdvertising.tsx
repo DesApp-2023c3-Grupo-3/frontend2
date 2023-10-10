@@ -1,5 +1,5 @@
 import { DataAdvertising } from '../../store/socketStore';
-import Dots from '../Dots';
+import Dots from '../../components/Dots';
 import unahur from '../../assets/unahur.png';
 
 export default function AdvertisingItem({
