@@ -10,7 +10,6 @@ function AdminWeb() {
   return (
     <section className="h-screen flex flex-row">
       <Navbar />
-      <h1>Admin Web</h1>
       <Routes>
         <Route path="/advertising" element={<Avisos />} />
         <Route path="/comission" element={<Comisiones />} />

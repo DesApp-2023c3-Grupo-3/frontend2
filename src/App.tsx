@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
+import './components/AdminWeb/AdminWeb.sass';
 import ScreenClient from './components/ScreenClient/components/ScreenClient';
 import AdminWeb from './components/AdminWeb/AdminWeb';
 import LoginScreen from './components/LoginScreen/LoginScreen';
