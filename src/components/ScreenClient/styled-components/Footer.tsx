@@ -1,4 +1,4 @@
-import qr from '../../assets/qr.png';
+import qr from '../assets/qr.png';
 
 function Footer() {
   return (

@@ -11,7 +11,7 @@ function TableCourse(props: any) {
   const courseMessages = useSocketStore((state) => state.getCoursesMessages());
   const courseMessagesCarousel = carouselTableArray(
     sortCourse(courseMessages),
-    11,
+    10,
   );
 
   const { selectedIndex, selectedItem } = useCarousel(
@@ -22,7 +22,7 @@ function TableCourse(props: any) {
   return (
     <main className="p-[2vh] pb-0">
       <div className="relative overflow-x-auto rounded-lg">
-        <table className="w-full bg-[#74B235] text-center text-[3.3vh]">
+        <table className="w-full bg-[#74B235] text-center text-[3.7vh]">
           <thead className="text-white uppercase">
             <tr>
               <th className="font-normal w-1/4" scope="col">

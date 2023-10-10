@@ -1,4 +1,4 @@
-import logoUnahur from '../../assets/UNAHUR 1.png';
+import logoUnahur from '../assets/UNAHUR 1.png';
 import Clock from './Date';
 
 function Header() {

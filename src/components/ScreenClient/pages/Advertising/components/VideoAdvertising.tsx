@@ -1,6 +1,6 @@
 import YouTube from 'react-youtube';
 import { obtenerIDdeVideo } from '../../../utils/strings';
-import '../../index.css';
+import '../../../index.css';
 
 export default function AdvertisingVideo({
   payload,
