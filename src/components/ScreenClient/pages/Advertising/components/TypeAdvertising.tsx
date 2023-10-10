@@ -1,4 +1,4 @@
-import { DataAdvertising } from '../../store/socketStore';
+import { DataAdvertising } from '../../../store/socketStore';
 import AdvertisingImage from './ImageAdvertising';
 import AdvertisingText from './TextAdvertising';
 

@@ -1,9 +1,9 @@
-import { useCarousel } from '../../hooks/useCarousel';
-import { useSocketStore } from '../../store/socketStore';
-import AdvertisingVideo from '../Advertising/VideoAdvertising';
-import Footer from '../../styled-components/Footer';
-import Header from '../../styled-components/Header';
-import BillboardCard from '../../styled-components/BillboardCard';
+import { useCarousel } from '../../../hooks/useCarousel';
+import { useSocketStore } from '../../../store/socketStore';
+import AdvertisingVideo from '../../Advertising/components/VideoAdvertising';
+import Footer from '../../../styled-components/Footer';
+import Header from '../../../styled-components/Header';
+import BillboardCard from '../../../styled-components/BillboardCard';
 
 export default function Video() {
   const advertisingMessages = useSocketStore((state) =>

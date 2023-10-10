@@ -1,7 +1,7 @@
 import { CircularProgress } from '@mui/material';
 import { useConnectionSocket } from '../hooks/useConnectionSocket';
 import CourseBillboard from '../pages/BillBoardCourse/components/CourseBillboard';
-import VideoBillboard from '../pages/BillboardVideo/VideoBillboard';
+import VideoBillboard from '../pages/BillboardVideo/components/VideoBillboard';
 
 const PANTALLA: number = 1;
 

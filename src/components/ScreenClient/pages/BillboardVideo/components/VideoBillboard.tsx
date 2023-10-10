@@ -1,9 +1,9 @@
-import { useSocketStore } from '../../store/socketStore';
-import { splitListWithoutVideos } from '../../utils/arrays';
-import Advertising from '../../styled-components/Advertising';
-import AdvertisingCard from '../Advertising/AdvertisingCard';
+import { useSocketStore } from '../../../store/socketStore';
+import { splitListWithoutVideos } from '../../../utils/arrays';
+import Advertising from '../../../styled-components/Advertising';
+import AdvertisingCard from '../../Advertising/components/AdvertisingCard';
 import Video from './Video';
-import MainBillboard from '../../styled-components/MainBillboard';
+import MainBillboard from '../../../styled-components/MainBillboard';
 
 export default function VideoBillboard() {
   const advertisingMessages = useSocketStore((state) =>

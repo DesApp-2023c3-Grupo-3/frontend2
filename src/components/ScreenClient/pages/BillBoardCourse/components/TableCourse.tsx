@@ -3,7 +3,7 @@ import { useCarousel } from '../../../hooks/useCarousel';
 import { useSocketStore } from '../../../store/socketStore';
 import Dots from '../../../components/Dots';
 import { carouselTableArray } from '../../../utils/carousel';
-import { sortCourse } from './utils/sortCourse.utils';
+import { sortCourse } from '../utils/sortCourse.utils';
 
 const TIME_CAROUSEL_COURSES = 10;
 
