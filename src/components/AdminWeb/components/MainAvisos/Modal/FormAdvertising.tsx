@@ -8,6 +8,24 @@ import React, { useState } from 'react';
 import { Advertising } from '../../../types/customTypes';
 import { abbreviateSectorName } from '../../../utils/AbbreviateSectorName';
 import Swal from 'sweetalert2';
+import './modal.sass';
+import dayjs from 'dayjs';
+
+function messageError(message: string) {
+  Swal.fire({
+    icon: 'error',
+    title: 'Oops...',
+    text: message,
+    confirmButtonColor: '#2C9CBF',
+  });
+}
+
+function validationDate(start: Date | null, end: Date | null) {
+  return (
+    dayjs(start).format() === 'Invalid Date' ||
+    dayjs(end).format() === 'Invalid Date'
+  );
+}
 
 interface FormAdvertisingProps {
   advertisingsJSON: Advertising[];
@@ -20,16 +38,33 @@ function FormAdvertising({
   setAdvertisingsJSON,
   onCloseClick,
 }: FormAdvertisingProps) {
+  const [emptyFields, setEmptyFields] = useState({
+    advertisingName: false,
+    selectedSector: false,
+    selectedDays: false,
+    date: false,
+    hour: false,
+  });
+
   const handleSendAdvertisingClick = () => {
+    const emptyFieldsUpdate = {
+      advertisingName: advertisingName === '',
+      selectedSector: selectedSector.length === 0,
+      selectedDays: selectedDays.length === 0,
+      date: validationDate(startDate, endDate),
+      hour: validationDate(startHour, endHour),
+    };
+    setEmptyFields(emptyFieldsUpdate);
+
     const locale = 'es-AR';
     //fecha
-    var startDay: string | null = null;
+    var startDay: Date | null = null;
     if (startDate !== null) {
-      startDay = startDate.format('DD-MM-YYYY');
+      startDay = startDate;
     }
-    var endDay: string | null = null;
+    var endDay: Date | null = null;
     if (endDate !== null) {
-      endDay = endDate.format('DD-MM-YYYY');
+      endDay = endDate;
     }
 
     //hora
@@ -111,28 +146,40 @@ function FormAdvertising({
       });
     }
 
+    //VALIDACIONES
+    const emptyFieldsList: string[] = [];
+
     if (
-      !advertisingName ||
-      selectedSector.length === 0 ||
-      selectedDays.length === 0 ||
-      advertisingName.length === 0 ||
-      startDate === null ||
-      endDate === null ||
-      startHour === null ||
-      endHour === null
+      emptyFields.advertisingName === false &&
+      !emptyFieldsList.includes('Nombre del aviso')
     ) {
-      //advertencia
-      Swal.fire({
-        title: 'Hay campos sin completar. ¿Deseas crear el aviso igual?',
-        showDenyButton: true,
-        confirmButtonText: 'Si',
-        denyButtonText: `No`,
-        confirmButtonColor: '#2C9CBF',
-      }).then((result) => {
-        if (result.isConfirmed) {
-          CreateAdvetising();
-        }
-      });
+      emptyFieldsList.push('Nombre del aviso');
+    }
+    if (
+      emptyFields.selectedSector === false &&
+      !emptyFieldsList.includes('Sectores')
+    ) {
+      emptyFieldsList.push('Sectores');
+    }
+
+    const hayEmptyFields =
+      Object.values(emptyFieldsUpdate).filter((value) => value).length > 1;
+
+    if (hayEmptyFields) {
+      //Faltaría agregar una lista de los campos que estan incompletos y ponerlo en el mensaje de error.
+      messageError('Hay campos incompletos.');
+    } else if (!advertisingName) {
+      messageError('Falta completar el nombre del aviso.');
+    } else if (selectedSector.length === 0) {
+      messageError('Falta completar los sectores.');
+    } else if (validationDate(startDate, endDate)) {
+      messageError('Falta completar las fechas del aviso.');
+    } else if (selectedDays.length === 0) {
+      messageError('Falta seleccionar los días de la semana.');
+    } else if (validationDate(startHour, endHour)) {
+      messageError('Falta completar el horario de los avisos.');
+    } else if (endDate !== null && startDate !== null && endDate <= startDate) {
+      messageError('La fecha final no debe ser anterior a la de inicio.');
     } else {
       CreateAdvetising();
     }
@@ -154,8 +201,8 @@ function FormAdvertising({
   };
 
   //fechas del aviso
-  const [startDate, setStartDate] = useState<any>(null);
-  const [endDate, setEndDate] = useState<any>(null);
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
 
   const handleStartDateChange = (newStartDate: Date) => {
     setStartDate(newStartDate);
@@ -193,13 +240,17 @@ function FormAdvertising({
             id="advertisingName"
             type="text"
             placeholder="Nombre del aviso..."
-            className="text-[20px] font-[400] tracking-[-0.4px] rounded-[30px] bg-[#D9D9D9] flex w-[365px] h-[50px] px-[40px] py-[12px] items-center"
+            className={`text-[20px] font-[400] tracking-[-0.4px] rounded-[30px] bg-[#D9D9D9] flex w-[365px] h-[50px] px-[40px] py-[12px] items-center ${
+              emptyFields.advertisingName ? 'invalid-field' : ''
+            }`}
             value={advertisingName}
             onChange={(e) => setAdvertisingName(e.target.value)}
           ></input>
+
           <Sectores
             selectedSector={selectedSector}
             onSelectedSectorChange={handleSelectedSectorChange}
+            campos={emptyFields}
           />
         </div>
         <div className="flex justify-between">

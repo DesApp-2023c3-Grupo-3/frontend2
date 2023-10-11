@@ -34,24 +34,25 @@ function DatePickerDays({
         <DemoContainer components={['Inicio', 'Final']}>
           <DatePicker
             disablePast
-            className=" w-[100px] text-b"
+            className="w-[100px]"
             value={selectedDateInit}
             onChange={(newDate: Date | null) => {
               if (newDate !== null) {
                 handleStartDateChange(newDate);
               }
             }}
-            label="Inicio"
+            label="Fecha de Inicio"
           />
           <DatePicker
-            className=" w-[100px] text-b"
+            disablePast
+            className="w-[100px]"
             value={selectedDateFinal}
             onChange={(newDate: any) => {
               if (newDate !== null) {
                 handleEndDateChange(newDate);
               }
             }}
-            label="Final"
+            label="Fecha Final"
             minDate={selectedDateInit || undefined}
           />
         </DemoContainer>
