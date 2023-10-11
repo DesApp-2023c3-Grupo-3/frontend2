@@ -5,8 +5,8 @@ import VideoBillboard from '../pages/BillboardVideo/components/VideoBillboard';
 
 const PANTALLA: number = 1;
 
-function ScreenClient() {
-  const { socketConnection } = useConnectionSocket();
+function ScreenClient({ screenId }: { screenId: number }) {
+  const { socketConnection, error } = useConnectionSocket(screenId);
 
   return socketConnection ? (
     PANTALLA === 1 ? (

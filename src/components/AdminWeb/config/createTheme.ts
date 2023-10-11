@@ -3,8 +3,8 @@ import { esES } from '@mui/x-date-pickers/locales';
 
 //Acá se configura el theme de la libreria material ui
 
-const theme = createTheme({
-  
+const theme = createTheme(
+  {
     palette: {
       primary: {
         main: '#2C9CBF',
@@ -17,4 +17,4 @@ const theme = createTheme({
   esES,
 );
 
-export default theme
+export default theme;
