@@ -20,7 +20,7 @@ export function useConnectionSocket(screenId: number) {
       .catch((error) => {
         setError(error);
       });
-  }, []);
+  }, [screenId]);
 
   return { socketConnection, error };
 }
