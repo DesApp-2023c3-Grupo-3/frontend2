@@ -1,70 +1,59 @@
 import './LoginScreen.sass';
 import unahurLogo from './assets/unahur.png';
-<<<<<<< HEAD
 import { FormEvent, useRef, useState } from 'react';
-import { useNavigate } from "react-router-dom";
-=======
-import { FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import React from 'react';
->>>>>>> bf0eaf89fe6b36e069738dd71e654d7d788b4230
 
 function LoginScreen({ setScreenId }: { setScreenId: any }) {
   const navigate = useNavigate();
-  const usernameRef = useRef<HTMLInputElement>(null)
-  const passwordRef = useRef<HTMLInputElement>(null)
-  const screenIdRef = useRef<HTMLInputElement>(null)
-  const [invalidNotice, setInvalidNotice] = useState('')
+  const usernameRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
+  const screenIdRef = useRef<HTMLInputElement>(null);
+  const [invalidNotice, setInvalidNotice] = useState('');
 
   const handleSubmit = (e: FormEvent) => {
-<<<<<<< HEAD
-    e.preventDefault()
+    e.preventDefault();
     // TODO Validacion screen
-    if(invalidScreenId()) { setInvalidNotice('El código de pantalla es invalido.'); return }
-    if(screenIdRef.current?.value.trim() !== '') { navigateToScreen(); return }
+    if (invalidScreenId()) {
+      setInvalidNotice('El código de pantalla es invalido.');
+      return;
+    }
+    if (screenIdRef.current?.value.trim() !== '') {
+      navigateToScreen();
+      return;
+    }
 
     // Validacion login
-    if(invalidUsername()) { setInvalidNotice('No se ha encontrado el usuario.'); return }
-    if(invalidPassword()) { setInvalidNotice('La contraseña es incorrecta.'); return }
+    if (invalidUsername()) {
+      setInvalidNotice('No se ha encontrado el usuario.');
+      return;
+    }
+    if (invalidPassword()) {
+      setInvalidNotice('La contraseña es incorrecta.');
+      return;
+    }
 
     // TODO Login para ingresar a AdminWeb
-    navigate('/admin')
-  }
+    navigate('/admin');
+  };
 
   const invalidUsername = () => {
-    return (usernameRef.current?.value.trim() === '')
-  }
+    return usernameRef.current?.value.trim() === '';
+  };
 
   const invalidPassword = () => {
-    return (passwordRef.current?.value.trim() === '')
-  }
+    return passwordRef.current?.value.trim() === '';
+  };
 
   const invalidScreenId = () => {
-    return (passwordRef.current?.value.trim() === '1')
-  }
+    return passwordRef.current?.value.trim() === '1';
+  };
 
   const navigateToScreen = () => {
     // Intento de conexion ID pantalla
     // TODO Vista de error
-    setScreenId(screenIdRef.current?.value || 1)
-    navigate('/screen')
-  }
-=======
-    e.preventDefault();
-
-    // TODO Validacion de datos
-    // TODO Login para ingresar a AdminWeb
-    //
-    // Intento de conexion ID pantalla
-    // TODO Vista de error
-    setScreenId(newScreenId);
+    setScreenId(screenIdRef.current?.value || 1);
     navigate('/screen');
   };
-
-  const onChangeScreenId = (e: React.FormEvent<HTMLInputElement>) => {
-    setNewScreenId(parseInt(e.currentTarget.value));
-  };
->>>>>>> bf0eaf89fe6b36e069738dd71e654d7d788b4230
 
   return (
     <section className="flex flex-row login">
@@ -88,36 +77,35 @@ function LoginScreen({ setScreenId }: { setScreenId: any }) {
         <span className="text-sm mt-8 opacity-80">
           Inicia sesión con tus datos
         </span>
-<<<<<<< HEAD
-        <form onSubmit={(e) => handleSubmit(e)} className="flex flex-col mt-4 gap-4 w-max">
-          <input type="text" placeholder="Nombre de usuario" name="username" ref={usernameRef}/>
-          <input type="password" placeholder="Contraseña" name="password" ref={passwordRef}/>
-          <span className="text-sm text-center mt-4 opacity-80">
-            O ingrese el código de pantalla
-          </span>
-          <input type="number" placeholder="ID de pantalla" name="screen-id" ref={screenIdRef}/>
-          <button type="submit" className="mt-4 font-bold">Ingresar</button>
-          <span>{invalidNotice}</span>
-=======
         <form
           onSubmit={(e) => handleSubmit(e)}
           className="flex flex-col mt-4 gap-4 w-max"
         >
-          <input type="text" placeholder="Nombre de usuario" name="username" />
-          <input type="password" placeholder="Contraseña" name="password" />
+          <input
+            type="text"
+            placeholder="Nombre de usuario"
+            name="username"
+            ref={usernameRef}
+          />
+          <input
+            type="password"
+            placeholder="Contraseña"
+            name="password"
+            ref={passwordRef}
+          />
           <span className="text-sm text-center mt-4 opacity-80">
             O ingrese el código de pantalla
           </span>
           <input
-            type="text"
+            type="number"
             placeholder="ID de pantalla"
             name="screen-id"
-            onChange={(e) => onChangeScreenId(e)}
+            ref={screenIdRef}
           />
           <button type="submit" className="mt-4 font-bold">
             Ingresar
           </button>
->>>>>>> bf0eaf89fe6b36e069738dd71e654d7d788b4230
+          <span>{invalidNotice}</span>
         </form>
         <img
           src={unahurLogo}

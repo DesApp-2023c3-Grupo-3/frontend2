@@ -12,11 +12,6 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-<<<<<<< HEAD
-        <Route path="/" element={<LoginScreen setScreenId={setCurrentScreenId}/>}/>
-        <Route path="/screen" element={<ScreenClient screenId={currentScreenId}/>} />
-        <Route path="/admin/*" element={<AdminWeb/>} />
-=======
         <Route
           path="/"
           element={<LoginScreen setScreenId={setCurrentScreenId} />}
@@ -26,7 +21,6 @@ function App() {
           element={<ScreenClient screenId={currentScreenId} />}
         />
         <Route path="/admin/*" element={<AdminWeb />} />
->>>>>>> bf0eaf89fe6b36e069738dd71e654d7d788b4230
       </Routes>
     </BrowserRouter>
   );
