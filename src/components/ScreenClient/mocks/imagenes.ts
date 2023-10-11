@@ -3,6 +3,17 @@ import { Message } from '../store/socketStore';
 export const messages: Message[] = [
   {
     topic: 'advertising',
+    id: 6,
+    data: {
+      advertisingTypeId: 3,
+      id: 3,
+      payload:
+        'El lunes no hay clases',
+      title: 'a',
+    },
+  },
+  {
+    topic: 'advertising',
     id: 1,
     data: {
       advertisingTypeId: 1,
@@ -19,18 +30,18 @@ export const messages: Message[] = [
       advertisingTypeId: 2,
       id: 2,
       payload:
-        'https://scontent.faep6-2.fna.fbcdn.net/v/t31.18172-8/13112781_624446374375001_2195262184704713823_o.jpg?_nc_cat=105&ccb=1-7&_nc_sid=9267fe&_nc_ohc=zHBi3p90ZigAX-Dc4Un&_nc_oc=AQkH5EWd0ARN_PqTAawDaAmiw4Or8WsxDmN9wqau7-SCUa5mzW1dk9STuI-1wG5o9t8&_nc_ht=scontent.faep6-2.fna&oh=00_AfBotNlUrBNwWrmb5jedd7F8wRCLJphWKsEuNKRsNHxo-w&oe=65309FA8',
-      title: 'imagen',
+       'https://www.youtube.com/watch?v=K8gihOKBo2k&ab_channel=UNAHUR',
+      title: 'imagen'
     },
   },
   {
     topic: 'advertising',
     id: 4,
     data: {
-      advertisingTypeId: 1,
+      advertisingTypeId: 2,
       id: 1,
       payload:
-        'https://scontent.faep6-2.fna.fbcdn.net/v/t39.30808-6/380356453_325363286828458_4330202494216748796_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=49d041&_nc_ohc=C4UIyQv59kAAX9AP8Zw&_nc_ht=scontent.faep6-2.fna&oh=00_AfCRgDqFMnjf-uwe-vUU3As2ni1wsCATf1FE4ej9HUx3dw&oe=65137A8C',
+        'https://www.youtube.com/watch?v=0Sj8N9KTtds&ab_channel=UNAHUR',
       title: 'imagen',
     },
   },
@@ -38,21 +49,10 @@ export const messages: Message[] = [
     topic: 'advertising',
     id: 5,
     data: {
-      advertisingTypeId: 2,
+      advertisingTypeId: 3,
       id: 2,
       payload:
-        'https://scontent.faep6-2.fna.fbcdn.net/v/t39.30808-6/298783990_2278402482312707_4850028475573520592_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=5614bc&_nc_ohc=upCRgwWbNrQAX-Jcsa0&_nc_ht=scontent.faep6-2.fna&oh=00_AfC3H5VYIli8c9aQ9OT24J18KP_OaJhXSED9ObY_Jppsng&oe=6514CAB5',
-      title: 'imagen',
-    },
-  },
-  {
-    topic: 'advertising',
-    id: 6,
-    data: {
-      advertisingTypeId: 3,
-      id: 3,
-      payload:
-        'https://scontent.faep6-2.fna.fbcdn.net/v/t1.6435-9/159472388_1882929298526696_7583018956572717383_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=730e14&_nc_ohc=rVmC4UfIAhYAX-LFjVQ&_nc_ht=scontent.faep6-2.fna&oh=00_AfCyCkmNfXvWIEYcznZnmJtBNhbwk9PZMUVQF-jdngfl7Q&oe=6536B4B4',
+        'Se cancelo la clase de Matemáticas I ya que no viene el profesor, saludos',
       title: 'imagen',
     },
   },
