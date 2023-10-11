@@ -2,6 +2,32 @@ import { Message } from '../store/socketStore';
 
 export const messages: Message[] = [
   {
+    topic: 'connection',
+    id: 12,
+    data: {
+      screen: {
+        subscription: 'default',
+        templeteId: '1',
+        courseIntervalTime: 15,
+        advertisingIntervalTime: 15,
+        sector: 1,
+      },
+    },
+  },
+  {
+    topic: 'connection',
+    id: 13,
+    data: {
+      screen: {
+        subscription: 'default',
+        templeteId: '1',
+        courseIntervalTime: 20,
+        advertisingIntervalTime: 25,
+        sector: 1,
+      },
+    },
+  },
+  {
     topic: 'advertising',
     id: 6,
     data: {
