@@ -1,17 +1,21 @@
+import { CircularProgress } from '@mui/material';
 import { useConnectionSocket } from '../hooks/useConnectionSocket';
-import Advertising from './Advertising/Advertising';
-import Courses from './Course/Courses';
+import CourseBillboard from '../pages/BillBoardCourse/components/CourseBillboard';
+import VideoBillboard from '../pages/BillboardVideo/components/VideoBillboard';
 
-function ScreenClient() {
-  const { socketConnection, error } = useConnectionSocket();
+const PANTALLA: number = 1;
 
-  console.log(socketConnection?.url, error);
+function ScreenClient({ screenId }: { screenId: number }) {
+  const { socketConnection, error } = useConnectionSocket(screenId);
 
-  return (
-    <main className="bg-[#D9D9D9] h-screen grid grid-cols-12 gap-[0.5%]">
-      <Advertising />
-      <Courses />
-    </main>
+  return socketConnection ? (
+    PANTALLA === 1 ? (
+      <CourseBillboard />
+    ) : (
+      <VideoBillboard />
+    )
+  ) : (
+    <CircularProgress />
   );
 }
 
