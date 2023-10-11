@@ -3,7 +3,7 @@ const PORT = process.env.REACT_APP_WEBSOCKET_PORT|| window.location.port;
 
 export const initializeSocketConnection = async (screenId: number, onMessageAction: any): Promise<WebSocket> => {
     try {
-      const wsUrl = `ws://${HOST}:${PORT}`;
+      const wsUrl = `ws://${HOST}:${PORT}/messaging`;
       const ws = new WebSocket(wsUrl)
   
       ws.addEventListener('open', () => {
@@ -16,6 +16,7 @@ export const initializeSocketConnection = async (screenId: number, onMessageActi
       
       ws.addEventListener('message', (message) => {
         onMessageAction(JSON.parse(message.data));
+        console.log(message)
       });
   
       ws.addEventListener('error', (error) => {

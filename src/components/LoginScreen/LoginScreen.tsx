@@ -1,9 +1,15 @@
 import './LoginScreen.sass';
 import unahurLogo from './assets/unahur.png';
+<<<<<<< HEAD
 import { FormEvent, useRef, useState } from 'react';
 import { useNavigate } from "react-router-dom";
+=======
+import { FormEvent, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import React from 'react';
+>>>>>>> bf0eaf89fe6b36e069738dd71e654d7d788b4230
 
-function LoginScreen({setScreenId}: {setScreenId: any}) {
+function LoginScreen({ setScreenId }: { setScreenId: any }) {
   const navigate = useNavigate();
   const usernameRef = useRef<HTMLInputElement>(null)
   const passwordRef = useRef<HTMLInputElement>(null)
@@ -11,6 +17,7 @@ function LoginScreen({setScreenId}: {setScreenId: any}) {
   const [invalidNotice, setInvalidNotice] = useState('')
 
   const handleSubmit = (e: FormEvent) => {
+<<<<<<< HEAD
     e.preventDefault()
     // TODO Validacion screen
     if(invalidScreenId()) { setInvalidNotice('El código de pantalla es invalido.'); return }
@@ -42,6 +49,22 @@ function LoginScreen({setScreenId}: {setScreenId: any}) {
     setScreenId(screenIdRef.current?.value || 1)
     navigate('/screen')
   }
+=======
+    e.preventDefault();
+
+    // TODO Validacion de datos
+    // TODO Login para ingresar a AdminWeb
+    //
+    // Intento de conexion ID pantalla
+    // TODO Vista de error
+    setScreenId(newScreenId);
+    navigate('/screen');
+  };
+
+  const onChangeScreenId = (e: React.FormEvent<HTMLInputElement>) => {
+    setNewScreenId(parseInt(e.currentTarget.value));
+  };
+>>>>>>> bf0eaf89fe6b36e069738dd71e654d7d788b4230
 
   return (
     <section className="flex flex-row login">
@@ -65,6 +88,7 @@ function LoginScreen({setScreenId}: {setScreenId: any}) {
         <span className="text-sm mt-8 opacity-80">
           Inicia sesión con tus datos
         </span>
+<<<<<<< HEAD
         <form onSubmit={(e) => handleSubmit(e)} className="flex flex-col mt-4 gap-4 w-max">
           <input type="text" placeholder="Nombre de usuario" name="username" ref={usernameRef}/>
           <input type="password" placeholder="Contraseña" name="password" ref={passwordRef}/>
@@ -74,6 +98,26 @@ function LoginScreen({setScreenId}: {setScreenId: any}) {
           <input type="number" placeholder="ID de pantalla" name="screen-id" ref={screenIdRef}/>
           <button type="submit" className="mt-4 font-bold">Ingresar</button>
           <span>{invalidNotice}</span>
+=======
+        <form
+          onSubmit={(e) => handleSubmit(e)}
+          className="flex flex-col mt-4 gap-4 w-max"
+        >
+          <input type="text" placeholder="Nombre de usuario" name="username" />
+          <input type="password" placeholder="Contraseña" name="password" />
+          <span className="text-sm text-center mt-4 opacity-80">
+            O ingrese el código de pantalla
+          </span>
+          <input
+            type="text"
+            placeholder="ID de pantalla"
+            name="screen-id"
+            onChange={(e) => onChangeScreenId(e)}
+          />
+          <button type="submit" className="mt-4 font-bold">
+            Ingresar
+          </button>
+>>>>>>> bf0eaf89fe6b36e069738dd71e654d7d788b4230
         </form>
         <img
           src={unahurLogo}
