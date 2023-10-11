@@ -1,9 +1,9 @@
-import { DataAdvertising } from '../../../store/socketStore';
 import { useCarousel } from '../../../hooks/useCarousel';
 import { isArrayWithVideos } from '../../../utils/arrays';
 import AdvertisingItem from './ItemAdvertising';
 import AdvertisingVideo from './VideoAdvertising';
 import AdvertisingType from './TypeAdvertising';
+import { DataAdvertising } from '../../../store/useAdvertisingMessages';
 
 const TIME_CAROUSEL_ADVERTISING = 15;
 

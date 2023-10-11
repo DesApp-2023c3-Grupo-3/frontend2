@@ -1,4 +1,9 @@
-import { Message } from '../store/socketStore';
+
+export interface Message {
+  topic: string;
+  id: number;
+  data: any;
+}
 
 export const messages: Message[] = [
   {

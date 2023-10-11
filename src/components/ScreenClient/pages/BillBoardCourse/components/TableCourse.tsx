@@ -1,14 +1,14 @@
 import RowsCourse from './RowsCourse';
 import { useCarousel } from '../../../hooks/useCarousel';
-import { useSocketStore } from '../../../store/socketStore';
 import Dots from '../../../components/Dots';
 import { carouselTableArray } from '../../../utils/carousel';
 import { sortCourse } from '../utils/sortCourse.utils';
+import { useCourseMessages } from '../../../store/useCourseMessage';
 
 const TIME_CAROUSEL_COURSES = 10;
 
 function TableCourse(props: any) {
-  const courseMessages = useSocketStore((state) => state.getCoursesMessages());
+  const courseMessages = useCourseMessages((state) => state.courseMessages);
   const courseMessagesCarousel = carouselTableArray(
     sortCourse(courseMessages),
     10,
