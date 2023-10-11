@@ -1,4 +1,4 @@
-import MainAdvertising from '../components/MainAvisos/MainAdvertising';
+import MainAdvertising from '../../components/MainAvisos/MainAdvertising';
 
 function Avisos() {
   return (

@@ -1,4 +1,4 @@
-import { Commission } from '../../../types/customTypes';
+import { Commission } from '../../../../types/customTypes';
 
 // Componente para mostrar una fila
 function TableRow({

@@ -18,41 +18,42 @@ function DatePickerDays({
     null,
   );
 
-  const handleStartDateChange = (newStartHour: string) => {
-    console.log('handleStartHourChange newStartHour', newStartHour);
-    const newDate = new Date(newStartHour);
-    console.log('handleStartHourChange newDate', newDate);
-    setSelectedDateInit(newDate);
-    onChangeStartDate(newDate);
+  const handleStartDateChange = (newStartDate: Date) => {
+    setSelectedDateInit(newStartDate);
+    onChangeStartDate(newStartDate);
   };
 
-  const handleEndDateChange = (newEndHour: string) => {
-    console.log('handleEndHourChange newEndHour', newEndHour);
-    const newDate = new Date(newEndHour);
-    console.log('handleEndHourChange newDate', newDate);
-    setSelectedDateFinal(newDate);
-    onChangeEndDate(newDate);
+  const handleEndDateChange = (newEndDate: Date) => {
+    setSelectedDateFinal(newEndDate);
+    onChangeEndDate(newEndDate);
   };
 
   return (
-    <div className="flex items-center mb-3 justify-center ">
-      <div className="m-3 mt-1 ">
+    <div className="flex items-center justify-center ">
+      <div className="">
         <DemoContainer components={['Inicio', 'Final']}>
           <DatePicker
-            className=" w-[100px] text-b"
+            disablePast
+            className="w-[100px]"
             value={selectedDateInit}
-            onChange={(newDate: any) => {
-              handleStartDateChange(newDate.format());
+            onChange={(newDate: Date | null) => {
+              if (newDate !== null) {
+                handleStartDateChange(newDate);
+              }
             }}
-            label="Inicio"
+            label="Fecha de Inicio"
           />
           <DatePicker
-            className=" w-[100px] text-b"
+            disablePast
+            className="w-[100px]"
             value={selectedDateFinal}
             onChange={(newDate: any) => {
-              handleEndDateChange(newDate.format());
+              if (newDate !== null) {
+                handleEndDateChange(newDate);
+              }
             }}
-            label="Final"
+            label="Fecha Final"
+            minDate={selectedDateInit || undefined}
           />
         </DemoContainer>
       </div>

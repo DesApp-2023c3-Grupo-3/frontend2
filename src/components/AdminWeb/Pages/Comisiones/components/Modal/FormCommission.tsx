@@ -1,11 +1,11 @@
-import Button from '../../../components/Buttons/Button';
+import Button from '../../../../components/Buttons/Button';
 import DatePickerDays from './DatePickerDays';
 import Sectores from './Sectores';
 //import ButtonDownloadTemplate from './ButtonDownloadTemplate';
 //import ButtonSave from './ButtonSave';
 import React, { useState } from 'react';
-import { Commission } from '../../../types/customTypes';
-import { abbreviateSectorName } from '../../../utils/AbbreviateSectorName';
+import { Commission } from '../../../../types/customTypes';
+import { abbreviateSectorName } from '../../../../utils/AbbreviateSectorName';
 
 interface FormCommissionProps {
   commissionsJSON: Commission[]; // Un array de días seleccionados
@@ -19,14 +19,12 @@ function FormCommission({
   //ejemplo
   const [withDocument, setWithDocument] = useState<boolean>(false);
   const newCommission = () => {
-
     setWithDocument(!withDocument);
 
     //fecha
 
     const startDay = startDate.toLocaleDateString();
     const endtDay = endDate.toLocaleDateString();
-
 
     //sectores
     const sectores = selectedSector
@@ -36,43 +34,42 @@ function FormCommission({
     //Prueba de ejemplo
     const newCommission = {
       id: commissionsJSON.length + 1,
-      name: "C1",
+      name: 'C1',
       user: {
         id: commissionsJSON.length + 1,
-        name: "Juan",
-        dni: "1234",
-        password: "contra",
+        name: 'Juan',
+        dni: '1234',
+        password: 'contra',
         role: {
           id: commissionsJSON.length + 1,
-          name: "Gestión Estudiantil",
+          name: 'Gestión Estudiantil',
         },
       },
       sector: {
         id: commissionsJSON.length + 1,
         name: sectores,
-        topic: "Comision",
+        topic: 'Comision',
       },
       schedule: {
         id: commissionsJSON.length + 1,
         startDate: startDay,
         endDate: endtDay,
-        startHour: "12:00",
-        endHour:"14:00",
-        scheduleDays: "Lu-Mi-Vi",
+        startHour: '12:00',
+        endHour: '14:00',
+        scheduleDays: 'Lu-Mi-Vi',
       },
       subject: {
         id: commissionsJSON.length + 1,
-        name: "Matematica 1",
+        name: 'Matematica 1',
       },
       classroom: {
         id: commissionsJSON.length + 1,
-        name: "Lab 1",
-      }
+        name: 'Lab 1',
+      },
     };
 
     setCommissionsJSON([...commissionsJSON, newCommission]);
   };
-
 
   //fechas del aviso
   const [startDate, setStartDate] = useState<Date>(new Date());
@@ -100,7 +97,6 @@ function FormCommission({
     setSelectedSector(newSelectedSector);
     console.log('Sectores', selectedSector);
   };
-
 
   const downloadTemplate = () => {
     setWithDocument(!withDocument);
@@ -145,8 +141,18 @@ function FormCommission({
         </div>
       </form>
       <div className="flex justify-between mx-6 mt-6">
-        <Button onClick={downloadTemplate} active={withDocument} type={2} label={'DESCARGAR TEMPLATE'} />
-        <Button onClick={newCommission} active={withDocument} type={1} label={'GUARDAR'} />
+        <Button
+          onClick={downloadTemplate}
+          active={withDocument}
+          type={2}
+          label={'DESCARGAR TEMPLATE'}
+        />
+        <Button
+          onClick={newCommission}
+          active={withDocument}
+          type={1}
+          label={'GUARDAR'}
+        />
       </div>
     </div>
   );
