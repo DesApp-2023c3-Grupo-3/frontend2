@@ -1,5 +1,6 @@
 import DatePickerDays from './DatePickerDays';
 import Sectores from './Sectores';
+import ButtonDownloadTemplate from './ButtonDownloadTemplate';
 import ButtonSave from './ButtonSave';
 import React, { useState } from 'react';
 import { Commission } from '../../types/customTypes';
@@ -15,8 +16,13 @@ function FormCommission({
   setCommissionsJSON,
 }: FormCommissionProps) {
   //ejemplo
+  const [withDocument, setWithDocument] = useState<boolean>(false);
   const newCommission = () => {
+    
+    setWithDocument(!withDocument);
+    
     //fecha
+    
     const startDay = startDate.toLocaleDateString();
     const endtDay = endDate.toLocaleDateString();
 
@@ -94,6 +100,12 @@ function FormCommission({
     console.log('Sectores', selectedSector);
   };
 
+  
+  const downloadTemplate = () => {
+    setWithDocument(!withDocument);
+    console.log('Descarga de excel'); // TODO: Agregar la descarga del excel
+  };
+
   return (
     <div>
       <form className="mx-10">
@@ -131,8 +143,9 @@ function FormCommission({
           </div>
         </div>
       </form>
-      <div className="flex justify-end mr-[4.5em] mt-6">
-        <ButtonSave onClick={newCommission} />
+      <div className="flex justify-between mx-6 mt-6">
+        <ButtonDownloadTemplate onClick={downloadTemplate} active={withDocument} />
+        <ButtonSave onClick={newCommission} active={withDocument} />
       </div>
     </div>
   );

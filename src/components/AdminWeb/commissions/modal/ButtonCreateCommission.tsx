@@ -7,7 +7,7 @@ function ButtonCreateCommission({ onClick }: ButtonCreateCommissionProps) {
     <>
       <button
         onClick={onClick}
-        className="bg-[#2C9CBF] rounded-[15px] py-[16px] w-[236px] text-white font-[600] text-[20px]"
+        className="bg-[#2C9CBF] rounded-[15px] py-[16px] w-[236px] text-white font-[600] text-[20px] justify-center"
       >
         AGREGAR COMISIONES
       </button>
