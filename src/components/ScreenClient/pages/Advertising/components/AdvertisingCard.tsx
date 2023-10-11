@@ -4,8 +4,7 @@ import AdvertisingItem from './ItemAdvertising';
 import AdvertisingVideo from './VideoAdvertising';
 import AdvertisingType from './TypeAdvertising';
 import { DataAdvertising } from '../../../store/useAdvertisingMessages';
-
-const TIME_CAROUSEL_ADVERTISING = 15;
+import { useConnectionMessage } from '../../../store/useConnectionMessage';
 
 function AdvertisingCard({
   messages,
@@ -14,9 +13,11 @@ function AdvertisingCard({
   messages: DataAdvertising[];
   sx: string;
 }) {
+  const carouselTime = useConnectionMessage((state) => state.connectionMessage);
+
   const { selectedIndex, selectedItem, changeSelectedItem } = useCarousel(
     messages,
-    TIME_CAROUSEL_ADVERTISING,
+    carouselTime.advertisingIntervalTime,
   );
 
   return (

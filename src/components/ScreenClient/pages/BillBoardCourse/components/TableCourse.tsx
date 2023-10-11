@@ -4,11 +4,11 @@ import Dots from '../../../components/Dots';
 import { carouselTableArray } from '../../../utils/carousel';
 import { sortCourse } from '../utils/sortCourse.utils';
 import { useCourseMessages } from '../../../store/useCourseMessage';
-
-const TIME_CAROUSEL_COURSES = 10;
+import { useConnectionMessage } from '../../../store/useConnectionMessage';
 
 function TableCourse(props: any) {
   const courseMessages = useCourseMessages((state) => state.courseMessages);
+  const carouselTime = useConnectionMessage((state) => state.connectionMessage);
   const courseMessagesCarousel = carouselTableArray(
     sortCourse(courseMessages),
     10,
@@ -16,7 +16,7 @@ function TableCourse(props: any) {
 
   const { selectedIndex, selectedItem } = useCarousel(
     courseMessagesCarousel,
-    TIME_CAROUSEL_COURSES,
+    carouselTime.courseIntervalTime,
   );
 
   return (

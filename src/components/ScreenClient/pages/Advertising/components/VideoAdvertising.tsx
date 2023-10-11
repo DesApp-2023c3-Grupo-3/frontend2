@@ -28,7 +28,6 @@ export default function AdvertisingVideo({
         onEnd={changeSelectedItem}
         opts={opts}
         loading="lazy"
-        className="bg-red-400"
       />
     </div>
   );

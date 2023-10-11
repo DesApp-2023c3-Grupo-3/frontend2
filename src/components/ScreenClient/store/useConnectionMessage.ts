@@ -28,5 +28,6 @@ export const useConnectionMessage = create<StoreConnection>()(set => ({
       set(({
         connectionMessage: connection
       }))
-    }
+    },
+
 }))
