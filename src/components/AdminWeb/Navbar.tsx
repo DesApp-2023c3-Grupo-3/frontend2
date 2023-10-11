@@ -32,9 +32,9 @@ function Navbar() {
       <NavLink to="/admin/comission">Comisiones</NavLink>
       <NavLink to="/admin/screen">Pantallas</NavLink>
       <NavLink to="/admin/user">Administrar usuarios</NavLink>
-      <a className="sign-out mt-auto" href="/">
+      <NavLink to="/" className="sign-out mt-auto">
         Cerrar sesion
-      </a>
+      </NavLink>
       <img
         className="mx-auto aspect-square h-20 mt-6"
         src="https://unahur.edu.ar/wp-content/uploads/2021/03/UNAHUR-1.png"
