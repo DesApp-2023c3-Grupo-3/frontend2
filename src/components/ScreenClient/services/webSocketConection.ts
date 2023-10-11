@@ -13,7 +13,7 @@ export const initializeSocketConnection = async (
       console.log(`WebSocket Connected ${wsUrl}`);
       ws.send(
         JSON.stringify({
-          sectorId: screenId,
+          screenId,
           message: 'Hi! This is a client',
         }),
       );
@@ -21,7 +21,7 @@ export const initializeSocketConnection = async (
 
     ws.addEventListener('message', (message) => {
       onMessageAction(JSON.parse(message.data));
-      console.log(message);
+      console.info(message);
     });
 
     ws.addEventListener('error', (error) => {
