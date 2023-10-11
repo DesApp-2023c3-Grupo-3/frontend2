@@ -7,8 +7,7 @@ export const messages: Message[] = [
     data: {
       advertisingTypeId: 3,
       id: 3,
-      payload:
-        'El lunes no hay clases',
+      payload: 'El lunes no hay clases',
       title: 'a',
     },
   },
@@ -29,9 +28,8 @@ export const messages: Message[] = [
     data: {
       advertisingTypeId: 2,
       id: 2,
-      payload:
-       'https://www.youtube.com/watch?v=K8gihOKBo2k&ab_channel=UNAHUR',
-      title: 'imagen'
+      payload: 'https://www.youtube.com/watch?v=K8gihOKBo2k&ab_channel=UNAHUR',
+      title: 'imagen',
     },
   },
   {
@@ -40,8 +38,7 @@ export const messages: Message[] = [
     data: {
       advertisingTypeId: 2,
       id: 1,
-      payload:
-        'https://www.youtube.com/watch?v=0Sj8N9KTtds&ab_channel=UNAHUR',
+      payload: 'https://www.youtube.com/watch?v=0Sj8N9KTtds&ab_channel=UNAHUR',
       title: 'imagen',
     },
   },
