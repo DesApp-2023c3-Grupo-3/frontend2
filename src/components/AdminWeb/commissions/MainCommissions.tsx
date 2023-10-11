@@ -9,7 +9,7 @@ import ModalCreateCommission from './modal/ModalCreateCommission';
 function MainCommissions() {
   const [commissionsJSON, setCommissionsJSON] = useState(commissionData as Commission[]);
 
-  const addNewCommission = () => {
+  /*const addNewCommission = () => {
     const newCommission = {
       id: commissionsJSON.length + 1,
       name: "C1",
@@ -47,7 +47,7 @@ function MainCommissions() {
     } as Commission;
 
     setCommissionsJSON([...commissionsJSON, newCommission]);
-  };
+  };*/
   
   return (
       <div className="flex flex-col w-100 pl-12">
@@ -58,8 +58,11 @@ function MainCommissions() {
           {/*<TableMain commisionsJSON={commissionsJSON} />*/}
           <TableMain commissionsJSON={commissionsJSON}/>
           <div className="flex justify-end">
-            {/** Boton para insertar un excel con las nuevas comisiones **/}
-            <ModalCreateCommission createCommission={addNewCommission} />
+            {/** Boton para abrir el modal **/}
+            <ModalCreateCommission
+              commissionsJSON={commissionsJSON}
+              setCommissionsJSON={setCommissionsJSON}
+            />
         </div>
         </div>
       </div>

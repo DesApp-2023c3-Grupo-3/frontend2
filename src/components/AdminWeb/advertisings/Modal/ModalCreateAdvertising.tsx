@@ -1,16 +1,19 @@
-import ButtonCreateCommission from './ButtonCreateCommission';
-import FormCommission from './FormCommission';
+import ButtonCreateAdvertising from '../../components/ButtonCreateAdvertising';
+import FormAdvertising from './FormAdvertising';
 import * as React from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment, useState } from 'react';
-import { Commission } from '../../types/customTypes';
+import { Advertising } from '../../types/customTypes';
 
-interface ModalCreateCommissionProps {
-  commissionsJSON: Commission[]; // Un array de días seleccionados
-  setCommissionsJSON: React.Dispatch<React.SetStateAction<Commission[]>>; // Función para actualizar los días seleccionados
+interface ModalCreateAdvertisingProps {
+  advertisingsJSON: Advertising[]; // Un array de días seleccionados
+  setAdvertisingsJSON: React.Dispatch<React.SetStateAction<Advertising[]>>; // Función para actualizar los días seleccionados
 }
 
-function ModalCreateCommission({commissionsJSON, setCommissionsJSON,}: ModalCreateCommissionProps) {
+function ModalCreateAdvertising({
+  advertisingsJSON,
+  setAdvertisingsJSON,
+}: ModalCreateAdvertisingProps) {
   let [isOpen, setIsOpen] = useState(false);
 
   function closeModal() {
@@ -23,7 +26,7 @@ function ModalCreateCommission({commissionsJSON, setCommissionsJSON,}: ModalCrea
 
   return (
     <>
-      <ButtonCreateCommission onClick={openModal} />
+      <ButtonCreateAdvertising onClick={openModal} />
 
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog as="div" className="" onClose={closeModal}>
@@ -58,9 +61,9 @@ function ModalCreateCommission({commissionsJSON, setCommissionsJSON,}: ModalCrea
               </button>
             </div>
             <div>
-              <FormCommission
-                commissionsJSON={commissionsJSON}
-                setCommissionsJSON={setCommissionsJSON}
+              <FormAdvertising
+                advertisingsJSON={advertisingsJSON}
+                setAdvertisingsJSON={setAdvertisingsJSON}
               />
             </div>
           </Dialog.Panel>
@@ -70,4 +73,4 @@ function ModalCreateCommission({commissionsJSON, setCommissionsJSON,}: ModalCrea
   );
 }
 
-export default ModalCreateCommission;
+export default ModalCreateAdvertising;

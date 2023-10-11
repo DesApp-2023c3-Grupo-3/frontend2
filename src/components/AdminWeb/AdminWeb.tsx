@@ -1,7 +1,7 @@
 import './AdminWeb.sass';
 import { Route, Routes } from 'react-router-dom';
 import Navbar from './Navbar';
-import Avisos from './Avisos/Avisos';
+import Avisos from './advertisings/Avisos';
 //import Usuarios from './Usuarios/Usuarios';
 import Comisiones from './commissions/Commissions';
 //import Pantallas from './Pantallas/Pantallas';

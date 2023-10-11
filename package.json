@@ -5,7 +5,11 @@
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
-    "@mui/material": "^5.14.9",
+    "@headlessui/react": "^1.7.17",
+    "@heroicons/react": "^2.0.18",
+    "@mui/material": "^5.14.10",
+    "@mui/styled-engine-sc": "^5.14.10",
+    "@mui/x-date-pickers": "^6.15.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -14,12 +18,16 @@
     "@types/react": "^18.2.21",
     "@types/react-dom": "^18.2.7",
     "axios": "^1.5.0",
+    "dayjs": "^1.11.10",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-quill": "^2.0.0",
     "react-router-dom": "^6.15.0",
     "react-scripts": "5.0.1",
     "react-table": "^7.8.0",
+    "react-time-picker": "^6.5.0",
     "sass": "^1.67.0",
+    "styled-components": "^5.3.11",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4",
     "zustand": "^4.4.1"
@@ -44,11 +52,11 @@
     "husky": "^8.0.0",
     "lint-staged": "^10.5.4",
     "npm-run-all": "^4.1.5",
-    "prettier": "^2.2.1",
-    "tailwindcss": "^3.3.3",
-    "webpack": "^5.88.2",
     "postcss": "^8.4.29",
-    "sass": "^1.67.0"
+    "prettier": "^2.2.1",
+    "sass": "^1.67.0",
+    "tailwindcss": "^3.3.3",
+    "webpack": "^5.88.2"
   },
   "husky": {
     "hooks": {

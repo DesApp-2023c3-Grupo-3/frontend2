@@ -1,8 +1,6 @@
 # Etapa de compilación
 FROM node:14 AS builder
 
-ENV REACT_APP_WEBSOCKET_HOST=localhost
-
 WORKDIR /app
 
 COPY package*.json ./
