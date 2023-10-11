@@ -10,6 +10,7 @@ import { abbreviateSectorName } from '../../../utils/AbbreviateSectorName';
 import Swal from 'sweetalert2';
 import './modal.sass';
 import dayjs from 'dayjs';
+import ErrorMessage from '../../ErrorMessage';
 
 function messageError(message: string) {
   Swal.fire({
@@ -147,25 +148,8 @@ function FormAdvertising({
     }
 
     //VALIDACIONES
-    const emptyFieldsList: string[] = [];
 
-    if (
-      emptyFields.advertisingName === false &&
-      !emptyFieldsList.includes('Nombre del aviso')
-    ) {
-      emptyFieldsList.push('Nombre del aviso');
-    }
-    if (
-      emptyFields.selectedSector === false &&
-      !emptyFieldsList.includes('Sectores')
-    ) {
-      emptyFieldsList.push('Sectores');
-    }
-
-    const hayEmptyFields =
-      Object.values(emptyFieldsUpdate).filter((value) => value).length > 1;
-
-    if (hayEmptyFields) {
+    if (Object.values(emptyFieldsUpdate).filter((value) => value).length > 1) {
       //Faltaría agregar una lista de los campos que estan incompletos y ponerlo en el mensaje de error.
       messageError('Hay campos incompletos.');
     } else if (!advertisingName) {
@@ -235,45 +219,70 @@ function FormAdvertising({
   return (
     <div>
       <form className="mx-10">
-        <div className=" flex h-[90px] justify-between items-center relative">
-          <input
-            id="advertisingName"
-            type="text"
-            placeholder="Nombre del aviso..."
-            className={`text-[20px] font-[400] tracking-[-0.4px] rounded-[30px] bg-[#D9D9D9] flex w-[365px] h-[50px] px-[40px] py-[12px] items-center ${
-              emptyFields.advertisingName ? 'invalid-field' : ''
-            }`}
-            value={advertisingName}
-            onChange={(e) => setAdvertisingName(e.target.value)}
-          ></input>
-
-          <Sectores
-            selectedSector={selectedSector}
-            onSelectedSectorChange={handleSelectedSectorChange}
-            campos={emptyFields}
-          />
-        </div>
-        <div className="flex justify-between">
-          <div className="flex-row justify-center items-center mt-[20px]">
-            <DatePickerDays
-              onChangeStartDate={handleStartDateChange}
-              onChangeEndDate={handleEndDateChange}
-            />
-            <DayPicker
-              onSelectedDaysChange={handleDaysChange}
-              selectedDays={selectedDays}
-            />
-            <PickerTime
-              onChangeStartHour={handleStartHourChange}
-              onChangeEndHour={handleEndHourChange}
-            />
+        <div className=" flex h-[90px] justify-between items-center">
+          <div className="flex-col justify-center relative">
+            <input
+              id="advertisingName"
+              type="text"
+              placeholder="Nombre del aviso..."
+              className={`text-[20px] font-[400] tracking-[-0.4px] rounded-[30px] bg-[#D9D9D9] flex w-[365px] h-[50px] px-[40px] py-[12px] items-center ${
+                emptyFields.advertisingName ? 'invalid-field' : ''
+              }`}
+              value={advertisingName}
+              onChange={(e) => setAdvertisingName(e.target.value)}
+            ></input>
+            {ErrorMessage(
+              '*Falta completar el nombre del aviso.',
+              emptyFields.advertisingName,
+            )}
           </div>
-          <div className="mr-[2em] mt-[20px]">
+          <div className="flex-col justify-center">
+            <Sectores
+              selectedSector={selectedSector}
+              onSelectedSectorChange={handleSelectedSectorChange}
+              campos={emptyFields}
+            />
+            <div>
+              {ErrorMessage(
+                '*Falta seleccionar los sectores.',
+                emptyFields.selectedSector,
+              )}
+            </div>
+          </div>
+        </div>
+        <div className="flex justify-between h-[348px]">
+          <div className="flex-col justify-center items-center m-5 ">
+            <div className="flex-col justify-center">
+              <DatePickerDays
+                onChangeStartDate={handleStartDateChange}
+                onChangeEndDate={handleEndDateChange}
+              />
+              {ErrorMessage('*Falta completar las fechas.', emptyFields.date)}
+            </div>
+            <div className="flex-col justify-center pt-10">
+              <DayPicker
+                onSelectedDaysChange={handleDaysChange}
+                selectedDays={selectedDays}
+              />
+              {ErrorMessage(
+                '*Falta elegir los días.',
+                emptyFields.selectedDays,
+              )}
+            </div>
+            <div className="flex-col justify-center pt-10">
+              <PickerTime
+                onChangeStartHour={handleStartHourChange}
+                onChangeEndHour={handleEndHourChange}
+              />
+              {ErrorMessage('*Falta completar los horarios', emptyFields.hour)}
+            </div>
+          </div>
+          <div className="pr-[2em] pt-[20px] z-[999]">
             <ImageTextVideo />
           </div>
         </div>
       </form>
-      <div className="flex justify-end mr-[4.5em] mt-6">
+      <div className="flex justify-end pr-[4.5em] pt-6">
         <ButtonSave onClick={handleSendAdvertisingClick} />
       </div>
     </div>

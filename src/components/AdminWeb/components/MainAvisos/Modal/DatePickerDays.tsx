@@ -29,8 +29,8 @@ function DatePickerDays({
   };
 
   return (
-    <div className="flex items-center mb-3 justify-center ">
-      <div className="m-3 mt-1 ">
+    <div className="flex items-center justify-center ">
+      <div className="">
         <DemoContainer components={['Inicio', 'Final']}>
           <DatePicker
             disablePast

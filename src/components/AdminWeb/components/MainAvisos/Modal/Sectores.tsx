@@ -36,7 +36,7 @@ function Sectores({
   };
 
   return (
-    <div className="w-[365px] h-[50px] z-[998]">
+    <div className="w-[365px] h-[50px] z-[1000] relative">
       <Listbox
         value={selectedSector}
         onChange={onSelectedSectorChange}

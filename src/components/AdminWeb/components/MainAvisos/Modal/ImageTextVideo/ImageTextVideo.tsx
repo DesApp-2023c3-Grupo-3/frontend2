@@ -4,7 +4,7 @@ import ImageUp from './ImageUp';
 
 function ImageTextVideo() {
   return (
-    <div className="rounded-[20px] bg-[#D9D9D9] w-[300px] h-[328px] ">
+    <div className="rounded-[20px] bg-[#D9D9D9] w-[300px] h-[328px]">
       <Tab.Group>
         <Tab.List className="rounded-t-[20px] text-[white] text-[12px] font-[400] flex justify-center items-center h-[28px] bg-[#484848]">
           <Tab

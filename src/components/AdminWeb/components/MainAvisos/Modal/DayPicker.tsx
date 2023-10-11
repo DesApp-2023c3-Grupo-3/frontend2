@@ -40,7 +40,7 @@ function DayPicker({ onSelectedDaysChange, selectedDays }: DayPickerProps) {
 
   return (
     <div className="flex-row">
-      <div className="flex justify-center mt-10">
+      <div className="flex justify-center">
         {daysOfTheWeek.map((day, index) => (
           <div key={index}>
             <button
@@ -59,7 +59,7 @@ function DayPicker({ onSelectedDaysChange, selectedDays }: DayPickerProps) {
           </div>
         ))}
       </div>
-      <label className="flex justify-center mb-10 mt-3">
+      <label className="flex justify-center pt-3">
         <input
           className="mr-3 select-none"
           type="checkbox"
