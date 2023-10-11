@@ -2,8 +2,8 @@ import { useConnectionSocket } from '../hooks/useConnectionSocket';
 import Advertising from './Advertising/Advertising';
 import Courses from './Course/Courses';
 
-function ScreenClient() {
-  const { socketConnection, error } = useConnectionSocket();
+function ScreenClient({ screenId }: { screenId: number }) {
+  const { socketConnection, error } = useConnectionSocket(screenId);
 
   console.log(socketConnection?.url, error);
 

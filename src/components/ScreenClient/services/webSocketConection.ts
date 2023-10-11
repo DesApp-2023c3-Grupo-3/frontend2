@@ -1,7 +1,8 @@
-const HOST = process.env.REACT_APP_WEBSOCKET_HOST  || window.location.hostname;
-const PORT = process.env.REACT_APP_WEBSOCKET_PORT|| window.location.port;
+const HOST = process.env.REACT_APP_WEBSOCKET_HOST || window.location.hostname;
+const PORT = process.env.REACT_APP_WEBSOCKET_PORT || window.location.port;
 
 export const initializeSocketConnection = async (
+  screenId: number,
   onMessageAction: any,
 ): Promise<WebSocket> => {
   try {
@@ -12,15 +13,15 @@ export const initializeSocketConnection = async (
       console.log(`WebSocket Connected ${wsUrl}`);
       ws.send(
         JSON.stringify({
-          screenId: 1, // TODO: Implementar multiples pantallas.
+          sectorId: screenId,
           message: 'Hi! This is a client',
         }),
       );
     });
 
     ws.addEventListener('message', (message) => {
-      console.info('message', message)
       onMessageAction(JSON.parse(message.data));
+      console.log(message);
     });
 
     ws.addEventListener('error', (error) => {
