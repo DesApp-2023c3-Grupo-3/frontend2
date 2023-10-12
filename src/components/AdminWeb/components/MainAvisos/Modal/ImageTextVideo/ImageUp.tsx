@@ -19,9 +19,9 @@ function ImageUp() {
   };
 
   return (
-    <div className="w-[300px] h-[300px] relative">
+    <div className="w-[330px] h-[300px] relative">
       <label htmlFor="image-upload">
-        <div className=" overflow-hidden, flex items-center justify-center w-[100%] h-[100%]">
+        <div className=" overflow-hidden flex items-center justify-center w-[100%] h-[100%]">
           {image ? (
             <img
               src={image}
@@ -29,7 +29,7 @@ function ImageUp() {
               className="max-w-[100%] max-h-[100%] object-contain"
             />
           ) : (
-            <div className="flex justify-center items-center w-[300px] h-[300px]">
+            <div className="flex justify-center items-center ">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="36"
