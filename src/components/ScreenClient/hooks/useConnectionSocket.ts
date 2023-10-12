@@ -13,6 +13,7 @@ export function useConnectionSocket(screenId: number) {
   const addCourseMessage = useCourseMessages(state => state.addCourseMessage)
 
   const handlerOnMessage = (message: Message) => {
+    console.log(message)
     switch(message.topic) {
       case 'connection':
         setConnection(message.data)

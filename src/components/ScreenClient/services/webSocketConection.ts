@@ -20,8 +20,8 @@ export const initializeSocketConnection = async (
     });
 
     ws.addEventListener('message', (message) => {
+      console.log(message)
       onMessageAction(JSON.parse(message.data));
-      console.info(message);
     });
 
     ws.addEventListener('error', (error) => {

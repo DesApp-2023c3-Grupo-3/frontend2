@@ -3,7 +3,9 @@ import { useConnectionSocket } from '../hooks/useConnectionSocket';
 import Screen from './Screen';
 
 function ScreenClient({ screenId }: { screenId: number }) {
-  const { socketConnection, error } = useConnectionSocket(screenId);
+  const { socketConnection } = useConnectionSocket(screenId);
+
+  console.log(socketConnection);
 
   return socketConnection ? <Screen /> : <CircularProgress />;
 }
