@@ -1,14 +1,26 @@
 import { useState } from 'react';
 import YouTube from 'react-youtube';
 import { obtenerIDdeVideo } from '../../../../../ScreenClient/utils/strings';
+import ErrorMessage from '../../../ErrorMessage';
 
 function VideoUp() {
   const [youtubeUrl, setYoutubeUrl] = useState<string>('');
   const [showPreview, setShowPreview] = useState<boolean>(false);
+  const [isValidUrl, setIsValidUrl] = useState<boolean>(true);
 
   const onVideoSubmit = (e: any) => {
     e.preventDefault();
-    setShowPreview(true);
+
+    const youtubeUrlPattern =
+      /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+/;
+    const isValid = youtubeUrlPattern.test(youtubeUrl);
+
+    if (isValid) {
+      setIsValidUrl(true);
+      setShowPreview(true);
+    } else {
+      setIsValidUrl(false);
+    }
   };
 
   const opts = {
@@ -21,24 +33,26 @@ function VideoUp() {
 
   return (
     <div>
-      <div className="flex-col justify-center">
-        <h3 className="text-black ml-3 mt-3 select-none">URL YouTube:</h3>
-        <div className="flex justify-center">
-          <div className="bg-[#fff] rounded-[20px] w-[280px] h-[30px] flex items-center">
-            <input
-              placeholder="www.youtube.com"
-              className="pl-5 w-[280px] h-[30px] bg-[#fff] rounded-[20px]"
-              value={youtubeUrl}
-              onChange={(e) => setYoutubeUrl(e.target.value)}
-            />
-            <button onClick={onVideoSubmit} className="">
-              {flecha}
-            </button>
-          </div>
+      <h3 className="text-black ml-3 mt-3 select-none">URL YouTube:</h3>
+      <div className="flex-col ml-[10px] h-[30px]">
+        <div
+          className={`bg-[#fff] rounded-[20px] w-[280px] h-[34px] flex items-center ${
+            !isValidUrl ? 'border-2 border-[red]' : ''
+          }`}
+        >
+          <input
+            placeholder="www.youtube.com"
+            className="pl-5 w-[280px] h-[30px] bg-[#fff] rounded-s-[20px] outline-none"
+            value={youtubeUrl}
+            onChange={(e) => setYoutubeUrl(e.target.value)}
+          />
+          <button onClick={onVideoSubmit} className="">
+            {flecha}
+          </button>
         </div>
       </div>
       <div className="flex justify-center translate-y-[50%]">
-        {showPreview ? (
+        {showPreview && isValidUrl ? (
           <YouTube
             videoId={obtenerIDdeVideo(youtubeUrl)}
             className="translate-y-[-35%]"
