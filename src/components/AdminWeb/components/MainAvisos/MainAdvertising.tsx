@@ -1,6 +1,8 @@
 import TableMain from './Table/TableMain';
-import ModalCreateAdvertising from './Modal/ModalCreateAdvertising';
 import advertisingData from '../MainAvisos/Mocks/advertisingData.json';
+import Modal from '../Modal';
+import FormAdvertising from './Modal/FormAdvertising';
+import ButtonCreateAdvertising from './ButtonCreateAdvertising';
 import { useState } from 'react';
 
 function MainAdvertising() {
@@ -8,6 +10,15 @@ function MainAdvertising() {
     //Esto tendría que ser un JSON que viene del backend
     advertisingData,
   );
+
+  //Modal
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   return (
     <>
@@ -18,10 +29,17 @@ function MainAdvertising() {
         <div className="mt-[-70px] mr-[3%] ">
           <TableMain advertisingsJSON={advertisingsJSON} />
           <div className="flex justify-end">
-            {/** Este boton tendría que hacer el modal de createAdvertising **/}
-            <ModalCreateAdvertising
-              advertisingsJSON={advertisingsJSON}
-              setAdvertisingsJSON={setAdvertisingsJSON}
+            <ButtonCreateAdvertising onClick={openModal} />
+            <Modal
+              isOpen={isModalOpen}
+              onClose={closeModal}
+              component={
+                <FormAdvertising
+                  advertisingsJSON={advertisingsJSON}
+                  setAdvertisingsJSON={setAdvertisingsJSON}
+                  onCloseClick={closeModal}
+                />
+              }
             />
           </div>
         </div>
