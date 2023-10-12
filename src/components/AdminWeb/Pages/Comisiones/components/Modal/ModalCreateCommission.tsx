@@ -1,19 +1,20 @@
-import ButtonCreateAdvertising from '../ButtonCreateAdvertising';
-import FormAdvertising from './FormAdvertising';
+import Button from '../../../../components/Buttons/Button';
+//import ButtonCreateCommission from './ButtonCreateCommission';
+import FormCommission from './FormCommission';
 import * as React from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment, useState } from 'react';
-import { Advertising } from '../../../types/customTypes';
+import { Commission } from '../../../../types/customTypes';
 
-interface ModalCreateAdvertisingProps {
-  advertisingsJSON: Advertising[]; // Un array de días seleccionados
-  setAdvertisingsJSON: React.Dispatch<React.SetStateAction<Advertising[]>>; // Función para actualizar los días seleccionados
+interface ModalCreateCommissionProps {
+  commissionsJSON: Commission[]; // Un array de días seleccionados
+  setCommissionsJSON: React.Dispatch<React.SetStateAction<Commission[]>>; // Función para actualizar los días seleccionados
 }
 
-function ModalCreateAdvertising({
-  advertisingsJSON,
-  setAdvertisingsJSON,
-}: ModalCreateAdvertisingProps) {
+function ModalCreateCommission({
+  commissionsJSON,
+  setCommissionsJSON,
+}: ModalCreateCommissionProps) {
   let [isOpen, setIsOpen] = useState(false);
 
   function closeModal() {
@@ -26,7 +27,12 @@ function ModalCreateAdvertising({
 
   return (
     <>
-      <ButtonCreateAdvertising onClick={openModal} />
+      <Button
+        onClick={openModal}
+        active={true}
+        type={1}
+        label={'AGREGAR COMISIONES'}
+      />
 
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog as="div" className="" onClose={closeModal}>
@@ -61,10 +67,9 @@ function ModalCreateAdvertising({
               </button>
             </div>
             <div>
-              <FormAdvertising
-                advertisingsJSON={advertisingsJSON}
-                setAdvertisingsJSON={setAdvertisingsJSON}
-                onCloseClick={closeModal}
+              <FormCommission
+                commissionsJSON={commissionsJSON}
+                setCommissionsJSON={setCommissionsJSON}
               />
             </div>
           </Dialog.Panel>
@@ -74,4 +79,4 @@ function ModalCreateAdvertising({
   );
 }
 
-export default ModalCreateAdvertising;
+export default ModalCreateCommission;

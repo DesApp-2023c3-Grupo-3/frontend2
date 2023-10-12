@@ -5,7 +5,7 @@ import { useConnectionMessage } from '../store/useConnectionMessage';
 import { useAdvertisingMessages } from '../store/useAdvertisingMessages';
 import { useCourseMessages } from '../store/useCourseMessage';
 
-export function useConnectionSocket() {
+export function useConnectionSocket(screenId: number) {
   const [socketConnection, setSocketConnection] = useState<any>();
   const [error, setError] = useState<Error>();
   const setConnection = useConnectionMessage(state => state.setConnection)
@@ -27,14 +27,14 @@ export function useConnectionSocket() {
   };
 
   useEffect(() => {
-    initializeSocketConnection(handlerOnMessage)
+    initializeSocketConnection(screenId, handlerOnMessage)
       .then((connection) => {
         setSocketConnection(connection);
       })
       .catch((error) => {
         setError(error);
       });
-  }, []);
+  }, [screenId]);
 
   return { socketConnection, error };
 }

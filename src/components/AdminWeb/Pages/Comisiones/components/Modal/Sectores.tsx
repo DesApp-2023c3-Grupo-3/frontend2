@@ -1,6 +1,6 @@
 import { Fragment, useState } from 'react';
 import { Listbox, Transition } from '@headlessui/react';
-import { abbreviateSectorName } from '../../../utils/AbbreviateSectorName';
+import { abbreviateSectorName } from '../../../../utils/AbbreviateSectorName';
 import { Checkbox } from '@mui/material';
 
 const sectors = [
@@ -13,14 +13,9 @@ const sectors = [
 interface SectoresProps {
   selectedSector: Sector[];
   onSelectedSectorChange: (newSelectedSector: Sector[]) => void;
-  campos: any;
 }
 
-function Sectores({
-  selectedSector,
-  onSelectedSectorChange,
-  campos,
-}: SectoresProps) {
+function Sectores({ selectedSector, onSelectedSectorChange }: SectoresProps) {
   const [selectAll, setSelectAll] = useState(false);
 
   const handleSelectAllChange = (event: {
@@ -36,7 +31,7 @@ function Sectores({
   };
 
   return (
-    <div className="w-[365px] h-[50px] z-[1000] relative">
+    <div className="w-[365px] h-[50px]">
       <Listbox
         value={selectedSector}
         onChange={onSelectedSectorChange}
@@ -44,10 +39,9 @@ function Sectores({
       >
         <div className="fixed flex-row justify-center">
           <Listbox.Button
-            id="sectors"
-            className={`text-[20px] font-[400] tracking-[-0.4px] rounded-[30px] bg-[#D9D9D9] flex w-[365px] h-[50px] px-[40px] py-[12px] items-center ${
-              campos.selectedSector ? 'invalid-field' : ''
-            }`}
+            className={
+              'text-[20px] font-[400] tracking-[-0.4px] rounded-[30px] bg-[#D9D9D9] flex w-[365px] h-[50px] px-[40px] py-[12px] items-center'
+            }
             placeholder="Sector/es"
           >
             <div className="mr-3">
@@ -86,7 +80,7 @@ function Sectores({
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Listbox.Options className="bg-white w-[254px] ml-auto flex-row justify-center items-center shadow-lg rounded-t-[2px] rounded-b-[10px] fixed">
+            <Listbox.Options className="bg-white w-[254px] ml-auto flex-row justify-center items-center shadow-lg rounded-t-[2px] rounded-b-[10px] ">
               <span className="m-3 flex justify-center text-[#00000080] text-[20px]">
                 Edificio
               </span>
@@ -130,7 +124,7 @@ function Sectores({
                   </div>
                 </div>
               ))}
-              <div className="flex justify-center items-center select-none">
+              <div className="flex justify-center items-center">
                 <Checkbox
                   checked={selectAll}
                   onChange={handleSelectAllChange}

@@ -29,6 +29,8 @@
     "react-youtube": "^10.1.0",
     "sass": "^1.67.0",
     "styled-components": "^5.3.11",
+    "sweetalert2": "^11.7.31",
+    "sweetalert2-react-content": "^5.0.7",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4",
     "zustand": "^4.4.1"
@@ -55,7 +57,6 @@
     "npm-run-all": "^4.1.5",
     "postcss": "^8.4.29",
     "prettier": "^2.2.1",
-    "sass": "^1.67.0",
     "tailwindcss": "^3.3.3",
     "webpack": "^5.88.2"
   },

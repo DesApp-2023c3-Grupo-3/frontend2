@@ -7,7 +7,7 @@ function ButtonCreateAdvertising({ onClick }: ButtonCreateadvertisingProps) {
     <>
       <button
         onClick={onClick}
-        className="bg-[#2C9CBF] rounded-[15px] py-[16px] w-[236px] text-white font-[600] text-[20px]"
+        className="bg-[#2C9CBF] rounded-[15px] select-none py-[16px] w-[236px] text-white font-[600] text-[20px]"
       >
         NUEVO AVISO
       </button>
