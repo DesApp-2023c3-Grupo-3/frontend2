@@ -1,9 +1,10 @@
-import advertisingData from './components/Mocks/advertisingData.json';
+import advertisingData from '../../Mocks/advertisingData.json';
 import { useState } from 'react';
 import Button from '../../components/Buttons/Button';
 import Modal from '../../components/Modal';
 import TableMain from './components/Table/TableMain';
 import FormAdvertising from './components/Modal/FormAdvertising';
+import { useModal } from '../../hooks/useModal';
 
 function Avisos() {
   const [advertisingsJSON, setAdvertisingsJSON] = useState(
@@ -11,16 +12,8 @@ function Avisos() {
     advertisingData,
   );
 
-  //ESTO HAY QUE CAMBIARLO
-  //El problema que tengo es que dentro del componente que está en el modal hay un boton para cerrar el modal "GUARDAR"
   //Modal
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
+  const { isOpen, openModal, closeModal } = useModal();
 
   return (
     <section>
@@ -37,14 +30,14 @@ function Avisos() {
             type={1}
             className="bg-[#2C9CBF] rounded-[15px] select-none py-[16px] w-[236px] text-white font-[600] text-[20px]"
           />
-          <Modal
-            isOpen={isModalOpen}
-            onClose={closeModal}
+          <Modal //Para llamar al modal necesitar usar el hook useModal para el estado del modal
+            isOpen={isOpen}
+            closeModal={closeModal}
             component={
-              <FormAdvertising
+              <FormAdvertising //en el componente del modal hay que mandarle la funcion para cerrar el modal
                 advertisingsJSON={advertisingsJSON}
                 setAdvertisingsJSON={setAdvertisingsJSON}
-                onCloseClick={closeModal}
+                closeModal={closeModal}
               />
             }
           />

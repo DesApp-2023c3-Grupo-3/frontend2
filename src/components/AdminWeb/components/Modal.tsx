@@ -2,17 +2,18 @@ import React from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
 
+//El modal se usa con el hook useModal
 interface ModalProps {
-  component: React.ReactElement;
   isOpen: boolean;
-  onClose: () => void;
+  closeModal: () => void;
+  component: React.ReactElement;
 }
 
-function Modal({ component, isOpen, onClose }: ModalProps) {
+function Modal({ isOpen, closeModal, component }: ModalProps) {
   return (
     <>
       <Transition appear show={isOpen} as={Fragment}>
-        <Dialog as="div" className="" onClose={onClose}>
+        <Dialog as="div" className="" onClose={closeModal}>
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -26,7 +27,7 @@ function Modal({ component, isOpen, onClose }: ModalProps) {
           </Transition.Child>
           <Dialog.Panel className="top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] absolute max-w-[62.5em] w-[100%] max-h-[37.5em] h-[100%] bg-white rounded-[30px]">
             <div className="bg-[#484848] rounded-tr-[30px] rounded-tl-[30px] h-[67px] flex justify-end items-center">
-              <button onClick={onClose}>
+              <button onClick={closeModal}>
                 <svg
                   className="mr-[15px]"
                   xmlns="http://www.w3.org/2000/svg"

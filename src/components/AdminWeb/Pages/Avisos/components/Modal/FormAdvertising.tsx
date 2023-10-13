@@ -31,13 +31,13 @@ function validationDate(start: Date | null, end: Date | null) {
 interface FormAdvertisingProps {
   advertisingsJSON: Advertising[];
   setAdvertisingsJSON: React.Dispatch<React.SetStateAction<Advertising[]>>;
-  onCloseClick: () => void; //Funcion para cerrar el modal cuando se guarda el aviso
+  closeModal: () => void;
 }
 
 function FormAdvertising({
   advertisingsJSON,
   setAdvertisingsJSON,
-  onCloseClick,
+  closeModal,
 }: FormAdvertisingProps) {
   const [emptyFields, setEmptyFields] = useState({
     advertisingName: false,
@@ -140,7 +140,7 @@ function FormAdvertising({
       };
 
       setAdvertisingsJSON([...advertisingsJSON, newAdvertising]);
-      onCloseClick();
+      closeModal();
       Toast.fire({
         icon: 'success',
         title: 'Se ha creado el aviso',
