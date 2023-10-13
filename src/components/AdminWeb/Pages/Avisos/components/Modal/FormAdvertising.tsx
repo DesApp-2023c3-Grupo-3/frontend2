@@ -31,7 +31,7 @@ function validationDate(start: Date | null, end: Date | null) {
 interface FormAdvertisingProps {
   advertisingsJSON: Advertising[];
   setAdvertisingsJSON: React.Dispatch<React.SetStateAction<Advertising[]>>;
-  onCloseClick: () => void;
+  onCloseClick: () => void; //Funcion para cerrar el modal cuando se guarda el aviso
 }
 
 function FormAdvertising({

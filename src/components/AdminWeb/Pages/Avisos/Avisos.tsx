@@ -11,6 +11,8 @@ function Avisos() {
     advertisingData,
   );
 
+  //ESTO HAY QUE CAMBIARLO
+  //El problema que tengo es que dentro del componente que está en el modal hay un boton para cerrar el modal "GUARDAR"
   //Modal
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => {
