@@ -20,8 +20,6 @@ function AdvertisingCard({
     carouselTime.screen.advertisingIntervalTime,
   );
 
-  console.log(carouselTime.screen.advertisingIntervalTime);
-
   return (
     <AdvertisingItem messages={messages} sx={sx} selectedIndex={selectedIndex}>
       {isArrayWithVideos(messages) ? (

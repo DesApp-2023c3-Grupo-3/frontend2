@@ -7,15 +7,15 @@ const INITIAL_CONNECTION_STATE = {
     templeteId: "1",
     courseIntervalTime: 15,
     advertisingIntervalTime: 15,
-    createdAt: "2023-10-12T21:27:21.230Z",
-    updatedAt: "2023-10-12T21:27:21.230Z", 
+    createdAt: "",
+    updatedAt: "", 
     deletedAt: "null",
     sector: {
       id: 1,
       name: "Edificio Malvinas",
       topic: "Materias",
-      createdAt: "2023-10-12T21:29:59.661Z",
-      updatedAt: "2023-10-12T21:29:59.661Z",
+      createdAt: "",
+      updatedAt: "",
       deletedAt: "null"
     }
   },

@@ -8,6 +8,7 @@ import { useCourseMessages } from '../store/useCourseMessage';
 export function useConnectionSocket(screenId: number) {
   const [socketConnection, setSocketConnection] = useState<any>();
   const [error, setError] = useState<Error>();
+  
   const setConnection = useConnectionMessage(state => state.setConnection)
   const addAdvertisingMessage = useAdvertisingMessages(state => state.addAdvertisingMessage)
   const addCourseMessage = useCourseMessages(state => state.addCourseMessage)
