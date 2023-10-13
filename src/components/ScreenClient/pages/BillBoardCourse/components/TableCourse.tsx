@@ -16,7 +16,7 @@ function TableCourse(props: any) {
 
   const { selectedIndex, selectedItem } = useCarousel(
     courseMessagesCarousel,
-    carouselTime.courseIntervalTime,
+    carouselTime.screen.courseIntervalTime,
   );
 
   return (

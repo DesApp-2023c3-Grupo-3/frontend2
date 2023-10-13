@@ -17,8 +17,10 @@ function AdvertisingCard({
 
   const { selectedIndex, selectedItem, changeSelectedItem } = useCarousel(
     messages,
-    carouselTime.advertisingIntervalTime,
+    carouselTime.screen.advertisingIntervalTime,
   );
+
+  console.log(carouselTime.screen.advertisingIntervalTime);
 
   return (
     <AdvertisingItem messages={messages} sx={sx} selectedIndex={selectedIndex}>

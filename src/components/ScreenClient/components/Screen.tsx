@@ -11,5 +11,5 @@ export default function Screen() {
     2: <VideoBillboard />,
   };
 
-  return billboards[parseInt(typeScreen.templeteId)];
+  return billboards[parseInt(typeScreen.screen.templeteId)];
 }
