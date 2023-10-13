@@ -1,16 +1,16 @@
-import DatePickerDays from './DatePickerDays';
-import Sectores from './Sectores';
+import DatePickerDays from '../../../../components/DatePickerDays';
+import Sectores from '../../../../components/Sectores';
 import ImageTextVideo from './ImageTextVideo/ImageTextVideo';
 import DayPicker from './DayPicker';
-import ButtonSave from '../ButtonSave';
 import PickerTime from './PickerTime';
 import React, { useState } from 'react';
-import { Advertising } from '../../../types/customTypes';
-import { abbreviateSectorName } from '../../../utils/AbbreviateSectorName';
 import Swal from 'sweetalert2';
-import './modal.sass';
+import './form.sass';
 import dayjs from 'dayjs';
-import ErrorMessage from '../../ErrorMessage';
+import { Advertising } from '../../../../types/customTypes';
+import ErrorMessage from '../../../../components/ErrorMessage';
+import { abbreviateSectorName } from '../../../../utils/AbbreviateSectorName';
+import Button from '../../../../components/Buttons/Button';
 
 function messageError(message: string) {
   Swal.fire({
@@ -283,7 +283,13 @@ function FormAdvertising({
         </div>
       </form>
       <div className="flex justify-end pr-[4.2em] pt-6">
-        <ButtonSave onClick={handleSendAdvertisingClick} />
+        <Button
+          onClick={handleSendAdvertisingClick}
+          active={true}
+          type={1}
+          label="GUARDAR"
+          className="rounded-[30px] py-[16px] w-[300px] h-[40px] font-[600] text-[20px] flex items-center justify-center hover:bg-[#2c9dbfc5]"
+        />
       </div>
     </div>
   );

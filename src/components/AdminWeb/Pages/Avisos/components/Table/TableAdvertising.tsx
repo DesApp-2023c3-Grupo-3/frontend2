@@ -1,4 +1,4 @@
-import { Advertising } from '../../../types/customTypes';
+import { Advertising } from '../../../../types/customTypes';
 import TableRow from './TableRow';
 
 // Componente para la tabla completa

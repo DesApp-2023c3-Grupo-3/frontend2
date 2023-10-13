@@ -1,5 +1,5 @@
-import { Advertising } from '../../../types/customTypes';
-import { abbreviateSectorName } from '../../../utils/AbbreviateSectorName';
+import { Advertising } from '../../../../types/customTypes';
+import { abbreviateSectorName } from '../../../../utils/AbbreviateSectorName';
 
 // Componente para mostrar una fila
 function TableRow({

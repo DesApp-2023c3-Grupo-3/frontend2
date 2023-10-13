@@ -1,7 +1,7 @@
 import { Fragment, useState } from 'react';
 import { Listbox, Transition } from '@headlessui/react';
-import { abbreviateSectorName } from '../../../utils/AbbreviateSectorName';
 import { Checkbox } from '@mui/material';
+import { abbreviateSectorName } from '../utils/AbbreviateSectorName';
 
 const sectors = [
   { id: 1, name: 'Edificio Malvinas' },

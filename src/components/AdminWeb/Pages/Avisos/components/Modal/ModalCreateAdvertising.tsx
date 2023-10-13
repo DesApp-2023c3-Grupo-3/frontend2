@@ -3,7 +3,8 @@ import FormAdvertising from './FormAdvertising';
 import * as React from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment, useState } from 'react';
-import { Advertising } from '../../../types/customTypes';
+import { Advertising } from '../../../../types/customTypes';
+import Button from '../../../../components/Buttons/Button';
 
 interface ModalCreateAdvertisingProps {
   advertisingsJSON: Advertising[]; // Un array de días seleccionados
@@ -26,7 +27,12 @@ function ModalCreateAdvertising({
 
   return (
     <>
-      <ButtonCreateAdvertising onClick={openModal} />
+      <Button
+        onClick={openModal}
+        active={true}
+        label={'NUEVO AVISOasd'}
+        type={1}
+      />
 
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog as="div" className="" onClose={closeModal}>

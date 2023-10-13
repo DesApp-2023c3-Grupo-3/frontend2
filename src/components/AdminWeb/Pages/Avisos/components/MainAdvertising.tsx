@@ -1,9 +1,11 @@
 import TableMain from './Table/TableMain';
-import advertisingData from '../MainAvisos/Mocks/advertisingData.json';
-import Modal from '../Modal';
+import advertisingData from '../components/Mocks/advertisingData.json';
+
 import FormAdvertising from './Modal/FormAdvertising';
 import ButtonCreateAdvertising from './ButtonCreateAdvertising';
 import { useState } from 'react';
+import Modal from '../../../components/Modal';
+import Button from '../../../components/Buttons/Button';
 
 function MainAdvertising() {
   const [advertisingsJSON, setAdvertisingsJSON] = useState(
@@ -29,7 +31,13 @@ function MainAdvertising() {
         <div className="mt-[-70px] mr-[3%] ">
           <TableMain advertisingsJSON={advertisingsJSON} />
           <div className="flex justify-end">
-            <ButtonCreateAdvertising onClick={openModal} />
+            <Button
+              onClick={openModal}
+              active={true}
+              label={'NUEVO AVISO'}
+              type={1}
+              className="bg-[#2C9CBF] rounded-[15px] select-none py-[16px] w-[236px] text-white font-[600] text-[20px]"
+            />
             <Modal
               isOpen={isModalOpen}
               onClose={closeModal}

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Pagination, ThemeProvider } from '@mui/material';
-import theme from '../../../config/createTheme';
 import SearchBar from './SearchBar';
 import TableAdvertising from './TableAdvertising';
-import { Advertising } from '../../../types/customTypes';
+import { Advertising } from '../../../../types/customTypes';
+import theme from '../../../../config/createTheme';
 
 function TableMain({ advertisingsJSON }: { advertisingsJSON: Advertising[] }) {
   //filas por pagina
