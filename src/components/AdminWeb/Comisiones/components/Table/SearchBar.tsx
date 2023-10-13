@@ -1,6 +1,5 @@
 import React from 'react';
 
-// Componente para la barra de búsqueda
 function SearchBar({
   searchTerm,
   onSearchChange,
@@ -31,7 +30,7 @@ function SearchBar({
         <input
           className="w-[85%] pl-2 h-full outline-none text-[20px]"
           type="text"
-          placeholder="Buscas avisos"
+          placeholder="Buscar comisiones"
           value={searchTerm}
           onChange={onSearchChange}
         />

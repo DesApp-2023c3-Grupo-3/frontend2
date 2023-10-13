@@ -2,7 +2,6 @@ interface DayPickerProps {
     selectedDays: string[];
     onSelectedDaysChange: (newSelectedDays: string[]) => void;
   }
-  
   function DayPicker({ onSelectedDaysChange, selectedDays }: DayPickerProps) {
     const daysOfTheWeek = [
       'Lunes',
@@ -12,15 +11,12 @@ interface DayPickerProps {
       'Viernes',
       'Sábado',
     ];
-  
     const handleDayClick = (day: string) => {
       const newSelectedDays = selectedDays.includes(day)
         ? selectedDays.filter((d) => d !== day)
         : [...selectedDays, day];
-  
       onSelectedDaysChange(newSelectedDays);
     };
-  
     return (
       <div className="flex justify-center m-10">
         {daysOfTheWeek.map((day, index) => (

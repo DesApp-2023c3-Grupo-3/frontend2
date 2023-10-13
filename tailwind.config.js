@@ -9,6 +9,12 @@ module.exports = {
       gridColumnEnd: {
         21: '21',
       },
+      stickyHeader: {
+        'position': 'sticky',
+        'top': '0',
+        'backgroundColor': '#484848',
+        'zIndex': '1',
+      },
     },
   },
   plugins: [],

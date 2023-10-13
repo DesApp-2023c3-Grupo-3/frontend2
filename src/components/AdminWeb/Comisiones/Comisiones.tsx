@@ -12,7 +12,7 @@ function Comisiones() {
       <h1 className="text-[4rem] font-[700] text-[#484848] tracking-[-1.28px] mt-[20px]">
         Comisiones
       </h1>
-      <div className='mt-[-70px] mr-[4.8%]'>
+      <div className='mt-[-70px] mr-[3.1%]'>
         {/*<TableMain commisionsJSON={commissionsJSON} />*/}
         <TableMain commissionsJSON={commissionsJSON}/>
         <div className="flex justify-end">

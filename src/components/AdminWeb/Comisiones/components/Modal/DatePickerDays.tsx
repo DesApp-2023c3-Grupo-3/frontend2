@@ -17,7 +17,6 @@ function DatePickerDays({
   const [selectedDateFinal, setSelectedDateFinal] = React.useState<Date | null>(
     null,
   );
-
   const handleStartDateChange = (newStartHour: string) => {
     console.log('handleStartHourChange newStartHour', newStartHour);
     const newDate = new Date(newStartHour);
@@ -25,7 +24,6 @@ function DatePickerDays({
     setSelectedDateInit(newDate);
     onChangeStartDate(newDate);
   };
-
   const handleEndDateChange = (newEndHour: string) => {
     console.log('handleEndHourChange newEndHour', newEndHour);
     const newDate = new Date(newEndHour);
