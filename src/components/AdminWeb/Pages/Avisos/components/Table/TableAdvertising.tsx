@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Advertising } from '../../../../types/customTypes';
 import TableRow from './TableRow';
 import Modal from '../../../../components/Modal';
@@ -15,8 +14,8 @@ function TableAdvertising({
   advertisings,
   setAdvertisingsJSON,
 }: TableAdvertisingProps) {
-  const [editRow, setEditRow] = useState<Advertising>();
-  const [isEditing, setIsEditing] = useState(false);
+  const [editRow, setEditRow] = React.useState<Advertising>();
+  const [isEditing, setIsEditing] = React.useState(false);
 
   const handleRowClick = (advertising: Advertising) => {
     setEditRow(advertising);

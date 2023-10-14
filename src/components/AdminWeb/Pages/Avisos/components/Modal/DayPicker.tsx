@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import * as React from 'react';
 
 interface DayPickerProps {
   selectedDays: string[];
@@ -16,7 +16,7 @@ function DayPicker({ onSelectedDaysChange, selectedDays }: DayPickerProps) {
     'Domingo',
   ];
 
-  const [selectAllDays, setSelectAllDays] = useState(false);
+  const [selectAllDays, setSelectAllDays] = React.useState(false);
 
   const handleSelectAllDaysChange = () => {
     setSelectAllDays(!selectAllDays);

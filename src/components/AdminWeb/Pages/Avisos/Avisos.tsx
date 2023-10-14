@@ -1,17 +1,28 @@
-import advertisingData from '../../Mocks/advertisingData.json';
-import { useState } from 'react';
 import Button from '../../components/Buttons/Button';
 import Modal from '../../components/Modal';
 import TableMain from './components/Table/TableMain';
 import FormAdvertising from './components/Modal/FormAdvertising';
 import { useModal } from '../../hooks/useModal';
 import { Advertising } from '../../types/customTypes';
+import React from 'react';
+import { asAdvertisings } from '../../../../services/advertisings';
 
 function Avisos() {
-  const [advertisingsJSON, setAdvertisingsJSON] = useState<Advertising[]>(
-    //Esto tendría que ser un JSON que viene del backend
-    advertisingData,
+  //GET ADVERTISINGS
+  const [advertisingsJSON, setAdvertisingsJSON] = React.useState<Advertising[]>(
+    [],
   );
+
+  React.useEffect(() => {
+    asAdvertisings
+      .getAll()
+      .then((r) => {
+        setAdvertisingsJSON(r.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, []);
 
   //Modal
   const { isOpen, openModal, closeModal } = useModal();
@@ -21,6 +32,7 @@ function Avisos() {
       <h1 className="text-[4rem] font-[700] text-[#484848] tracking-[-1.28px] ml-[48px] mt-[20px]">
         Avisos
       </h1>
+
       <div className="mt-[-70px] mr-[3%] ">
         <TableMain
           advertisingsJSON={advertisingsJSON}

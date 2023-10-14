@@ -3,7 +3,6 @@ import Sectores from '../../../../components/Sectores';
 import ImageTextVideo from './ImageTextVideo/ImageTextVideo';
 import DayPicker from './DayPicker';
 import PickerTime from './PickerTime';
-import React, { useState } from 'react';
 import Swal from 'sweetalert2';
 import './form.sass';
 import dayjs, { Dayjs } from 'dayjs';
@@ -11,7 +10,7 @@ import { Advertising } from '../../../../types/customTypes';
 import ErrorMessage from '../../../../components/ErrorMessage';
 import { abbreviateSectorName } from '../../../../utils/AbbreviateSectorName';
 import Button from '../../../../components/Buttons/Button';
-import { format } from 'path';
+import * as React from 'react';
 
 function messageError(message: string) {
   Swal.fire({
@@ -44,19 +43,32 @@ function FormAdvertising({
   isCreate,
   advertising,
 }: FormAdvertisingProps) {
-  function eliminarAdvertising(advertisingId: number | undefined) {
+  function eliminarAdvertising(advertisingId: number) {
     const advertisingFilter = advertisingsJSON.filter(
       (advertising) => advertising.id !== advertisingId,
     );
     setAdvertisingsJSON(advertisingFilter);
   }
 
-  const [emptyFields, setEmptyFields] = useState({
+  const [emptyFields, setEmptyFields] = React.useState({
     advertisingName: false,
     selectedSector: false,
     selectedDays: false,
     date: false,
     hour: false,
+  });
+
+  //Alerts
+  const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener('mouseenter', Swal.stopTimer);
+      toast.addEventListener('mouseleave', Swal.resumeTimer);
+    },
   });
 
   const handleDeleteAdvertisingClick = () => {
@@ -70,9 +82,14 @@ function FormAdvertising({
       confirmButtonText: 'Si, borrar.',
     }).then((result) => {
       if (result.isConfirmed) {
-        eliminarAdvertising(advertising?.id);
-        Swal.fire('¡Borrado!', 'El aviso ha sido eliminado.', 'success');
-        closeModal();
+        if (advertising) {
+          eliminarAdvertising(advertising.id);
+          Toast.fire({
+            icon: 'success',
+            title: 'Se ha eliminado el aviso',
+          });
+          closeModal();
+        }
       }
     });
   };
@@ -86,6 +103,8 @@ function FormAdvertising({
       hour: validationDate(startHour, endHour),
     };
     setEmptyFields(emptyFieldsUpdate);
+
+    //ADVERTISING
 
     const locale = 'es-AR';
     //fecha
@@ -124,19 +143,6 @@ function FormAdvertising({
       .map((sector) => abbreviateSectorName(sector.name))
       .join(', ');
 
-    //Alerts
-    const Toast = Swal.mixin({
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 3000,
-      timerProgressBar: true,
-      didOpen: (toast) => {
-        toast.addEventListener('mouseenter', Swal.stopTimer);
-        toast.addEventListener('mouseleave', Swal.resumeTimer);
-      },
-    });
-
     //Enviar el aviso al backend acá
     function CreateAdvetising() {
       const newAdvertising = {
@@ -170,7 +176,7 @@ function FormAdvertising({
           scheduleDays: days,
         },
       };
-      setAdvertisingsJSON([...advertisingsJSON, newAdvertising]);
+      //setAdvertisingsJSON([...advertisingsJSON, newAdvertising]); // ENVIAR AVISO AL BACK
       closeModal();
 
       Toast.fire({
@@ -179,26 +185,26 @@ function FormAdvertising({
       });
     }
 
-    function editAdvertising() {
-      if (advertising) {
-        advertising.name = advertisingName;
-        advertising.schedule.startDate = `${startDay}`;
-        advertising.schedule.endDate = `${endDay}`;
-        advertising.schedule.startHour = `${localeStartHour}:${localeStartMinutes}`;
-        advertising.schedule.endHour = `${localeEndHour}:${localeEndMinutes}`;
-        advertising.schedule.scheduleDays = days;
-        advertising.sector = {
-          id: advertising.sector.id,
-          name: sectores,
-          topic: 'Materias',
-        };
-      }
-      closeModal();
-      Toast.fire({
-        icon: 'success',
-        title: 'Se ha editado el aviso',
-      });
-    }
+    // function editAdvertising() {
+    //   if (advertising) {
+    //     advertising.name = advertisingName;
+    //     advertising.schedule.startDate = `${startDay}`;
+    //     advertising.schedule.endDate = `${endDay}`;
+    //     advertising.schedule.startHour = `${localeStartHour}:${localeStartMinutes}`;
+    //     advertising.schedule.endHour = `${localeEndHour}:${localeEndMinutes}`;
+    //     advertising.schedule.scheduleDays = days;
+    //     advertising.sector = {
+    //       id: advertising.sector.id,
+    //       name: sectores,
+    //       topic: 'Materias',
+    //     };
+    //   }
+    //   closeModal();
+    //   Toast.fire({
+    //     icon: 'success',
+    //     title: 'Se ha editado el aviso',
+    //   });
+    // }
 
     //VALIDACIONES
 
@@ -223,16 +229,18 @@ function FormAdvertising({
   };
 
   //Nombre del aviso
-  const [advertisingName, setAdvertisingName] = useState(
+  const [advertisingName, setAdvertisingName] = React.useState(
     advertising ? advertising.name : '',
   );
 
   //Hora del aviso
-  const [startHour, setStartHour] = useState<any | null>(
-    advertising ? new Date(advertising.schedule.startHour) : null,
+  const [startHour, setStartHour] = React.useState<any | null>(
+    // advertising ? new Date(advertising.schedule.startHour) :
+    null,
   );
-  const [endHour, setEndHour] = useState<any | null>(
-    advertising ? new Date(advertising.schedule.endHour) : null,
+  const [endHour, setEndHour] = React.useState<any | null>(
+    // advertising ? new Date(advertising.schedule.endHour) :
+    null,
   );
 
   const handleStartHourChange = (newStartHour: Date | Dayjs) => {
@@ -244,11 +252,13 @@ function FormAdvertising({
   };
 
   //fechas del aviso
-  const [startDate, setStartDate] = useState<Date | null>(
-    advertising ? new Date(advertising.schedule.startDate) : null,
+  const [startDate, setStartDate] = React.useState<Date | null>(
+    // advertising ? new Date(advertising.schedule.startDate) :
+    null,
   );
-  const [endDate, setEndDate] = useState<Date | null>(
-    advertising ? new Date(advertising.schedule.endDate) : null,
+  const [endDate, setEndDate] = React.useState<Date | null>(
+    // advertising ? new Date(advertising.schedule.endDate) :
+    null,
   );
 
   const handleStartDateChange = (newStartDate: Date) => {
@@ -260,8 +270,9 @@ function FormAdvertising({
   };
 
   //Día de la semana del aviso
-  const [selectedDays, setSelectedDays] = useState<string[]>(
-    advertising ? advertising.schedule.scheduleDays : [],
+  const [selectedDays, setSelectedDays] = React.useState<string[]>(
+    // advertising ? advertising.schedule.scheduleDays :
+    [],
   );
 
   const handleDaysChange = (newDays: string[]) => {
@@ -275,7 +286,7 @@ function FormAdvertising({
     name: string;
   }
 
-  const [selectedSector, setSelectedSector] = useState<Sector[]>([]); //ESTO HAY QUE CAMBIARLO
+  const [selectedSector, setSelectedSector] = React.useState<Sector[]>([]); //ESTO HAY QUE CAMBIARLO
 
   const handleSelectedSectorChange = (newSelectedSector: Sector[]) => {
     setSelectedSector(newSelectedSector);
@@ -296,6 +307,7 @@ function FormAdvertising({
               value={advertisingName}
               onChange={(e) => setAdvertisingName(e.target.value)}
               defaultValue={advertisingName}
+              autoComplete="off"
             ></input>
             {ErrorMessage(
               '*Falta completar el nombre del aviso.',
@@ -322,8 +334,8 @@ function FormAdvertising({
               <DatePickerDays
                 onChangeStartDate={handleStartDateChange}
                 onChangeEndDate={handleEndDateChange}
-                init={advertising?.schedule.startDate}
-                final={advertising?.schedule.endDate}
+                // init={advertising?.schedule.startDate}
+                // final={advertising?.schedule.endDate}
               />
               {ErrorMessage('*Falta completar las fechas.', emptyFields.date)}
             </div>
@@ -341,8 +353,8 @@ function FormAdvertising({
               <PickerTime
                 onChangeStartHour={handleStartHourChange}
                 onChangeEndHour={handleEndHourChange}
-                init={advertising?.schedule.startHour}
-                final={advertising?.schedule.endHour}
+                // init={advertising?.schedule.startHour}
+                // final={advertising?.schedule.endHour}
               />
               {ErrorMessage('*Falta completar los horarios', emptyFields.hour)}
             </div>

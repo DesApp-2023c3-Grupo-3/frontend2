@@ -1,7 +1,8 @@
-import { Fragment, useState } from 'react';
+import { Fragment } from 'react';
 import { Listbox, Transition } from '@headlessui/react';
 import { Checkbox } from '@mui/material';
 import { abbreviateSectorName } from '../utils/AbbreviateSectorName';
+import React from 'react';
 
 const sectors = [
   { id: 1, name: 'Edificio Malvinas' },
@@ -21,7 +22,7 @@ function Sectores({
   onSelectedSectorChange,
   campos,
 }: SectoresProps) {
-  const [selectAll, setSelectAll] = useState(false);
+  const [selectAll, setSelectAll] = React.useState(false);
 
   const handleSelectAllChange = (event: {
     target: { checked: boolean | ((prevState: boolean) => boolean) };

@@ -13,6 +13,15 @@ function TableRow({ advertising, index, onRowClick }: TableRowProps) {
     onRowClick(advertising);
   };
 
+  const status = advertising.status;
+
+  const statusClasses: any = {
+    active: 'bg-[#74C91E]',
+    deprecated: 'bg-[#727272]',
+    pending: 'bg-[#C2B222]',
+    today: 'bg-[#C2B222]',
+  };
+
   return (
     <tr
       onClick={handleRowClick}
@@ -31,20 +40,33 @@ function TableRow({ advertising, index, onRowClick }: TableRowProps) {
         {advertising.name}
       </td>
       <td id="Sector" className="px-4 py-2">
-        {abbreviateSectorName(advertising.sector.name)}
+        {advertising.advertisingSectors
+          .map((sector) => sector.sector.name)
+          .map((s) => abbreviateSectorName(s))
+          .join('-')}
       </td>
       <td id="Dias" className="px-4 py-2">
-        {advertising.schedule.scheduleDays
-          .map((dia) => dia.slice(0, 2))
+        {advertising.advertisingSchedules
+          .map((schedule) => schedule.schedule.dayCode)
+          .map((d) => d.charAt(0).toUpperCase() + d.slice(1).toLowerCase())
           .join('-')}
       </td>
       <td id="Horario" className="px-4 py-2">
-        {advertising.schedule.startHour + '-' + advertising.schedule.endHour}
+        {advertising.advertisingSchedules.map((i) =>
+          i.schedule.startHour.slice(11, 16),
+        )[0] +
+          '-' +
+          advertising.advertisingSchedules.map((i) =>
+            i.schedule.endHour.slice(11, 16),
+          )[0]}
       </td>
       <td id="Estado" className="px-4 py-2">
-        {'activo'}
-      </td>{' '}
-      {/* Falta hacer esto. */}
+        <div
+          className={`w-[40px] h-[12px] ml-5 rounded-[8px] ${
+            statusClasses[status] || 'class-default'
+          }`}
+        ></div>
+      </td>
     </tr>
   );
 }

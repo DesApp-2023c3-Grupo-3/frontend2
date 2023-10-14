@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import * as React from 'react';
 import { Pagination, ThemeProvider } from '@mui/material';
 import SearchBar from './SearchBar';
 import TableAdvertising from './TableAdvertising';
@@ -15,9 +15,9 @@ function TableMain({
   setAdvertisingJSON,
 }: TableMainProps) {
   //filas por pagina
-  const [itemsPerPage, setItemsPerPage] = useState(7);
+  const [itemsPerPage, setItemsPerPage] = React.useState(7);
 
-  useEffect(() => {
+  React.useEffect(() => {
     const adjustItemsPerPage = () => {
       const windowHeight = window.innerHeight;
       const rowHeight = 130;
@@ -35,8 +35,8 @@ function TableMain({
   }, []);
 
   //barra de busqueda y paginacion
-  const [currentPage, setCurrentPage] = useState(1);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [currentPage, setCurrentPage] = React.useState(1);
+  const [searchTerm, setSearchTerm] = React.useState('');
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
