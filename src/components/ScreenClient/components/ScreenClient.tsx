@@ -5,8 +5,6 @@ import Screen from './Screen';
 function ScreenClient({ screenId }: { screenId: number }) {
   const { socketConnection } = useConnectionSocket(screenId);
 
-  console.log(socketConnection);
-
   return socketConnection ? <Screen /> : <CircularProgress />;
 }
 

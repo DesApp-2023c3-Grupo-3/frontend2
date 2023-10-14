@@ -24,4 +24,5 @@ export const useAdvertisingMessages = create<StoreAdvertising>()(set => ({
         advertisingMessages: [...state.advertisingMessages, message],
       }));
     },
+    
 }))
