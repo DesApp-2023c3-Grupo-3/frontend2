@@ -9,7 +9,7 @@ export interface DataAdvertising {
     title: string;
 }
 
-const INITIAL_ADVERTISING: DataAdvertising[] = filterMessages(messages, 'CREATE_ADVERTISING')
+const INITIAL_ADVERTISING: DataAdvertising[] = filterMessages(messages, 'CREATE_ADVERTISING');
 
 type StoreAdvertising = {
     advertisingMessages: DataAdvertising[]
@@ -24,5 +24,4 @@ export const useAdvertisingMessages = create<StoreAdvertising>()(set => ({
         advertisingMessages: [...state.advertisingMessages, message],
       }));
     },
-    
-}))
+}));

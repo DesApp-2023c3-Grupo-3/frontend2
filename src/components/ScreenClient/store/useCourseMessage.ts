@@ -25,5 +25,4 @@ export const useCourseMessages = create<StoreCourse>()(set => ({
         courseMessages: [...state.courseMessages, message],
       }));
     },
-  
 }))
