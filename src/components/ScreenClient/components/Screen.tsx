@@ -2,7 +2,7 @@ import CourseBillboard from '../pages/BillBoardCourse/components/CourseBillboard
 import VideoBillboard from '../pages/BillboardVideo/components/VideoBillboard';
 import { ReactJSXElement } from '@emotion/react/types/jsx-namespace';
 import { useConnectionMessage } from '../store/useConnectionMessage';
-import { CircularProgress } from '@mui/material';
+import Loader from '../styled-components/Loader';
 
 export default function Screen() {
   const typeScreen = useConnectionMessage((state) => state.connectionMessage);
@@ -13,5 +13,5 @@ export default function Screen() {
     2: <VideoBillboard />,
   };
 
-  return templateId ? billboards[parseInt(templateId)] : <CircularProgress />;
+  return templateId ? billboards[parseInt(templateId)] : <Loader />;
 }
