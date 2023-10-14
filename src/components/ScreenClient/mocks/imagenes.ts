@@ -1,63 +1,57 @@
-import { Message } from '../store/socketStore';
+
+export interface Message {
+  action: string;
+  id: number;
+  data: any;
+}
 
 export const messages: Message[] = [
   {
-    topic: 'advertising',
+    action: 'CREATE_ADVERTISING',
     id: 6,
     data: {
       advertisingTypeId: 3,
-      id: 3,
       payload: 'El lunes no hay clases',
-      title: 'a',
     },
   },
   {
-    topic: 'advertising',
+    action: 'CREATE_ADVERTISING',
     id: 1,
     data: {
       advertisingTypeId: 1,
-      id: 1,
       payload:
         'https://scontent.faep6-2.fna.fbcdn.net/v/t1.6435-9/177292671_1915770318575927_3542229533072028658_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=730e14&_nc_ohc=HhzGQABc30YAX8G1mAs&_nc_ht=scontent.faep6-2.fna&oh=00_AfDcN5DSfrvnqOfs8EOVfai_HlyZBzRaX__ChUAKGNKObA&oe=653696AC',
-      title: 'imagen',
     },
   },
   {
-    topic: 'advertising',
+    action: 'CREATE_ADVERTISING',
     id: 2,
     data: {
       advertisingTypeId: 2,
-      id: 2,
       payload: 'https://www.youtube.com/watch?v=K8gihOKBo2k&ab_channel=UNAHUR',
-      title: 'imagen',
     },
   },
   {
-    topic: 'advertising',
+    action: 'CREATE_ADVERTISING',
     id: 4,
     data: {
       advertisingTypeId: 2,
-      id: 1,
       payload: 'https://www.youtube.com/watch?v=0Sj8N9KTtds&ab_channel=UNAHUR',
-      title: 'imagen',
     },
   },
   {
-    topic: 'advertising',
+    action: 'CREATE_ADVERTISING',
     id: 5,
     data: {
       advertisingTypeId: 3,
-      id: 2,
       payload:
         'Se cancelo la clase de Matemáticas I ya que no viene el profesor, saludos',
-      title: 'imagen',
     },
   },
   {
-    topic: 'course',
+    action: 'CREATE_COURSE',
     id: 4,
     data: {
-      id: 1,
       subject: 'Estrategias de persistencia',
       title: 'ep-1',
       classroom: 54,
@@ -65,7 +59,7 @@ export const messages: Message[] = [
     },
   },
   {
-    topic: 'course',
+    action: 'CREATE_COURSE',
     id: 5,
     data: {
       id: 2,
@@ -76,7 +70,7 @@ export const messages: Message[] = [
     },
   },
   {
-    topic: 'course',
+    action: 'CREATE_COURSE',
     id: 6,
     data: {
       id: 3,
@@ -87,7 +81,7 @@ export const messages: Message[] = [
     },
   },
   {
-    topic: 'course',
+    action: 'CREATE_COURSE',
     id: 7,
     data: {
       id: 4,
@@ -98,7 +92,7 @@ export const messages: Message[] = [
     },
   },
   {
-    topic: 'course',
+    action: 'CREATE_COURSE',
     id: 8,
     data: {
       id: 5,
@@ -109,7 +103,7 @@ export const messages: Message[] = [
     },
   },
   {
-    topic: 'course',
+    action: 'CREATE_COURSE',
     id: 9,
     data: {
       id: 6,
@@ -120,7 +114,7 @@ export const messages: Message[] = [
     },
   },
   {
-    topic: 'course',
+    action: 'CREATE_COURSE',
     id: 9,
     data: {
       id: 7,
@@ -131,7 +125,7 @@ export const messages: Message[] = [
     },
   },
   {
-    topic: 'course',
+    action: 'CREATE_COURSE',
     id: 9,
     data: {
       id: 8,
@@ -142,7 +136,7 @@ export const messages: Message[] = [
     },
   },
   {
-    topic: 'course',
+    action: 'CREATE_COURSE',
     id: 9,
     data: {
       id: 9,
@@ -153,7 +147,7 @@ export const messages: Message[] = [
     },
   },
   {
-    topic: 'course',
+    action: 'CREATE_COURSE',
     id: 9,
     data: {
       id: 10,
@@ -164,7 +158,7 @@ export const messages: Message[] = [
     },
   },
   {
-    topic: 'course',
+    action: 'CREATE_COURSE',
     id: 9,
     data: {
       id: 11,
@@ -175,7 +169,7 @@ export const messages: Message[] = [
     },
   },
   {
-    topic: 'course',
+    action: 'CREATE_COURSE',
     id: 5,
     data: {
       id: 2,
@@ -186,7 +180,7 @@ export const messages: Message[] = [
     },
   },
   {
-    topic: 'course',
+    action: 'CREATE_COURSE',
     id: 6,
     data: {
       id: 3,
@@ -197,7 +191,7 @@ export const messages: Message[] = [
     },
   },
   {
-    topic: 'course',
+    action: 'CREATE_COURSE',
     id: 7,
     data: {
       id: 4,
@@ -208,7 +202,7 @@ export const messages: Message[] = [
     },
   },
   {
-    topic: 'course',
+    action: 'CREATE_COURSE',
     id: 8,
     data: {
       id: 5,
@@ -219,7 +213,7 @@ export const messages: Message[] = [
     },
   },
   {
-    topic: 'course',
+    action: 'CREATE_COURSE',
     id: 9,
     data: {
       id: 6,
@@ -230,7 +224,7 @@ export const messages: Message[] = [
     },
   },
   {
-    topic: 'course',
+    action: 'CREATE_COURSE',
     id: 9,
     data: {
       id: 7,
@@ -241,7 +235,7 @@ export const messages: Message[] = [
     },
   },
   {
-    topic: 'course',
+    action: 'CREATE_COURSE',
     id: 9,
     data: {
       id: 8,
@@ -252,7 +246,7 @@ export const messages: Message[] = [
     },
   },
   {
-    topic: 'course',
+    action: 'CREATE_COURSE',
     id: 9,
     data: {
       id: 9,
@@ -263,7 +257,7 @@ export const messages: Message[] = [
     },
   },
   {
-    topic: 'course',
+    action: 'CREATE_COURSE',
     id: 9,
     data: {
       id: 10,
@@ -274,7 +268,7 @@ export const messages: Message[] = [
     },
   },
   {
-    topic: 'course',
+    action: 'CREATE_COURSE',
     id: 9,
     data: {
       id: 11,
@@ -285,7 +279,7 @@ export const messages: Message[] = [
     },
   },
   {
-    topic: 'course',
+    action: 'CREATE_COURSE',
     id: 9,
     data: {
       id: 7,
@@ -296,7 +290,7 @@ export const messages: Message[] = [
     },
   },
   {
-    topic: 'course',
+    action: 'CREATE_COURSE',
     id: 9,
     data: {
       id: 8,
@@ -307,7 +301,7 @@ export const messages: Message[] = [
     },
   },
   {
-    topic: 'course',
+    action: 'CREATE_COURSE',
     id: 9,
     data: {
       id: 9,
@@ -318,7 +312,7 @@ export const messages: Message[] = [
     },
   },
   {
-    topic: 'course',
+    action: 'CREATE_COURSE',
     id: 9,
     data: {
       id: 10,
@@ -329,7 +323,7 @@ export const messages: Message[] = [
     },
   },
   {
-    topic: 'course',
+    action: 'CREATE_COURSE',
     id: 9,
     data: {
       id: 11,
