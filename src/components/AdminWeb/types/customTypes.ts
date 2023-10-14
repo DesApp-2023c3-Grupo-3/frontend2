@@ -26,7 +26,7 @@ export type Advertising = {
     endDate: string;
     startHour: string;
     endHour: string;
-    scheduleDays: string;
+    scheduleDays: string[];
   };
 };
 

@@ -5,7 +5,15 @@ import TableAdvertising from './TableAdvertising';
 import { Advertising } from '../../../../types/customTypes';
 import theme from '../../../../config/createTheme';
 
-function TableMain({ advertisingsJSON }: { advertisingsJSON: Advertising[] }) {
+interface TableMainProps {
+  advertisingsJSON: Advertising[];
+  setAdvertisingJSON: React.Dispatch<React.SetStateAction<Advertising[]>>;
+}
+
+function TableMain({
+  advertisingsJSON = [],
+  setAdvertisingJSON,
+}: TableMainProps) {
   //filas por pagina
   const [itemsPerPage, setItemsPerPage] = useState(7);
 
@@ -54,7 +62,10 @@ function TableMain({ advertisingsJSON }: { advertisingsJSON: Advertising[] }) {
   return (
     <div className="">
       <SearchBar searchTerm={searchTerm} onSearchChange={handleSearchChange} />
-      <TableAdvertising advertisings={currentData} />
+      <TableAdvertising
+        advertisings={currentData}
+        setAdvertisingsJSON={setAdvertisingJSON}
+      />
       <ThemeProvider theme={theme}>
         <Pagination
           className="flex justify-center bg-white pt-10"

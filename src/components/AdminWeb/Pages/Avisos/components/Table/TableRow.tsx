@@ -1,18 +1,25 @@
 import { Advertising } from '../../../../types/customTypes';
 import { abbreviateSectorName } from '../../../../utils/AbbreviateSectorName';
 
-// Componente para mostrar una fila
-function TableRow({
-  advertising,
-  index,
-}: {
+interface TableRowProps {
   advertising: Advertising;
   index: number;
-}) {
+  onRowClick: (advertising: Advertising) => void;
+}
+
+// Componente para mostrar una fila
+function TableRow({ advertising, index, onRowClick }: TableRowProps) {
+  const handleRowClick = () => {
+    onRowClick(advertising);
+  };
+
   return (
     <tr
+      onClick={handleRowClick}
       key={advertising.id}
-      className={index % 2 === 0 ? 'bg-[#F1F1F1]' : 'bg-[#DFDFDF]'}
+      className={` hover:bg-[#c4c4c4] ${
+        index % 2 === 0 ? 'bg-[#F1F1F1]' : 'bg-[#DFDFDF]'
+      }`}
     >
       <td
         id="User"
@@ -26,12 +33,18 @@ function TableRow({
       <td id="Sector" className="px-4 py-2">
         {abbreviateSectorName(advertising.sector.name)}
       </td>
-      {/* Cambiar si son varios sectores */}
-      <td className="px-4 py-2">{advertising.schedule.scheduleDays}</td>
-      <td className="px-4 py-2">
+      <td id="Dias" className="px-4 py-2">
+        {advertising.schedule.scheduleDays
+          .map((dia) => dia.slice(0, 2))
+          .join('-')}
+      </td>
+      <td id="Horario" className="px-4 py-2">
         {advertising.schedule.startHour + '-' + advertising.schedule.endHour}
       </td>
-      <td className="px-4 py-2">{'activo'}</td> {/* Falta hacer esto. */}
+      <td id="Estado" className="px-4 py-2">
+        {'activo'}
+      </td>{' '}
+      {/* Falta hacer esto. */}
     </tr>
   );
 }

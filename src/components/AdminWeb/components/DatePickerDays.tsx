@@ -1,29 +1,34 @@
 import * as React from 'react';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { DatePicker } from '@mui/x-date-pickers';
+import dayjs from 'dayjs';
 
 interface DatePickerDaysProps {
   onChangeStartDate: (newStartDate: Date) => void;
   onChangeEndDate: (newEndDate: Date) => void;
+  init?: string;
+  final?: string;
 }
 
 function DatePickerDays({
   onChangeStartDate,
   onChangeEndDate,
+  init,
+  final,
 }: DatePickerDaysProps) {
   const [selectedDateInit, setSelectedDateInit] = React.useState<Date | null>(
-    null,
+    init !== undefined ? new Date(`${init}T00:00`) : null,
   );
   const [selectedDateFinal, setSelectedDateFinal] = React.useState<Date | null>(
-    null,
+    final ? new Date(final) : null,
   );
 
-  const handleStartDateChange = (newStartDate: Date) => {
+  const handleStartDateChange = (newStartDate: any) => {
     setSelectedDateInit(newStartDate);
     onChangeStartDate(newStartDate);
   };
 
-  const handleEndDateChange = (newEndDate: Date) => {
+  const handleEndDateChange = (newEndDate: any) => {
     setSelectedDateFinal(newEndDate);
     onChangeEndDate(newEndDate);
   };
@@ -36,24 +41,22 @@ function DatePickerDays({
             disablePast
             className="w-[100px]"
             value={selectedDateInit}
-            onChange={(newDate: Date | null) => {
-              if (newDate !== null) {
-                handleStartDateChange(newDate);
-              }
+            onChange={(newDate: any) => {
+              handleStartDateChange(newDate);
             }}
             label="Fecha de Inicio"
+            defaultValue={selectedDateInit ? selectedDateInit : null}
           />
           <DatePicker
             disablePast
             className="w-[100px]"
             value={selectedDateFinal}
             onChange={(newDate: any) => {
-              if (newDate !== null) {
-                handleEndDateChange(newDate);
-              }
+              handleEndDateChange(newDate);
             }}
             label="Fecha Final"
-            minDate={selectedDateInit || undefined}
+            minDate={selectedDateInit || null}
+            defaultValue={selectedDateFinal ? selectedDateFinal : null}
           />
         </DemoContainer>
       </div>

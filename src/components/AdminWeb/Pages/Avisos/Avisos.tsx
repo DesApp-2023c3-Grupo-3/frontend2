@@ -5,9 +5,10 @@ import Modal from '../../components/Modal';
 import TableMain from './components/Table/TableMain';
 import FormAdvertising from './components/Modal/FormAdvertising';
 import { useModal } from '../../hooks/useModal';
+import { Advertising } from '../../types/customTypes';
 
 function Avisos() {
-  const [advertisingsJSON, setAdvertisingsJSON] = useState(
+  const [advertisingsJSON, setAdvertisingsJSON] = useState<Advertising[]>(
     //Esto tendría que ser un JSON que viene del backend
     advertisingData,
   );
@@ -21,7 +22,10 @@ function Avisos() {
         Avisos
       </h1>
       <div className="mt-[-70px] mr-[3%] ">
-        <TableMain advertisingsJSON={advertisingsJSON} />
+        <TableMain
+          advertisingsJSON={advertisingsJSON}
+          setAdvertisingJSON={setAdvertisingsJSON}
+        />
         <div className="flex justify-end">
           <Button
             onClick={openModal}
@@ -38,6 +42,7 @@ function Avisos() {
                 advertisingsJSON={advertisingsJSON}
                 setAdvertisingsJSON={setAdvertisingsJSON}
                 closeModal={closeModal}
+                isCreate={true}
               />
             }
           />
