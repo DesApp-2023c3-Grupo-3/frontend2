@@ -2,33 +2,33 @@ import { create } from 'zustand';
 
 const INITIAL_CONNECTION_STATE = {
   screen: {
-    id: 1,
-    subscription: "default",
-    templeteId: "1",
-    courseIntervalTime: 15,
-    advertisingIntervalTime: 15,
+    id: -1,
+    subscription: "",
+    templeteId: "",
+    courseIntervalTime: 0,
+    advertisingIntervalTime: 0,
     createdAt: "",
     updatedAt: "", 
-    deletedAt: "null",
+    deletedAt: "",
     sector: {
-      id: 1,
-      name: "Edificio Malvinas",
-      topic: "Materias",
+      id: -1,
+      name: "",
+      topic: "",
       createdAt: "",
       updatedAt: "",
-      deletedAt: "null"
+      deletedAt: ""
     }
   },
   sector: {
-    id: 1,
-    name: "Edificio Malvinas",
-    topic: "Materias",
-    createdAt: "2023-10-12T21:29:59.661Z",
-    updatedAt: "2023-10-12T21:29:59.661Z",
-    deletedAt: "null"
+    id: -1,
+    name: "",
+    topic: "",
+    createdAt: "",
+    updatedAt: "",
+    deletedAt: ""
   },
-  topic: "default",
-  id: 1
+  action: "",
+  id: -1
 };
 
 interface ScreenConnection {
@@ -47,7 +47,7 @@ interface DataConnection {
   screen: ScreenConnection,
   sector: SectorConnection,
   id: number,
-  topic: string
+  action: string
 }
 
 interface SectorConnection {

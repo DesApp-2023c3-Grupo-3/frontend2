@@ -15,7 +15,7 @@ export interface StoreCourse {
     addCourseMessage: (message: DataCourse) => void
 }
   
-const INITIAL_COURSE = filterMessages(messages, 'course')
+const INITIAL_COURSE = filterMessages(messages, 'CREATE_COURSE')
   
 export const useCourseMessages = create<StoreCourse>()(set => ({
     courseMessages: INITIAL_COURSE,

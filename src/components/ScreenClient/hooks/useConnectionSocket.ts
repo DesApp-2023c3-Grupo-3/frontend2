@@ -5,6 +5,12 @@ import { useConnectionMessage } from '../store/useConnectionMessage';
 import { useAdvertisingMessages } from '../store/useAdvertisingMessages';
 import { useCourseMessages } from '../store/useCourseMessage';
 
+const ACTION_MESSAGE = {
+  CREATE_COURSE: 'CREATE_COURSE',
+  CREATE_ADVERTISING: 'CREATE_ADVERTISING',
+  START_CONNECTION: 'START_CONNECTION'
+}
+
 export function useConnectionSocket(screenId: number) {
   const [socketConnection, setSocketConnection] = useState<any>();
   const [error, setError] = useState<Error>();
@@ -14,15 +20,17 @@ export function useConnectionSocket(screenId: number) {
   const addCourseMessage = useCourseMessages(state => state.addCourseMessage)
 
   const handlerOnMessage = (message: Message) => {
-    switch(message.topic) {
-      case 'connection':
-        setConnection(message.data)
+    const newMessage = message.data
+
+    switch(newMessage.action) {
+      case ACTION_MESSAGE.START_CONNECTION:
+        setConnection(newMessage.data)
         break
-      case 'advertising': 
-        addAdvertisingMessage(message.data)
+      case ACTION_MESSAGE.CREATE_ADVERTISING: 
+        addAdvertisingMessage(newMessage.data)
         break
-      case 'course':
-        addCourseMessage(message.data)
+      case ACTION_MESSAGE.CREATE_COURSE:
+        addCourseMessage(newMessage.data)
         break
     }
   };

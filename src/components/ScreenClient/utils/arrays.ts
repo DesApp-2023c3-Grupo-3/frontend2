@@ -3,9 +3,9 @@ import { DataAdvertising } from "../store/useAdvertisingMessages";
 
 const ADVERTISING_TYPE_VIDEO = 2;
 
-export const filterMessages = (messages: Message[], topic: string) => {
+export const filterMessages = (messages: Message[], action: string) => {
   const advertisingMessages = messages.filter(
-    (message) => message.topic === topic,
+    (message) => message.action === action,
   );
   return advertisingMessages.map((message) => message.data);
 };

@@ -9,7 +9,7 @@ export interface DataAdvertising {
     title: string;
 }
 
-const INITIAL_ADVERTISING: DataAdvertising[] = filterMessages(messages, 'advertising')
+const INITIAL_ADVERTISING: DataAdvertising[] = filterMessages(messages, 'CREATE_ADVERTISING')
 
 type StoreAdvertising = {
     advertisingMessages: DataAdvertising[]
