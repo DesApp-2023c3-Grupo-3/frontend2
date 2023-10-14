@@ -1,12 +1,18 @@
-import { useState } from 'react';
 import YouTube from 'react-youtube';
 import { obtenerIDdeVideo } from '../../../../../ScreenClient/utils/strings';
-import ErrorMessage from '../../../ErrorMessage';
+import * as React from 'react';
 
 function VideoUp() {
-  const [youtubeUrl, setYoutubeUrl] = useState<string>('');
-  const [showPreview, setShowPreview] = useState<boolean>(false);
-  const [isValidUrl, setIsValidUrl] = useState<boolean>(true);
+  const [youtubeUrl, setYoutubeUrl] = React.useState<string>('');
+  const [showPreview, setShowPreview] = React.useState<boolean>(false);
+  const [isValidUrl, setIsValidUrl] = React.useState<boolean>(true);
+
+  const validateYouTubeUrl = (url: string) => {
+    const youtubeUrlPattern =
+      /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+/;
+    const isValid = youtubeUrlPattern.test(url);
+    return isValid ? obtenerIDdeVideo(url) : null;
+  };
 
   const onVideoSubmit = (e: any) => {
     e.preventDefault();
@@ -23,6 +29,17 @@ function VideoUp() {
     }
   };
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    const url = e.target.value;
+    setYoutubeUrl(url);
+
+    // Validar la URL en cada cambio
+    const videoId = validateYouTubeUrl(url);
+    setIsValidUrl(videoId !== null ? true : false);
+    setShowPreview(videoId !== null ? true : false);
+  };
+
   const opts = {
     height: '170',
     width: '300',
@@ -36,7 +53,7 @@ function VideoUp() {
       <h3 className="text-black ml-3 mt-3 select-none">URL YouTube:</h3>
       <div className="flex-col ml-[10px] h-[30px]">
         <div
-          className={`bg-[#fff] rounded-[20px] w-[280px] h-[34px] flex items-center ${
+          className={`bg-[#fff] rounded-[20px] w-[300px] h-[34px] flex items-center ${
             !isValidUrl ? 'border-2 border-[red]' : ''
           }`}
         >
@@ -44,7 +61,7 @@ function VideoUp() {
             placeholder="www.youtube.com"
             className="pl-5 w-[280px] h-[30px] bg-[#fff] rounded-s-[20px] outline-none"
             value={youtubeUrl}
-            onChange={(e) => setYoutubeUrl(e.target.value)}
+            onChange={handleInputChange}
           />
           <button onClick={onVideoSubmit} className="">
             {flecha}
