@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { TimePicker } from '@mui/x-date-pickers';
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 
 interface PickerTimeProps {
-  onChangeStartHour: (newStartHour: Date) => void;
-  onChangeEndHour: (newEndHour: Date) => void;
+  onChangeStartHour: (newStartHour: any) => void;
+  onChangeEndHour: (newEndHour: any) => void;
   init?: string;
   final?: string;
 }
@@ -16,24 +16,24 @@ function PickerTime({
   init,
   final,
 }: PickerTimeProps) {
-  const [selectedHourInit, setSelectedHourInit] = React.useState<Date | null>(
-    init ? new Date(`2018-01-01T${init}`) : null,
-  );
-  const [selectedHourFinal, setSelectedHourFinal] = React.useState<Date | null>(
-    final ? new Date(`2018-01-01T${final}`) : null,
-  );
+  const [selectedHourInit, setSelectedHourInit] = React.useState<
+    Date | null | Dayjs
+  >(init ? dayjs(`2024-01-01T${init}`) : null);
+  const [selectedHourFinal, setSelectedHourFinal] = React.useState<
+    Date | null | Dayjs
+  >(final ? dayjs(`2024-01-01T${final}`) : null);
 
-  const handleStartHourChange = (newStartHour: Date) => {
+  const handleStartHourChange = (newStartHour: any) => {
     if (newStartHour) {
-      const newDate = new Date(newStartHour);
+      const newDate = dayjs(newStartHour);
       setSelectedHourInit(newDate);
       onChangeStartHour(newDate);
     }
   };
 
-  const handleEndHourChange = (newEndHour: Date) => {
+  const handleEndHourChange = (newEndHour: any) => {
     if (newEndHour) {
-      const newDate = new Date(newEndHour);
+      const newDate = dayjs(newEndHour);
       setSelectedHourFinal(newDate);
       onChangeEndHour(newDate);
     }
@@ -47,24 +47,20 @@ function PickerTime({
             className=" w-[100px]"
             label="Hora de Inicio"
             value={selectedHourInit}
-            onChange={(newTime: Date | null) => {
-              if (newTime) {
-                handleStartHourChange(newTime);
-              }
+            onChange={(newTime: any) => {
+              handleStartHourChange(newTime);
             }}
-            defaultValue={selectedHourInit ? selectedHourInit : null}
+            defaultValue={selectedHourInit}
           />
 
           <TimePicker
             className=" w-[100px] "
             label="Hora Final"
             value={selectedHourFinal}
-            onChange={(newTime: Date | null) => {
-              if (newTime) {
-                handleEndHourChange(newTime);
-              }
+            onChange={(newTime: any) => {
+              handleEndHourChange(newTime);
             }}
-            defaultValue={selectedHourFinal ? selectedHourFinal : null}
+            defaultValue={selectedHourFinal}
           />
         </DemoContainer>
       </div>

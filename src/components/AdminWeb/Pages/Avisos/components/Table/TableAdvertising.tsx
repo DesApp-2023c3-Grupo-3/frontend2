@@ -21,7 +21,6 @@ function TableAdvertising({
   const handleRowClick = (advertising: Advertising) => {
     setEditRow(advertising);
     setIsEditing(true);
-    console.log('AVISO NUEVO: ', advertising.schedule.startDate);
   };
 
   const handleModalClose = () => {

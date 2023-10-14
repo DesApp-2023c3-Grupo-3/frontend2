@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { DatePicker } from '@mui/x-date-pickers';
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 
 interface DatePickerDaysProps {
   onChangeStartDate: (newStartDate: Date) => void;
@@ -16,12 +16,15 @@ function DatePickerDays({
   init,
   final,
 }: DatePickerDaysProps) {
-  const [selectedDateInit, setSelectedDateInit] = React.useState<Date | null>(
-    init !== undefined ? new Date(`${init}T00:00`) : null,
-  );
-  const [selectedDateFinal, setSelectedDateFinal] = React.useState<Date | null>(
-    final ? new Date(final) : null,
-  );
+  const parsedStartDate = init ? dayjs(init, 'DD-MM-YYYY') : null;
+  const parsedEndDate = final ? dayjs(final, 'DD-MM-YYYY') : null;
+
+  const [selectedDateInit, setSelectedDateInit] = React.useState<
+    Date | null | Dayjs
+  >(parsedStartDate);
+  const [selectedDateFinal, setSelectedDateFinal] = React.useState<
+    Date | null | Dayjs
+  >(parsedEndDate);
 
   const handleStartDateChange = (newStartDate: any) => {
     setSelectedDateInit(newStartDate);
@@ -45,7 +48,7 @@ function DatePickerDays({
               handleStartDateChange(newDate);
             }}
             label="Fecha de Inicio"
-            defaultValue={selectedDateInit ? selectedDateInit : null}
+            defaultValue={selectedDateInit}
           />
           <DatePicker
             disablePast
@@ -56,7 +59,7 @@ function DatePickerDays({
             }}
             label="Fecha Final"
             minDate={selectedDateInit || null}
-            defaultValue={selectedDateFinal ? selectedDateFinal : null}
+            defaultValue={selectedDateFinal}
           />
         </DemoContainer>
       </div>

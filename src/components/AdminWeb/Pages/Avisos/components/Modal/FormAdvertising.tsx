@@ -6,7 +6,7 @@ import PickerTime from './PickerTime';
 import React, { useState } from 'react';
 import Swal from 'sweetalert2';
 import './form.sass';
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import { Advertising } from '../../../../types/customTypes';
 import ErrorMessage from '../../../../components/ErrorMessage';
 import { abbreviateSectorName } from '../../../../utils/AbbreviateSectorName';
@@ -22,7 +22,7 @@ function messageError(message: string) {
   });
 }
 
-function validationDate(start: Date | null, end: Date | null) {
+function validationDate(start: Date | null | Dayjs, end: Date | null | Dayjs) {
   return (
     dayjs(start).format() === 'Invalid Date' ||
     dayjs(end).format() === 'Invalid Date'
@@ -99,17 +99,19 @@ function FormAdvertising({
     }
 
     //hora
-    let localeStartHour: null | string = null,
-      localeStartMinutes: null | string = null;
+    let localeStartHour: null | any = null,
+      localeStartMinutes: null | any = null;
     if (startHour !== null) {
       [localeStartHour, localeStartMinutes] = startHour
+        .toDate()
         .toLocaleTimeString(locale)
         .split(':');
     }
-    let localeEndHour: null | String = null,
-      localeEndMinutes: null | String = null;
+    let localeEndHour: null | any = null,
+      localeEndMinutes: null | any = null;
     if (endHour !== null) {
       [localeEndHour, localeEndMinutes] = endHour
+        .toDate()
         .toLocaleTimeString(locale)
         .split(':');
     }
@@ -177,6 +179,27 @@ function FormAdvertising({
       });
     }
 
+    function editAdvertising() {
+      if (advertising) {
+        advertising.name = advertisingName;
+        advertising.schedule.startDate = `${startDay}`;
+        advertising.schedule.endDate = `${endDay}`;
+        advertising.schedule.startHour = `${localeStartHour}:${localeStartMinutes}`;
+        advertising.schedule.endHour = `${localeEndHour}:${localeEndMinutes}`;
+        advertising.schedule.scheduleDays = days;
+        advertising.sector = {
+          id: advertising.sector.id,
+          name: sectores,
+          topic: 'Materias',
+        };
+      }
+      closeModal();
+      Toast.fire({
+        icon: 'success',
+        title: 'Se ha editado el aviso',
+      });
+    }
+
     //VALIDACIONES
 
     if (Object.values(emptyFieldsUpdate).filter((value) => value).length > 1) {
@@ -205,14 +228,14 @@ function FormAdvertising({
   );
 
   //Hora del aviso
-  const [startHour, setStartHour] = useState<Date | null>(
+  const [startHour, setStartHour] = useState<any | null>(
     advertising ? new Date(advertising.schedule.startHour) : null,
   );
-  const [endHour, setEndHour] = useState<Date | null>(
+  const [endHour, setEndHour] = useState<any | null>(
     advertising ? new Date(advertising.schedule.endHour) : null,
   );
 
-  const handleStartHourChange = (newStartHour: Date) => {
+  const handleStartHourChange = (newStartHour: Date | Dayjs) => {
     setStartHour(newStartHour);
   };
 
@@ -334,10 +357,12 @@ function FormAdvertising({
           <Button
             onClick={handleDeleteAdvertisingClick}
             active={true}
-            type={1}
+            type={0}
             label="ELIMINAR"
-            className={`bg-[white] border-2 text-red-500 border-red-500 rounded-[30px] py-[16px] w-[300px] h-[40px] font-[600] text-[20px] flex items-center justify-center ${
-              isCreate ? 'hidden' : 'hover:bg-[red] hover:text-[white]'
+            className={`${
+              isCreate
+                ? 'hidden'
+                : 'bg-[white] border-2 border-red-500 rounded-[30px] py-[16px] w-[300px] h-[40px] font-[600] text-[20px] flex items-center justify-center hover:bg-[red] hover:text-[white] text-[red]'
             }`}
           />
         </div>
