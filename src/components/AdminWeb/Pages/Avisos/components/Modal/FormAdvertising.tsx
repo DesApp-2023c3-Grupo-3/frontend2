@@ -336,10 +336,8 @@ function FormAdvertising({
             active={true}
             type={1}
             label="ELIMINAR"
-            className={`bg-[red] rounded-[30px] py-[16px] w-[300px] h-[40px] font-[600] text-[20px] flex items-center justify-center ${
-              isCreate
-                ? 'hidden'
-                : 'hover:bg-white hover:border-2 hover:text-red-500 hover:border-red-500'
+            className={`bg-[white] border-2 text-red-500 border-red-500 rounded-[30px] py-[16px] w-[300px] h-[40px] font-[600] text-[20px] flex items-center justify-center ${
+              isCreate ? 'hidden' : 'hover:bg-[red] hover:text-[white]'
             }`}
           />
         </div>
