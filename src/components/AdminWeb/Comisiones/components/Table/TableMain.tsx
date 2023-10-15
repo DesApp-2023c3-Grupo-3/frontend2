@@ -44,7 +44,9 @@ function TableMain({ commissionsJSON }: { commissionsJSON: Commission[] }) {
   };
 
   const filteredData = commissionsJSON.filter((commision) =>
-    commision.subject.name.toLowerCase().includes(searchTerm.toLowerCase())
+    commision.subject.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    commision.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    commision.classroom.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const currentData = filteredData.slice(startIndex, endIndex);
