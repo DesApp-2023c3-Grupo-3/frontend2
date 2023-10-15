@@ -6,7 +6,7 @@ export interface DataAdvertising {
     advertisingTypeId: number;
     id: number;
     payload: string;
-    title: string;
+    name: string;
 }
 
 const INITIAL_ADVERTISING: DataAdvertising[] = filterMessages(messages, 'CREATE_ADVERTISING');
