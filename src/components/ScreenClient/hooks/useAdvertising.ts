@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react"
 import { fetchAdvertisings } from "../services/fetchAdvertisings"
 
-export function useAdvertising() {
+export function useAdvertising({ screenId }: { screenId:number }) {
     const [advertisings, setAdvertisings] = useState([])
 
     useEffect(() => {
-        fetchAdvertisings()
+        fetchAdvertisings(screenId)
             .then(advertisings => setAdvertisings(advertisings))
     }, [])
 
