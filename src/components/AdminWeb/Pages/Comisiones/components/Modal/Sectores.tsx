@@ -37,7 +37,7 @@ function Sectores({ selectedSector, onSelectedSectorChange }: SectoresProps) {
         onChange={onSelectedSectorChange}
         multiple
       >
-        <div className="fixed flex-row justify-center">
+        <div className="fixed flex-row justify-center z-10">
           <Listbox.Button
             className={
               'text-[20px] font-[400] tracking-[-0.4px] rounded-[30px] bg-[#D9D9D9] flex w-[365px] h-[50px] px-[40px] py-[12px] items-center'

@@ -70,7 +70,6 @@ function FormCommission({
 
   const handleStartDateChange = (newStartDate: Date) => {
     setStartDate(newStartDate);
-    console.log(newStartDate.toLocaleDateString());
   };
   const handleEndDateChange = (newEndDate: Date) => {
     setEndDate(newEndDate);
@@ -93,9 +92,8 @@ function FormCommission({
     console.log('activar/desactivar tabla');
     setHasDocument(!hasDocument);
     if (hasDocument) {
-      setTableData([]); // Limpiar los datos de la tabla al ocultarla
+      setTableData([]);
     } else {
-      // Cargar los datos de commissionsJSON en la tablaData al mostrar la tabla
       setTableData(commissionsJSON.concat(commissionsJSON).concat(commissionsJSON).concat(commissionsJSON));
     }
   };
@@ -155,12 +153,11 @@ function FormCommission({
                       </tr>
                     </thead>
                     <tbody>
-                      {tableData.map((commission) => (
-                        <tr key={commission.id} className='border-solid border-y-2 border-neutral-400 text-center'>
+                      {tableData.map((commission, index) => (
+                        <tr key={index} className='border-solid border-y-2 border-neutral-400 text-center'>
                           <td>{commission.subject.name}</td>
                           <td>{commission.name}</td>
                           <td>{commission.classroom.name}</td>
-                          {/* Agrega más celdas según los datos que quieras mostrar */}
                         </tr>
                       ))}
                     </tbody>
