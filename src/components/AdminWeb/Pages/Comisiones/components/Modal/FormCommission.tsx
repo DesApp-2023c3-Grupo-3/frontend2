@@ -20,14 +20,14 @@ function FormCommission({
   const [tableData, setTableData] = useState<Commission[]>([]);
   const newCommission = () => {
     setHasDocument(!hasDocument); // Cambiamos el nombre del estado a "hasDocument"
-    
+
     const startDay = startDate.toLocaleDateString();
     const endtDay = endDate.toLocaleDateString();
     const sectores = selectedSector
       .map((sector) => abbreviateSectorName(sector.name))
       .join(', ');
-    
-      const newCommission = {
+
+    const newCommission = {
       id: commissionsJSON.length + 1,
       name: 'C1',
       user: {
@@ -63,7 +63,7 @@ function FormCommission({
       },
     };
     setCommissionsJSON([...commissionsJSON, newCommission]);
-  }
+  };
 
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [endDate, setEndDate] = useState<Date>(new Date());
@@ -86,8 +86,6 @@ function FormCommission({
     console.log('Sectores', selectedSector);
   };
 
- 
-
   const toggleTable = () => {
     console.log('activar/desactivar tabla');
     setHasDocument(!hasDocument);
@@ -98,9 +96,11 @@ function FormCommission({
     }
   };
   const downloadTemplate = () => {
-    if (!hasDocument) {toggleTable();
-    console.log('Descarga de excel');
-    newCommission()} // TODO: Agregar la descarga del excel
+    if (!hasDocument) {
+      toggleTable();
+      console.log('Descarga de excel');
+      newCommission();
+    } // TODO: Agregar la descarga del excel
   };
   return (
     <div className="formCommission">
@@ -120,14 +120,16 @@ function FormCommission({
         <div className="flex justify-between rounded-[20px]">
           <div className="mr-[2em] mt-[20px] rounded-[20px]">
             {hasDocument ? (
-              <div className={`${hasDocument ? 'rounded-t-[20px]' : 'rounded-[20px]'} flex justify-center items-center bg-[#D9D9D9] w-[700px] h-[328px] ml-[110px] relative`}>
-                <div className='flex'>
+              <div
+                className={`${
+                  hasDocument ? 'rounded-t-[20px]' : 'rounded-[20px]'
+                } flex justify-center items-center bg-[#D9D9D9] w-[700px] h-[328px] ml-[110px] relative`}
+              >
+                <div className="flex">
                   <table className="absolute inset-0 border-collapse overflow-hidden rounded-t-[20px] ">
                     <thead className="relative bg-[#484848] text-[#BABABA]">
-                      <tr className='flex justify-between'>
-                        <td className='ml-4 mt-[2px]'>
-                          aca va el id
-                        </td>
+                      <tr className="flex justify-between">
+                        <td className="ml-4 mt-[2px]">aca va el id</td>
                         <button onClick={toggleTable}>
                           <svg
                             className="absolute right-0 mr-3 mt-[-7px]"
@@ -145,16 +147,18 @@ function FormCommission({
                           </svg>
                         </button>
                       </tr>
-                      <tr className='font-[500] text-[1.5em] text-center'>
+                      <tr className="font-[500] text-[1.5em] text-center">
                         <th className="py-4 w-[17.292em]">Materia</th>
                         <th className="py-4 w-[17.292em]">Comisión</th>
                         <th className="py-4 w-[17.292em]">Aula</th>
-                        
                       </tr>
                     </thead>
                     <tbody>
-                      {tableData.map((commission, index) => (
-                        <tr key={index} className='border-solid border-y-2 border-neutral-400 text-center'>
+                      {tableData.map((commission) => (
+                        <tr
+                          key={commission.id}
+                          className="border-solid border-y-2 border-neutral-400 text-center"
+                        >
                           <td>{commission.subject.name}</td>
                           <td>{commission.name}</td>
                           <td>{commission.classroom.name}</td>
@@ -164,37 +168,51 @@ function FormCommission({
                   </table>
                 </div>
               </div>
-              ) : (
-                <button
-                  type="button"
-                  className={`${hasDocument ? 'rounded-t-[20px]' : 'rounded-[20px]'} flex justify-center items-center bg-[#D9D9D9] w-[700px] h-[328px] ml-[110px] relative`}
-                  onClick={toggleTable}
-                  disabled={hasDocument}
+            ) : (
+              <button
+                type="button"
+                className={`${
+                  hasDocument ? 'rounded-t-[20px]' : 'rounded-[20px]'
+                } flex justify-center items-center bg-[#D9D9D9] w-[700px] h-[328px] ml-[110px] relative`}
+                onClick={toggleTable}
+                disabled={hasDocument}
+              >
+                <svg
+                  className="cursor-pointer"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="36"
+                  height="45"
+                  viewBox="0 0 36 45"
+                  fill="none"
                 >
-                  <svg
-                    className='cursor-pointer'
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="36"
-                    height="45"
-                    viewBox="0 0 36 45"
-                    fill="none"
-                  >
-                    {!hasDocument ? <path
+                  {!hasDocument ? (
+                    <path
                       d="M34 12.5V40.5C34 41.0304 33.7893 41.5391 33.4142 41.9142C33.0391 42.2893 32.5304 42.5 32 42.5H4C3.46957 42.5 2.96086 42.2893 2.58579 41.9142C2.21071 41.5391 2 41.0304 2 40.5V4.5C2 3.96957 2.21071 3.46086 2.58579 3.08579C2.96086 2.71071 3.46957 2.5 4 2.5H24M34 12.5H24V2.5M34 12.5L24 2.5M18 19.5V33.5M11 26.5H25"
                       stroke="#545454"
                       strokeWidth="4"
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                    /> : null}
-                  </svg>
+                    />
+                  ) : null}
+                </svg>
               </button>
             )}
           </div>
         </div>
       </form>
       <div className="flex justify-between mx-6 mt-6">
-        <Button onClick={downloadTemplate} active={hasDocument} type={2} label={'DESCARGAR TEMPLATE'} />
-        <Button onClick={hasDocument ? closeModal : () => {}} active={hasDocument} type={1} label={'GUARDAR'} />
+        <Button
+          onClick={downloadTemplate}
+          active={hasDocument}
+          type={2}
+          label={'DESCARGAR TEMPLATE'}
+        />
+        <Button
+          onClick={hasDocument ? closeModal : () => {}}
+          active={hasDocument}
+          type={1}
+          label={'GUARDAR'}
+        />
       </div>
     </div>
   );
