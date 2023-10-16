@@ -1,30 +1,29 @@
 import * as React from 'react';
 
+const daysOfTheWeek = [
+  { id: 0, name: 'Lunes' },
+  { id: 1, name: 'Martes' },
+  { id: 2, name: 'Miércoles' },
+  { id: 3, name: 'Jueves' },
+  { id: 4, name: 'Viernes' },
+  { id: 5, name: 'Sabado' },
+  { id: 6, name: 'Domingo' },
+];
 interface DayPickerProps {
-  selectedDays: string[];
-  onSelectedDaysChange: (newSelectedDays: string[]) => void;
+  selectedDays: Days[];
+  onSelectedDaysChange: (newSelectedDays: Days[]) => void;
 }
 
 function DayPicker({ onSelectedDaysChange, selectedDays }: DayPickerProps) {
-  const daysOfTheWeek = [
-    'Lunes',
-    'Martes',
-    'Miércoles',
-    'Jueves',
-    'Viernes',
-    'Sabado',
-    'Domingo',
-  ];
-
   const [selectAllDays, setSelectAllDays] = React.useState(false);
 
   const handleSelectAllDaysChange = () => {
-    setSelectAllDays(!selectAllDays);
     const newSelectedDays = selectAllDays ? [] : daysOfTheWeek;
     onSelectedDaysChange(newSelectedDays);
+    setSelectAllDays(!selectAllDays);
   };
 
-  const handleDayClick = (day: string) => {
+  const handleDayClick = (day: Days) => {
     let newSelectedDays;
 
     if (selectAllDays) {
@@ -41,8 +40,8 @@ function DayPicker({ onSelectedDaysChange, selectedDays }: DayPickerProps) {
   return (
     <div className="flex-row">
       <div className="flex justify-center">
-        {daysOfTheWeek.map((day, index) => (
-          <div key={index}>
+        {daysOfTheWeek.map((day) => (
+          <div key={day.id}>
             <button
               onClick={(e) => {
                 handleDayClick(day);
@@ -54,7 +53,7 @@ function DayPicker({ onSelectedDaysChange, selectedDays }: DayPickerProps) {
                   : 'bg-[#D9D9D9] text-black'
               }`}
             >
-              {day.slice(0, 2)}
+              {day.name.slice(0, 2)}
             </button>
           </div>
         ))}
@@ -73,3 +72,8 @@ function DayPicker({ onSelectedDaysChange, selectedDays }: DayPickerProps) {
 }
 
 export default DayPicker;
+
+export interface Days {
+  id: number;
+  name: string;
+}

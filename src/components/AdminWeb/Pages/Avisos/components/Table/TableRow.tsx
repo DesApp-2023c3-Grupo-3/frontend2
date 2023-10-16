@@ -13,6 +13,13 @@ function TableRow({ advertising, index, onRowClick }: TableRowProps) {
     onRowClick(advertising);
   };
 
+  const starthour =
+    advertising.advertisingSchedules[0].schedule.startHour.slice(11, 16);
+  const endhour = advertising.advertisingSchedules[0].schedule.endHour.slice(
+    11,
+    16,
+  );
+
   const status = advertising.status;
 
   const statusClasses: any = {
@@ -21,6 +28,8 @@ function TableRow({ advertising, index, onRowClick }: TableRowProps) {
     pending: 'bg-[#C2B222]',
     today: 'bg-[#C2B222]',
   };
+
+  const dayOrder = ['Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa', 'Do'];
 
   return (
     <tr
@@ -49,16 +58,13 @@ function TableRow({ advertising, index, onRowClick }: TableRowProps) {
         {advertising.advertisingSchedules
           .map((schedule) => schedule.schedule.dayCode)
           .map((d) => d.charAt(0).toUpperCase() + d.slice(1).toLowerCase())
+          .sort((a, b) => {
+            return dayOrder.indexOf(a) - dayOrder.indexOf(b);
+          })
           .join('-')}
       </td>
       <td id="Horario" className="px-4 py-2">
-        {advertising.advertisingSchedules.map((i) =>
-          i.schedule.startHour.slice(11, 16),
-        )[0] +
-          '-' +
-          advertising.advertisingSchedules.map((i) =>
-            i.schedule.endHour.slice(11, 16),
-          )[0]}
+        {starthour + '-' + endhour}
       </td>
       <td id="Estado" className="px-4 py-2">
         <div

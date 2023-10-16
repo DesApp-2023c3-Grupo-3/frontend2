@@ -71,9 +71,6 @@ type schedule = {
   startHour: string,
   endHour: string,
   dayCode: string,
-  createdAt: string,
-  updatedAt: string,
-  deletedAt: null
 }
 
 export type Commission = {
