@@ -27,10 +27,11 @@ function DatePickerDays({
   >(parsedEndDate);
 
   const handleStartDateChange = (newStartDate: any) => {
+    console.log("previousDate: ", selectedDateInit)
     setSelectedDateInit(newStartDate);
     onChangeStartDate(newStartDate);
+    console.log("setNewDate: ", newStartDate)
   };
-
   const handleEndDateChange = (newEndDate: any) => {
     setSelectedDateFinal(newEndDate);
     onChangeEndDate(newEndDate);
