@@ -5,30 +5,25 @@ import { useNavigate } from 'react-router-dom';
 
 function LoginScreen({ setScreenId }: { setScreenId: any }) {
   const navigate = useNavigate();
+  const [state, updateState] = useState({});
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const screenIdRef = useRef<HTMLInputElement>(null);
-  const [invalidNotice, setInvalidNotice] = useState('');
+  // const [invalidNotice, setInvalidNotice] = useState('');
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     // TODO Validacion screen
-    if (invalidScreenId()) {
-      setInvalidNotice('El código de pantalla es invalido.');
-      return;
-    }
-    if (screenIdRef.current?.value.trim() !== '') {
+    if (!isEmpty(screenIdRef) && !invalidScreenId()) {
       navigateToScreen();
       return;
     }
 
     // Validacion login
     if (invalidUsername()) {
-      setInvalidNotice('No se ha encontrado el usuario.');
       return;
     }
     if (invalidPassword()) {
-      setInvalidNotice('La contraseña es incorrecta.');
       return;
     }
 
@@ -37,16 +32,19 @@ function LoginScreen({ setScreenId }: { setScreenId: any }) {
   };
 
   const invalidUsername = () => {
-    return usernameRef.current?.value.trim() === '';
+    return usernameRef.current?.value.trim() !== 'Administrador';
   };
 
   const invalidPassword = () => {
-    return passwordRef.current?.value.trim() === '';
+    return passwordRef.current?.value.trim() !== '123';
   };
 
   const invalidScreenId = () => {
-    return passwordRef.current?.value.trim() === '1';
+    return screenIdRef.current?.value.trim() !== '1';
   };
+
+  const isEmpty = (str: any) =>
+    !str.current || str.current?.value.trim() === '';
 
   const navigateToScreen = () => {
     // Intento de conexion ID pantalla
@@ -86,13 +84,25 @@ function LoginScreen({ setScreenId }: { setScreenId: any }) {
             placeholder="Nombre de usuario"
             name="username"
             ref={usernameRef}
+            onChange={() => updateState({})}
           />
+          {!isEmpty(usernameRef) && invalidUsername() && (
+            <span className="error text-sm text-center">
+              El usuario no se ha encontrado
+            </span>
+          )}
           <input
             type="password"
             placeholder="Contraseña"
             name="password"
             ref={passwordRef}
+            onChange={() => updateState({})}
           />
+          {!isEmpty(passwordRef) && invalidPassword() && (
+            <span className="error text-sm text-center">
+              La contraseña es incorrecta
+            </span>
+          )}
           <span className="text-sm text-center mt-4 opacity-80">
             O ingrese el código de pantalla
           </span>
@@ -101,11 +111,16 @@ function LoginScreen({ setScreenId }: { setScreenId: any }) {
             placeholder="ID de pantalla"
             name="screen-id"
             ref={screenIdRef}
+            onChange={() => updateState({})}
           />
+          {!isEmpty(screenIdRef) && invalidScreenId() && (
+            <span className="error text-sm text-center">
+              El código de pantalla es invalido
+            </span>
+          )}
           <button type="submit" className="mt-4 font-bold">
             Ingresar
           </button>
-          <span>{invalidNotice}</span>
         </form>
         <img
           src={unahurLogo}
