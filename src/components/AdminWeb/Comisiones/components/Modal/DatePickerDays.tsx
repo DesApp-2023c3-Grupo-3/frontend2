@@ -1,56 +1,65 @@
 import * as React from 'react';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { DatePicker } from '@mui/x-date-pickers';
+import dayjs, { Dayjs } from 'dayjs';
 
 interface DatePickerDaysProps {
   onChangeStartDate: (newStartDate: Date) => void;
   onChangeEndDate: (newEndDate: Date) => void;
+  init?: string;
+  final?: string;
 }
 
 function DatePickerDays({
   onChangeStartDate,
   onChangeEndDate,
+  init,
+  final,
 }: DatePickerDaysProps) {
-  const [selectedDateInit, setSelectedDateInit] = React.useState<Date | null>(
-    null,
-  );
-  const [selectedDateFinal, setSelectedDateFinal] = React.useState<Date | null>(
-    null,
-  );
-  const handleStartDateChange = (newStartHour: string) => {
-    console.log('handleStartHourChange newStartHour', newStartHour);
-    const newDate = new Date(newStartHour);
-    console.log('handleStartHourChange newDate', newDate);
-    setSelectedDateInit(newDate);
-    onChangeStartDate(newDate);
+  const parsedStartDate = init ? dayjs(init, 'DD-MM-YYYY') : null;
+  const parsedEndDate = final ? dayjs(final, 'DD-MM-YYYY') : null;
+
+  const [selectedDateInit, setSelectedDateInit] = React.useState<
+    Date | null | Dayjs
+  >(parsedStartDate);
+  const [selectedDateFinal, setSelectedDateFinal] = React.useState<
+    Date | null | Dayjs
+  >(parsedEndDate);
+
+  const handleStartDateChange = (newStartDate: any) => {
+    setSelectedDateInit(newStartDate);
+    onChangeStartDate(newStartDate);
   };
-  const handleEndDateChange = (newEndHour: string) => {
-    console.log('handleEndHourChange newEndHour', newEndHour);
-    const newDate = new Date(newEndHour);
-    console.log('handleEndHourChange newDate', newDate);
-    setSelectedDateFinal(newDate);
-    onChangeEndDate(newDate);
+
+  const handleEndDateChange = (newEndDate: any) => {
+    setSelectedDateFinal(newEndDate);
+    onChangeEndDate(newEndDate);
   };
 
   return (
-    <div className="flex items-center mb-3 justify-center ">
-      <div className="m-3 mt-1 ">
+    <div className="flex items-center justify-center ">
+      <div className="">
         <DemoContainer components={['Inicio', 'Final']}>
           <DatePicker
-            className=" w-[100px] text-b"
+            disablePast
+            className="w-[100px]"
             value={selectedDateInit}
             onChange={(newDate: any) => {
-              handleStartDateChange(newDate.format());
+              handleStartDateChange(newDate);
             }}
-            label="Inicio"
+            label="Fecha de Inicio"
+            defaultValue={selectedDateInit}
           />
           <DatePicker
-            className=" w-[100px] text-b"
+            disablePast
+            className="w-[100px]"
             value={selectedDateFinal}
             onChange={(newDate: any) => {
-              handleEndDateChange(newDate.format());
+              handleEndDateChange(newDate);
             }}
-            label="Final"
+            label="Fecha Final"
+            minDate={selectedDateInit || null}
+            defaultValue={selectedDateFinal}
           />
         </DemoContainer>
       </div>
