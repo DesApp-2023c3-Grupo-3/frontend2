@@ -1,37 +1,30 @@
 import * as React from 'react';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { DatePicker } from '@mui/x-date-pickers';
-import dayjs, { Dayjs } from 'dayjs';
 
 interface DatePickerDaysProps {
   onChangeStartDate: (newStartDate: Date) => void;
   onChangeEndDate: (newEndDate: Date) => void;
-  init?: string;
-  final?: string;
 }
 
 function DatePickerDays({
   onChangeStartDate,
   onChangeEndDate,
-  init,
-  final,
 }: DatePickerDaysProps) {
-  const parsedStartDate = init ? dayjs(init, 'DD-MM-YYYY') : null;
-  const parsedEndDate = final ? dayjs(final, 'DD-MM-YYYY') : null;
+  const [selectedDateInit, setSelectedDateInit] = React.useState<Date | null>(
+    null,
+  );
+  const [selectedDateFinal, setSelectedDateFinal] = React.useState<Date | null>(
+    null,
+  );
 
-  const [selectedDateInit, setSelectedDateInit] = React.useState<
-    Date | null | Dayjs
-  >(parsedStartDate);
-  const [selectedDateFinal, setSelectedDateFinal] = React.useState<
-    Date | null | Dayjs
-  >(parsedEndDate);
-
-  const handleStartDateChange = (newStartDate: any) => {
+  const handleStartDateChange = (newStartDate: Date) => {
     setSelectedDateInit(newStartDate);
     onChangeStartDate(newStartDate);
+    console.log("newStartDate: ", newStartDate)
   };
 
-  const handleEndDateChange = (newEndDate: any) => {
+  const handleEndDateChange = (newEndDate: Date) => {
     setSelectedDateFinal(newEndDate);
     onChangeEndDate(newEndDate);
   };
@@ -44,22 +37,24 @@ function DatePickerDays({
             disablePast
             className="w-[100px]"
             value={selectedDateInit}
-            onChange={(newDate: any) => {
-              handleStartDateChange(newDate);
+            onChange={(newDate: Date | null) => {
+              if (newDate !== null) {
+                handleStartDateChange(newDate);
+              }
             }}
             label="Fecha de Inicio"
-            defaultValue={selectedDateInit}
           />
           <DatePicker
             disablePast
             className="w-[100px]"
             value={selectedDateFinal}
             onChange={(newDate: any) => {
-              handleEndDateChange(newDate);
+              if (newDate !== null) {
+                handleEndDateChange(newDate);
+              }
             }}
             label="Fecha Final"
-            minDate={selectedDateInit || null}
-            defaultValue={selectedDateFinal}
+            minDate={selectedDateInit || undefined}
           />
         </DemoContainer>
       </div>

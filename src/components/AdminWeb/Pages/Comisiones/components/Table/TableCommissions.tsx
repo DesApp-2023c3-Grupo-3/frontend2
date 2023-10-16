@@ -1,5 +1,5 @@
 import TableRow from './TableRow';
-import { Commission } from '../../../types/customTypes';
+import { Commission } from '../../../../types/customTypes';
 
 //componente para la tabla completa
 function TableCommissions({ commissions }: { commissions: Commission[] }) {

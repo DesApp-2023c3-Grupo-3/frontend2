@@ -1,16 +1,19 @@
-import Button from '../../../components/Buttons/Button';
+import Button from '../../../../components/Buttons/Button';
 import FormCommission from './FormCommission';
 import * as React from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment, useState } from 'react';
-import { Commission } from '../../../types/customTypes';
+import { Commission } from '../../../../types/customTypes';
 
 interface ModalCreateCommissionProps {
   commissionsJSON: Commission[];
   setCommissionsJSON: React.Dispatch<React.SetStateAction<Commission[]>>;
 }
 
-function ModalCreateCommission({commissionsJSON, setCommissionsJSON,}: ModalCreateCommissionProps) {
+function ModalCreateCommission({
+  commissionsJSON,
+  setCommissionsJSON,
+}: ModalCreateCommissionProps) {
   let [isOpen, setIsOpen] = useState(false);
   function closeModal() {
     setIsOpen(false);

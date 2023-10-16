@@ -13,9 +13,14 @@ const sectors = [
 interface SectoresProps {
   selectedSector: Sector[];
   onSelectedSectorChange: (newSelectedSector: Sector[]) => void;
+  campos: any;
 }
 
-function Sectores({ selectedSector, onSelectedSectorChange }: SectoresProps) {
+function Sectores({
+  selectedSector,
+  onSelectedSectorChange,
+  campos,
+}: SectoresProps) {
   const [selectAll, setSelectAll] = useState(false);
 
   const handleSelectAllChange = (event: {
@@ -31,7 +36,7 @@ function Sectores({ selectedSector, onSelectedSectorChange }: SectoresProps) {
   };
 
   return (
-    <div className="w-[365px] h-[50px]">
+    <div className="w-[365px] h-[50px] z-[1000] relative">
       <Listbox
         value={selectedSector}
         onChange={onSelectedSectorChange}
@@ -39,9 +44,10 @@ function Sectores({ selectedSector, onSelectedSectorChange }: SectoresProps) {
       >
         <div className="fixed flex-row justify-center">
           <Listbox.Button
-            className={
-              'text-[20px] font-[400] tracking-[-0.4px] rounded-[30px] bg-[#D9D9D9] flex w-[365px] h-[50px] px-[40px] py-[12px] items-center'
-            }
+            id="sectors"
+            className={`text-[20px] font-[400] tracking-[-0.4px] rounded-[30px] bg-[#D9D9D9] flex w-[365px] h-[50px] px-[40px] py-[12px] items-center ${
+              campos.selectedSector ? 'invalid-field' : ''
+            }`}
             placeholder="Sector/es"
           >
             <div className="mr-3">
@@ -80,7 +86,7 @@ function Sectores({ selectedSector, onSelectedSectorChange }: SectoresProps) {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Listbox.Options className="bg-white w-[254px] ml-auto flex-row justify-center items-center shadow-lg rounded-t-[2px] rounded-b-[10px] ">
+            <Listbox.Options className="bg-white w-[254px] ml-auto flex-row justify-center items-center shadow-lg rounded-t-[2px] rounded-b-[10px] fixed">
               <span className="m-3 flex justify-center text-[#00000080] text-[20px]">
                 Edificio
               </span>
@@ -124,7 +130,7 @@ function Sectores({ selectedSector, onSelectedSectorChange }: SectoresProps) {
                   </div>
                 </div>
               ))}
-              <div className="flex justify-center items-center">
+              <div className="flex justify-center items-center select-none">
                 <Checkbox
                   checked={selectAll}
                   onChange={handleSelectAllChange}

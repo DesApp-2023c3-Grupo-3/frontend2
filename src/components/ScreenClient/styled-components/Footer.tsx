@@ -11,7 +11,7 @@ function Footer() {
           <p className="w-[70%]">
             Escanea el código y recorre los espacios de la Universidad.
           </p>
-          <article className="p-1 bg-white rounded-2xl h-[80%]">
+          <article className="p-1 bg-white rounded-2xl h-[80%] overflow-hidden">
             <img src={qr} className="w-full h-full" alt="" />
           </article>
         </div>

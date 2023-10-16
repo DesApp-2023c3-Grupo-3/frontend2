@@ -64,6 +64,7 @@ function ModalCreateAdvertising({
               <FormAdvertising
                 advertisingsJSON={advertisingsJSON}
                 setAdvertisingsJSON={setAdvertisingsJSON}
+                onCloseClick={closeModal}
               />
             </div>
           </Dialog.Panel>

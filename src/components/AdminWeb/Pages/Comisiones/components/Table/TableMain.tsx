@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Pagination, ThemeProvider } from '@mui/material';
-import theme from '../../../config/createTheme';
+import theme from '../../../../config/createTheme';
 import SearchBar from './SearchBar';
 import TableCommisions from './TableCommissions';
-import { Commission } from '../../../types/customTypes';
+import { Commission } from '../../../../types/customTypes';
 
 function TableMain({ commissionsJSON }: { commissionsJSON: Commission[] }) {
   const [itemsPerPage, setItemsPerPage] = useState(7);

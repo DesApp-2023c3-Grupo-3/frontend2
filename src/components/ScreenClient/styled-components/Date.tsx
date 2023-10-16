@@ -13,7 +13,7 @@ function Clock() {
   }, []);
 
   return (
-    <section className="w-1/4 bg-[#74B235] rounded-bl-2xl flex justify-center items-center text-white">
+    <section className="w-1/3 bg-[#74B235] rounded-bl-2xl flex justify-center items-center text-white">
       {`${time.hour}:${time.minute} `}
     </section>
   );

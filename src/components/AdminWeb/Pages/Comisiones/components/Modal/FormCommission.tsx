@@ -1,9 +1,9 @@
-import Button from '../../../components/Buttons/Button';
+import Button from '../../../../components/Buttons/Button';
 import DatePickerDays from './DatePickerDays';
 import Sectores from './Sectores';
 import React, { useState } from 'react';
-import { Commission } from '../../../types/customTypes';
-import { abbreviateSectorName } from '../../../utils/AbbreviateSectorName';
+import { Commission } from '../../../../types/customTypes';
+import { abbreviateSectorName } from '../../../../utils/AbbreviateSectorName';
 
 interface FormCommissionProps {
   commissionsJSON: Commission[];
@@ -29,38 +29,38 @@ function FormCommission({
     
       const newCommission = {
       id: commissionsJSON.length + 1,
-      name: "C1",
+      name: 'C1',
       user: {
         id: commissionsJSON.length + 1,
-        name: "Juan",
-        dni: "1234",
-        password: "contra",
+        name: 'Juan',
+        dni: '1234',
+        password: 'contra',
         role: {
           id: commissionsJSON.length + 1,
-          name: "Gestión Estudiantil",
+          name: 'Gestión Estudiantil',
         },
       },
       sector: {
         id: commissionsJSON.length + 1,
         name: sectores,
-        topic: "Comision",
+        topic: 'Comision',
       },
       schedule: {
         id: commissionsJSON.length + 1,
         startDate: startDay,
         endDate: endtDay,
-        startHour: "12:00",
-        endHour:"14:00",
-        scheduleDays: "Lu-Mi-Vi",
+        startHour: '12:00',
+        endHour: '14:00',
+        scheduleDays: 'Lu-Mi-Vi',
       },
       subject: {
         id: commissionsJSON.length + 1,
-        name: "Matematica 1",
+        name: 'Matematica 1',
       },
       classroom: {
         id: commissionsJSON.length + 1,
-        name: "Lab 1",
-      }
+        name: 'Lab 1',
+      },
     };
     setCommissionsJSON([...commissionsJSON, newCommission]);
   }

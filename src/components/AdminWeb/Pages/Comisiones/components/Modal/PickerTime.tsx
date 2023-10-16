@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import { TimePicker } from '@mui/x-date-pickers';
+import { MobileTimePicker } from '@mui/x-date-pickers';
 
 interface PickerTimeProps {
   onChangeStartHour: (newStartHour: Date) => void;
@@ -15,41 +15,35 @@ function PickerTime({ onChangeStartHour, onChangeEndHour }: PickerTimeProps) {
     null,
   );
 
-  const handleStartHourChange = (newStartHour: Date) => {
+  const handleStartHourChange = (newStartHour: string) => {
     const newDate = new Date(newStartHour);
     setSelectedDateInit(newDate);
     onChangeStartHour(newDate);
   };
 
-  const handleEndHourChange = (newEndHour: Date) => {
+  const handleEndHourChange = (newEndHour: string) => {
     const newDate = new Date(newEndHour);
     setSelectedDateFinal(newDate);
     onChangeEndHour(newDate);
   };
 
   return (
-    <div className="flex items-center justify-center">
-      <div className=" ">
+    <div className="flex items-center mb-3 justify-center">
+      <div className="m-3 mt-1 ">
         <DemoContainer components={['Inicio', 'Final']}>
-          <TimePicker
-            className=" w-[100px]"
-            label="Hora de Inicio"
+          <MobileTimePicker
+            className=" w-[100px] "
+            label="Inicio"
             value={selectedDateInit}
-            onChange={(newTime: any) => {
-              if (newTime !== null) {
-                handleStartHourChange(newTime);
-              }
-            }}
+            onChange={(newTime: any) => handleStartHourChange(newTime.format())}
           />
 
-          <TimePicker
+          <MobileTimePicker
             className=" w-[100px] "
-            label="Hora Final"
+            label="Final"
             value={selectedDateFinal}
             onChange={(newTime: any) => {
-              if (newTime !== null) {
-                handleEndHourChange(newTime);
-              }
+              handleEndHourChange(newTime.format());
             }}
           />
         </DemoContainer>
