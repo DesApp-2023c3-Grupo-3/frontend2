@@ -20,13 +20,17 @@ function DayPicker({ onSelectedDaysChange, selectedDays }: DayPickerProps) {
   const handleSelectAllDaysChange = () => {
     const newSelectedDays = selectAllDays ? [] : daysOfTheWeek;
     onSelectedDaysChange(newSelectedDays);
-    setSelectAllDays(!selectAllDays);
+    if (selectAllDays) {
+      setSelectAllDays(false);
+    } else {
+      setSelectAllDays(true);
+    }
   };
 
   const handleDayClick = (day: Days) => {
     let newSelectedDays;
 
-    if (selectAllDays) {
+    if (!selectAllDays) {
       newSelectedDays = selectedDays.filter((d) => d !== day);
     } else {
       newSelectedDays = selectedDays.includes(day)
@@ -62,7 +66,7 @@ function DayPicker({ onSelectedDaysChange, selectedDays }: DayPickerProps) {
         <input
           className="mr-3 select-none"
           type="checkbox"
-          checked={selectAllDays}
+          checked={!!selectAllDays}
           onChange={handleSelectAllDaysChange}
         />
         <span className="select-none">Seleccionar todos los días</span>

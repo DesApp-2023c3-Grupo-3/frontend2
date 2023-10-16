@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { Advertising } from '../../../../types/customTypes';
 import { abbreviateSectorName } from '../../../../utils/AbbreviateSectorName';
 
@@ -13,12 +14,12 @@ function TableRow({ advertising, index, onRowClick }: TableRowProps) {
     onRowClick(advertising);
   };
 
-  const starthour =
-    advertising.advertisingSchedules[0].schedule.startHour.slice(11, 16);
-  const endhour = advertising.advertisingSchedules[0].schedule.endHour.slice(
-    11,
-    16,
-  );
+  const starthour = dayjs(
+    advertising.advertisingSchedules[0].schedule.startHour,
+  ).format('HH:mm');
+  const endhour = dayjs(
+    advertising.advertisingSchedules[0].schedule.endHour,
+  ).format('HH:mm');
 
   const status = advertising.status;
 
