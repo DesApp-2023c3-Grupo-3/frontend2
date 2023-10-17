@@ -20,7 +20,7 @@ function FormCommission({
   const [hasDocument, setHasDocument] = useState<boolean>(false);
   const [tableData, setTableData] = useState<Commission[]>([]);
   const [excellData, setExcellData] = useState<any>()
-
+  const [selectedFileName, setSelectedFileName] = useState("");
   const newCommission = () => {
     setHasDocument(!hasDocument);
 
@@ -107,6 +107,7 @@ function FormCommission({
     formData.append("sector", selectedSector.toString());
 
     setExcellData(formData)
+    setSelectedFileName(excell.name);
 
     const newTableData: any = await asCommissions.toJson(formData);
     setTableData(Array.from(newTableData.data))
@@ -148,7 +149,7 @@ function FormCommission({
                   <table className="absolute inset-0 border-collapse overflow-hidden rounded-t-[20px] ">
                     <thead className="relative bg-[#484848] text-[#BABABA]">
                       <tr className="flex justify-between">
-                        <td className="ml-4 mt-[2px]">{}</td>
+                        <td className="ml-4 mt-[2px]">{selectedFileName}</td>
                         <td>
                           <button onClick={toggleTable} className="absolute right-0 mr-3 mt-[-7px]">
                             <svg
@@ -194,32 +195,31 @@ function FormCommission({
               </div>
             ) : (
                 <>
-              <input
-                type="file"
-                onChange={onFileLoaded}
-                className={`${
-                  hasDocument ? 'rounded-t-[20px]' : 'rounded-[20px]'
-                } flex justify-center items-center bg-[#D9D9D9] w-[700px] h-[328px] ml-[110px] relative cursor-pointer`}
-                disabled={hasDocument}
-              ></input>
-                <svg
-                  className="cursor-pointer"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="36"
-                  height="45"
-                  viewBox="0 0 36 45"
-                  fill="none"
-                >
-                  {!hasDocument ? (
-                    <path
-                      d="M34 12.5V40.5C34 41.0304 33.7893 41.5391 33.4142 41.9142C33.0391 42.2893 32.5304 42.5 32 42.5H4C3.46957 42.5 2.96086 42.2893 2.58579 41.9142C2.21071 41.5391 2 41.0304 2 40.5V4.5C2 3.96957 2.21071 3.46086 2.58579 3.08579C2.96086 2.71071 3.46957 2.5 4 2.5H24M34 12.5H24V2.5M34 12.5L24 2.5M18 19.5V33.5M11 26.5H25"
-                      stroke="#545454"
-                      strokeWidth="4"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  ) : null}
-                </svg>
+                <label className={`${hasDocument ? 'rounded-t-[20px]' : 'rounded-[20px]'} flex flex-col items-center cursor-pointer justify-center w-[700px] h-[328px] ml-[110px] bg-[#D9D9D9]`}>
+                  <svg
+                    className="mt-100"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="36"
+                    height="45"
+                    viewBox="0 0 40 40"
+                    fill="none"
+                  >
+                    {!hasDocument ? (
+                      <path
+                        d="M34 12.5V40.5C34 41.0304 33.7893 41.5391 33.4142 41.9142C33.0391 42.2893 32.5304 42.5 32 42.5H4C3.46957 42.5 2.96086 42.2893 2.58579 41.9142C2.21071 41.5391 2 41.0304 2 40.5V4.5C2 3.96957 2.21071 3.46086 2.58579 3.08579C2.96086 2.71071 3.46957 2.5 4 2.5H24M34 12.5H24V2.5M34 12.5L24 2.5M18 19.5V33.5M11 26.5H25"
+                        stroke="#545454"
+                        strokeWidth="4"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    ) : null}
+                  </svg>
+                  <input
+                    id="dropzone-file" 
+                    type="file" 
+                    onChange={onFileLoaded} 
+                    className="hidden" />
+                </label>
               </>
             )}
           </div>
