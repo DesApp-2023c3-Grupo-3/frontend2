@@ -4,6 +4,7 @@ import Sectores from './Sectores';
 import React, { useState } from 'react';
 import { Commission } from '../../../../types/customTypes';
 import { abbreviateSectorName } from '../../../../utils/AbbreviateSectorName';
+import { asCommissions } from '../../../../../../services/commissions';
 
 interface FormCommissionProps {
   commissionsJSON: Commission[];
@@ -96,12 +97,9 @@ function FormCommission({
     }
   };
   const downloadTemplate = () => {
-    if (!hasDocument) {
-      toggleTable();
-      console.log('Descarga de excel');
-      newCommission();
-    }
+    asCommissions.getAll()
   };
+
   return (
     <div className="formCommission">
       <form className="mx-10">
