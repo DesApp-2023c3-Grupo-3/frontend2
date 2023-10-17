@@ -277,12 +277,12 @@ function FormAdvertising({
               {ErrorMessage('*Falta completar los horarios', emptyFields.hour)}
             </div>
           </div>
-          <div className="pr-[2em] pt-[20px] z-[999]">
+          <div className="pr-[1em] pt-[20px] z-[999]">
             <ImageTextVideo />
           </div>
         </div>
       </form>
-      <div className="flex justify-end pr-[4.5em] pt-6">
+      <div className="flex justify-end pr-[4.2em] pt-6">
         <ButtonSave onClick={handleSendAdvertisingClick} />
       </div>
     </div>
