@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import { Commission } from '../../../../types/customTypes';
 import { abbreviateSectorName } from '../../../../utils/AbbreviateSectorName';
 import { asCommissions } from '../../../../../../services/commissions';
+import commissionData from '../../../../Mocks/commissionData.json'
 
 interface FormCommissionProps {
   commissionsJSON: Commission[];
@@ -119,7 +120,7 @@ function FormCommission({
   }
 
   const downloadTemplate = () => {
-    asCommissions.getAll()
+    asCommissions.download()
   };
 
   return (
@@ -148,8 +149,8 @@ function FormCommission({
                 <div className="flex">
                   <table className="absolute inset-0 border-collapse overflow-hidden rounded-t-[20px] ">
                     <thead className="relative bg-[#484848] text-[#BABABA]">
-                      <tr className="flex justify-between">
-                        <td className="ml-4 mt-[2px]">{selectedFileName}</td>
+                      <tr className="flex justify-between py-3">
+                        <td className="absolute ml-4 mt-[-11px]">{selectedFileName}</td>
                         <td>
                           <button onClick={toggleTable} className="absolute right-0 mr-3 mt-[-7px]">
                             <svg
@@ -169,11 +170,11 @@ function FormCommission({
                         </td>
                       </tr>
                       <tr className="font-[500] text-[1.5em] text-center">
-                      <th className="py-4 w-20"></th>
-                        <th className="py-4 w-[15em]">Materia</th>
+                      <th className="py-4 w-[7em]"></th>
+                        <th className="py-4 w-[14em]">Materia</th>
                         <th className="py-4 w-[15em]">Comisión</th>
-                        <th className="py-4 w-[15em]">Aula</th>
-                        <th className="py-4 w-[15em]">Turno</th>
+                        <th className="py-4 w-[13em]">Aula</th>
+                        <th className="py-4 w-[16em]">Turno</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -182,11 +183,11 @@ function FormCommission({
                           key={index}
                           className="border-solid border-y-2 border-neutral-400 text-center"
                         >
-                          <td className="w-12 pl-4 opacity-60">{index}</td>
-                          <td>{commission["Nombre materia"]}</td>
-                          <td>{commission["Nombre"]}</td>
-                          <td>{commission["Aula"]}</td>
-                          <td>{commission["Turno"]}</td>
+                          <td className="w-8 pl-4 opacity-60">{index}</td>
+                          <td className="w-24">{commission["Nombre materia"]}</td>
+                          <td className="w-28">{commission["Nombre"]}</td>
+                          <td className="w-20">{commission["Aula"]}</td>
+                          <td className="w-24">{commission["Turno"]}</td>
                         </tr>
                       ))}
                     </tbody>
