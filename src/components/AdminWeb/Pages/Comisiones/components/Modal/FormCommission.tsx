@@ -118,7 +118,7 @@ function FormCommission({
   }
 
   const downloadTemplate = () => {
-    asCommissions.getAll()
+    asCommissions.download()
   };
 
   return (
