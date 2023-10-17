@@ -1,8 +1,7 @@
 import { useEffect } from "react";
-import { useAdvertisingMessages } from "../store/useAdvertisingMessages";
-import { splitList } from "../utils/arrays";
+import { DataAdvertising, useAdvertisingMessages } from "../store/useAdvertisingMessages";
 
-export function useAvalaibleAdvertising() {
+export function useAvalaibleAdvertising(split:(lista:DataAdvertising[]) => DataAdvertising[][]) {
     const [
         avalaibleAdvertisingMessages, 
         addAvalaibleAdvertisingMessage
@@ -12,7 +11,7 @@ export function useAvalaibleAdvertising() {
             state.addAvalaibleAdvertisingMessage
         ],
     );
-      const [first, second] = splitList(avalaibleAdvertisingMessages);
+      const [first, second] = split(avalaibleAdvertisingMessages);
     
       useEffect(() => {
           addAvalaibleAdvertisingMessage()

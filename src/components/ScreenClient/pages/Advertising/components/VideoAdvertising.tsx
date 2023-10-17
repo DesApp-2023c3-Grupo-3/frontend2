@@ -1,17 +1,20 @@
 import YouTube from 'react-youtube';
 import { obtenerIDdeVideo } from '../../../utils/strings';
 import '../../../index.css';
+import { useCarouselVideo } from '../../../hooks/useCarouselVideo';
+import { DataAdvertising } from '../../../store/useAdvertisingMessages';
 
 export default function AdvertisingVideo({
-  payload,
-  changeSelectedItem,
+  advertisingVideos,
   sx,
 }: {
-  payload: string;
-  changeSelectedItem: () => void;
+  advertisingVideos: DataAdvertising[];
   sx: string;
 }) {
-  const videoId = obtenerIDdeVideo(payload);
+  const { selectedItem, changeSelectedItem } =
+    useCarouselVideo(advertisingVideos);
+
+  const videoId = obtenerIDdeVideo(selectedItem.payload);
 
   const opts = {
     playerVars: {

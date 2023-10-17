@@ -15,7 +15,7 @@ function AdvertisingCard({
 }) {
   const carouselTime = useConnectionMessage((state) => state.connectionMessage);
 
-  const { selectedIndex, selectedItem, changeSelectedItem } = useCarousel(
+  const { selectedIndex, selectedItem } = useCarousel(
     messages,
     carouselTime.screen.advertisingIntervalTime,
   );
@@ -24,8 +24,7 @@ function AdvertisingCard({
     <AdvertisingItem messages={messages} sx={sx} selectedIndex={selectedIndex}>
       {isArrayWithVideos(messages) ? (
         <AdvertisingVideo
-          payload={selectedItem.payload}
-          changeSelectedItem={changeSelectedItem}
+          advertisingVideos={messages}
           sx="h-[90%] w-full p-1 rounded-3xl overflow-hidden"
         />
       ) : (

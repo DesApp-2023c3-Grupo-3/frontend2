@@ -3,10 +3,11 @@ import AdvertisingCard from '../../Advertising/components/AdvertisingCard';
 import Courses from './Courses';
 import MainBillboard from '../../../styled-components/MainBillboard';
 import { useAvalaibleAdvertising } from '../../../hooks/useAvalaibleAdvertising';
-import unahur from '../../../assets/unahur.png';
+import { splitList } from '../../../utils/arrays';
+import DefaultCard from '../../../styled-components/DefaultCard';
 
 export default function CourseBillboard() {
-  const { first, second } = useAvalaibleAdvertising();
+  const { first, second } = useAvalaibleAdvertising(splitList);
 
   return (
     <MainBillboard>
@@ -24,15 +25,5 @@ export default function CourseBillboard() {
       </Advertising>
       <Courses />
     </MainBillboard>
-  );
-}
-
-function DefaultCard({ sx }: { sx: string }) {
-  return (
-    <section
-      className={`${sx} rounded-tr-2xl bg-white w-full flex flex-col items-center justify-center relative h-[49.4vh]`}
-    >
-      <img src={unahur} className="max-w-[30vh]" alt="" />
-    </section>
   );
 }

@@ -10,10 +10,11 @@ import { useConnectionMessage } from '../store/useConnectionMessage';
 export default function Screen() {
   const typeScreen = useConnectionMessage((state) => state.connectionMessage);
   const templateId = typeScreen.screen.templeteId;
+  const screenId = useScreenId((state) => state.screenId);
+
   const addAdvertisingMessages = useAdvertisingMessages(
     (state) => state.addAdvertisingMessages,
   );
-  const screenId = useScreenId((state) => state.screenId);
 
   useEffect(() => {
     fetchAdvertisings(screenId)
@@ -38,5 +39,5 @@ export default function Screen() {
     2: <VideoBillboard />,
   };
 
-  return billboards[parseInt(templateId)];
+  return billboards[2];
 }
