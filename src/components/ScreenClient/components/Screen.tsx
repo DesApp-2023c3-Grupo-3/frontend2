@@ -39,5 +39,5 @@ export default function Screen() {
     2: <VideoBillboard />,
   };
 
-  return billboards[2];
+  return billboards[1];
 }

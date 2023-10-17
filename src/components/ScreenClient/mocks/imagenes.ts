@@ -14,8 +14,8 @@ export const messages: Message[] = [
       advertisingTypeId: 3,
       payload: 'El lunes no hay clases',
       advertisingId: 1,
-      startHour: "2023-10-17T00:00:00.142Z",
-      endHour: "2023-10-17T02:09:00.142Z"
+      startHour: "2023-10-17T02:51:42.142Z",
+      endHour: "2023-10-17T19:51:42.142Z",
     },
   },
   {
@@ -26,8 +26,8 @@ export const messages: Message[] = [
       payload:
         'https://scontent.faep6-2.fna.fbcdn.net/v/t1.6435-9/177292671_1915770318575927_3542229533072028658_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=730e14&_nc_ohc=HhzGQABc30YAX8G1mAs&_nc_ht=scontent.faep6-2.fna&oh=00_AfDcN5DSfrvnqOfs8EOVfai_HlyZBzRaX__ChUAKGNKObA&oe=653696AC',
         advertisingId: 2,
-        startHour: "2023-10-17T00:00:00.142Z",
-        endHour: "2023-10-17T23:51:42.142Z"
+        startHour: "2023-10-17T02:51:42.142Z",
+        endHour: "2023-10-17T19:51:42.142Z",
       },
   },
   {
@@ -48,8 +48,8 @@ export const messages: Message[] = [
       advertisingTypeId: 2,
       payload: 'https://www.youtube.com/watch?v=0Sj8N9KTtds&ab_channel=UNAHUR',
       advertisingId: 4,
-      startHour: "2023-10-16T19:51:42.142Z",
-      endHour: "2023-10-16T19:51:42.142Z"
+      startHour: "2023-10-17T02:51:42.142Z",
+      endHour: "2023-10-17T19:51:42.142Z",
     },
   },
   {

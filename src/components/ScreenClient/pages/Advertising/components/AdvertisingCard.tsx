@@ -4,7 +4,6 @@ import AdvertisingItem from './ItemAdvertising';
 import AdvertisingVideo from './VideoAdvertising';
 import AdvertisingType from './TypeAdvertising';
 import { DataAdvertising } from '../../../store/useAdvertisingMessages';
-import { useConnectionMessage } from '../../../store/useConnectionMessage';
 
 function AdvertisingCard({
   messages,
@@ -13,22 +12,15 @@ function AdvertisingCard({
   messages: DataAdvertising[];
   sx: string;
 }) {
-  const carouselTime = useConnectionMessage((state) => state.connectionMessage);
-
-  const { selectedIndex, selectedItem } = useCarousel(
-    messages,
-    carouselTime.screen.advertisingIntervalTime,
-  );
-
   return (
-    <AdvertisingItem messages={messages} sx={sx} selectedIndex={selectedIndex}>
+    <AdvertisingItem sx={sx}>
       {isArrayWithVideos(messages) ? (
         <AdvertisingVideo
           advertisingVideos={messages}
           sx="h-[90%] w-full p-1 rounded-3xl overflow-hidden"
         />
       ) : (
-        <AdvertisingType item={selectedItem} />
+        <AdvertisingType messages={messages} />
       )}
     </AdvertisingItem>
   );
