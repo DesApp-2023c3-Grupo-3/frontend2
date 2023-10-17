@@ -5,7 +5,6 @@ import React, { useState } from 'react';
 import { Commission } from '../../../../types/customTypes';
 import { abbreviateSectorName } from '../../../../utils/AbbreviateSectorName';
 import { asCommissions } from '../../../../../../services/commissions';
-import { ROUTES_RELATIVE } from '../../../../../../routes/route.relatives';
 
 interface FormCommissionProps {
   commissionsJSON: Commission[];
@@ -20,6 +19,8 @@ function FormCommission({
 }: FormCommissionProps) {
   const [hasDocument, setHasDocument] = useState<boolean>(false);
   const [tableData, setTableData] = useState<Commission[]>([]);
+  const [excellData, setExcellData] = useState<any>()
+
   const newCommission = () => {
     setHasDocument(!hasDocument);
 
@@ -85,18 +86,37 @@ function FormCommission({
   const [selectedSector, setSelectedSector] = useState<Sector[]>([]);
   const handleSelectedSectorChange = (newSelectedSector: Sector[]) => {
     setSelectedSector(newSelectedSector);
-    console.log('Sectores', selectedSector);
   };
 
   const toggleTable = () => {
-    console.log('activar/desactivar tabla');
     setHasDocument(!hasDocument);
     if (hasDocument) {
       setTableData([]);
     } else {
-      asCommissions.create();
+      //asCommissions.create();
     }
   };
+
+  const onFileLoaded = async (e: any) => {
+    e.preventDefault();
+    const excell = e.target?.files[0];
+    const formData = new FormData();
+    formData.append("file", excell);
+    formData.append("startDate", startDate.toString());
+    formData.append("endDate", endDate.toString());
+    formData.append("sector", selectedSector.toString());
+
+    setExcellData(formData)
+
+    const newTableData: any = await asCommissions.toJson(formData);
+    setTableData(Array.from(newTableData.data))
+    toggleTable()
+  }
+
+  const uploadTemplate = () => {
+    asCommissions.create(excellData)
+  }
+
   const downloadTemplate = () => {
     asCommissions.getAll()
   };
@@ -128,39 +148,44 @@ function FormCommission({
                   <table className="absolute inset-0 border-collapse overflow-hidden rounded-t-[20px] ">
                     <thead className="relative bg-[#484848] text-[#BABABA]">
                       <tr className="flex justify-between">
-                        <td className="ml-4 mt-[2px]">aca va el id</td>
-                        <button onClick={toggleTable}>
-                          <svg
-                            className="absolute right-0 mr-3 mt-[-7px]"
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="15"
-                            height="15"
-                            viewBox="0 0 35 35"
-                            fill="none"
-                          >
-                            <path
-                              className=""
-                              d="M29.4931 26.673C29.8013 26.9812 29.9744 27.3992 29.9744 27.8351C29.9744 28.2709 29.8013 28.689 29.4931 28.9972C29.1849 29.3054 28.7668 29.4785 28.331 29.4785C27.8951 29.4785 27.4771 29.3054 27.1689 28.9972L18.4886 20.3142L9.80558 28.9944C9.49737 29.3027 9.07935 29.4758 8.64347 29.4758C8.2076 29.4758 7.78957 29.3027 7.48136 28.9944C7.17315 28.6862 7 28.2682 7 27.8323C7 27.3965 7.17315 26.9784 7.48136 26.6702L16.1644 17.99L7.4841 9.30695C7.17589 8.99874 7.00273 8.58071 7.00273 8.14484C7.00273 7.70896 7.17589 7.29094 7.4841 6.98273C7.79231 6.67452 8.21033 6.50137 8.6462 6.50137C9.08208 6.50137 9.5001 6.67452 9.80831 6.98273L18.4886 15.6657L27.1716 6.98136C27.4798 6.67315 27.8978 6.5 28.3337 6.5C28.7696 6.5 29.1876 6.67315 29.4958 6.98136C29.804 7.28957 29.9772 7.70759 29.9772 8.14347C29.9772 8.57935 29.804 8.99737 29.4958 9.30558L20.8128 17.99L29.4931 26.673Z"
-                              fill="white"
-                            />
-                          </svg>
-                        </button>
+                        <td className="ml-4 mt-[2px]">{}</td>
+                        <td>
+                          <button onClick={toggleTable} className="absolute right-0 mr-3 mt-[-7px]">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="15"
+                              height="15"
+                              viewBox="0 0 35 35"
+                              fill="none"
+                            >
+                              <path
+                                className=""
+                                d="M29.4931 26.673C29.8013 26.9812 29.9744 27.3992 29.9744 27.8351C29.9744 28.2709 29.8013 28.689 29.4931 28.9972C29.1849 29.3054 28.7668 29.4785 28.331 29.4785C27.8951 29.4785 27.4771 29.3054 27.1689 28.9972L18.4886 20.3142L9.80558 28.9944C9.49737 29.3027 9.07935 29.4758 8.64347 29.4758C8.2076 29.4758 7.78957 29.3027 7.48136 28.9944C7.17315 28.6862 7 28.2682 7 27.8323C7 27.3965 7.17315 26.9784 7.48136 26.6702L16.1644 17.99L7.4841 9.30695C7.17589 8.99874 7.00273 8.58071 7.00273 8.14484C7.00273 7.70896 7.17589 7.29094 7.4841 6.98273C7.79231 6.67452 8.21033 6.50137 8.6462 6.50137C9.08208 6.50137 9.5001 6.67452 9.80831 6.98273L18.4886 15.6657L27.1716 6.98136C27.4798 6.67315 27.8978 6.5 28.3337 6.5C28.7696 6.5 29.1876 6.67315 29.4958 6.98136C29.804 7.28957 29.9772 7.70759 29.9772 8.14347C29.9772 8.57935 29.804 8.99737 29.4958 9.30558L20.8128 17.99L29.4931 26.673Z"
+                                fill="white"
+                              />
+                            </svg>
+                          </button>
+                        </td>
                       </tr>
                       <tr className="font-[500] text-[1.5em] text-center">
-                        <th className="py-4 w-[17.292em]">Materia</th>
-                        <th className="py-4 w-[17.292em]">Comisión</th>
-                        <th className="py-4 w-[17.292em]">Aula</th>
+                      <th className="py-4 w-20"></th>
+                        <th className="py-4 w-[15em]">Materia</th>
+                        <th className="py-4 w-[15em]">Comisión</th>
+                        <th className="py-4 w-[15em]">Aula</th>
+                        <th className="py-4 w-[15em]">Turno</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {tableData.map((commission) => (
+                      {tableData.map((commission: any, index) => (
                         <tr
-                          key={commission.id}
+                          key={index}
                           className="border-solid border-y-2 border-neutral-400 text-center"
                         >
-                          <td>{commission.subject.name}</td>
-                          <td>{commission.name}</td>
-                          <td>{commission.classroom.name}</td>
+                          <td className="w-12 pl-4 opacity-60">{index}</td>
+                          <td>{commission["Nombre materia"]}</td>
+                          <td>{commission["Nombre"]}</td>
+                          <td>{commission["Aula"]}</td>
+                          <td>{commission["Turno"]}</td>
                         </tr>
                       ))}
                     </tbody>
@@ -168,14 +193,15 @@ function FormCommission({
                 </div>
               </div>
             ) : (
-              <button
-                type="button"
+                <>
+              <input
+                type="file"
+                onChange={onFileLoaded}
                 className={`${
                   hasDocument ? 'rounded-t-[20px]' : 'rounded-[20px]'
-                } flex justify-center items-center bg-[#D9D9D9] w-[700px] h-[328px] ml-[110px] relative`}
-                onClick={toggleTable}
+                } flex justify-center items-center bg-[#D9D9D9] w-[700px] h-[328px] ml-[110px] relative cursor-pointer`}
                 disabled={hasDocument}
-              >
+              ></input>
                 <svg
                   className="cursor-pointer"
                   xmlns="http://www.w3.org/2000/svg"
@@ -194,7 +220,7 @@ function FormCommission({
                     />
                   ) : null}
                 </svg>
-              </button>
+              </>
             )}
           </div>
         </div>
@@ -207,7 +233,7 @@ function FormCommission({
           label={'DESCARGAR TEMPLATE'}
         />
         <Button
-          onClick={hasDocument ? closeModal : () => {}}
+          onClick={uploadTemplate}
           active={hasDocument}
           type={1}
           label={'GUARDAR'}
