@@ -4,7 +4,6 @@ import Sectores from './Sectores';
 import React, { useState } from 'react';
 import { Commission } from '../../../../types/customTypes';
 import { abbreviateSectorName } from '../../../../utils/AbbreviateSectorName';
-import { asCommissions } from '../../../../../../services/commissions';
 
 interface FormCommissionProps {
   commissionsJSON: Commission[];
@@ -116,7 +115,8 @@ function FormCommission({
   }
 
   const downloadTemplate = () => {
-    asCommissions.getAll()
+    newCommission()
+    toggleTable()
   };
 
   return (
