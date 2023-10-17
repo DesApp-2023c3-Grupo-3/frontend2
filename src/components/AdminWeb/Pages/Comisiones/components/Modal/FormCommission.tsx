@@ -19,6 +19,8 @@ function FormCommission({
 }: FormCommissionProps) {
   const [hasDocument, setHasDocument] = useState<boolean>(false);
   const [tableData, setTableData] = useState<Commission[]>([]);
+  const [excellData, setExcellData] = useState<any>()
+
   const newCommission = () => {
     setHasDocument(!hasDocument);
 
@@ -84,11 +86,9 @@ function FormCommission({
   const [selectedSector, setSelectedSector] = useState<Sector[]>([]);
   const handleSelectedSectorChange = (newSelectedSector: Sector[]) => {
     setSelectedSector(newSelectedSector);
-    console.log('Sectores', selectedSector);
   };
 
   const toggleTable = () => {
-    console.log('activar/desactivar tabla');
     setHasDocument(!hasDocument);
     if (hasDocument) {
       setTableData([]);
@@ -96,6 +96,25 @@ function FormCommission({
       setTableData(commissionsJSON.concat(commissionsJSON).concat(commissionsJSON).concat(commissionsJSON));
     }
   };
+
+  const onFileLoaded = async (e: any) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append("file", e.target?.files[0]);
+    formData.append("startDate", startDate.toISOString());
+    formData.append("endDate", endDate.toISOString());
+    formData.append("sector", selectedSector.toString());
+
+    setExcellData(formData)
+
+    toggleTable()
+  }
+
+  const uploadTemplate = () => {
+    asCommissions.create(excellData)
+  }
+
   const downloadTemplate = () => {
     asCommissions.getAll()
   };
@@ -128,7 +147,7 @@ function FormCommission({
                     <thead className="relative bg-[#484848] text-[#BABABA]">
                       <tr className="flex justify-between">
                         <td className="ml-4 mt-[2px]">aca va el id</td>
-                        <button onClick={toggleTable}>
+                        <span onClick={toggleTable} onKeyDown={toggleTable}>
                           <svg
                             className="absolute right-0 mr-3 mt-[-7px]"
                             xmlns="http://www.w3.org/2000/svg"
@@ -143,7 +162,7 @@ function FormCommission({
                               fill="white"
                             />
                           </svg>
-                        </button>
+                        </span>
                       </tr>
                       <tr className="font-[500] text-[1.5em] text-center">
                         <th className="py-4 w-[17.292em]">Materia</th>
@@ -167,14 +186,15 @@ function FormCommission({
                 </div>
               </div>
             ) : (
-              <button
-                type="button"
+                <>
+              <input
+                type="file"
+                onChange={onFileLoaded}
                 className={`${
                   hasDocument ? 'rounded-t-[20px]' : 'rounded-[20px]'
-                } flex justify-center items-center bg-[#D9D9D9] w-[700px] h-[328px] ml-[110px] relative`}
-                onClick={toggleTable}
+                } flex justify-center items-center bg-[#D9D9D9] w-[700px] h-[328px] ml-[110px] relative cursor-pointer`}
                 disabled={hasDocument}
-              >
+              ></input>
                 <svg
                   className="cursor-pointer"
                   xmlns="http://www.w3.org/2000/svg"
@@ -193,7 +213,7 @@ function FormCommission({
                     />
                   ) : null}
                 </svg>
-              </button>
+              </>
             )}
           </div>
         </div>
@@ -206,7 +226,7 @@ function FormCommission({
           label={'DESCARGAR TEMPLATE'}
         />
         <Button
-          onClick={hasDocument ? closeModal : () => {}}
+          onClick={uploadTemplate}
           active={hasDocument}
           type={1}
           label={'GUARDAR'}

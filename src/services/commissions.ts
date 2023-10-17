@@ -13,5 +13,20 @@ export const asCommissions = {
         } catch (error) {
             return false;
         }
+    },
+    create: async function(excellData: any){
+      try{
+        const response = await axios.post(ROUTES_RELATIVE.uploadCommission, excellData, {
+          headers: {
+            "content-type": "multipart/form-data",
+            //Authorization: `Bearer ${userInfo.token}`,
+          },
+        })
+
+        return response;
+      }
+      catch(error){
+        return error;
+      }
     }
 };
