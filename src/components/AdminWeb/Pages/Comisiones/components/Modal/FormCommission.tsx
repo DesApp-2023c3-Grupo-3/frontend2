@@ -4,6 +4,7 @@ import Sectores from './Sectores';
 import React, { useState } from 'react';
 import { Commission } from '../../../../types/customTypes';
 import { abbreviateSectorName } from '../../../../utils/AbbreviateSectorName';
+import { asCommissions } from '../../../../../../services/commissions';
 
 interface FormCommissionProps {
   commissionsJSON: Commission[];
@@ -101,8 +102,8 @@ function FormCommission({
 
     const formData = new FormData();
     formData.append("file", e.target?.files[0]);
-    formData.append("startDate", startDate.toISOString());
-    formData.append("endDate", endDate.toISOString());
+    formData.append("startDate", startDate.toString());
+    formData.append("endDate", endDate.toString());
     formData.append("sector", selectedSector.toString());
 
     setExcellData(formData)
@@ -147,7 +148,7 @@ function FormCommission({
                     <thead className="relative bg-[#484848] text-[#BABABA]">
                       <tr className="flex justify-between">
                         <td className="ml-4 mt-[2px]">aca va el id</td>
-                        <span onClick={toggleTable} onKeyDown={toggleTable}>
+                        <td onClick={toggleTable} onKeyDown={toggleTable}>
                           <svg
                             className="absolute right-0 mr-3 mt-[-7px]"
                             xmlns="http://www.w3.org/2000/svg"
@@ -162,7 +163,7 @@ function FormCommission({
                               fill="white"
                             />
                           </svg>
-                        </span>
+                        </td>
                       </tr>
                       <tr className="font-[500] text-[1.5em] text-center">
                         <th className="py-4 w-[17.292em]">Materia</th>
@@ -171,9 +172,9 @@ function FormCommission({
                       </tr>
                     </thead>
                     <tbody>
-                      {tableData.map((commission) => (
+                      {tableData.map((commission, index) => (
                         <tr
-                          key={commission.id}
+                          key={index}
                           className="border-solid border-y-2 border-neutral-400 text-center"
                         >
                           <td>{commission.subject.name}</td>

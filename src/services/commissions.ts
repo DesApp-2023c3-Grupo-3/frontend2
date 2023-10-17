@@ -15,6 +15,9 @@ export const asCommissions = {
         }
     },
     create: async function(excellData: any){
+
+      console.log(excellData)
+
       try{
         const response = await axios.post(ROUTES_RELATIVE.uploadCommission, excellData, {
           headers: {
