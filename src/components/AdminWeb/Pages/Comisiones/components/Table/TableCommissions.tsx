@@ -1,7 +1,6 @@
 import TableRow from './TableRow';
 import { Commission } from '../../../../types/customTypes';
 
-//componente para la tabla completa
 function TableCommissions({ commissions }: { commissions: Commission[] }) {
   return (
     <table className="table-auto border-collapse overflow-hidden rounded-tl-[20px] rounded-tr-[20px] mt-10 font-[500]">

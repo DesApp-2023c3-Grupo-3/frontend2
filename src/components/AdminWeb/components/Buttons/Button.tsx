@@ -17,7 +17,7 @@ function Button({ onClick, active, type, label }: ButtonProps) {
   
   const style = type === 1 
     ? blueType
-    : (type === 2 ? greenType : createType); // Agregamos la condición para el tipo 3 (createType)
+    : (type === 2 ? greenType : createType);
   
   return (
     <>
@@ -32,5 +32,3 @@ function Button({ onClick, active, type, label }: ButtonProps) {
 }
 
 export default Button;
-
-//bg-[#2C9CBF] rounded-[15px] py-[16px] w-[236px] text-white font-[600] text-[20px]

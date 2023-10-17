@@ -16,10 +16,10 @@ function FormCommission({
   setCommissionsJSON,
   closeModal,
 }: FormCommissionProps) {
-  const [hasDocument, setHasDocument] = useState<boolean>(false); // Cambiamos el nombre del estado a "hasDocument"
+  const [hasDocument, setHasDocument] = useState<boolean>(false);
   const [tableData, setTableData] = useState<Commission[]>([]);
   const newCommission = () => {
-    setHasDocument(!hasDocument); // Cambiamos el nombre del estado a "hasDocument"
+    setHasDocument(!hasDocument);
 
     const startDay = startDate.toLocaleDateString();
     const endtDay = endDate.toLocaleDateString();
@@ -100,7 +100,7 @@ function FormCommission({
       toggleTable();
       console.log('Descarga de excel');
       newCommission();
-    } // TODO: Agregar la descarga del excel
+    }
   };
   return (
     <div className="formCommission">

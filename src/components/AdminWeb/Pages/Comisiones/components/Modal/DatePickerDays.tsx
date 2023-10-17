@@ -7,17 +7,17 @@ interface DatePickerDaysProps {
   onChangeStartDate: (newStartDate: Date) => void;
   onChangeEndDate: (newEndDate: Date) => void;
   init?: string;
-  final?: string;
+  end?: string;
 }
 
 function DatePickerDays({
   onChangeStartDate,
   onChangeEndDate,
   init,
-  final,
+  end,
 }: DatePickerDaysProps) {
   const parsedStartDate = init ? dayjs(init, 'DD-MM-YYYY') : null;
-  const parsedEndDate = final ? dayjs(final, 'DD-MM-YYYY') : null;
+  const parsedEndDate = end ? dayjs(end, 'DD-MM-YYYY') : null;
 
   const [selectedDateInit, setSelectedDateInit] = React.useState<
     Date | null | Dayjs
