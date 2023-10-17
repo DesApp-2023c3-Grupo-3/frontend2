@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import { Commission } from '../../../../types/customTypes';
 import { abbreviateSectorName } from '../../../../utils/AbbreviateSectorName';
 import { asCommissions } from '../../../../../../services/commissions';
+import { ROUTES_RELATIVE } from '../../../../../../routes/route.relatives';
 
 interface FormCommissionProps {
   commissionsJSON: Commission[];
@@ -93,7 +94,7 @@ function FormCommission({
     if (hasDocument) {
       setTableData([]);
     } else {
-      setTableData(commissionsJSON.concat(commissionsJSON).concat(commissionsJSON).concat(commissionsJSON));
+      asCommissions.create();
     }
   };
   const downloadTemplate = () => {

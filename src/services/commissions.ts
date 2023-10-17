@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { ROUTES_RELATIVE } from '../routes/route.relatives';
+import Commission from '../components/AdminWeb/Pages/Comisiones/Comisiones'
 
 export const asCommissions = {
     getAll: async function() {
@@ -12,6 +13,18 @@ export const asCommissions = {
             return true;
         } catch (error) {
             return false;
+        }
+    },
+    create: async function() {
+        try {
+            const response = await axios.post(ROUTES_RELATIVE.excelPreview, Commission);
+            if (response.status === 200) {
+                console.log('Solicitud POST exitosa');
+            } else {
+                console.log('Error en la solicitud POST');
+            }
+        } catch (error) {
+            console.log('Error en la solicitud POST', error);
         }
     }
 };
