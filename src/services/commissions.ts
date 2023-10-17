@@ -1,14 +1,19 @@
-import { instance } from "./base.api.url";
 import axios from 'axios';
-import fs from "fs";
 
 export const asCommissions = {
     getAll: async function() {
-      const response = await axios.get(`${instance}/download-template`, { responseType: 'arraybuffer' });
-      const fileData = Buffer.from(response.data, 'binary');
+        try {
+            const response = await axios.get(`http://186.12.145.198:4000/course/download-template
+            `, { responseType: 'blob' });
 
-      await fs.writeFile(fileData, 'response', () => {
-        console.log("Done")
-      })//.catch((err: any) => console.log(err))
+            const blob = new Blob([response.data], { type: response.headers['content-type'] });
+
+            const link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.click();
+            return true;
+        } catch (error) {
+            return false;
+        }
     }
 };
