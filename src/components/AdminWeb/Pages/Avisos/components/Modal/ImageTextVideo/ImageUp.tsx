@@ -6,18 +6,24 @@ interface ImageUpProps {
   setImage: (newImage: string) => void;
 }
 
+let urlImg = '';
 function ImageUp({ image, setImage }: ImageUpProps) {
-  const handleImageUpload = (e: React.ChangeEvent<any>) => {
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
 
-    console.log('IMAGEN: ', file);
+    if (file) {
+      const formData = new FormData();
+      formData.append('file', file);
 
-    asImage
-      .create(file)
-      .then((res) =>
-        console.log('Se mando la imagen a la base de datos: ', res),
-      )
-      .catch((error) => console.log(error));
+      try {
+        const response = await asImage.create(formData);
+        urlImg = `${response.config.baseURL}image/${response.data.id}/view`; //TODO: ESTO HAY QUE CAMBIARLO
+
+        setImage(response.data.path);
+      } catch (error) {
+        console.error('Error al subir la imagen:', error);
+      }
+    }
   };
 
   return (
@@ -27,11 +33,10 @@ function ImageUp({ image, setImage }: ImageUpProps) {
           {image ? (
             <div>
               <img
-                src={image}
+                src={urlImg}
                 alt="Imagen cargada"
                 className="max-w-[100%] max-h-[100%] object-contain"
               />
-              <p>adsasd</p>
             </div>
           ) : (
             <div className="flex justify-center items-center ">

@@ -20,7 +20,6 @@ function TableAdvertising({
   const handleRowClick = (advertising: Advertising) => {
     setEditRow(advertising);
     setIsEditing(true);
-    console.log(advertising.payload);
   };
 
   const handleModalClose = () => {

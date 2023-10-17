@@ -1,5 +1,5 @@
 import DatePickerDays from '../../../../components/DatePickerDays';
-import Sectores from '../../../../components/Sectores';
+import Sectores, { Sector } from '../../../../components/Sectores';
 import ImageTextVideo from './ImageTextVideo/ImageTextVideo';
 import DayPicker, { Days } from './DayPicker';
 import PickerTime from './PickerTime';
@@ -11,9 +11,13 @@ import ErrorMessage from '../../../../components/ErrorMessage';
 import Button from '../../../../components/Buttons/Button';
 import * as React from 'react';
 import { asAdvertisings } from '../../../../../../services/advertisings';
-import { convertDaysToNumbers } from '../../../../utils/ConvertDaysToCode';
+import {
+  convertCodesToDays,
+  convertDaysToNumbers,
+} from '../../../../utils/ConvertDaysToCode';
 import { usePayload } from '../../../../hooks/usePayload';
 import { validationDate } from '../../../../utils/validationDate';
+import { convertCodesToSectors } from '../../../../utils/AbbreviateSectorName';
 
 function messageError(message: string) {
   Swal.fire({
@@ -24,10 +28,23 @@ function messageError(message: string) {
   });
 }
 
+//Alerts
+const Toast = Swal.mixin({
+  toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 3000,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.addEventListener('mouseenter', Swal.stopTimer);
+    toast.addEventListener('mouseleave', Swal.resumeTimer);
+  },
+});
+
 interface FormAdvertisingProps {
   setAdvertisingsJSON: () => void;
   closeModal: () => void;
-  isCreate: Boolean;
+  isCreate: boolean;
   advertising?: Advertising;
 }
 
@@ -54,14 +71,6 @@ function FormAdvertising({
       : null,
   );
 
-  const handleStartHourChange = (newStartHour: Dayjs) => {
-    setStartHour(newStartHour);
-  };
-
-  const handleEndHourChange = (newEndHour: Dayjs) => {
-    setEndHour(newEndHour);
-  };
-
   //fechas del aviso
   const [startDate, setStartDate] = React.useState<Dayjs | null>(
     advertising
@@ -74,35 +83,26 @@ function FormAdvertising({
       : null,
   );
 
-  const handleStartDateChange = (newStartDate: Dayjs) => {
-    setStartDate(newStartDate);
-  };
+  const codeDays = advertising?.advertisingSchedules.map(
+    (s) => s.schedule.dayCode,
+  );
 
-  const handleEndDateChange = (newEndDate: Dayjs) => {
-    setEndDate(newEndDate);
-  };
+  const dayslist = codeDays ? convertCodesToDays(codeDays) : [];
 
   //Día de la semana del aviso
   const [selectedDays, setSelectedDays] = React.useState<Days[]>(
-    advertising ? [] : [],
+    advertising ? dayslist : [],
   );
-
-  const handleDaysChange = (newDays: Days[]) => {
-    setSelectedDays(newDays);
-  };
 
   //sectores
 
-  interface Sector {
-    id: number;
-    name: string;
-  }
+  const sectorsid = advertising?.advertisingSectors.map((s) => s.sector.id);
 
-  const [selectedSector, setSelectedSector] = React.useState<Sector[]>([]); //ESTO HAY QUE CAMBIARLO
+  const sectors = sectorsid ? convertCodesToSectors(sectorsid) : [];
 
-  const handleSelectedSectorChange = (newSelectedSector: Sector[]) => {
-    setSelectedSector(newSelectedSector);
-  };
+  const [selectedSector, setSelectedSector] = React.useState<Sector[]>(
+    advertising ? sectors : [],
+  ); //ESTO HAY QUE CAMBIARLO
 
   //payload
 
@@ -122,19 +122,6 @@ function FormAdvertising({
     date: false,
     hour: false,
     type: false,
-  });
-
-  //Alerts
-  const Toast = Swal.mixin({
-    toast: true,
-    position: 'top-end',
-    showConfirmButton: false,
-    timer: 3000,
-    timerProgressBar: true,
-    didOpen: (toast) => {
-      toast.addEventListener('mouseenter', Swal.stopTimer);
-      toast.addEventListener('mouseleave', Swal.resumeTimer);
-    },
   });
 
   const handleDeleteAdvertisingClick = () => {
@@ -205,8 +192,6 @@ function FormAdvertising({
       payload = video;
       type = 2;
     }
-
-    console.log('Imagen: ', payload);
 
     const newAdvertising = {
       name: advertisingName,
@@ -281,7 +266,7 @@ function FormAdvertising({
           <div className="flex-col justify-center">
             <Sectores
               selectedSector={selectedSector}
-              onSelectedSectorChange={handleSelectedSectorChange}
+              onSelectedSectorChange={setSelectedSector}
               campos={emptyFields}
             />
             <div>
@@ -296,16 +281,17 @@ function FormAdvertising({
           <div className="flex-col justify-center items-center m-5 ">
             <div className="flex-col justify-center">
               <DatePickerDays
-                onChangeStartDate={handleStartDateChange}
-                onChangeEndDate={handleEndDateChange}
+                onChangeStartDate={setStartDate}
+                onChangeEndDate={setEndDate}
                 selectedDateInit={startDate}
                 selectedDateFinal={endDate}
+                isCreate={isCreate}
               />
               {ErrorMessage('*Falta completar las fechas.', emptyFields.date)}
             </div>
             <div className="flex-col justify-center pt-10">
               <DayPicker
-                onSelectedDaysChange={handleDaysChange}
+                onSelectedDaysChange={setSelectedDays}
                 selectedDays={selectedDays}
               />
               {ErrorMessage(
@@ -315,8 +301,8 @@ function FormAdvertising({
             </div>
             <div className="flex-col justify-center pt-10">
               <PickerTime
-                onChangeStartHour={handleStartHourChange}
-                onChangeEndHour={handleEndHourChange}
+                onChangeStartHour={setStartHour}
+                onChangeEndHour={setEndHour}
                 selectedHourInit={startHour}
                 selectedHourFinal={endHour}
               />

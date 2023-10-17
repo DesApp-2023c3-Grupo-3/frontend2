@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-const daysOfTheWeek = [
+export const daysOfTheWeek: Days[] = [
   { id: 0, name: 'Lunes' },
   { id: 1, name: 'Martes' },
   { id: 2, name: 'Miércoles' },
@@ -11,7 +11,7 @@ const daysOfTheWeek = [
 ];
 interface DayPickerProps {
   selectedDays: Days[];
-  onSelectedDaysChange: (newSelectedDays: Days[]) => void;
+  onSelectedDaysChange: React.Dispatch<React.SetStateAction<Days[]>>;
 }
 
 function DayPicker({ onSelectedDaysChange, selectedDays }: DayPickerProps) {
@@ -28,15 +28,11 @@ function DayPicker({ onSelectedDaysChange, selectedDays }: DayPickerProps) {
   };
 
   const handleDayClick = (day: Days) => {
-    let newSelectedDays;
+    let newSelectedDays = selectedDays.filter((d) => d !== day);
 
-    if (!selectAllDays) {
-      newSelectedDays = selectedDays.filter((d) => d !== day);
-    } else {
-      newSelectedDays = selectedDays.includes(day)
-        ? selectedDays.filter((d) => d !== day)
-        : [...selectedDays, day];
-    }
+    newSelectedDays = selectedDays.includes(day)
+      ? selectedDays.filter((d) => d !== day)
+      : [...selectedDays, day];
 
     onSelectedDaysChange(newSelectedDays);
   };

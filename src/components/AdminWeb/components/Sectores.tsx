@@ -4,7 +4,7 @@ import { Checkbox } from '@mui/material';
 import { abbreviateSectorName } from '../utils/AbbreviateSectorName';
 import React from 'react';
 
-const sectors = [
+const sectors: Sector[] = [
   { id: 1, name: 'Edificio Malvinas' },
   { id: 2, name: 'Sector 6' },
   { id: 3, name: 'Sector E' },
@@ -34,6 +34,17 @@ function Sectores({
     } else {
       onSelectedSectorChange([]);
     }
+  };
+
+  const handleSectorClick = (sector: Sector) => {
+    onSelectedSectorChange(selectedSector.filter((s) => s === sector));
+    let newSelectedSector = selectedSector.filter((s) => s !== sector);
+
+    newSelectedSector = selectedSector.includes(sector)
+      ? selectedSector.filter((s) => s !== sector)
+      : [...selectedSector, sector];
+
+    onSelectedSectorChange(newSelectedSector);
   };
 
   return (
@@ -91,27 +102,32 @@ function Sectores({
               <span className="m-3 flex justify-center text-[#00000080] text-[20px]">
                 Edificio
               </span>
-              {sectors.map((sector, sextorIdx) => (
-                <div key={sextorIdx} className="flex justify-center">
+              {sectors.map((sector) => (
+                <div key={sector.id} className="flex justify-center">
                   <div>
                     <Listbox.Option
-                      className={({ active, selected }) =>
-                        ` border-2 border-[#919191] flex justify-start items-center relative cursor-pointer mb-[3px] pl-2 rounded-[20px] h-[30px] w-[82px] 
-                                ${
-                                  active
-                                    ? 'bg-[#2C9CBF] text-white'
-                                    : 'text-[#000]'
-                                }
-                                ${
-                                  selected
-                                    ? 'bg-[#2C9CBF] border-[#2C9CBF]'
-                                    : ''
-                                }
-                                `
-                      }
+                      // className={({ active, selected }) =>
+                      //   ` border-2 border-[#919191] flex justify-start items-center relative cursor-pointer mb-[3px] pl-2 rounded-[20px] h-[30px] w-[82px]
+                      //           ${
+                      //             active
+                      //               ? 'bg-[#2C9CBF] text-white'
+                      //               : 'text-[#000]'
+                      //           }
+                      //           ${
+                      //             selected
+                      //               ? 'bg-[#2C9CBF] border-[#2C9CBF]'
+                      //               : ''
+                      //           }
+                      //           `
+                      // }
+                      className={`border-2 border-[#919191] flex justify-start items-center relative cursor-pointer mb-[3px] pl-2 rounded-[20px] h-[30px] w-[82px]  ${
+                        selectedSector.includes(sector)
+                          ? 'bg-[#2C9CBF] border-[#2C9CBF]'
+                          : 'text-[#000]'
+                      }`}
                       value={sector}
                       onClick={() => {
-                        onSelectedSectorChange([...selectedSector, sector]);
+                        handleSectorClick(sector);
                       }}
                     >
                       {({ selected }) => (
@@ -148,7 +164,7 @@ function Sectores({
 
 export default Sectores;
 
-interface Sector {
+export interface Sector {
   id: number;
   name: string;
 }

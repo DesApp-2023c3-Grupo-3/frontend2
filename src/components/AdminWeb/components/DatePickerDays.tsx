@@ -8,6 +8,7 @@ interface DatePickerDaysProps {
   onChangeEndDate: (newEndDate: Dayjs) => void;
   selectedDateInit: null | Dayjs;
   selectedDateFinal: null | Dayjs;
+  isCreate: boolean;
 }
 
 function DatePickerDays({
@@ -15,6 +16,7 @@ function DatePickerDays({
   onChangeEndDate,
   selectedDateInit,
   selectedDateFinal,
+  isCreate,
 }: DatePickerDaysProps) {
   const dateStart = selectedDateInit ? dayjs(selectedDateInit) : null;
 
@@ -23,7 +25,7 @@ function DatePickerDays({
       <div className="">
         <DemoContainer components={['Inicio', 'Final']}>
           <DatePicker
-            disablePast
+            disablePast={isCreate}
             className="w-[100px]"
             value={selectedDateInit}
             onChange={(newDate: any) => {
@@ -33,7 +35,7 @@ function DatePickerDays({
             defaultValue={dateStart}
           />
           <DatePicker
-            disablePast
+            disablePast={isCreate}
             className="w-[100px]"
             value={selectedDateFinal}
             onChange={(newDate: any) => {

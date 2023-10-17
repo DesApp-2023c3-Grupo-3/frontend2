@@ -70,7 +70,7 @@ function TableRow({ advertising, index, onRowClick }: TableRowProps) {
       <td id="Estado" className="px-4 py-2">
         <div
           className={`w-[40px] h-[12px] ml-5 rounded-[8px] ${
-            statusClasses[status] || 'class-default'
+            statusClasses[status] || 'bg-[#727272]'
           }`}
         ></div>
       </td>
