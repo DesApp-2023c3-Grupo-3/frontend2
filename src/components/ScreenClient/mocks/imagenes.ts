@@ -60,8 +60,8 @@ export const messages: Message[] = [
       payload:
         'Se cancelo la clase de Matemáticas I ya que no viene el profesor, saludos',
         advertisingId: 5,
-        startHour: "2023-10-16T19:51:42.142Z",
-        endHour: "2023-10-16T19:51:42.142Z"
+        startHour: "2023-10-17T17:21:42.142Z",
+        endHour: "2023-10-17T19:51:42.142Z"
     },
   },
   {

@@ -4,7 +4,6 @@ import Header from '../../../styled-components/Header';
 import BillboardCard from '../../../styled-components/BillboardCard';
 import { useAdvertisingMessages } from '../../../store/useAdvertisingMessages';
 import DefaultCard from '../../../styled-components/DefaultCard';
-import { useCarouselVideo } from '../../../hooks/useCarouselVideo';
 
 export default function Video() {
   const advertisingMessages = useAdvertisingMessages(
@@ -23,6 +22,7 @@ export default function Video() {
             <AdvertisingVideo
               advertisingVideos={advertisingVideos}
               sx="h-full w-full"
+              withDots={false}
             />
           ) : (
             <DefaultCard sx="h-full" />

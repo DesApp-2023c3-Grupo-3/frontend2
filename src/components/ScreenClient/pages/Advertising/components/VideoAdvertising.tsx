@@ -3,13 +3,16 @@ import { obtenerIDdeVideo } from '../../../utils/strings';
 import '../../../index.css';
 import { useCarouselVideo } from '../../../hooks/useCarouselVideo';
 import { DataAdvertising } from '../../../store/useAdvertisingMessages';
+import Dots from '../../../components/Dots';
 
 export default function AdvertisingVideo({
   advertisingVideos,
   sx,
+  withDots,
 }: {
   advertisingVideos: DataAdvertising[];
   sx: string;
+  withDots: boolean;
 }) {
   const { selectedItem, changeSelectedItem } =
     useCarouselVideo(advertisingVideos);
@@ -25,13 +28,22 @@ export default function AdvertisingVideo({
   };
 
   return (
-    <div id="youtube-player-id" className={sx}>
-      <YouTube
-        videoId={videoId}
-        onEnd={changeSelectedItem}
-        opts={opts}
-        loading="lazy"
-      />
-    </div>
+    <>
+      <div id="youtube-player-id" className={sx}>
+        <YouTube
+          videoId={videoId}
+          onEnd={changeSelectedItem}
+          opts={opts}
+          loading="lazy"
+        />
+      </div>
+      {withDots && (
+        <Dots
+          selectedIndex={1}
+          sx="absolute bottom-0"
+          items={advertisingVideos}
+        />
+      )}
+    </>
   );
 }

@@ -8,7 +8,8 @@ import { useCourseMessages } from '../store/useCourseMessage';
 const ACTION_MESSAGE = {
   CREATE_COURSE: 'CREATE_COURSE',
   CREATE_ADVERTISING: 'CREATE_ADVERTISING',
-  START_CONNECTION: 'START_CONNECTION'
+  START_CONNECTION: 'START_CONNECTION',
+  UPDATE_SCREEN_CONFIGURATION: 'UPDATE_SCREEN_CONFIGURATION'
 }
 
 export function useConnectionSocket(screenId: number) {
@@ -31,6 +32,9 @@ export function useConnectionSocket(screenId: number) {
         break
       case ACTION_MESSAGE.CREATE_COURSE:
         addCourseMessage(newMessage.data)
+        break
+      case ACTION_MESSAGE.UPDATE_SCREEN_CONFIGURATION:
+        setConnection(newMessage.data)
         break
     }
   };

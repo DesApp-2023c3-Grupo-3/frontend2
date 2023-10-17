@@ -1,4 +1,3 @@
-import { useCarousel } from '../../../hooks/useCarousel';
 import { isArrayWithVideos } from '../../../utils/arrays';
 import AdvertisingItem from './ItemAdvertising';
 import AdvertisingVideo from './VideoAdvertising';
@@ -17,7 +16,8 @@ function AdvertisingCard({
       {isArrayWithVideos(messages) ? (
         <AdvertisingVideo
           advertisingVideos={messages}
-          sx="h-[90%] w-full p-1 rounded-3xl overflow-hidden"
+          sx="h-[80%] w-full p-1 rounded-3xl overflow-hidden"
+          withDots={true}
         />
       ) : (
         <AdvertisingType messages={messages} />

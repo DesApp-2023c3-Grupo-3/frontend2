@@ -10,7 +10,7 @@ function ScreenClient({ screenId }: { screenId: number }) {
 
   useEffect(() => {
     setScreenId(screenId);
-  }, []);
+  }, [screenId]);
 
   return socketConnection ? <Screen /> : <Loader />;
 }
