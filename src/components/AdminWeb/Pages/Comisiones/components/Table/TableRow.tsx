@@ -1,6 +1,5 @@
 import { Commission } from '../../../../types/customTypes';
 
-// Componente para mostrar una fila
 function TableRow({
   commission,
   index,

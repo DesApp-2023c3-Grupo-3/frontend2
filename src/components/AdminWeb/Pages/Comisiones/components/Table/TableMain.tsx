@@ -6,7 +6,6 @@ import TableCommisions from './TableCommissions';
 import { Commission } from '../../../../types/customTypes';
 
 function TableMain({ commissionsJSON }: { commissionsJSON: Commission[] }) {
-  //filas por pagina
   const [itemsPerPage, setItemsPerPage] = useState(7);
 
   useEffect(() => {
@@ -26,7 +25,6 @@ function TableMain({ commissionsJSON }: { commissionsJSON: Commission[] }) {
     };
   }, []);
 
-  //barra de busqueda y paginacion
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -46,7 +44,9 @@ function TableMain({ commissionsJSON }: { commissionsJSON: Commission[] }) {
   };
 
   const filteredData = commissionsJSON.filter((commision) =>
-    commision.name.toLowerCase().includes(searchTerm.toLowerCase()),
+    commision.subject.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    commision.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    commision.classroom.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const currentData = filteredData.slice(startIndex, endIndex);
