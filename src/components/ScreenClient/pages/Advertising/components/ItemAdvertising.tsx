@@ -17,13 +17,7 @@ export default function AdvertisingItem({
     <article
       className={`${sx} bg-white w-full flex flex-col items-center justify-center relative h-[49.4vh]`}
     >
-      {messages.length > 0 ? (
-        <Card sx={`${sx}`}>{children}</Card>
-      ) : (
-        <Card sx={sx}>
-          <img src={unahur} alt="Logo de la UNAHUR" />
-        </Card>
-      )}
+      <Card>{children}</Card>
       {messages.length > 1 && (
         <Dots
           selectedIndex={selectedIndex}

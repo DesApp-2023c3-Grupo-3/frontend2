@@ -1,8 +1,8 @@
-import { CircularProgress } from '@mui/material';
 import { useConnectionSocket } from '../hooks/useConnectionSocket';
 import Screen from './Screen';
 import { useEffect } from 'react';
 import { useScreenId } from '../store/useScreenId';
+import Loader from '../styled-components/Loader';
 
 function ScreenClient({ screenId }: { screenId: number }) {
   const { socketConnection } = useConnectionSocket(screenId);
@@ -12,7 +12,7 @@ function ScreenClient({ screenId }: { screenId: number }) {
     setScreenId(screenId);
   }, []);
 
-  return socketConnection ? <Screen /> : <CircularProgress />;
+  return socketConnection ? <Screen /> : <Loader />;
 }
 
 export default ScreenClient;
