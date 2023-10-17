@@ -83,11 +83,9 @@ function FormCommission({
   const [selectedSector, setSelectedSector] = useState<Sector[]>([]);
   const handleSelectedSectorChange = (newSelectedSector: Sector[]) => {
     setSelectedSector(newSelectedSector);
-    console.log('Sectores', selectedSector);
   };
 
   const toggleTable = () => {
-    console.log('activar/desactivar tabla');
     setHasDocument(!hasDocument);
     if (hasDocument) {
       setTableData([]);
@@ -98,7 +96,6 @@ function FormCommission({
   const downloadTemplate = () => {
     newCommission()
     toggleTable()
-    console.log("download template")
   };
 
   return (
