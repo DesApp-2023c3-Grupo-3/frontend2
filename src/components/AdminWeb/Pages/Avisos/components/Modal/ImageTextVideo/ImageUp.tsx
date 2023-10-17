@@ -1,33 +1,38 @@
-import React, { useState } from 'react';
+import * as React from 'react';
+import { asImage } from '../../../../../../../services/image';
 
-function ImageUp() {
-  const [image, setImage] = useState<string | null>(null);
+interface ImageUpProps {
+  image: string;
+  setImage: (newImage: string) => void;
+}
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+function ImageUp({ image, setImage }: ImageUpProps) {
+  const handleImageUpload = (e: React.ChangeEvent<any>) => {
     const file = e.target.files?.[0];
 
-    if (file) {
-      const reader = new FileReader();
+    console.log('IMAGEN: ', file);
 
-      reader.onload = (event) => {
-        const uploadedImageUrl = event.target?.result as string;
-        setImage(uploadedImageUrl);
-      };
-
-      reader.readAsDataURL(file);
-    }
+    asImage
+      .create(file)
+      .then((res) =>
+        console.log('Se mando la imagen a la base de datos: ', res),
+      )
+      .catch((error) => console.log(error));
   };
 
   return (
     <div className="w-[330px] h-[300px] relative">
-      <label htmlFor="image-upload">
+      <label>
         <div className=" overflow-hidden flex items-center justify-center w-[100%] h-[100%]">
           {image ? (
-            <img
-              src={image}
-              alt="Imagen cargada"
-              className="max-w-[100%] max-h-[100%] object-contain"
-            />
+            <div>
+              <img
+                src={image}
+                alt="Imagen cargada"
+                className="max-w-[100%] max-h-[100%] object-contain"
+              />
+              <p>adsasd</p>
+            </div>
           ) : (
             <div className="flex justify-center items-center ">
               <svg
@@ -49,14 +54,14 @@ function ImageUp() {
             </div>
           )}
         </div>
+        <input
+          type="file"
+          id="image-upload"
+          accept="image/*"
+          style={{ display: 'none' }}
+          onChange={handleImageUpload}
+        />
       </label>
-      <input
-        type="file"
-        id="image-upload"
-        accept="image/*"
-        style={{ display: 'none' }}
-        onChange={handleImageUpload}
-      />
     </div>
   );
 }

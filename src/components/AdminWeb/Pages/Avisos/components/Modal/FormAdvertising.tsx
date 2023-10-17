@@ -11,6 +11,9 @@ import ErrorMessage from '../../../../components/ErrorMessage';
 import Button from '../../../../components/Buttons/Button';
 import * as React from 'react';
 import { asAdvertisings } from '../../../../../../services/advertisings';
+import { convertDaysToNumbers } from '../../../../utils/ConvertDaysToCode';
+import { usePayload } from '../../../../hooks/usePayload';
+import { validationDate } from '../../../../utils/validationDate';
 
 function messageError(message: string) {
   Swal.fire({
@@ -21,24 +24,15 @@ function messageError(message: string) {
   });
 }
 
-function validationDate(start: Date | null, end: Date | null) {
-  return (
-    dayjs(start).format() === 'Invalid Date' ||
-    dayjs(end).format() === 'Invalid Date'
-  );
-}
-
 interface FormAdvertisingProps {
-  advertisingsJSON: Advertising[];
-  setAdvertisingsJSON: React.Dispatch<React.SetStateAction<Advertising[]>>;
+  setAdvertisingsJSON: () => void;
   closeModal: () => void;
   isCreate: Boolean;
   advertising?: Advertising;
 }
 
 function FormAdvertising({
-  advertisingsJSON, //LISTA DE AVISOS
-  setAdvertisingsJSON, //AGREGAR UN AVISO
+  setAdvertisingsJSON,
   closeModal,
   isCreate,
   advertising,
@@ -49,49 +43,48 @@ function FormAdvertising({
   );
 
   //Hora del aviso
-  const [startHour, setStartHour] = React.useState<Date | null>(
+  const [startHour, setStartHour] = React.useState<Dayjs | null>(
     advertising
-      ? new Date(advertising?.advertisingSchedules[0].schedule.startHour)
+      ? dayjs(advertising?.advertisingSchedules[0].schedule.startHour)
       : null,
   );
-  const [endHour, setEndHour] = React.useState<Date | null>(
+  const [endHour, setEndHour] = React.useState<Dayjs | null>(
     advertising
-      ? new Date(advertising?.advertisingSchedules[0].schedule.endHour)
+      ? dayjs(advertising?.advertisingSchedules[0].schedule.endHour)
       : null,
   );
 
-  const handleStartHourChange = (newStartHour: Date) => {
+  const handleStartHourChange = (newStartHour: Dayjs) => {
     setStartHour(newStartHour);
   };
 
-  const handleEndHourChange = (newEndHour: Date) => {
+  const handleEndHourChange = (newEndHour: Dayjs) => {
     setEndHour(newEndHour);
   };
 
   //fechas del aviso
-  const [startDate, setStartDate] = React.useState<Date | null>(
+  const [startDate, setStartDate] = React.useState<Dayjs | null>(
     advertising
-      ? new Date(advertising?.advertisingSchedules[0].schedule.startDate)
+      ? dayjs(advertising?.advertisingSchedules[0].schedule.startDate)
       : null,
   );
-  const [endDate, setEndDate] = React.useState<Date | null>(
+  const [endDate, setEndDate] = React.useState<Dayjs | null>(
     advertising
-      ? new Date(advertising?.advertisingSchedules[0].schedule.endDate)
+      ? dayjs(advertising?.advertisingSchedules[0].schedule.endDate)
       : null,
   );
 
-  const handleStartDateChange = (newStartDate: Date) => {
+  const handleStartDateChange = (newStartDate: Dayjs) => {
     setStartDate(newStartDate);
   };
 
-  const handleEndDateChange = (newEndDate: Date) => {
+  const handleEndDateChange = (newEndDate: Dayjs) => {
     setEndDate(newEndDate);
   };
 
   //Día de la semana del aviso
   const [selectedDays, setSelectedDays] = React.useState<Days[]>(
-    //advertising ? advertising.advertisingSchedules[0].schedule.dayCode :
-    [],
+    advertising ? [] : [],
   );
 
   const handleDaysChange = (newDays: Days[]) => {
@@ -111,12 +104,16 @@ function FormAdvertising({
     setSelectedSector(newSelectedSector);
   };
 
-  function eliminarAdvertising(advertisingId: number) {
-    const advertisingFilter = advertisingsJSON.filter(
-      (advertising) => advertising.id !== advertisingId,
-    );
-    setAdvertisingsJSON(advertisingFilter);
-  }
+  //payload
+
+  const {
+    text,
+    image,
+    video,
+    setTextPayload,
+    setImagePayload,
+    setVideoPayload,
+  } = usePayload();
 
   const [emptyFields, setEmptyFields] = React.useState({
     advertisingName: false,
@@ -124,6 +121,7 @@ function FormAdvertising({
     selectedDays: false,
     date: false,
     hour: false,
+    type: false,
   });
 
   //Alerts
@@ -151,7 +149,7 @@ function FormAdvertising({
     }).then((result) => {
       if (result.isConfirmed) {
         if (advertising) {
-          eliminarAdvertising(advertising.id);
+          //eliminarAdvertising(advertising.id);
           Toast.fire({
             icon: 'success',
             title: 'Se ha eliminado el aviso',
@@ -169,12 +167,9 @@ function FormAdvertising({
       selectedDays: selectedDays.length === 0,
       date: validationDate(startDate, endDate),
       hour: validationDate(startHour, endHour),
+      type: image === '' && text === '' && video === '',
     };
     setEmptyFields(emptyFieldsUpdate);
-
-    const convertDaysToNumbers = (selectedDays: Days[]): string[] => {
-      return selectedDays.map((day) => day.id.toString());
-    };
 
     const daysCode = convertDaysToNumbers(selectedDays);
 
@@ -197,11 +192,27 @@ function FormAdvertising({
       return rest;
     });
 
+    let payload = '';
+    let type = 0;
+
+    if (image) {
+      payload = image;
+      type = 1;
+    } else if (text) {
+      payload = text;
+      type = 3;
+    } else if (video) {
+      payload = video;
+      type = 2;
+    }
+
+    console.log('Imagen: ', payload);
+
     const newAdvertising = {
       name: advertisingName,
-      payload: 'Este deberia llegar a sector 1 y 2',
+      payload: payload,
       advertisingType: {
-        id: 1,
+        id: type,
       },
       user: {
         id: 1,
@@ -213,7 +224,7 @@ function FormAdvertising({
     //VALIDACIONES
 
     if (Object.values(emptyFieldsUpdate).filter((value) => value).length > 1) {
-      //Faltaría agregar una lista de los campos que estan incompletos y ponerlo en el mensaje de error.
+      //TODO: Faltaría agregar una lista de los campos que estan incompletos y ponerlo en el mensaje de error.
       messageError('Hay campos incompletos.');
     } else if (!advertisingName) {
       messageError('Falta completar el nombre del aviso.');
@@ -227,14 +238,21 @@ function FormAdvertising({
       messageError('Falta completar el horario de los avisos.');
     } else if (endDate !== null && startDate !== null && endDate <= startDate) {
       messageError('La fecha final no debe ser anterior a la de inicio.');
-    } else {
+    } else if (!payload && type === 0) {
+      messageError('Falta agregarle al aviso un texto, video o imagen.');
+    } else if (isCreate) {
       asAdvertisings.create(newAdvertising);
+      setAdvertisingsJSON();
       closeModal();
 
       Toast.fire({
         icon: 'success',
         title: 'Se ha creado el aviso',
       });
+    } else {
+      if (advertising) {
+        asAdvertisings.edit(advertising.id, newAdvertising);
+      }
     }
   };
 
@@ -280,8 +298,8 @@ function FormAdvertising({
               <DatePickerDays
                 onChangeStartDate={handleStartDateChange}
                 onChangeEndDate={handleEndDateChange}
-                init={advertising?.advertisingSchedules[0].schedule.startDate}
-                final={advertising?.advertisingSchedules[0].schedule.endDate}
+                selectedDateInit={startDate}
+                selectedDateFinal={endDate}
               />
               {ErrorMessage('*Falta completar las fechas.', emptyFields.date)}
             </div>
@@ -299,14 +317,25 @@ function FormAdvertising({
               <PickerTime
                 onChangeStartHour={handleStartHourChange}
                 onChangeEndHour={handleEndHourChange}
-                init={advertising?.advertisingSchedules[0].schedule.startHour}
-                final={advertising?.advertisingSchedules[0].schedule.endHour}
+                selectedHourInit={startHour}
+                selectedHourFinal={endHour}
               />
               {ErrorMessage('*Falta completar los horarios', emptyFields.hour)}
             </div>
           </div>
           <div className="pr-[1em] pt-[20px] z-[999]">
-            <ImageTextVideo />
+            <ImageTextVideo
+              text={text}
+              image={image}
+              video={video}
+              setTextPayload={setTextPayload}
+              setImagePayload={setImagePayload}
+              setVideoPayload={setVideoPayload}
+            />
+            {ErrorMessage(
+              '*Falta completar el tipo del aviso',
+              emptyFields.type,
+            )}
           </div>
         </div>
       </form>

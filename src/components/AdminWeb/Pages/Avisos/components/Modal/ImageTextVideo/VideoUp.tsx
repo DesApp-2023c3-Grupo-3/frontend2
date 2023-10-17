@@ -2,8 +2,12 @@ import { useState } from 'react';
 import YouTube from 'react-youtube';
 import { obtenerIDdeVideo } from '../../../../../../ScreenClient/utils/strings';
 
-function VideoUp() {
-  const [youtubeUrl, setYoutubeUrl] = useState<string>('');
+interface VideoUpProps {
+  youtubeUrl: string;
+  setYoutubeUrl: (newUrl: string) => void;
+}
+
+function VideoUp({ youtubeUrl, setYoutubeUrl }: VideoUpProps) {
   const [showPreview, setShowPreview] = useState<boolean>(false);
   const [isValidUrl, setIsValidUrl] = useState<boolean>(true);
 

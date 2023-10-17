@@ -7,12 +7,12 @@ import theme from '../../../../config/createTheme';
 
 interface TableMainProps {
   advertisingsJSON: Advertising[];
-  setAdvertisingJSON: React.Dispatch<React.SetStateAction<Advertising[]>>;
+  setAdvertisingsJSON: () => void;
 }
 
 function TableMain({
   advertisingsJSON = [],
-  setAdvertisingJSON,
+  setAdvertisingsJSON,
 }: TableMainProps) {
   //filas por pagina
   const [itemsPerPage, setItemsPerPage] = React.useState(7);
@@ -64,7 +64,7 @@ function TableMain({
       <SearchBar searchTerm={searchTerm} onSearchChange={handleSearchChange} />
       <TableAdvertising
         advertisings={currentData}
-        setAdvertisingsJSON={setAdvertisingJSON}
+        setAdvertisingsJSON={setAdvertisingsJSON}
       />
       <ThemeProvider theme={theme}>
         <Pagination

@@ -6,7 +6,7 @@ import * as React from 'react';
 
 interface TableAdvertisingProps {
   advertisings: Advertising[];
-  setAdvertisingsJSON: React.Dispatch<React.SetStateAction<Advertising[]>>;
+  setAdvertisingsJSON: () => void;
 }
 
 // Componente para la tabla completa
@@ -20,6 +20,7 @@ function TableAdvertising({
   const handleRowClick = (advertising: Advertising) => {
     setEditRow(advertising);
     setIsEditing(true);
+    console.log(advertising.payload);
   };
 
   const handleModalClose = () => {
@@ -56,7 +57,6 @@ function TableAdvertising({
         closeModal={handleModalClose}
         component={
           <FormAdvertising
-            advertisingsJSON={advertisings}
             setAdvertisingsJSON={setAdvertisingsJSON}
             closeModal={handleModalClose}
             isCreate={false}

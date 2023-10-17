@@ -13,7 +13,10 @@ function Avisos() {
     [],
   );
 
-  React.useEffect(() => {
+  //Modal
+  const { isOpen, openModal, closeModal } = useModal();
+
+  const GetData = () => {
     asAdvertisings
       .getAll()
       .then((r) => {
@@ -22,10 +25,11 @@ function Avisos() {
       .catch((e) => {
         console.log(e);
       });
-  }, []);
+  };
 
-  //Modal
-  const { isOpen, openModal, closeModal } = useModal();
+  React.useEffect(() => {
+    GetData();
+  }, []);
 
   return (
     <section>
@@ -36,7 +40,7 @@ function Avisos() {
       <div className="mt-[-70px] mr-[3%] ">
         <TableMain
           advertisingsJSON={advertisingsJSON}
-          setAdvertisingJSON={setAdvertisingsJSON}
+          setAdvertisingsJSON={GetData}
         />
         <div className="flex justify-end">
           <Button
@@ -51,8 +55,7 @@ function Avisos() {
             closeModal={closeModal}
             component={
               <FormAdvertising //en el componente del modal hay que mandarle la funcion para cerrar el modal
-                advertisingsJSON={advertisingsJSON}
-                setAdvertisingsJSON={setAdvertisingsJSON}
+                setAdvertisingsJSON={GetData}
                 closeModal={closeModal}
                 isCreate={true}
               />

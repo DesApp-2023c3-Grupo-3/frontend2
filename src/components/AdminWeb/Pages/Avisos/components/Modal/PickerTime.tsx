@@ -4,37 +4,28 @@ import { TimePicker } from '@mui/x-date-pickers';
 import dayjs, { Dayjs } from 'dayjs';
 
 interface PickerTimeProps {
-  onChangeStartHour: (newStartHour: any) => void;
-  onChangeEndHour: (newEndHour: any) => void;
-  init?: string;
-  final?: string;
+  onChangeStartHour: (newStartHour: Dayjs) => void;
+  onChangeEndHour: (newEndHour: Dayjs) => void;
+  selectedHourInit?: Dayjs | null;
+  selectedHourFinal?: Dayjs | null;
 }
 
 function PickerTime({
   onChangeStartHour,
   onChangeEndHour,
-  init,
-  final,
+  selectedHourInit,
+  selectedHourFinal,
 }: PickerTimeProps) {
-  const [selectedHourInit, setSelectedHourInit] = React.useState<
-    Date | null | Dayjs
-  >(init ? dayjs(`2024-01-01T${init}`) : null);
-  const [selectedHourFinal, setSelectedHourFinal] = React.useState<
-    Date | null | Dayjs
-  >(final ? dayjs(`2024-01-01T${final}`) : null);
-
-  const handleStartHourChange = (newStartHour: any) => {
+  const handleStartHourChange = (newStartHour: Dayjs) => {
     if (newStartHour) {
       const newDate = dayjs(newStartHour);
-      setSelectedHourInit(newDate);
       onChangeStartHour(newDate);
     }
   };
 
-  const handleEndHourChange = (newEndHour: any) => {
+  const handleEndHourChange = (newEndHour: Dayjs) => {
     if (newEndHour) {
       const newDate = dayjs(newEndHour);
-      setSelectedHourFinal(newDate);
       onChangeEndHour(newDate);
     }
   };
