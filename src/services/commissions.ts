@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { ROUTES_RELATIVE } from '../routes/route.relatives';
 
-export const asCommissions = {
+export const commissionApi = {
     download: async function() {
         try {
             const response = await axios.get(ROUTES_RELATIVE.downloadCommission, { responseType: 'blob' });
@@ -29,20 +29,20 @@ export const asCommissions = {
             return error;
           }
     },
-    create: async function(excellData: any){
+    create: async function(excelData: any){
 
         try{
-            const response = await this.post(excellData, ROUTES_RELATIVE.uploadCommission)
+            const response = await this.post(excelData, ROUTES_RELATIVE.uploadCommission)
             return response;
           }
           catch(error){
             return error;
           }
     },
-    toJson: async function(excellData: any){
+    toJson: async function(excelData: any){
 
         try{
-          const response = await this.post(excellData, ROUTES_RELATIVE.excelToJson)
+          const response = await this.post(excelData, ROUTES_RELATIVE.excelToJson)
           return response;
         }
         catch(error){

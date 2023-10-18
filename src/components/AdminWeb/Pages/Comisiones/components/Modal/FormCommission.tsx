@@ -4,7 +4,7 @@ import Sectores from './Sectores';
 import React, { useState } from 'react';
 import { Commission } from '../../../../types/customTypes';
 import { abbreviateSectorName } from '../../../../utils/AbbreviateSectorName';
-import { asCommissions } from '../../../../../../services/commissions';
+import { commissionApi } from '../../../../../../services/commissions';
 import commissionData from '../../../../Mocks/commissionData.json'
 
 interface FormCommissionProps {
@@ -20,7 +20,7 @@ function FormCommission({
 }: FormCommissionProps) {
   const [hasDocument, setHasDocument] = useState<boolean>(false);
   const [tableData, setTableData] = useState<Commission[]>([]);
-  const [excellData, setExcellData] = useState<any>()
+  const [excelData, setExcelData] = useState<any>()
   const [selectedFileName, setSelectedFileName] = useState("");
   const newCommission = () => {
     setHasDocument(!hasDocument);
@@ -100,27 +100,27 @@ function FormCommission({
 
   const onFileLoaded = async (e: any) => {
     e.preventDefault();
-    const excell = e.target?.files[0];
+    const excel = e.target?.files[0];
     const formData = new FormData();
-    formData.append("file", excell);
+    formData.append("file", excel);
     formData.append("startDate", startDate.toString());
     formData.append("endDate", endDate.toString());
     formData.append("sector", selectedSector.toString());
 
-    setExcellData(formData)
-    setSelectedFileName(excell.name);
+    setExcelData(formData)
+    setSelectedFileName(excel.name);
 
-    const newTableData: any = await asCommissions.toJson(formData);
+    const newTableData: any = await commissionApi.toJson(formData);
     setTableData(Array.from(newTableData.data))
     toggleTable()
   }
 
   const uploadTemplate = () => {
-    asCommissions.create(excellData)
+    commissionApi.create(excelData)
   }
 
   const downloadTemplate = () => {
-    asCommissions.download()
+    commissionApi.download()
   };
 
   return (
