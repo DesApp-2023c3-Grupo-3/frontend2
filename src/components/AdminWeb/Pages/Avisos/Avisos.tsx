@@ -5,7 +5,7 @@ import FormAdvertising from './components/Modal/FormAdvertising';
 import { useModal } from '../../hooks/useModal';
 import { Advertising } from '../../types/customTypes';
 import React from 'react';
-import { asAdvertisings } from '../../../../services/advertisings';
+import { advertisingsAPI } from '../../../../services/advertisings';
 
 function Avisos() {
   //GET ADVERTISINGS
@@ -17,7 +17,7 @@ function Avisos() {
   const { isOpen, openModal, closeModal } = useModal();
 
   const GetData = () => {
-    asAdvertisings
+    advertisingsAPI
       .getAll()
       .then((r) => {
         setAdvertisingsJSON(r.data);

@@ -2,7 +2,7 @@ import { instance } from "./base.api.url";
 
 const endpoint = "image"
 
-export const asImage = {
+export const imageAPI = {
     viewId: function(id : number) {
         return instance.get(`${endpoint}/${id}/view`)
     },

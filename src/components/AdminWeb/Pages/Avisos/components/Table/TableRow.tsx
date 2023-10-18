@@ -12,6 +12,7 @@ interface TableRowProps {
 function TableRow({ advertising, index, onRowClick }: TableRowProps) {
   const handleRowClick = () => {
     onRowClick(advertising);
+    console.log('Aviso: ', advertising);
   };
 
   const starthour = dayjs(

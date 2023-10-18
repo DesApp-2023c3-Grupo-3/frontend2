@@ -1,13 +1,14 @@
 import * as React from 'react';
-import { asImage } from '../../../../../../../services/image';
+import { imageAPI } from '../../../../../../../services/image';
 
 interface ImageUpProps {
   image: string;
   setImage: (newImage: string) => void;
 }
 
-let urlImg = '';
 function ImageUp({ image, setImage }: ImageUpProps) {
+  let urlImg = '';
+
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
 
@@ -16,10 +17,9 @@ function ImageUp({ image, setImage }: ImageUpProps) {
       formData.append('file', file);
 
       try {
-        const response = await asImage.create(formData);
-        urlImg = `${response.config.baseURL}image/${response.data.id}/view`; //TODO: ESTO HAY QUE CAMBIARLO
-
-        setImage(response.data.path);
+        const response = await imageAPI.create(formData);
+        urlImg = `${response.config.baseURL}image/${response.data.id}/view`;
+        setImage(urlImg);
       } catch (error) {
         console.error('Error al subir la imagen:', error);
       }
@@ -28,18 +28,37 @@ function ImageUp({ image, setImage }: ImageUpProps) {
 
   return (
     <div className="w-[330px] h-[300px] relative">
-      <label>
-        <div className=" overflow-hidden flex items-center justify-center w-[100%] h-[100%]">
-          {image ? (
-            <div>
-              <img
-                src={urlImg}
-                alt="Imagen cargada"
-                className="max-w-[100%] max-h-[100%] object-contain"
-              />
+      <div className=" overflow-hidden flex items-center justify-center w-[100%] h-[100%]">
+        {image ? (
+          <div className="w-[330px] h-[300px]">
+            <img
+              src={image}
+              alt="Imagen cargada"
+              className="max-w-[100%] max-h-[100%] object-contain"
+            />
+            <div className="flex justify-end items-baseline">
+              <label>
+                {cambiarImg}
+                <input
+                  type="file"
+                  id="image-upload"
+                  accept="image/*"
+                  style={{ display: 'none' }}
+                  onChange={handleImageUpload}
+                />
+              </label>
             </div>
-          ) : (
-            <div className="flex justify-center items-center ">
+          </div>
+        ) : (
+          <div className="flex justify-center items-center ">
+            <label>
+              <input
+                type="file"
+                id="image-upload"
+                accept="image/*"
+                style={{ display: 'none' }}
+                onChange={handleImageUpload}
+              />
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="36"
@@ -56,19 +75,28 @@ function ImageUp({ image, setImage }: ImageUpProps) {
                   strokeLinejoin="round"
                 />
               </svg>
-            </div>
-          )}
-        </div>
-        <input
-          type="file"
-          id="image-upload"
-          accept="image/*"
-          style={{ display: 'none' }}
-          onChange={handleImageUpload}
-        />
-      </label>
+            </label>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
 
 export default ImageUp;
+
+const cambiarImg = (
+  <svg
+    className="cursor-pointer"
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+  >
+    <path
+      d="M21.3333 2.66667V21.3333H2.66667V2.66667H21.3333ZM21.3333 0H2.66667C1.2 0 0 1.2 0 2.66667V21.3333C0 22.8 1.2 24 2.66667 24H21.3333C22.8 24 24 22.8 24 21.3333V2.66667C24 1.2 22.8 0 21.3333 0ZM14.8533 11.8133L10.8533 16.9733L8 13.52L4 18.6667H20L14.8533 11.8133Z"
+      fill="#AFAFAF"
+    />
+  </svg>
+);

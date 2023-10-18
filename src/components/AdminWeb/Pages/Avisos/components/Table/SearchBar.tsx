@@ -31,7 +31,7 @@ function SearchBar({
         <input
           className="w-[85%] pl-2 h-full outline-none text-[20px]"
           type="text"
-          placeholder="Buscas avisos"
+          placeholder="Buscar aviso"
           value={searchTerm}
           onChange={onSearchChange}
         />

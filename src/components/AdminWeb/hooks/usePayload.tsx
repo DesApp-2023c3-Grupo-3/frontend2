@@ -1,28 +1,40 @@
 import { useState } from 'react';
+import { Advertising } from '../types/customTypes';
 
-export function usePayload() {
-  const [text, setText] = useState<string>('');
-  const [image, setImage] = useState<string>('');
-  const [video, setVideo] = useState<string>('');
+export function usePayload(advertising: Advertising | undefined) {
+  let text1 = '';
+  let image1 = '';
+  let video1 = '';
 
-  const setTextPayload = (newText: string) => {
-    setText(newText);
-  };
+  const typeid = advertising ? advertising.advertisingType.id : -1;
 
-  const setImagePayload = (newImage: string) => {
-    setImage(newImage);
-  };
+  switch (typeid) {
+    case 1:
+      image1 = advertising ? advertising.payload : '';
+      break;
+    case 2:
+      video1 = advertising ? advertising.payload : '';
+      break;
+    case 3:
+      text1 = advertising ? advertising.payload : '';
+      break;
+    default:
+      break;
+  }
 
-  const setVideoPayload = (newVideo: string) => {
-    setVideo(newVideo);
-  };
+  const [text, setTextPayload] = useState<string>(text1);
+  const [image, setImagePayload] = useState<string>(image1);
+  const [video, setVideoPayload] = useState<string>(video1);
+  const [type, setType] = useState<number>(typeid);
 
   return {
     text,
     image,
     video,
+    type,
     setTextPayload,
     setImagePayload,
     setVideoPayload,
+    setType,
   };
 }

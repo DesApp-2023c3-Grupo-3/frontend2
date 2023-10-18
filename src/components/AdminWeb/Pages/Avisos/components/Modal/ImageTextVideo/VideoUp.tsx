@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import * as React from 'react';
 import YouTube from 'react-youtube';
 import { obtenerIDdeVideo } from '../../../../../../ScreenClient/utils/strings';
 
@@ -7,15 +8,25 @@ interface VideoUpProps {
   setYoutubeUrl: (newUrl: string) => void;
 }
 
+const youtubeUrlPattern = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+/;
+
+const validateYouTubeUrl = (url: string) => {
+  return youtubeUrlPattern.test(url);
+};
+
+export const isValidateUrl = (url: string) => {
+  return youtubeUrlPattern.test(url);
+};
+
 function VideoUp({ youtubeUrl, setYoutubeUrl }: VideoUpProps) {
-  const [showPreview, setShowPreview] = useState<boolean>(false);
+  const [showPreview, setShowPreview] = useState<boolean>(
+    isValidateUrl(youtubeUrl),
+  );
   const [isValidUrl, setIsValidUrl] = useState<boolean>(true);
+  let urlYT;
 
   const onVideoSubmit = (e: any) => {
     e.preventDefault();
-
-    const youtubeUrlPattern =
-      /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+/;
     const isValid = youtubeUrlPattern.test(youtubeUrl);
 
     if (isValid) {
@@ -24,6 +35,17 @@ function VideoUp({ youtubeUrl, setYoutubeUrl }: VideoUpProps) {
     } else {
       setIsValidUrl(false);
     }
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    let url = e.target.value;
+
+    // Validar la URL en cada cambio
+    const videoId = validateYouTubeUrl(url);
+    setIsValidUrl(videoId);
+    setShowPreview(videoId);
+    videoId ? setYoutubeUrl(url) : setYoutubeUrl('');
   };
 
   const opts = {
@@ -39,15 +61,16 @@ function VideoUp({ youtubeUrl, setYoutubeUrl }: VideoUpProps) {
       <h3 className="text-black ml-3 mt-3 select-none">URL YouTube:</h3>
       <div className="flex-col ml-[10px] h-[30px]">
         <div
-          className={`bg-[#fff] rounded-[20px] w-[280px] h-[34px] flex items-center ${
+          className={`bg-[#fff] rounded-[20px] w-[300px] h-[34px] flex items-center ${
             !isValidUrl ? 'border-2 border-[red]' : ''
           }`}
         >
           <input
             placeholder="www.youtube.com"
             className="pl-5 w-[280px] h-[30px] bg-[#fff] rounded-s-[20px] outline-none"
-            value={youtubeUrl}
-            onChange={(e) => setYoutubeUrl(e.target.value)}
+            value={urlYT}
+            defaultValue={youtubeUrl}
+            onChange={handleInputChange}
           />
           <button onClick={onVideoSubmit} className="">
             {flecha}

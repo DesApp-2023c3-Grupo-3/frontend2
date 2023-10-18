@@ -10,7 +10,7 @@ import { Advertising } from '../../../../types/customTypes';
 import ErrorMessage from '../../../../components/ErrorMessage';
 import Button from '../../../../components/Buttons/Button';
 import * as React from 'react';
-import { asAdvertisings } from '../../../../../../services/advertisings';
+import { advertisingsAPI } from '../../../../../../services/advertisings';
 import {
   convertCodesToDays,
   convertDaysToNumbers,
@@ -18,6 +18,7 @@ import {
 import { usePayload } from '../../../../hooks/usePayload';
 import { validationDate } from '../../../../utils/validationDate';
 import { convertCodesToSectors } from '../../../../utils/AbbreviateSectorName';
+import { isValidateUrl } from './ImageTextVideo/VideoUp';
 
 function messageError(message: string) {
   Swal.fire({
@@ -110,10 +111,12 @@ function FormAdvertising({
     text,
     image,
     video,
+    type,
     setTextPayload,
     setImagePayload,
     setVideoPayload,
-  } = usePayload();
+    setType,
+  } = usePayload(advertising);
 
   const [emptyFields, setEmptyFields] = React.useState({
     advertisingName: false,
@@ -180,17 +183,19 @@ function FormAdvertising({
     });
 
     let payload = '';
-    let type = 0;
 
-    if (image) {
-      payload = image;
-      type = 1;
-    } else if (text) {
-      payload = text;
-      type = 3;
-    } else if (video) {
-      payload = video;
-      type = 2;
+    switch (type) {
+      case 1:
+        payload = image;
+        break;
+      case 2:
+        payload = video;
+        break;
+      case 3:
+        payload = text;
+        break;
+      default:
+        break;
     }
 
     const newAdvertising = {
@@ -223,10 +228,12 @@ function FormAdvertising({
       messageError('Falta completar el horario de los avisos.');
     } else if (endDate !== null && startDate !== null && endDate <= startDate) {
       messageError('La fecha final no debe ser anterior a la de inicio.');
-    } else if (!payload && type === 0) {
+    } else if (payload === '' && type === 0) {
       messageError('Falta agregarle al aviso un texto, video o imagen.');
+    } else if (type === 2 && !payload) {
+      messageError('URL YouTube incorrecta.');
     } else if (isCreate) {
-      asAdvertisings.create(newAdvertising);
+      advertisingsAPI.create(newAdvertising);
       setAdvertisingsJSON();
       closeModal();
 
@@ -236,7 +243,7 @@ function FormAdvertising({
       });
     } else {
       if (advertising) {
-        asAdvertisings.edit(advertising.id, newAdvertising);
+        advertisingsAPI.edit(advertising.id, newAdvertising);
       }
     }
   };
@@ -314,9 +321,11 @@ function FormAdvertising({
               text={text}
               image={image}
               video={video}
+              type={type}
               setTextPayload={setTextPayload}
               setImagePayload={setImagePayload}
               setVideoPayload={setVideoPayload}
+              setType={setType}
             />
             {ErrorMessage(
               '*Falta completar el tipo del aviso',
