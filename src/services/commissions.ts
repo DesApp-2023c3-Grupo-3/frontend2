@@ -19,7 +19,6 @@ export const commissionApi = {
             const response = await axios.post(endpoint, data, {
               headers: {
                 "content-type": "multipart/form-data",
-                //Authorization: `Bearer ${userInfo.token}`,
               },
             })
     
@@ -29,20 +28,20 @@ export const commissionApi = {
             return error;
           }
     },
-    create: async function(excelData: any){
+    create: async function(excellData: any){
 
         try{
-            const response = await this.post(excelData, ROUTES_RELATIVE.uploadCommission)
+            const response = await this.post(excellData, ROUTES_RELATIVE.uploadCommission)
             return response;
           }
           catch(error){
             return error;
           }
     },
-    toJson: async function(excelData: any){
+    toJson: async function(excellData: any){
 
         try{
-          const response = await this.post(excelData, ROUTES_RELATIVE.excelToJson)
+          const response = await this.post(excellData, ROUTES_RELATIVE.excelToJson)
           return response;
         }
         catch(error){

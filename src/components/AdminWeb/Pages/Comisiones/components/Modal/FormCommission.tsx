@@ -5,7 +5,6 @@ import React, { useState } from 'react';
 import { Commission } from '../../../../types/customTypes';
 import { abbreviateSectorName } from '../../../../utils/AbbreviateSectorName';
 import { commissionApi } from '../../../../../../services/commissions';
-import commissionData from '../../../../Mocks/commissionData.json'
 
 interface FormCommissionProps {
   commissionsJSON: Commission[];
@@ -111,8 +110,12 @@ function FormCommission({
     setSelectedFileName(excel.name);
 
     const newTableData: any = await commissionApi.toJson(formData);
-    setTableData(Array.from(newTableData.data))
-    toggleTable()
+    if (Array.isArray(newTableData)) {
+      setTableData(Array.from(newTableData));
+      toggleTable();
+    } else {
+      alert("El archivo subido no es válido");
+    }
   }
 
   const uploadTemplate = () => {
