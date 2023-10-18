@@ -23,8 +23,9 @@ function TableRow({
         {commission.classroom.name}
       </td>
       <td id="Horario" className="px-4 py-2">
-        {dayjs(commission.schedule.startHour).format('hh:mm')} -{' '}
-        {dayjs(commission.schedule.endHour).format('hh:mm')}
+        {`${dayjs(commission.schedule.startHour).format('hh:mm')} - ${dayjs(
+          commission.schedule.endHour,
+        ).format('hh:mm')}`}
       </td>
     </tr>
   );
