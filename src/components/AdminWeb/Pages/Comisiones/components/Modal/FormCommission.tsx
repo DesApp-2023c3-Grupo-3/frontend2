@@ -72,7 +72,6 @@ function FormCommission({
 
     setExcelData(formData)
 
-    updateCommissionsTable()
 
     toggleTable()
   }
@@ -85,6 +84,7 @@ function FormCommission({
   const uploadTemplate = () => {
     if(!hasDocument) return
     asCommissions.create(excelData)
+    updateCommissionsTable()
     closeModal()
   }
 
