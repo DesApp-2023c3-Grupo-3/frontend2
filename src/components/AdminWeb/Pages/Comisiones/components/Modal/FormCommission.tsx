@@ -93,7 +93,8 @@ function FormCommission({
     if (hasDocument) {
       setTableData([]);
     } else {
-      setTableData(commissionsJSON.concat(commissionsJSON).concat(commissionsJSON).concat(commissionsJSON));
+      // OBSOLETE LINE
+      setTableData(commissionsJSON);
     }
   };
 
@@ -112,7 +113,9 @@ function FormCommission({
   }
 
   const uploadTemplate = () => {
+    if(!hasDocument) return
     asCommissions.create(excellData)
+    closeModal()
   }
 
   const downloadTemplate = () => {
