@@ -32,11 +32,11 @@ function LoginScreen({ setScreenId }: { setScreenId: any }) {
   };
 
   const invalidUsername = () => {
-    return usernameRef.current?.value.trim() !== 'Administrador';
+    return usernameRef.current?.value.trim() !== '';
   };
 
   const invalidPassword = () => {
-    return passwordRef.current?.value.trim() !== '123';
+    return passwordRef.current?.value.trim() !== '';
   };
 
   const invalidScreenId = () => {
