@@ -23,7 +23,7 @@ function Avisos() {
         setAdvertisingsJSON(r.data);
       })
       .catch((e) => {
-        console.log('ASDASDADS: ', e);
+        console.log(e);
       });
   };
 
