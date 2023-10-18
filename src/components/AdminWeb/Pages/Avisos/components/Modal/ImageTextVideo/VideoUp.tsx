@@ -1,24 +1,32 @@
-import YouTube from 'react-youtube';
-import { obtenerIDdeVideo } from '../../../../../ScreenClient/utils/strings';
+import { useState } from 'react';
 import * as React from 'react';
+import YouTube from 'react-youtube';
+import { obtenerIDdeVideo } from '../../../../../../ScreenClient/utils/strings';
 
-function VideoUp() {
-  const [youtubeUrl, setYoutubeUrl] = React.useState<string>('');
-  const [showPreview, setShowPreview] = React.useState<boolean>(false);
-  const [isValidUrl, setIsValidUrl] = React.useState<boolean>(true);
+interface VideoUpProps {
+  youtubeUrl: string;
+  setYoutubeUrl: (newUrl: string) => void;
+}
 
-  const validateYouTubeUrl = (url: string) => {
-    const youtubeUrlPattern =
-      /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+/;
-    const isValid = youtubeUrlPattern.test(url);
-    return isValid ? obtenerIDdeVideo(url) : null;
-  };
+const youtubeUrlPattern = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+/;
+
+const validateYouTubeUrl = (url: string) => {
+  return youtubeUrlPattern.test(url);
+};
+
+export const isValidateUrl = (url: string) => {
+  return youtubeUrlPattern.test(url);
+};
+
+function VideoUp({ youtubeUrl, setYoutubeUrl }: VideoUpProps) {
+  const [showPreview, setShowPreview] = useState<boolean>(
+    isValidateUrl(youtubeUrl),
+  );
+  const [isValidUrl, setIsValidUrl] = useState<boolean>(true);
+  let urlYT;
 
   const onVideoSubmit = (e: any) => {
     e.preventDefault();
-
-    const youtubeUrlPattern =
-      /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+/;
     const isValid = youtubeUrlPattern.test(youtubeUrl);
 
     if (isValid) {
@@ -31,13 +39,13 @@ function VideoUp() {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
-    const url = e.target.value;
-    setYoutubeUrl(url);
+    let url = e.target.value;
 
     // Validar la URL en cada cambio
     const videoId = validateYouTubeUrl(url);
-    setIsValidUrl(videoId !== null ? true : false);
-    setShowPreview(videoId !== null ? true : false);
+    setIsValidUrl(videoId);
+    setShowPreview(videoId);
+    videoId ? setYoutubeUrl(url) : setYoutubeUrl('');
   };
 
   const opts = {
@@ -60,7 +68,8 @@ function VideoUp() {
           <input
             placeholder="www.youtube.com"
             className="pl-5 w-[280px] h-[30px] bg-[#fff] rounded-s-[20px] outline-none"
-            value={youtubeUrl}
+            value={urlYT}
+            defaultValue={youtubeUrl}
             onChange={handleInputChange}
           />
           <button onClick={onVideoSubmit} className="">

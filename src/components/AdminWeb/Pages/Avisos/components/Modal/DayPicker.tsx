@@ -1,39 +1,38 @@
-import { useState } from 'react';
+import * as React from 'react';
 
+export const daysOfTheWeek: Days[] = [
+  { id: 0, name: 'Lunes' },
+  { id: 1, name: 'Martes' },
+  { id: 2, name: 'Miércoles' },
+  { id: 3, name: 'Jueves' },
+  { id: 4, name: 'Viernes' },
+  { id: 5, name: 'Sabado' },
+  { id: 6, name: 'Domingo' },
+];
 interface DayPickerProps {
-  selectedDays: string[];
-  onSelectedDaysChange: (newSelectedDays: string[]) => void;
+  selectedDays: Days[];
+  onSelectedDaysChange: React.Dispatch<React.SetStateAction<Days[]>>;
 }
 
 function DayPicker({ onSelectedDaysChange, selectedDays }: DayPickerProps) {
-  const daysOfTheWeek = [
-    'Lunes',
-    'Martes',
-    'Miércoles',
-    'Jueves',
-    'Viernes',
-    'Sabado',
-    'Domingo',
-  ];
-
-  const [selectAllDays, setSelectAllDays] = useState(false);
+  const [selectAllDays, setSelectAllDays] = React.useState(false);
 
   const handleSelectAllDaysChange = () => {
-    setSelectAllDays(!selectAllDays);
     const newSelectedDays = selectAllDays ? [] : daysOfTheWeek;
     onSelectedDaysChange(newSelectedDays);
+    if (selectAllDays) {
+      setSelectAllDays(false);
+    } else {
+      setSelectAllDays(true);
+    }
   };
 
-  const handleDayClick = (day: string) => {
-    let newSelectedDays;
+  const handleDayClick = (day: Days) => {
+    let newSelectedDays = selectedDays.filter((d) => d !== day);
 
-    if (selectAllDays) {
-      newSelectedDays = selectedDays.filter((d) => d !== day);
-    } else {
-      newSelectedDays = selectedDays.includes(day)
-        ? selectedDays.filter((d) => d !== day)
-        : [...selectedDays, day];
-    }
+    newSelectedDays = selectedDays.includes(day)
+      ? selectedDays.filter((d) => d !== day)
+      : [...selectedDays, day];
 
     onSelectedDaysChange(newSelectedDays);
   };
@@ -41,8 +40,8 @@ function DayPicker({ onSelectedDaysChange, selectedDays }: DayPickerProps) {
   return (
     <div className="flex-row">
       <div className="flex justify-center">
-        {daysOfTheWeek.map((day, index) => (
-          <div key={index}>
+        {daysOfTheWeek.map((day) => (
+          <div key={day.id}>
             <button
               onClick={(e) => {
                 handleDayClick(day);
@@ -54,7 +53,7 @@ function DayPicker({ onSelectedDaysChange, selectedDays }: DayPickerProps) {
                   : 'bg-[#D9D9D9] text-black'
               }`}
             >
-              {day.slice(0, 2)}
+              {day.name.slice(0, 2)}
             </button>
           </div>
         ))}
@@ -63,7 +62,7 @@ function DayPicker({ onSelectedDaysChange, selectedDays }: DayPickerProps) {
         <input
           className="mr-3 select-none"
           type="checkbox"
-          checked={selectAllDays}
+          checked={!!selectAllDays}
           onChange={handleSelectAllDaysChange}
         />
         <span className="select-none">Seleccionar todos los días</span>
@@ -73,3 +72,8 @@ function DayPicker({ onSelectedDaysChange, selectedDays }: DayPickerProps) {
 }
 
 export default DayPicker;
+
+export interface Days {
+  id: number;
+  name: string;
+}
