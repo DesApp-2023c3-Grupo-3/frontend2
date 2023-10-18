@@ -4,7 +4,7 @@ import Sectores from './Sectores';
 import React, { useState } from 'react';
 import { Commission } from '../../../../types/customTypes';
 import { abbreviateSectorName } from '../../../../utils/AbbreviateSectorName';
-import { asCommissions } from '../../../../../../services/commissions';
+import { commissionApi } from '../../../../../../services/commissions';
 
 interface FormCommissionProps {
   commissionsJSON: Commission[];
@@ -19,7 +19,7 @@ function FormCommission({
 }: FormCommissionProps) {
   const [hasDocument, setHasDocument] = useState<boolean>(false);
   const [tableData, setTableData] = useState<Commission[]>([]);
-  const [excelData, setExcelData] = useState<any>()
+  const [excelData, setExcelData] = useState<any>();
 
   const newCommission = () => {
     setHasDocument(!hasDocument);
@@ -29,43 +29,6 @@ function FormCommission({
     const sectores = selectedSector
       .map((sector) => abbreviateSectorName(sector.name))
       .join(', ');
-
-    const newCommission = {
-      id: commissionsJSON.length + 1,
-      name: 'C1',
-      user: {
-        id: commissionsJSON.length + 1,
-        name: 'Juan',
-        dni: '1234',
-        password: 'contra',
-        role: {
-          id: commissionsJSON.length + 1,
-          name: 'Gestión Estudiantil',
-        },
-      },
-      sector: {
-        id: commissionsJSON.length + 1,
-        name: sectores,
-        topic: 'Comision',
-      },
-      schedule: {
-        id: commissionsJSON.length + 1,
-        startDate: startDay,
-        endDate: endtDay,
-        startHour: '12:00',
-        endHour: '14:00',
-        scheduleDays: 'Lu-Mi-Vi',
-      },
-      subject: {
-        id: commissionsJSON.length + 1,
-        name: 'Matematica 1',
-      },
-      classroom: {
-        id: commissionsJSON.length + 1,
-        name: 'Lab 1',
-      },
-    };
-    setCommissionsJSON([...commissionsJSON, newCommission]);
   };
 
   const [startDate, setStartDate] = useState<Date>(new Date());
@@ -93,7 +56,7 @@ function FormCommission({
     if (hasDocument) {
       setTableData([]);
     } else {
-      //asCommissions.create();
+      // commissionApi.create(); // TODO: Revisar esto
     }
   };
 
@@ -101,24 +64,29 @@ function FormCommission({
     e.preventDefault();
     const excel = e.target?.files[0];
     const formData = new FormData();
-    formData.append("file", excel);
-    formData.append("startDate", startDate.toString());
-    formData.append("endDate", endDate.toString());
-    formData.append("sector", selectedSector.toString());
+    formData.append('file', excel);
+    formData.append('startDate', startDate.toString());
+    formData.append('endDate', endDate.toString());
+    formData.append('sector', selectedSector.toString());
+    setExcelData(formData);
+    const newTableData: any = await commissionApi.toJson(formData);
+    setTableData(Array.from(newTableData.data));
+    toggleTable();
+  };
 
-    setExcelData(formData)
-
-    const newTableData: any = await asCommissions.toJson(formData);
-    setTableData(Array.from(newTableData.data))
-    toggleTable()
-  }
+  const updateCommissionsTable = async () => {
+    const updatedCommissions: any = await commissionApi.getAll();
+    setCommissionsJSON((updatedCommissions?.data as Commission[]) || []);
+  };
 
   const uploadTemplate = () => {
-    asCommissions.create(excelData)
-  }
+    if (!hasDocument) return;
+    commissionApi.create(excelData).then(() => updateCommissionsTable());
+    closeModal();
+  };
 
   const downloadTemplate = () => {
-    asCommissions.download()
+    commissionApi.download();
   };
 
   return (
@@ -150,7 +118,10 @@ function FormCommission({
                       <tr className="flex justify-between">
                         <td className="ml-4 mt-[2px]">{}</td>
                         <td>
-                          <button onClick={toggleTable} className="absolute right-0 mr-3 mt-[-7px]">
+                          <button
+                            onClick={toggleTable}
+                            className="absolute right-0 mr-3 mt-[-7px]"
+                          >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               width="15"
@@ -168,7 +139,7 @@ function FormCommission({
                         </td>
                       </tr>
                       <tr className="font-[500] text-[1.5em] text-center">
-                      <th className="py-4 w-20"></th>
+                        <th className="py-4 w-20"></th>
                         <th className="py-4 w-[15em]">Materia</th>
                         <th className="py-4 w-[15em]">Comisión</th>
                         <th className="py-4 w-[15em]">Aula</th>
@@ -182,10 +153,10 @@ function FormCommission({
                           className="border-solid border-y-2 border-neutral-400 text-center"
                         >
                           <td className="w-12 pl-4 opacity-60">{index}</td>
-                          <td>{commission["Nombre materia"]}</td>
-                          <td>{commission["Nombre"]}</td>
-                          <td>{commission["Aula"]}</td>
-                          <td>{commission["Turno"]}</td>
+                          <td>{commission['Nombre materia']}</td>
+                          <td>{commission['Nombre']}</td>
+                          <td>{commission['Aula']}</td>
+                          <td>{commission['Turno']}</td>
                         </tr>
                       ))}
                     </tbody>
@@ -193,15 +164,15 @@ function FormCommission({
                 </div>
               </div>
             ) : (
-                <>
-              <input
-                type="file"
-                onChange={onFileLoaded}
-                className={`${
-                  hasDocument ? 'rounded-t-[20px]' : 'rounded-[20px]'
-                } flex justify-center items-center bg-[#D9D9D9] w-[700px] h-[328px] ml-[110px] relative cursor-pointer`}
-                disabled={hasDocument}
-              ></input>
+              <>
+                <input
+                  type="file"
+                  onChange={onFileLoaded}
+                  className={`${
+                    hasDocument ? 'rounded-t-[20px]' : 'rounded-[20px]'
+                  } flex justify-center items-center bg-[#D9D9D9] w-[700px] h-[328px] ml-[110px] relative cursor-pointer`}
+                  disabled={hasDocument}
+                ></input>
                 <svg
                   className="cursor-pointer"
                   xmlns="http://www.w3.org/2000/svg"
