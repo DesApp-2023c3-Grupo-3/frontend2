@@ -9,7 +9,6 @@ interface TableAdvertisingProps {
   setAdvertisingsJSON: () => void;
 }
 
-// Componente para la tabla completa
 function TableAdvertising({
   advertisings,
   setAdvertisingsJSON,
@@ -50,7 +49,6 @@ function TableAdvertising({
           ))}
         </tbody>
       </table>
-      {/* MODAL PARA EDITAR */}
       <Modal
         isOpen={isEditing}
         closeModal={handleModalClose}

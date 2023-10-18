@@ -14,7 +14,6 @@ function TableMain({
   advertisingsJSON = [],
   setAdvertisingsJSON,
 }: TableMainProps) {
-  //filas por pagina
   const [itemsPerPage, setItemsPerPage] = React.useState(7);
 
   React.useEffect(() => {
@@ -34,7 +33,6 @@ function TableMain({
     };
   }, []);
 
-  //barra de busqueda y paginacion
   const [currentPage, setCurrentPage] = React.useState(1);
   const [searchTerm, setSearchTerm] = React.useState('');
 

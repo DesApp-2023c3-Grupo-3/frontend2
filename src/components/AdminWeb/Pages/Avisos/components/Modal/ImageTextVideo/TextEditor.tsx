@@ -1,7 +1,6 @@
 // TextEditor.tsx
-import React, { useState } from 'react';
 import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css'; // Estilo para el editor
+import 'react-quill/dist/quill.snow.css';
 
 interface TextEditorProps {
   editorHtml: string;

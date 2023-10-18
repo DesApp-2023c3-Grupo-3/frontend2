@@ -8,12 +8,10 @@ import React from 'react';
 import { advertisingsAPI } from '../../../../services/advertisings';
 
 function Avisos() {
-  //GET ADVERTISINGS
   const [advertisingsJSON, setAdvertisingsJSON] = React.useState<Advertising[]>(
     [],
   );
 
-  //Modal
   const { isOpen, openModal, closeModal } = useModal();
 
   const GetData = () => {

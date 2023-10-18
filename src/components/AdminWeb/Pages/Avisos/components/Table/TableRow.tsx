@@ -8,11 +8,9 @@ interface TableRowProps {
   onRowClick: (advertising: Advertising) => void;
 }
 
-// Componente para mostrar una fila
 function TableRow({ advertising, index, onRowClick }: TableRowProps) {
   const handleRowClick = () => {
     onRowClick(advertising);
-    //console.log('Aviso: ', advertising);
   };
 
   const starthour = dayjs(
@@ -33,6 +31,21 @@ function TableRow({ advertising, index, onRowClick }: TableRowProps) {
 
   const dayOrder = ['Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa', 'Do'];
 
+  const user = advertising.user.role.name.charAt(0);
+
+  const sectores = advertising.advertisingSectors
+    .map((sector) => sector.sector.name)
+    .map((s) => abbreviateSectorName(s))
+    .join('-');
+
+  const schedule = advertising.advertisingSchedules
+    .map((schedule) => schedule.schedule.dayCode)
+    .map((d) => d.charAt(0).toUpperCase() + d.slice(1).toLowerCase())
+    .sort((a, b) => {
+      return dayOrder.indexOf(a) - dayOrder.indexOf(b);
+    })
+    .join('-');
+
   return (
     <tr
       onClick={handleRowClick}
@@ -45,25 +58,16 @@ function TableRow({ advertising, index, onRowClick }: TableRowProps) {
         id="User"
         className="px-4 py-2 m-2 ml-10 flex justify-center items-center text-white text-[32px] font-[500] bg-[#2C9CBF] rounded-full w-[60px] h-[60px] text-center"
       >
-        {advertising.user.role.name.charAt(0)}
+        {user}
       </td>
       <td id="Nombre" className="px-4 py-2">
         {advertising.name}
       </td>
       <td id="Sector" className="px-4 py-2">
-        {advertising.advertisingSectors
-          .map((sector) => sector.sector.name)
-          .map((s) => abbreviateSectorName(s))
-          .join('-')}
+        {sectores}
       </td>
       <td id="Dias" className="px-4 py-2">
-        {advertising.advertisingSchedules
-          .map((schedule) => schedule.schedule.dayCode)
-          .map((d) => d.charAt(0).toUpperCase() + d.slice(1).toLowerCase())
-          .sort((a, b) => {
-            return dayOrder.indexOf(a) - dayOrder.indexOf(b);
-          })
-          .join('-')}
+        {schedule}
       </td>
       <td id="Horario" className="px-4 py-2">
         {starthour + '-' + endhour}

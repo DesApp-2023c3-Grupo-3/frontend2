@@ -54,12 +54,10 @@ function FormAdvertising({
   isCreate,
   advertising,
 }: FormAdvertisingProps) {
-  //Nombre del aviso
   const [advertisingName, setAdvertisingName] = React.useState(
     advertising ? advertising.name : '',
   );
 
-  //Hora del aviso
   const [startHour, setStartHour] = React.useState<Dayjs | null>(
     advertising
       ? dayjs(advertising?.advertisingSchedules[0].schedule.startHour)
@@ -71,7 +69,6 @@ function FormAdvertising({
       : null,
   );
 
-  //fechas del aviso
   const [startDate, setStartDate] = React.useState<Dayjs | null>(
     advertising
       ? dayjs(advertising?.advertisingSchedules[0].schedule.startDate)
@@ -89,12 +86,9 @@ function FormAdvertising({
 
   const dayslist = codeDays ? convertCodesToDays(codeDays) : [];
 
-  //Día de la semana del aviso
   const [selectedDays, setSelectedDays] = React.useState<Days[]>(
     advertising ? dayslist : [],
   );
-
-  //sectores
 
   const sectorsid = advertising?.advertisingSectors.map((s) => s.sector.id);
 
@@ -102,9 +96,7 @@ function FormAdvertising({
 
   const [selectedSector, setSelectedSector] = React.useState<Sector[]>(
     advertising ? sectors : [],
-  ); //ESTO HAY QUE CAMBIARLO
-
-  //payload
+  );
 
   const {
     text,
@@ -138,7 +130,7 @@ function FormAdvertising({
     }).then((result) => {
       if (result.isConfirmed) {
         if (advertising) {
-          //eliminarAdvertising(advertising.id);
+          //eliminarAdvertising(advertising.id); //api delete
           Toast.fire({
             icon: 'success',
             title: 'Se ha eliminado el aviso',
@@ -209,8 +201,6 @@ function FormAdvertising({
       sectors: sectores,
       schedules: schedules,
     };
-
-    //VALIDACIONES
 
     if (Object.values(emptyFieldsUpdate).filter((value) => value).length > 1) {
       //TODO: Faltaría agregar una lista de los campos que estan incompletos y ponerlo en el mensaje de error.
