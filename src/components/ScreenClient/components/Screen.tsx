@@ -25,7 +25,9 @@ export default function Screen() {
   };
 
   return fetchError ? (
-    <div className="h-screen w-screen bg-red-600 text-white">{fetchError}</div>
+    <div className="h-screen w-screen bg-red-500 text-white text-3xl font-bold flex items-center justify-center">
+      Error: {fetchError}
+    </div>
   ) : (
     billboards[parseInt(templateId)]
   );
