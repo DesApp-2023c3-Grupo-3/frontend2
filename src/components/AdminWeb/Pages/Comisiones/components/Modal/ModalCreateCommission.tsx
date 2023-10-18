@@ -24,7 +24,12 @@ function ModalCreateCommission({
 
   return (
     <>
-      <Button onClick={openModal} active={true} type={3} label={'AGREGAR COMISIONES'} />
+      <Button
+        onClick={openModal}
+        active={true}
+        type={3}
+        label={'AGREGAR COMISIONES'}
+      />
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog as="div" className="" onClose={closeModal}>
           <Transition.Child
