@@ -1,11 +1,10 @@
-import { DataAdvertising } from '../../../store/socketStore';
 import { useCarousel } from '../../../hooks/useCarousel';
 import { isArrayWithVideos } from '../../../utils/arrays';
 import AdvertisingItem from './ItemAdvertising';
 import AdvertisingVideo from './VideoAdvertising';
 import AdvertisingType from './TypeAdvertising';
-
-const TIME_CAROUSEL_ADVERTISING = 15;
+import { DataAdvertising } from '../../../store/useAdvertisingMessages';
+import { useConnectionMessage } from '../../../store/useConnectionMessage';
 
 function AdvertisingCard({
   messages,
@@ -14,9 +13,11 @@ function AdvertisingCard({
   messages: DataAdvertising[];
   sx: string;
 }) {
+  const carouselTime = useConnectionMessage((state) => state.connectionMessage);
+
   const { selectedIndex, selectedItem, changeSelectedItem } = useCarousel(
     messages,
-    TIME_CAROUSEL_ADVERTISING,
+    carouselTime.screen.advertisingIntervalTime,
   );
 
   return (

@@ -45,7 +45,7 @@ function Avisos() {
             onClick={openModal}
             active={true}
             label={'NUEVO AVISO'}
-            type={1}
+            type={0}
             className="bg-[#2C9CBF] rounded-[15px] select-none py-[16px] w-[236px] text-white font-[600] text-[20px]"
           />
           <Modal //Para llamar al modal necesitar usar el hook useModal para el estado del modal

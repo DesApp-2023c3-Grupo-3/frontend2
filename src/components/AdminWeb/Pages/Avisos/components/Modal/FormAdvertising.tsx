@@ -346,7 +346,7 @@ function FormAdvertising({
             className={`${
               isCreate
                 ? 'hidden'
-                : 'bg-[white] border-2 border-red-500 rounded-[30px] py-[16px] w-[300px] h-[40px] font-[600] text-[20px] flex items-center justify-center hover:bg-[red] hover:text-[white] text-[red]'
+                : 'bg-[white] text-[#f13939] border-2 border-red-500 rounded-[30px] py-[16px] w-[300px] h-[40px] font-[600] text-[20px] flex items-center justify-center hover:bg-[red] hover:text-[white]'
             }`}
           />
         </div>
@@ -354,7 +354,7 @@ function FormAdvertising({
           <Button
             onClick={handleSendAdvertisingClick}
             active={true}
-            type={1}
+            type={0}
             label="GUARDAR"
             className="rounded-[30px] py-[16px] w-[300px] h-[40px] font-[600] text-[20px] flex items-center justify-center hover:bg-[#2c9dbfc5]"
           />
