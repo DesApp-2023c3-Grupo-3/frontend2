@@ -19,7 +19,7 @@ function FormCommission({
 }: FormCommissionProps) {
   const [hasDocument, setHasDocument] = useState<boolean>(false);
   const [tableData, setTableData] = useState<Commission[]>([]);
-  const [excellData, setExcellData] = useState<any>()
+  const [excelData, setExcelData] = useState<any>()
 
   const newCommission = () => {
     setHasDocument(!hasDocument);
@@ -99,14 +99,14 @@ function FormCommission({
 
   const onFileLoaded = async (e: any) => {
     e.preventDefault();
-    const excell = e.target?.files[0];
+    const excel = e.target?.files[0];
     const formData = new FormData();
-    formData.append("file", excell);
+    formData.append("file", excel);
     formData.append("startDate", startDate.toString());
     formData.append("endDate", endDate.toString());
     formData.append("sector", selectedSector.toString());
 
-    setExcellData(formData)
+    setExcelData(formData)
 
     const newTableData: any = await asCommissions.toJson(formData);
     setTableData(Array.from(newTableData.data))
@@ -114,7 +114,7 @@ function FormCommission({
   }
 
   const uploadTemplate = () => {
-    asCommissions.create(excellData)
+    asCommissions.create(excelData)
   }
 
   const downloadTemplate = () => {
