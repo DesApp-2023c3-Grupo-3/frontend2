@@ -84,7 +84,7 @@ function FormCommission({
 
   const uploadTemplate = () => {
     if(!hasDocument) return
-    asCommissions.create(excellData)
+    asCommissions.create(excelData)
     closeModal()
   }
 
