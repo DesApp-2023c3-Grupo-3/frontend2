@@ -21,6 +21,7 @@ function ModalCreateCommission({
   function openModal() {
     setIsOpen(true);
   }
+
   return (
     <>
       <Button
