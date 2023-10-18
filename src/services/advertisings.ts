@@ -13,6 +13,6 @@ export const advertisingsAPI = {
         return instance.post(endpoint, advertisingData);
     },
     edit: function(id : number, advertising : any) {
-        return instance.patch(`${endpoint}/${advertising.id}`, advertising)
+        return instance.patch(`${endpoint}/${id}`, advertising)
     }
 }

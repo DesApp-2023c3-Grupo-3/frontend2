@@ -245,7 +245,17 @@ function FormAdvertising({
         .catch((error) => console.log(error));
     } else {
       if (advertising) {
-        advertisingsAPI.edit(advertising.id, newAdvertising);
+        advertisingsAPI
+          .edit(advertising.id, newAdvertising)
+          .then((r) => {
+            setAdvertisingsJSON();
+            closeModal();
+            Toast.fire({
+              icon: 'success',
+              title: 'Se ha editado el aviso',
+            });
+          })
+          .catch((error) => console.log(error));
       }
     }
   };
@@ -352,7 +362,7 @@ function FormAdvertising({
         </div>
         <div className="">
           <Button
-            onClick={isCreate ? handleSendAdvertisingClick : closeModal}
+            onClick={handleSendAdvertisingClick}
             active={true}
             type={1}
             label="GUARDAR"
