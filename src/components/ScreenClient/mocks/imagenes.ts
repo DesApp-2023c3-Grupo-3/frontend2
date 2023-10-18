@@ -8,63 +8,6 @@ export interface Message {
 
 export const messages: Message[] = [
   {
-    action: 'CREATE_ADVERTISING',
-    id: 6,
-    data: {
-      advertisingTypeId: 3,
-      payload: 'El lunes no hay clases',
-      advertisingId: 1,
-      startHour: "2023-10-17T02:51:42.142Z",
-      endHour: "2023-10-17T19:51:42.142Z",
-    },
-  },
-  {
-    action: 'CREATE_ADVERTISING',
-    id: 1,
-    data: {
-      advertisingTypeId: 1,
-      payload:
-        'https://scontent.faep6-2.fna.fbcdn.net/v/t1.6435-9/177292671_1915770318575927_3542229533072028658_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=730e14&_nc_ohc=HhzGQABc30YAX8G1mAs&_nc_ht=scontent.faep6-2.fna&oh=00_AfDcN5DSfrvnqOfs8EOVfai_HlyZBzRaX__ChUAKGNKObA&oe=653696AC',
-        advertisingId: 2,
-        startHour: "2023-10-17T02:51:42.142Z",
-        endHour: "2023-10-17T19:51:42.142Z",
-      },
-  },
-  {
-    action: 'CREATE_ADVERTISING',
-    id: 2,
-    data: {
-      advertisingTypeId: 2,
-      advertisingId: 3,
-      startHour: "2023-10-17T02:51:42.142Z",
-      endHour: "2023-10-17T19:51:42.142Z",
-      payload: 'https://www.youtube.com/watch?v=K8gihOKBo2k&ab_channel=UNAHUR',
-    },
-  },
-  {
-    action: 'CREATE_ADVERTISING',
-    id: 4,
-    data: {
-      advertisingTypeId: 2,
-      payload: 'https://www.youtube.com/watch?v=0Sj8N9KTtds&ab_channel=UNAHUR',
-      advertisingId: 4,
-      startHour: "2023-10-17T02:51:42.142Z",
-      endHour: "2023-10-17T19:51:42.142Z",
-    },
-  },
-  {
-    action: 'CREATE_ADVERTISING',
-    id: 5,
-    data: {
-      advertisingTypeId: 3,
-      payload:
-        'Se cancelo la clase de Matemáticas I ya que no viene el profesor, saludos',
-        advertisingId: 5,
-        startHour: "2023-10-17T17:21:42.142Z",
-        endHour: "2023-10-17T19:51:42.142Z"
-    },
-  },
-  {
     action: 'CREATE_COURSE',
     id: 4,
     data: {

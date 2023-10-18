@@ -22,6 +22,7 @@ export default function Screen() {
         advertisings.map((advertising: any) => {
           const { id, payload, advertisingType, advertisingSchedules } =
             advertising;
+
           return {
             advertisingTypeId: advertisingType['id'],
             advertisingId: id,
@@ -39,5 +40,5 @@ export default function Screen() {
     2: <VideoBillboard />,
   };
 
-  return billboards[2];
+  return billboards[parseInt(templateId)];
 }

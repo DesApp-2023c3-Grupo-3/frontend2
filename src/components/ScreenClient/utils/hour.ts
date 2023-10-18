@@ -1,3 +1,5 @@
+import dayjs from "dayjs";
+
 export function createHour() {
   const date = new Date();
   let hour = date.getHours().toString();
@@ -12,11 +14,11 @@ export function createHour() {
 }
 
 export function formatDate(date:string) {
-  const newDate = new Date(date);
+  const newDate = dayjs(new Date(date));
 
-  const hour = String(newDate.getUTCHours()).padStart(2, '0');
-  const minutes = String(newDate.getUTCMinutes()).padStart(2, '0');
-  const seconds = String(newDate.getUTCSeconds()).padStart(2, '0');
+  const hour = String(newDate.hour()).padStart(2, '0');
+  const minutes = String(newDate.minute()).padStart(2, '0');
+  const seconds = String(newDate.second()).padStart(2, '0');
 
   return `${hour}:${minutes}:${seconds}`;
 }

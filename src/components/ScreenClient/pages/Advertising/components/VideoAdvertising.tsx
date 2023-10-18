@@ -37,7 +37,7 @@ export default function AdvertisingVideo({
           loading="lazy"
         />
       </div>
-      {withDots && (
+      {withDots && advertisingVideos.length > 1 && (
         <Dots
           selectedIndex={1}
           sx="absolute bottom-0"
