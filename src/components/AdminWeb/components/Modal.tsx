@@ -1,33 +1,17 @@
-import ButtonCreateAdvertising from '../ButtonCreateAdvertising';
-import FormAdvertising from './FormAdvertising';
-import * as React from 'react';
+import React from 'react';
 import { Dialog, Transition } from '@headlessui/react';
-import { Fragment, useState } from 'react';
-import { Advertising } from '../../../types/customTypes';
+import { Fragment } from 'react';
 
-interface ModalCreateAdvertisingProps {
-  advertisingsJSON: Advertising[]; // Un array de días seleccionados
-  setAdvertisingsJSON: React.Dispatch<React.SetStateAction<Advertising[]>>; // Función para actualizar los días seleccionados
+//El modal se usa con el hook useModal
+interface ModalProps {
+  isOpen: boolean;
+  closeModal: () => void;
+  component: React.ReactElement;
 }
 
-function ModalCreateAdvertising({
-  advertisingsJSON,
-  setAdvertisingsJSON,
-}: ModalCreateAdvertisingProps) {
-  let [isOpen, setIsOpen] = useState(false);
-
-  function closeModal() {
-    setIsOpen(false);
-  }
-
-  function openModal() {
-    setIsOpen(true);
-  }
-
+function Modal({ isOpen, closeModal, component }: ModalProps) {
   return (
     <>
-      <ButtonCreateAdvertising onClick={openModal} />
-
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog as="div" className="" onClose={closeModal}>
           <Transition.Child
@@ -60,13 +44,7 @@ function ModalCreateAdvertising({
                 </svg>
               </button>
             </div>
-            <div>
-              <FormAdvertising
-                advertisingsJSON={advertisingsJSON}
-                setAdvertisingsJSON={setAdvertisingsJSON}
-                onCloseClick={closeModal}
-              />
-            </div>
+            <div>{component}</div>
           </Dialog.Panel>
         </Dialog>
       </Transition>
@@ -74,4 +52,4 @@ function ModalCreateAdvertising({
   );
 }
 
-export default ModalCreateAdvertising;
+export default Modal;

@@ -1,11 +1,13 @@
 // TextEditor.tsx
-import React, { useState } from 'react';
 import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css'; // Estilo para el editor
+import 'react-quill/dist/quill.snow.css';
 
-function TextEditor() {
-  const [editorHtml, setEditorHtml] = useState<string>('');
+interface TextEditorProps {
+  editorHtml: string;
+  setEditorHtml: (newText: string) => void;
+}
 
+function TextEditor({ editorHtml, setEditorHtml }: TextEditorProps) {
   const modules = {
     toolbar: [
       [{ size: [] }],
@@ -36,7 +38,7 @@ function TextEditor() {
       formats={formats}
       value={editorHtml}
       onChange={(html) => setEditorHtml(html)}
-      className="bg-white m-1 static max-h-[17em] overflow-y-auto "
+      className="bg-white m-1 h-[280px] overflow-y-hidden"
     />
   );
 }

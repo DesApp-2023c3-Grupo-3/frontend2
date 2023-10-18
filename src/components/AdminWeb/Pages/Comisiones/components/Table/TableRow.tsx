@@ -1,6 +1,6 @@
+import dayjs from 'dayjs';
 import { Commission } from '../../../../types/customTypes';
 
-// Componente para mostrar una fila
 function TableRow({
   commission,
   index,
@@ -23,7 +23,9 @@ function TableRow({
         {commission.classroom.name}
       </td>
       <td id="Horario" className="px-4 py-2">
-        {commission.schedule.startHour} - {commission.schedule.endHour}
+        {`${dayjs(commission.schedule.startHour).format('hh:mm')} - ${dayjs(
+          commission.schedule.endHour,
+        ).format('hh:mm')}`}
       </td>
     </tr>
   );

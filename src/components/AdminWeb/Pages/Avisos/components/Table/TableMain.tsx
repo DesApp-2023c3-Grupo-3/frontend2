@@ -1,15 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import * as React from 'react';
 import { Pagination, ThemeProvider } from '@mui/material';
-import theme from '../../../config/createTheme';
 import SearchBar from './SearchBar';
 import TableAdvertising from './TableAdvertising';
-import { Advertising } from '../../../types/customTypes';
+import { Advertising } from '../../../../types/customTypes';
+import theme from '../../../../config/createTheme';
 
-function TableMain({ advertisingsJSON }: { advertisingsJSON: Advertising[] }) {
-  //filas por pagina
-  const [itemsPerPage, setItemsPerPage] = useState(7);
+interface TableMainProps {
+  advertisingsJSON: Advertising[];
+  setAdvertisingsJSON: () => void;
+}
 
-  useEffect(() => {
+function TableMain({
+  advertisingsJSON = [],
+  setAdvertisingsJSON,
+}: TableMainProps) {
+  const [itemsPerPage, setItemsPerPage] = React.useState(7);
+
+  React.useEffect(() => {
     const adjustItemsPerPage = () => {
       const windowHeight = window.innerHeight;
       const rowHeight = 130;
@@ -26,9 +33,8 @@ function TableMain({ advertisingsJSON }: { advertisingsJSON: Advertising[] }) {
     };
   }, []);
 
-  //barra de busqueda y paginacion
-  const [currentPage, setCurrentPage] = useState(1);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [currentPage, setCurrentPage] = React.useState(1);
+  const [searchTerm, setSearchTerm] = React.useState('');
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
@@ -54,7 +60,10 @@ function TableMain({ advertisingsJSON }: { advertisingsJSON: Advertising[] }) {
   return (
     <div className="">
       <SearchBar searchTerm={searchTerm} onSearchChange={handleSearchChange} />
-      <TableAdvertising advertisings={currentData} />
+      <TableAdvertising
+        advertisings={currentData}
+        setAdvertisingsJSON={setAdvertisingsJSON}
+      />
       <ThemeProvider theme={theme}>
         <Pagination
           className="flex justify-center bg-white pt-10"
