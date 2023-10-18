@@ -147,16 +147,6 @@ function FormAdvertising({
   };
 
   const handleSendAdvertisingClick = () => {
-    const emptyFieldsUpdate = {
-      advertisingName: advertisingName === '',
-      selectedSector: selectedSector.length === 0,
-      selectedDays: selectedDays.length === 0,
-      date: validationDate(startDate, endDate),
-      hour: validationDate(startHour, endHour),
-      type: image === '' && text === '' && video === '',
-    };
-    setEmptyFields(emptyFieldsUpdate);
-
     const daysCode = convertDaysToNumbers(selectedDays);
 
     const hstart = dayjs(startHour).format('YYYY-MM-DD HH:mm:ss.SSS ZZ');
@@ -207,6 +197,18 @@ function FormAdvertising({
       schedules: schedules,
     };
 
+    const emptyFieldsUpdate = {
+      advertisingName: advertisingName === '',
+      selectedSector: selectedSector.length === 0,
+      selectedDays: selectedDays.length === 0,
+      date: validationDate(startDate, endDate),
+      hour: validationDate(startHour, endHour),
+      type: payload === '',
+    };
+    setEmptyFields(emptyFieldsUpdate);
+
+    console.log('PAYLOAD: ', payload);
+
     if (Object.values(emptyFieldsUpdate).filter((value) => value).length > 1) {
       //TODO: Faltaría agregar una lista de los campos que estan incompletos y ponerlo en el mensaje de error.
       messageError('Hay campos incompletos.');
@@ -222,35 +224,37 @@ function FormAdvertising({
       messageError('Falta completar el horario de los avisos.');
     } else if (endDate !== null && startDate !== null && endDate <= startDate) {
       messageError('La fecha final no debe ser anterior a la de inicio.');
-    } else if (payload === '' && type === 0) {
+    } else if (payload === '') {
       messageError('Falta agregarle al aviso un texto, video o imagen.');
     } else if (type === 2 && !payload) {
       messageError('URL YouTube incorrecta.');
-    } else if (isCreate) {
-      advertisingsAPI
-        .create(newAdvertising)
-        .then((r) => {
-          setAdvertisingsJSON();
-          closeModal();
-          Toast.fire({
-            icon: 'success',
-            title: 'Se ha creado el aviso',
-          });
-        })
-        .catch((error) => console.error(error));
     } else {
-      if (advertising) {
+      if (isCreate) {
         advertisingsAPI
-          .edit(advertising.id, newAdvertising)
+          .create(newAdvertising)
           .then((r) => {
             setAdvertisingsJSON();
             closeModal();
             Toast.fire({
               icon: 'success',
-              title: 'Se ha editado el aviso',
+              title: 'Se ha creado el aviso',
             });
           })
           .catch((error) => console.error(error));
+      } else {
+        if (advertising) {
+          advertisingsAPI
+            .edit(advertising.id, newAdvertising)
+            .then((r) => {
+              setAdvertisingsJSON();
+              closeModal();
+              Toast.fire({
+                icon: 'success',
+                title: 'Se ha editado el aviso',
+              });
+            })
+            .catch((error) => console.error(error));
+        }
       }
     }
   };
