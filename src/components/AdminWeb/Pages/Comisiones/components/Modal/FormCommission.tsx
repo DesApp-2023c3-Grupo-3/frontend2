@@ -80,8 +80,15 @@ function FormCommission({
     }
   };
 
+  const updateCommissionsTable = async () => {
+    const updatedCommissions: any = await commissionApi.getAll();
+    setCommissionsJSON((updatedCommissions?.data as Commission[]) || []);
+  };
+
   const uploadTemplate = () => {
-    commissionApi.create(excelData);
+    if (!hasDocument) return;
+    commissionApi.create(excelData).then(() => updateCommissionsTable());
+    closeModal();
   };
 
   const downloadTemplate = () => {

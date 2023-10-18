@@ -40,5 +40,12 @@ export const commissionApi = {
       return error;
     }
   },
-  getAll: () => []
+  getAll: async function() {
+    try {
+      const response = await axios.get(ROUTES_RELATIVE.commission);
+      return response;
+    } catch (error) {
+        return error;
+    }
+  },
 }
