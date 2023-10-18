@@ -3,16 +3,15 @@ import { filterMessages } from "../utils/arrays";
 import { messages } from "../mocks/imagenes";
 
 export interface DataCourse {
-    id: number;
     subject: string;
-    title: string;
+    name: string;
     classroom: string;
     schedule: string;
   }
 
 export interface StoreCourse {
     courseMessages: DataCourse[],
-    addCourseMessage: (message: DataCourse) => void
+    addCourseMessages: (message: DataCourse[]) => void
 }
   
 const INITIAL_COURSE = filterMessages(messages, 'CREATE_COURSE')
@@ -20,9 +19,10 @@ const INITIAL_COURSE = filterMessages(messages, 'CREATE_COURSE')
 export const useCourseMessages = create<StoreCourse>()(set => ({
     courseMessages: INITIAL_COURSE,
   
-    addCourseMessage: (message: DataCourse) => {
+    addCourseMessages: (messages: DataCourse[]) => {
       set((state) => ({
-        courseMessages: [...state.courseMessages, message],
+        courseMessages: [...state.courseMessages, ...messages],
       }));
     },
+    
 }))
