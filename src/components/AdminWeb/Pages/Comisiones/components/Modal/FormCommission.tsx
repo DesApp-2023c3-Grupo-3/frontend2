@@ -19,7 +19,7 @@ function FormCommission({
 }: FormCommissionProps) {
   const [hasDocument, setHasDocument] = useState<boolean>(false);
   const [tableData, setTableData] = useState<Commission[]>([]);
-  const [excellData, setExcellData] = useState<any>()
+  const [excelData, setExcelData] = useState<any>()
 
   const newCommission = () => {
     setHasDocument(!hasDocument);
@@ -29,43 +29,6 @@ function FormCommission({
     const sectores = selectedSector
       .map((sector) => abbreviateSectorName(sector.name))
       .join(', ');
-
-    const newCommission = {
-      id: commissionsJSON.length + 1,
-      name: 'C1',
-      user: {
-        id: commissionsJSON.length + 1,
-        name: 'Juan',
-        dni: '1234',
-        password: 'contra',
-        role: {
-          id: commissionsJSON.length + 1,
-          name: 'Gestión Estudiantil',
-        },
-      },
-      sector: {
-        id: commissionsJSON.length + 1,
-        name: sectores,
-        topic: 'Comision',
-      },
-      schedule: {
-        id: commissionsJSON.length + 1,
-        startDate: startDay,
-        endDate: endtDay,
-        startHour: '12:00',
-        endHour: '14:00',
-        scheduleDays: 'Lu-Mi-Vi',
-      },
-      subject: {
-        id: commissionsJSON.length + 1,
-        name: 'Matematica 1',
-      },
-      classroom: {
-        id: commissionsJSON.length + 1,
-        name: 'Lab 1',
-      },
-    };
-    setCommissionsJSON([...commissionsJSON, newCommission]);
   };
 
   const [startDate, setStartDate] = useState<Date>(new Date());
@@ -107,9 +70,16 @@ function FormCommission({
     formData.append("endDate", endDate.toString());
     formData.append("sector", selectedSector.toString());
 
-    setExcellData(formData)
+    setExcelData(formData)
+
+    updateCommissionsTable()
 
     toggleTable()
+  }
+
+  const updateCommissionsTable = async () => {
+    const updatedCommissions: any = await asCommissions.getAll()
+    setCommissionsJSON(updatedCommissions?.data as Commission[] || [])
   }
 
   const uploadTemplate = () => {

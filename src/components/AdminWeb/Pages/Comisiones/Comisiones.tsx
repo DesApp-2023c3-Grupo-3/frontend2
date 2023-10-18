@@ -1,13 +1,10 @@
 import TableMain from './components/Table/TableMain';
 import { useState } from 'react';
-import commissionData from '../../Mocks/commissionData.json';
 import { Commission } from '../../types/customTypes';
 import ModalCreateCommission from './components/Modal/ModalCreateCommission';
 
 function Comisiones() {
-  const [commissionsJSON, setCommissionsJSON] = useState(
-    commissionData as Commission[],
-  );
+  const [commissionsJSON, setCommissionsJSON] = useState<any[]>([]);
 
   return (
     <div className="flex flex-col w-100 pl-12">
