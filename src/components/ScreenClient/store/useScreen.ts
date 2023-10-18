@@ -1,16 +1,17 @@
 import { create } from "zustand";
 
-interface ScreenIdStore {
+interface ScreenStore {
     screenId: number,
     setScreenId: (newScreenId: number) => void
 }
 
-export const useScreenId = create<ScreenIdStore>()(set => ({
+export const useScreen = create<ScreenStore>()((set, get)=> ({
     screenId: 0,
 
     setScreenId: (newScreenId:number) => {
         set({
             screenId: newScreenId
         })
-    }
+    },
+
 }))

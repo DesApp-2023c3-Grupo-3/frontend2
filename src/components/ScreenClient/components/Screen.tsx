@@ -3,36 +3,20 @@ import VideoBillboard from '../pages/BillboardVideo/components/VideoBillboard';
 import { ReactJSXElement } from '@emotion/react/types/jsx-namespace';
 import { useAdvertisingMessages } from '../store/useAdvertisingMessages';
 import { useEffect } from 'react';
-import { fetchAdvertisings } from '../services/fetchAdvertisings';
-import { useScreenId } from '../store/useScreenId';
+import { useScreen } from '../store/useScreen';
 import { useConnectionMessage } from '../store/useConnectionMessage';
 
 export default function Screen() {
   const typeScreen = useConnectionMessage((state) => state.connectionMessage);
-  const templateId = typeScreen.screen.templeteId;
-  const screenId = useScreenId((state) => state.screenId);
-
-  const addAdvertisingMessages = useAdvertisingMessages(
-    (state) => state.addAdvertisingMessages,
+  const fetchAdvertisingsById = useAdvertisingMessages(
+    (state) => state.fetchAdvertisingsByScreenId,
   );
+  const fetchError = useAdvertisingMessages((state) => state.error);
+  const templateId = typeScreen.screen.templeteId;
+  const screenId = useScreen((state) => state.screenId);
 
   useEffect(() => {
-    fetchAdvertisings(screenId)
-      .then((advertisings) =>
-        advertisings.map((advertising: any) => {
-          const { id, payload, advertisingType, advertisingSchedules } =
-            advertising;
-
-          return {
-            advertisingTypeId: advertisingType['id'],
-            advertisingId: id,
-            payload,
-            startHour: advertisingSchedules[0]['schedule']['startHour'],
-            endHour: advertisingSchedules[0]['schedule']['endHour'],
-          };
-        }),
-      )
-      .then((advertisings) => addAdvertisingMessages(advertisings));
+    fetchAdvertisingsById(screenId);
   }, []);
 
   const billboards: Record<number, ReactJSXElement> = {
@@ -40,5 +24,9 @@ export default function Screen() {
     2: <VideoBillboard />,
   };
 
-  return billboards[parseInt(templateId)];
+  return fetchError ? (
+    <div className="h-screen w-screen bg-red-600 text-white">{fetchError}</div>
+  ) : (
+    billboards[parseInt(templateId)]
+  );
 }
