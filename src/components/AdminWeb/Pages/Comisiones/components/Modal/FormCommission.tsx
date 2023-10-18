@@ -72,8 +72,8 @@ function FormCommission({
     setExcelData(formData);
     setSelectedFileName(excel.name);
     const newTableData: any = await commissionApi.toJson(formData);
-    if (Array.isArray(newTableData)) {
-      setTableData(Array.from(newTableData));
+    if (Array.isArray(newTableData.data)) {
+      setTableData(Array.from(newTableData.data));
       toggleTable();
     } else {
       alert('El archivo subido no es válido');
