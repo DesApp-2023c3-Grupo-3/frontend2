@@ -18,7 +18,6 @@ import {
 import { usePayload } from '../../../../hooks/usePayload';
 import { validationDate } from '../../../../utils/validationDate';
 import { convertCodesToSectors } from '../../../../utils/AbbreviateSectorName';
-import { isValidateUrl } from './ImageTextVideo/VideoUp';
 
 function messageError(message: string) {
   Swal.fire({
@@ -233,14 +232,17 @@ function FormAdvertising({
     } else if (type === 2 && !payload) {
       messageError('URL YouTube incorrecta.');
     } else if (isCreate) {
-      advertisingsAPI.create(newAdvertising);
-      setAdvertisingsJSON();
-      closeModal();
-
-      Toast.fire({
-        icon: 'success',
-        title: 'Se ha creado el aviso',
-      });
+      advertisingsAPI
+        .create(newAdvertising)
+        .then((r) => {
+          setAdvertisingsJSON();
+          closeModal();
+          Toast.fire({
+            icon: 'success',
+            title: 'Se ha creado el aviso',
+          });
+        })
+        .catch((error) => console.log(error));
     } else {
       if (advertising) {
         advertisingsAPI.edit(advertising.id, newAdvertising);
