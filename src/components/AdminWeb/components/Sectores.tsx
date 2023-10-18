@@ -106,20 +106,6 @@ function Sectores({
                 <div key={sector.id} className="flex justify-center">
                   <div>
                     <Listbox.Option
-                      // className={({ active, selected }) =>
-                      //   ` border-2 border-[#919191] flex justify-start items-center relative cursor-pointer mb-[3px] pl-2 rounded-[20px] h-[30px] w-[82px]
-                      //           ${
-                      //             active
-                      //               ? 'bg-[#2C9CBF] text-white'
-                      //               : 'text-[#000]'
-                      //           }
-                      //           ${
-                      //             selected
-                      //               ? 'bg-[#2C9CBF] border-[#2C9CBF]'
-                      //               : ''
-                      //           }
-                      //           `
-                      // }
                       className={`border-2 border-[#919191] flex justify-start items-center relative cursor-pointer mb-[3px] pl-2 rounded-[20px] h-[30px] w-[82px]  ${
                         selectedSector.includes(sector)
                           ? 'bg-[#2C9CBF] border-[#2C9CBF]'

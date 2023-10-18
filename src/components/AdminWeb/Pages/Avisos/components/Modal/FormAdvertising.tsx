@@ -90,9 +90,9 @@ function FormAdvertising({
     advertising ? dayslist : [],
   );
 
-  const sectorsid = advertising?.advertisingSectors.map((s) => s.sector.id);
+  const sectorIds = advertising?.advertisingSectors.map((s) => s.sector.id);
 
-  const sectors = sectorsid ? convertCodesToSectors(sectorsid) : [];
+  const sectors = sectorIds ? convertCodesToSectors(sectorIds) : [];
 
   const [selectedSector, setSelectedSector] = React.useState<Sector[]>(
     advertising ? sectors : [],
@@ -232,7 +232,7 @@ function FormAdvertising({
             title: 'Se ha creado el aviso',
           });
         })
-        .catch((error) => console.log(error));
+        .catch((error) => console.error(error));
     } else {
       if (advertising) {
         advertisingsAPI
@@ -245,7 +245,7 @@ function FormAdvertising({
               title: 'Se ha editado el aviso',
             });
           })
-          .catch((error) => console.log(error));
+          .catch((error) => console.error(error));
       }
     }
   };
