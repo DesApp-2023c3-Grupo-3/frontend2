@@ -40,7 +40,7 @@ function LoginScreen({ setScreenId }: { setScreenId: any }) {
   };
 
   const invalidScreenId = () => {
-    return screenIdRef.current?.value.trim() !== '1';
+    return isNaN(parseInt(screenIdRef.current?.value.trim() as string));
   };
 
   const isEmpty = (str: any) =>
