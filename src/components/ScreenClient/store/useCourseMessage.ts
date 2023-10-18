@@ -19,7 +19,6 @@ export interface StoreCourse {
     addCourseMessages: (message: DataCourse[]) => void
     addAvalaibleCourseMessage: () => void
     setError: (error:string) => void
-    fetchAdvertisingsBySectorId: (sectorId:number) => void
 }
   
 const INITIAL_COURSE = filterMessages(messages, 'CREATE_COURSE')
