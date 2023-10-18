@@ -1,7 +1,9 @@
-function RowsCourse(props: any) {
+import { DataCourse } from '../../../store/useCourseMessage';
+
+function RowsCourse({ items }: { items: DataCourse[] }) {
   return (
     <tbody>
-      {props.items.map((data: any, index: number) => {
+      {items.map((data, index: number) => {
         return (
           <tr
             key={index}
@@ -10,7 +12,7 @@ function RowsCourse(props: any) {
             }`}
           >
             <td className="">{data.subject}</td>
-            <td>{data.title}</td>
+            <td>{data.name}</td>
             <td>{data.classroom}</td>
             <td>{data.schedule}</td>
           </tr>
