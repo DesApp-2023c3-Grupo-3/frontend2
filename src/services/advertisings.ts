@@ -14,5 +14,8 @@ export const advertisingsAPI = {
     },
     edit: function(id : number, advertising : any) {
         return instance.patch(`${endpoint}/${id}`, advertising)
+    },
+    delete: function(id:number) {
+        return instance.delete(`${endpoint}/${id}`)
     }
 }

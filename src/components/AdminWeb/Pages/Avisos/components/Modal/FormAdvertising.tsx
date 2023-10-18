@@ -130,12 +130,17 @@ function FormAdvertising({
     }).then((result) => {
       if (result.isConfirmed) {
         if (advertising) {
-          //eliminarAdvertising(advertising.id); //api delete
-          Toast.fire({
-            icon: 'success',
-            title: 'Se ha eliminado el aviso',
-          });
-          closeModal();
+          advertisingsAPI
+            .delete(advertising.id)
+            .then((r) => {
+              Toast.fire({
+                icon: 'success',
+                title: 'Se ha eliminado el aviso',
+              });
+              setAdvertisingsJSON();
+              closeModal();
+            })
+            .catch((error) => console.error(error));
         }
       }
     });
