@@ -19,8 +19,9 @@ function FormCommission({
 }: FormCommissionProps) {
   const [hasDocument, setHasDocument] = useState<boolean>(false);
   const [tableData, setTableData] = useState<Commission[]>([]);
-  const [excelData, setExcelData] = useState<any>()
-  const [selectedFileName, setSelectedFileName] = useState("");
+  const [excelData, setExcelData] = useState<any>();
+  const [selectedFileName, setSelectedFileName] = useState('');
+
   const newCommission = () => {
     setHasDocument(!hasDocument);
 
@@ -29,43 +30,6 @@ function FormCommission({
     const sectores = selectedSector
       .map((sector) => abbreviateSectorName(sector.name))
       .join(', ');
-
-    const newCommission = {
-      id: commissionsJSON.length + 1,
-      name: 'C1',
-      user: {
-        id: commissionsJSON.length + 1,
-        name: 'Juan',
-        dni: '1234',
-        password: 'contra',
-        role: {
-          id: commissionsJSON.length + 1,
-          name: 'Gestión Estudiantil',
-        },
-      },
-      sector: {
-        id: commissionsJSON.length + 1,
-        name: sectores,
-        topic: 'Comision',
-      },
-      schedule: {
-        id: commissionsJSON.length + 1,
-        startDate: startDay,
-        endDate: endtDay,
-        startHour: '12:00',
-        endHour: '14:00',
-        scheduleDays: 'Lu-Mi-Vi',
-      },
-      subject: {
-        id: commissionsJSON.length + 1,
-        name: 'Matematica 1',
-      },
-      classroom: {
-        id: commissionsJSON.length + 1,
-        name: 'Lab 1',
-      },
-    };
-    setCommissionsJSON([...commissionsJSON, newCommission]);
   };
 
   const [startDate, setStartDate] = useState<Date>(new Date());
@@ -93,7 +57,7 @@ function FormCommission({
     if (hasDocument) {
       setTableData([]);
     } else {
-      //asCommissions.create();
+      // commissionApi.create(); // TODO: Revisar esto
     }
   };
 
@@ -101,29 +65,27 @@ function FormCommission({
     e.preventDefault();
     const excel = e.target?.files[0];
     const formData = new FormData();
-    formData.append("file", excel);
-    formData.append("startDate", startDate.toString());
-    formData.append("endDate", endDate.toString());
-    formData.append("sector", selectedSector.toString());
-
-    setExcelData(formData)
+    formData.append('file', excel);
+    formData.append('startDate', startDate.toString());
+    formData.append('endDate', endDate.toString());
+    formData.append('sector', selectedSector.toString());
+    setExcelData(formData);
     setSelectedFileName(excel.name);
-
     const newTableData: any = await commissionApi.toJson(formData);
     if (Array.isArray(newTableData)) {
       setTableData(Array.from(newTableData));
       toggleTable();
     } else {
-      alert("El archivo subido no es válido");
+      alert('El archivo subido no es válido');
     }
-  }
+  };
 
   const uploadTemplate = () => {
-    commissionApi.create(excelData)
-  }
+    commissionApi.create(excelData);
+  };
 
   const downloadTemplate = () => {
-    commissionApi.download()
+    commissionApi.download();
   };
 
   return (
@@ -153,9 +115,14 @@ function FormCommission({
                   <table className="absolute inset-0 border-collapse overflow-hidden rounded-t-[20px] ">
                     <thead className="relative bg-[#484848] text-[#BABABA]">
                       <tr className="flex justify-between py-3">
-                        <td className="absolute ml-4 mt-[-11px]">{selectedFileName}</td>
+                        <td className="absolute ml-4 mt-[-11px]">
+                          {selectedFileName}
+                        </td>
                         <td>
-                          <button onClick={toggleTable} className="absolute right-0 mr-3 mt-[-7px]">
+                          <button
+                            onClick={toggleTable}
+                            className="absolute right-0 mr-3 mt-[-7px]"
+                          >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               width="15"
@@ -173,7 +140,7 @@ function FormCommission({
                         </td>
                       </tr>
                       <tr className="font-[500] text-[1.5em] text-center">
-                      <th className="py-4 w-[7em]"></th>
+                        <th className="py-4 w-[7em]"></th>
                         <th className="py-4 w-[14em]">Materia</th>
                         <th className="py-4 w-[15em]">Comisión</th>
                         <th className="py-4 w-[13em]">Aula</th>
@@ -187,10 +154,12 @@ function FormCommission({
                           className="border-solid border-y-2 border-neutral-400 text-center"
                         >
                           <td className="w-8 pl-4 opacity-60">{index}</td>
-                          <td className="w-24">{commission["Nombre materia"]}</td>
-                          <td className="w-28">{commission["Nombre"]}</td>
-                          <td className="w-20">{commission["Aula"]}</td>
-                          <td className="w-24">{commission["Turno"]}</td>
+                          <td className="w-24">
+                            {commission['Nombre materia']}
+                          </td>
+                          <td className="w-28">{commission['Nombre']}</td>
+                          <td className="w-20">{commission['Aula']}</td>
+                          <td className="w-24">{commission['Turno']}</td>
                         </tr>
                       ))}
                     </tbody>
@@ -198,8 +167,12 @@ function FormCommission({
                 </div>
               </div>
             ) : (
-                <>
-                <label className={`${hasDocument ? 'rounded-t-[20px]' : 'rounded-[20px]'} flex flex-col items-center cursor-pointer justify-center w-[700px] h-[328px] ml-[110px] bg-[#D9D9D9]`}>
+              <>
+                <label
+                  className={`${
+                    hasDocument ? 'rounded-t-[20px]' : 'rounded-[20px]'
+                  } flex flex-col items-center cursor-pointer justify-center w-[700px] h-[328px] ml-[110px] bg-[#D9D9D9]`}
+                >
                   <svg
                     className="mt-100"
                     xmlns="http://www.w3.org/2000/svg"
@@ -219,10 +192,11 @@ function FormCommission({
                     ) : null}
                   </svg>
                   <input
-                    id="dropzone-file" 
-                    type="file" 
-                    onChange={onFileLoaded} 
-                    className="hidden" />
+                    id="dropzone-file"
+                    type="file"
+                    onChange={onFileLoaded}
+                    className="hidden"
+                  />
                 </label>
               </>
             )}
