@@ -4,6 +4,7 @@ import Sectores from './Sectores';
 import React, { useState } from 'react';
 import { Commission } from '../../../../types/customTypes';
 import { abbreviateSectorName } from '../../../../utils/AbbreviateSectorName';
+import { asCommissions } from '../../../../../../services/commissions';
 
 interface FormCommissionProps {
   commissionsJSON: Commission[];
@@ -18,6 +19,8 @@ function FormCommission({
 }: FormCommissionProps) {
   const [hasDocument, setHasDocument] = useState<boolean>(false);
   const [tableData, setTableData] = useState<Commission[]>([]);
+  const [excelData, setExcelData] = useState<any>()
+
   const newCommission = () => {
     setHasDocument(!hasDocument);
 
@@ -26,43 +29,6 @@ function FormCommission({
     const sectores = selectedSector
       .map((sector) => abbreviateSectorName(sector.name))
       .join(', ');
-
-    const newCommission = {
-      id: commissionsJSON.length + 1,
-      name: 'C1',
-      user: {
-        id: commissionsJSON.length + 1,
-        name: 'Juan',
-        dni: '1234',
-        password: 'contra',
-        role: {
-          id: commissionsJSON.length + 1,
-          name: 'Gestión Estudiantil',
-        },
-      },
-      sector: {
-        id: commissionsJSON.length + 1,
-        name: sectores,
-        topic: 'Comision',
-      },
-      schedule: {
-        id: commissionsJSON.length + 1,
-        startDate: startDay,
-        endDate: endtDay,
-        startHour: '12:00',
-        endHour: '14:00',
-        scheduleDays: 'Lu-Mi-Vi',
-      },
-      subject: {
-        id: commissionsJSON.length + 1,
-        name: 'Matematica 1',
-      },
-      classroom: {
-        id: commissionsJSON.length + 1,
-        name: 'Lab 1',
-      },
-    };
-    setCommissionsJSON([...commissionsJSON, newCommission]);
   };
 
   const [startDate, setStartDate] = useState<Date>(new Date());
@@ -90,9 +56,37 @@ function FormCommission({
     if (hasDocument) {
       setTableData([]);
     } else {
-      setTableData(commissionsJSON.concat(commissionsJSON).concat(commissionsJSON).concat(commissionsJSON));
+      // OBSOLETE LINE
+      setTableData(commissionsJSON);
     }
   };
+
+  const onFileLoaded = async (e: any) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append("file", e.target?.files[0]);
+    formData.append("startDate", startDate.toString());
+    formData.append("endDate", endDate.toString());
+    formData.append("sector", selectedSector.toString());
+
+    setExcelData(formData)
+
+
+    toggleTable()
+  }
+
+  const updateCommissionsTable = async () => {
+    const updatedCommissions: any = await asCommissions.getAll()
+    setCommissionsJSON(updatedCommissions?.data as Commission[] || [])
+  }
+
+  const uploadTemplate = () => {
+    if(!hasDocument) return
+    asCommissions.create(excelData).then(() => updateCommissionsTable())
+    closeModal()
+  }
+
   const downloadTemplate = () => {
     newCommission()
     toggleTable()
@@ -126,7 +120,7 @@ function FormCommission({
                     <thead className="relative bg-[#484848] text-[#BABABA]">
                       <tr className="flex justify-between">
                         <td className="ml-4 mt-[2px]">aca va el id</td>
-                        <button onClick={toggleTable}>
+                        <td onClick={toggleTable} onKeyDown={toggleTable}>
                           <svg
                             className="absolute right-0 mr-3 mt-[-7px]"
                             xmlns="http://www.w3.org/2000/svg"
@@ -141,7 +135,7 @@ function FormCommission({
                               fill="white"
                             />
                           </svg>
-                        </button>
+                        </td>
                       </tr>
                       <tr className="font-[500] text-[1.5em] text-center">
                         <th className="py-4 w-[17.292em]">Materia</th>
@@ -150,9 +144,9 @@ function FormCommission({
                       </tr>
                     </thead>
                     <tbody>
-                      {tableData.map((commission) => (
+                      {tableData.map((commission, index) => (
                         <tr
-                          key={commission.id}
+                          key={index}
                           className="border-solid border-y-2 border-neutral-400 text-center"
                         >
                           <td>{commission.subject.name}</td>
@@ -165,14 +159,15 @@ function FormCommission({
                 </div>
               </div>
             ) : (
-              <button
-                type="button"
+                <>
+              <input
+                type="file"
+                onChange={onFileLoaded}
                 className={`${
                   hasDocument ? 'rounded-t-[20px]' : 'rounded-[20px]'
-                } flex justify-center items-center bg-[#D9D9D9] w-[700px] h-[328px] ml-[110px] relative`}
-                onClick={toggleTable}
+                } flex justify-center items-center bg-[#D9D9D9] w-[700px] h-[328px] ml-[110px] relative cursor-pointer`}
                 disabled={hasDocument}
-              >
+              ></input>
                 <svg
                   className="cursor-pointer"
                   xmlns="http://www.w3.org/2000/svg"
@@ -191,7 +186,7 @@ function FormCommission({
                     />
                   ) : null}
                 </svg>
-              </button>
+              </>
             )}
           </div>
         </div>
@@ -204,7 +199,7 @@ function FormCommission({
           label={'DESCARGAR TEMPLATE'}
         />
         <Button
-          onClick={hasDocument ? closeModal : () => {}}
+          onClick={uploadTemplate}
           active={hasDocument}
           type={1}
           label={'GUARDAR'}
