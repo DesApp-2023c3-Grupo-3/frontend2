@@ -3,7 +3,6 @@ import DatePickerDays from './DatePickerDays';
 import Sectores from './Sectores';
 import React, { useState } from 'react';
 import { Commission } from '../../../../types/customTypes';
-import { abbreviateSectorName } from '../../../../utils/AbbreviateSectorName';
 import { commissionApi } from '../../../../../../services/commissions';
 
 interface FormCommissionProps {
@@ -21,25 +20,24 @@ function FormCommission({
   const [tableData, setTableData] = useState<Commission[]>([]);
   const [excelData, setExcelData] = useState<any>();
   const [selectedFileName, setSelectedFileName] = useState('');
-
-  const newCommission = () => {
-    setHasDocument(!hasDocument);
-
-    const startDay = startDate.toLocaleDateString();
-    const endtDay = endDate.toLocaleDateString();
-    const sectores = selectedSector
-      .map((sector) => abbreviateSectorName(sector.name))
-      .join(', ');
-  };
-
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [endDate, setEndDate] = useState<Date>(new Date());
+  const [selectedSector, setSelectedSector] = useState<Sector>({
+    id: -1,
+    name: 'Sector/es',
+  });
+  const [hasSelectedDates, setHasSelectedDates] = useState<{
+    hasStartDate: boolean;
+    hasEndDate: boolean;
+  }>({ hasStartDate: false, hasEndDate: false });
 
   const handleStartDateChange = (newStartDate: Date) => {
     setStartDate(newStartDate);
+    setHasSelectedDates({ ...hasSelectedDates, hasStartDate: true });
   };
   const handleEndDateChange = (newEndDate: Date) => {
     setEndDate(newEndDate);
+    setHasSelectedDates({ ...hasSelectedDates, hasEndDate: true });
   };
 
   interface Sector {
@@ -47,8 +45,7 @@ function FormCommission({
     name: string;
   }
 
-  const [selectedSector, setSelectedSector] = useState<Sector[]>([]);
-  const handleSelectedSectorChange = (newSelectedSector: Sector[]) => {
+  const handleSelectedSectorChange = (newSelectedSector: Sector) => {
     setSelectedSector(newSelectedSector);
   };
 
@@ -66,9 +63,6 @@ function FormCommission({
     const excel = e.target?.files[0];
     const formData = new FormData();
     formData.append('file', excel);
-    formData.append('startDate', startDate.toString());
-    formData.append('endDate', endDate.toString());
-    formData.append('sector', '1');
     setExcelData(formData);
     setSelectedFileName(excel.name);
     const newTableData: any = await commissionApi.toJson(formData);
@@ -86,15 +80,25 @@ function FormCommission({
   };
 
   const uploadTemplate = () => {
-    if (!hasDocument) return;
-    console.log(excelData);
+    if (!hasValidCommission) return;
+    excelData.append('startDate', startDate.toString());
+    excelData.append('endDate', endDate.toString());
+    excelData.append('sector', selectedSector.id.toString());
     commissionApi.create(excelData).then(() => updateCommissionsTable());
-
     closeModal();
   };
 
   const downloadTemplate = () => {
     commissionApi.download();
+  };
+
+  const hasValidCommission = () => {
+    return (
+      hasDocument &&
+      selectedSector.id !== -1 &&
+      hasSelectedDates.hasStartDate &&
+      hasSelectedDates.hasEndDate
+    );
   };
 
   return (
@@ -221,7 +225,7 @@ function FormCommission({
         />
         <Button
           onClick={uploadTemplate}
-          active={hasDocument}
+          active={hasValidCommission()}
           type={1}
           label={'GUARDAR'}
         />
