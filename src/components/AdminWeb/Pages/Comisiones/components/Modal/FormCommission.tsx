@@ -81,8 +81,8 @@ function FormCommission({
 
   const uploadTemplate = () => {
     if (!hasValidCommission()) return;
-    excelData.append('startDate', startDate.toString());
-    excelData.append('endDate', endDate.toString());
+    excelData.append('startDate', startDate.toISOString());
+    excelData.append('endDate', endDate.toISOString());
     excelData.append('sector', selectedSector.id.toString());
     commissionApi.create(excelData).then(() => updateCommissionsTable());
     closeModal();
