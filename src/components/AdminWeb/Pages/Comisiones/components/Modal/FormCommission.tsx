@@ -80,7 +80,7 @@ function FormCommission({
   };
 
   const uploadTemplate = () => {
-    if (!hasValidCommission) return;
+    if (!hasValidCommission()) return;
     excelData.append('startDate', startDate.toString());
     excelData.append('endDate', endDate.toString());
     excelData.append('sector', selectedSector.id.toString());
