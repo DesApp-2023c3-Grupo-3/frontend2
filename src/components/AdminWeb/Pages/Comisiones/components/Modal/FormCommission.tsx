@@ -92,11 +92,14 @@ function FormCommission({
     commissionApi.download();
   };
 
-  const hasValidCommission: boolean =
-    hasDocument &&
-    selectedSector.id !== -1 &&
-    hasSelectedDates.hasStartDate &&
-    hasSelectedDates.hasEndDate;
+  const hasValidCommission = () => {
+    return (
+      hasDocument &&
+      selectedSector.id !== -1 &&
+      hasSelectedDates.hasStartDate &&
+      hasSelectedDates.hasEndDate
+    );
+  };
 
   return (
     <div className="formCommission">
@@ -222,7 +225,7 @@ function FormCommission({
         />
         <Button
           onClick={uploadTemplate}
-          active={hasValidCommission}
+          active={hasValidCommission()}
           type={1}
           label={'GUARDAR'}
         />
