@@ -5,18 +5,23 @@ import { useAdvertisingMessages } from '../store/useAdvertisingMessages';
 import { useEffect } from 'react';
 import { useScreen } from '../store/useScreen';
 import { useConnectionMessage } from '../store/useConnectionMessage';
+import { useCourseMessages } from '../store/useCourseMessage';
 
 export default function Screen() {
-  const typeScreen = useConnectionMessage((state) => state.connectionMessage);
   const fetchAdvertisingsById = useAdvertisingMessages(
     (state) => state.fetchAdvertisingsByScreenId,
   );
+  const fetchCoursesBySectorId = useCourseMessages(
+    (state) => state.fetchAdvertisingsBySectorId,
+  );
+
+  const typeScreen = useConnectionMessage((state) => state.connectionMessage);
   const fetchError = useAdvertisingMessages((state) => state.error);
-  const templateId = typeScreen.screen.templeteId;
   const screenId = useScreen((state) => state.screenId);
 
   useEffect(() => {
     fetchAdvertisingsById(screenId);
+    fetchCoursesBySectorId(1);
   }, []);
 
   const billboards: Record<number, ReactJSXElement> = {
@@ -29,6 +34,6 @@ export default function Screen() {
       Error: {fetchError}
     </div>
   ) : (
-    billboards[parseInt(templateId)]
+    billboards[parseInt(typeScreen.screen.templeteId)]
   );
 }

@@ -1,13 +1,12 @@
 import { create } from "zustand";
-import { filterMessages } from "../utils/arrays";
 import { messages } from "../mocks/imagenes";
 import { isActiveMessage } from "../utils/hour";
+import { fetchCourses } from "../services/fetchCourses";
 
 export interface DataCourse {
     subject: string;
     name: string;
     classroom: string;
-    schedule: string;
     startHour: string;
     endHour: string
 }
@@ -19,16 +18,17 @@ export interface StoreCourse {
     addCourseMessages: (message: DataCourse[]) => void
     addAvalaibleCourseMessage: () => void
     setError: (error:string) => void
+    fetchAdvertisingsBySectorId: (sectorId:number) => void
 }
   
-const INITIAL_COURSE = filterMessages(messages, 'CREATE_COURSE')
   
 export const useCourseMessages = create<StoreCourse>()((set, get) => ({
-    courseMessages: INITIAL_COURSE,
+    courseMessages: messages[0].data,
     avalaibleCourseMessages: [],  
     error: '',
 
     addCourseMessages: (messages: DataCourse[]) => {
+
       set((state) => ({
         courseMessages: [...state.courseMessages, ...messages],
       }));
@@ -55,5 +55,21 @@ export const useCourseMessages = create<StoreCourse>()((set, get) => ({
       }))
     },
 
-    
+    fetchAdvertisingsBySectorId: (sectorId) => {
+      fetchCourses(sectorId)
+        .then(courses =>
+          courses.map((course:any) => {
+            const { classroom, name, schedule, subject } = course
+
+            return {
+              classroom: classroom.name,
+              name,
+              startHour: schedule.startHour,
+              endHour: schedule.endHour,
+              subject: subject.name
+            }
+          })
+        )
+        .then((courses) => get().addCourseMessages(courses))
+    }
 }))

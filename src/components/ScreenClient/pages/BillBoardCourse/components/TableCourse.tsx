@@ -1,21 +1,18 @@
 import RowsCourse from './RowsCourse';
 import { useCarousel } from '../../../hooks/useCarousel';
 import Dots from '../../../components/Dots';
-import { carouselTableArray } from '../../../utils/carousel';
-import { sortCourse } from '../utils/sortCourse.utils';
-import { useCourseMessages } from '../../../store/useCourseMessage';
 import { useConnectionMessage } from '../../../store/useConnectionMessage';
+import { DataCourse } from '../../../store/useCourseMessage';
 
-function TableCourse(props: any) {
-  const courseMessages = useCourseMessages((state) => state.courseMessages);
+function TableCourse({
+  courseAvalaibleMessages,
+}: {
+  courseAvalaibleMessages: DataCourse[][];
+}) {
   const carouselTime = useConnectionMessage((state) => state.connectionMessage);
-  const courseMessagesCarousel = carouselTableArray(
-    sortCourse(courseMessages),
-    10,
-  );
 
   const { selectedIndex, selectedItem } = useCarousel(
-    courseMessagesCarousel,
+    courseAvalaibleMessages,
     carouselTime.screen.courseIntervalTime,
   );
 
@@ -42,10 +39,10 @@ function TableCourse(props: any) {
           <RowsCourse items={selectedItem} />
         </table>
       </div>
-      {courseMessages.length > 1 && (
+      {courseAvalaibleMessages.length > 1 && (
         <Dots
           selectedIndex={selectedIndex}
-          items={courseMessagesCarousel}
+          items={courseAvalaibleMessages}
           sx="mx-auto w-full justify-center"
         />
       )}

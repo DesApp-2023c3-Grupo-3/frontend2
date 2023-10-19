@@ -1,9 +1,22 @@
 import { DataCourse } from '../../../store/useCourseMessage';
+import dayjs from 'dayjs';
 
 function RowsCourse({ items }: { items: DataCourse[] }) {
+  const formatHour = (date: string) => {
+    const newDate = dayjs(new Date(date));
+
+    const hour = String(newDate.hour()).padStart(2, '0');
+    const minutes = String(newDate.minute()).padStart(2, '0');
+
+    return `${hour}:${minutes}`;
+  };
+
   return (
     <tbody>
       {items.map((data, index: number) => {
+        const scheduleStart = formatHour(data.startHour);
+        const scheduleEnd = formatHour(data.endHour);
+
         return (
           <tr
             key={index}
@@ -14,7 +27,7 @@ function RowsCourse({ items }: { items: DataCourse[] }) {
             <td className="">{data.subject}</td>
             <td>{data.name}</td>
             <td>{data.classroom}</td>
-            <td>{data.schedule}</td>
+            <td>{scheduleStart + '-' + scheduleEnd}</td>
           </tr>
         );
       })}
