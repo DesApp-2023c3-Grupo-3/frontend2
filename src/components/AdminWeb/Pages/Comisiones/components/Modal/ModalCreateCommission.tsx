@@ -27,7 +27,7 @@ function ModalCreateCommission({
       <Button
         onClick={openModal}
         active={true}
-        type={3}
+        type={0}
         label={'AGREGAR COMISIONES'}
       />
       <Transition appear show={isOpen} as={Fragment}>
