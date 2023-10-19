@@ -3,7 +3,6 @@ import DatePickerDays from './DatePickerDays';
 import Sectores from './Sectores';
 import React, { useState } from 'react';
 import { Commission } from '../../../../types/customTypes';
-import { abbreviateSectorName } from '../../../../utils/AbbreviateSectorName';
 import { commissionApi } from '../../../../../../services/commissions';
 
 interface FormCommissionProps {
@@ -31,16 +30,6 @@ function FormCommission({
     hasStartDate: boolean;
     hasEndDate: boolean;
   }>({ hasStartDate: false, hasEndDate: false });
-
-  /*const newCommission = () => {
-    setHasDocument(!hasDocument);
-
-    const startDay = startDate.toLocaleDateString();
-    const endtDay = endDate.toLocaleDateString();
-    const sectores = selectedSector;
-      .map((sector) => abbreviateSectorName(sector.name))
-      .join(', ');
-  };*/
 
   const handleStartDateChange = (newStartDate: Date) => {
     setStartDate(newStartDate);
