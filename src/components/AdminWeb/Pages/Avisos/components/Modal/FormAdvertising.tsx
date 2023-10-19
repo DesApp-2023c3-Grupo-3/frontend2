@@ -338,17 +338,16 @@ function FormAdvertising({
       </form>
       <div className="flex justify-between mt-[2em] mx-[4.5em]">
         <div>
-          <Button
-            onClick={handleDeleteAdvertisingClick}
-            active={true}
-            type={0}
-            label="ELIMINAR"
-            className={`${
-              isCreate
-                ? 'hidden'
-                : 'bg-[white] text-[#ff4949] border-2 border-red-500 rounded-[30px] py-[16px] w-[300px] h-[40px] font-[600] text-[20px] flex items-center justify-center hover:bg-[red] hover:text-[white]'
-            }`}
-          />
+          {!isCreate ? (
+            <Button
+              onClick={handleDeleteAdvertisingClick}
+              active={true}
+              type={3}
+              label="ELIMINAR"
+            />
+          ) : (
+            ''
+          )}
         </div>
         <div className="">
           <Button
