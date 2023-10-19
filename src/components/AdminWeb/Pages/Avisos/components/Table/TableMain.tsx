@@ -19,7 +19,7 @@ function TableMain({
   React.useEffect(() => {
     const adjustItemsPerPage = () => {
       const windowHeight = window.innerHeight;
-      const rowHeight = 130;
+      const rowHeight = 140;
       const maxRowsToShow = Math.floor(windowHeight / rowHeight);
       setItemsPerPage(maxRowsToShow);
     };

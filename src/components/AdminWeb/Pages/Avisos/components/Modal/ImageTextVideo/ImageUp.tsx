@@ -18,7 +18,7 @@ function ImageUp({ image, setImage }: ImageUpProps) {
 
       try {
         const response = await imageAPI.create(formData);
-        urlImg = `${response.config.baseURL}image/${response.data.id}/view`;
+        urlImg = `${response.config.baseURL}/image/${response.data.id}/view`;
         setImage(urlImg);
       } catch (error) {
         console.error('Error al subir la imagen:', error);
