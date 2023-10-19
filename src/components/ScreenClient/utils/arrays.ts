@@ -7,6 +7,7 @@ export const filterMessages = (messages: Message[], action: string) => {
   const advertisingMessages = messages.filter(
     (message) => message.action === action,
   );
+
   return advertisingMessages.map((message) => message.data);
 };
 
