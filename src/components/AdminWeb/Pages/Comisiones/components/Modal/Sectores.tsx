@@ -1,7 +1,6 @@
 import { Fragment, useState } from 'react';
 import { Listbox, Transition } from '@headlessui/react';
 import { abbreviateSectorName } from '../../../../utils/AbbreviateSectorName';
-import { Checkbox } from '@mui/material';
 
 const sectors = [
   { id: 1, name: 'Edificio Malvinas' },
@@ -11,32 +10,14 @@ const sectors = [
 ];
 
 interface SectoresProps {
-  selectedSector: Sector[];
-  onSelectedSectorChange: (newSelectedSector: Sector[]) => void;
+  selectedSector: Sector;
+  onSelectedSectorChange: (newSelectedSector: Sector) => void;
 }
 
 function Sectores({ selectedSector, onSelectedSectorChange }: SectoresProps) {
-  const [selectAll, setSelectAll] = useState(false);
-
-  const handleSelectAllChange = (event: {
-    target: { checked: boolean | ((prevState: boolean) => boolean) };
-  }) => {
-    setSelectAll(event.target.checked);
-
-    if (!selectAll) {
-      onSelectedSectorChange(sectors);
-    } else {
-      onSelectedSectorChange([]);
-    }
-  };
-
   return (
     <div className="w-[365px] h-[50px] mt-[17px]">
-      <Listbox
-        value={selectedSector}
-        onChange={onSelectedSectorChange}
-        multiple
-      >
+      <Listbox value={selectedSector} onChange={onSelectedSectorChange}>
         <div className="fixed flex-row justify-center z-10">
           <Listbox.Button
             className={
@@ -65,11 +46,7 @@ function Sectores({ selectedSector, onSelectedSectorChange }: SectoresProps) {
               </svg>
             </div>
             <span className="flex text-black opacity-[0.33] items-center">
-              {selectedSector.length === 0
-                ? 'Sector/es'
-                : selectedSector
-                    .map((sector) => abbreviateSectorName(sector.name))
-                    .join(', ')}
+              {selectedSector === null ? 'Sector/es' : selectedSector.name}
             </span>
           </Listbox.Button>
           <Transition
@@ -102,7 +79,7 @@ function Sectores({ selectedSector, onSelectedSectorChange }: SectoresProps) {
                       }
                       value={sector}
                       onClick={() => {
-                        onSelectedSectorChange([...selectedSector, sector]);
+                        onSelectedSectorChange(sector);
                       }}
                     >
                       {({ selected }) => (
@@ -122,13 +99,6 @@ function Sectores({ selectedSector, onSelectedSectorChange }: SectoresProps) {
                   </div>
                 </div>
               ))}
-              <div className="flex justify-center items-center">
-                <Checkbox
-                  checked={selectAll}
-                  onChange={handleSelectAllChange}
-                />
-                <span>Seleccionar todo</span>
-              </div>
             </Listbox.Options>
           </Transition>
         </div>
