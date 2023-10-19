@@ -65,7 +65,7 @@ function FormCommission({
     formData.append('file', excel);
     formData.append('startDate', startDate.toString());
     formData.append('endDate', endDate.toString());
-    formData.append('sector', selectedSector.toString());
+    formData.append('sector', '1');
     setExcelData(formData);
     setSelectedFileName(excel.name);
     const newTableData: any = await commissionApi.toJson(formData);
@@ -83,8 +83,14 @@ function FormCommission({
   };
 
   const uploadTemplate = () => {
+<<<<<<< HEAD
     if (!hasValidCommission) return;
+=======
+    if (!hasDocument) return;
+    console.log(excelData);
+>>>>>>> develop
     commissionApi.create(excelData).then(() => updateCommissionsTable());
+
     closeModal();
   };
 

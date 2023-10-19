@@ -1,10 +1,8 @@
-import { useCarousel } from '../../../hooks/useCarousel';
 import { isArrayWithVideos } from '../../../utils/arrays';
 import AdvertisingItem from './ItemAdvertising';
 import AdvertisingVideo from './VideoAdvertising';
 import AdvertisingType from './TypeAdvertising';
 import { DataAdvertising } from '../../../store/useAdvertisingMessages';
-import { useConnectionMessage } from '../../../store/useConnectionMessage';
 
 function AdvertisingCard({
   messages,
@@ -13,23 +11,16 @@ function AdvertisingCard({
   messages: DataAdvertising[];
   sx: string;
 }) {
-  const carouselTime = useConnectionMessage((state) => state.connectionMessage);
-
-  const { selectedIndex, selectedItem, changeSelectedItem } = useCarousel(
-    messages,
-    carouselTime.screen.advertisingIntervalTime,
-  );
-
   return (
-    <AdvertisingItem messages={messages} sx={sx} selectedIndex={selectedIndex}>
+    <AdvertisingItem sx={sx}>
       {isArrayWithVideos(messages) ? (
         <AdvertisingVideo
-          payload={selectedItem.payload}
-          changeSelectedItem={changeSelectedItem}
-          sx="h-[90%] w-full p-1 rounded-3xl overflow-hidden"
+          advertisingVideos={messages}
+          sx="h-[80%] w-full p-1 rounded-3xl overflow-hidden"
+          withDots={true}
         />
       ) : (
-        <AdvertisingType item={selectedItem} />
+        <AdvertisingType messages={messages} />
       )}
     </AdvertisingItem>
   );

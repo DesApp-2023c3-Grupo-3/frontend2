@@ -1,13 +1,13 @@
 import * as React from 'react';
 
 export const daysOfTheWeek: Days[] = [
-  { id: 0, name: 'Lunes' },
-  { id: 1, name: 'Martes' },
-  { id: 2, name: 'Miércoles' },
-  { id: 3, name: 'Jueves' },
-  { id: 4, name: 'Viernes' },
-  { id: 5, name: 'Sabado' },
-  { id: 6, name: 'Domingo' },
+  { id: 1, name: 'Lunes' },
+  { id: 2, name: 'Martes' },
+  { id: 3, name: 'Miércoles' },
+  { id: 4, name: 'Jueves' },
+  { id: 5, name: 'Viernes' },
+  { id: 6, name: 'Sabado' },
+  { id: 0, name: 'Domingo' },
 ];
 interface DayPickerProps {
   selectedDays: Days[];

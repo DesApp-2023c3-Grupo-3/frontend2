@@ -8,7 +8,7 @@ function Dots({
   items: any;
 }) {
   return (
-    <div className={`${sx} flex`}>
+    <aside className={`${sx} flex`}>
       {items.map((item: any, index: number) => (
         <svg
           key={index}
@@ -23,7 +23,7 @@ function Dots({
           />
         </svg>
       ))}
-    </div>
+    </aside>
   );
 }
 
