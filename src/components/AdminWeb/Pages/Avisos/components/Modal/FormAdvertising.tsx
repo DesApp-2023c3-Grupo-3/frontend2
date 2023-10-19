@@ -109,6 +109,46 @@ function FormAdvertising({
     setType,
   } = usePayload(advertising);
 
+  const invalidName = () => {
+    return advertisingName === '';
+  };
+
+  const invalidSectors = () => {
+    return selectedSector.length === 0;
+  };
+
+  const invalidselectedDays = () => {
+    return selectedDays.length === 0;
+  };
+
+  const invalidDate = () => {
+    return validationDate(startDate, endDate);
+  };
+
+  const invalidHours = () => {
+    return validationDate(startHour, endHour);
+  };
+
+  let payload = '';
+
+  const invalidadType = () => {
+    return payload === '';
+  };
+
+  switch (type) {
+    case 1:
+      payload = image;
+      break;
+    case 2:
+      payload = video;
+      break;
+    case 3:
+      payload = text;
+      break;
+    default:
+      break;
+  }
+
   const [emptyFields, setEmptyFields] = React.useState({
     advertisingName: false,
     selectedSector: false,
@@ -168,22 +208,6 @@ function FormAdvertising({
       return rest;
     });
 
-    let payload = '';
-
-    switch (type) {
-      case 1:
-        payload = image;
-        break;
-      case 2:
-        payload = video;
-        break;
-      case 3:
-        payload = text;
-        break;
-      default:
-        break;
-    }
-
     const newAdvertising = {
       name: advertisingName,
       payload: payload,
@@ -206,8 +230,6 @@ function FormAdvertising({
       type: payload === '',
     };
     setEmptyFields(emptyFieldsUpdate);
-
-    console.log('PAYLOAD: ', payload);
 
     if (Object.values(emptyFieldsUpdate).filter((value) => value).length > 1) {
       //TODO: Faltaría agregar una lista de los campos que estan incompletos y ponerlo en el mensaje de error.
@@ -269,16 +291,20 @@ function FormAdvertising({
               type="text"
               placeholder="Nombre del aviso..."
               className={`text-[20px] font-[400] tracking-[-0.4px] rounded-[30px] bg-[#D9D9D9] flex w-[365px] h-[50px] px-[40px] py-[12px] items-center ${
-                emptyFields.advertisingName ? 'invalid-field' : ''
+                emptyFields.advertisingName && invalidName()
+                  ? 'invalid-field'
+                  : ''
               }`}
               value={advertisingName}
-              onChange={(e) => setAdvertisingName(e.target.value)}
+              onChange={(e) => {
+                setAdvertisingName(e.target.value);
+              }}
               defaultValue={advertisingName}
               autoComplete="off"
             ></input>
             {ErrorMessage(
               '*Falta completar el nombre del aviso.',
-              emptyFields.advertisingName,
+              invalidName() && emptyFields.advertisingName,
             )}
           </div>
           <div className="flex-col justify-center">
@@ -290,7 +316,7 @@ function FormAdvertising({
             <div>
               {ErrorMessage(
                 '*Falta seleccionar los sectores.',
-                emptyFields.selectedSector,
+                emptyFields.selectedSector && invalidSectors(),
               )}
             </div>
           </div>
@@ -305,7 +331,10 @@ function FormAdvertising({
                 selectedDateFinal={endDate}
                 isCreate={isCreate}
               />
-              {ErrorMessage('*Falta completar las fechas.', emptyFields.date)}
+              {ErrorMessage(
+                '*Falta completar las fechas.',
+                emptyFields.date && invalidDate(),
+              )}
             </div>
             <div className="flex-col justify-center pt-10">
               <DayPicker
@@ -314,7 +343,7 @@ function FormAdvertising({
               />
               {ErrorMessage(
                 '*Falta elegir los días.',
-                emptyFields.selectedDays,
+                emptyFields.selectedDays && invalidselectedDays(),
               )}
             </div>
             <div className="flex-col justify-center pt-10">
@@ -324,7 +353,10 @@ function FormAdvertising({
                 selectedHourInit={startHour}
                 selectedHourFinal={endHour}
               />
-              {ErrorMessage('*Falta completar los horarios', emptyFields.hour)}
+              {ErrorMessage(
+                '*Falta completar los horarios',
+                emptyFields.hour && invalidHours(),
+              )}
             </div>
           </div>
           <div className="pr-[1em] pt-[20px] z-[999]">
@@ -340,7 +372,7 @@ function FormAdvertising({
             />
             {ErrorMessage(
               '*Falta completar el tipo del aviso',
-              emptyFields.type,
+              emptyFields.type && invalidadType(),
             )}
           </div>
         </div>

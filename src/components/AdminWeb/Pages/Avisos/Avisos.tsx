@@ -14,9 +14,11 @@ function Avisos() {
 
   const { isOpen, openModal, closeModal } = useModal();
 
+  const idRolUser = 1; // TODO: id del rol del usuario logeado
+
   const GetData = () => {
     advertisingsAPI
-      .getAll()
+      .getAll(idRolUser)
       .then((r) => {
         setAdvertisingsJSON(r.data);
       })

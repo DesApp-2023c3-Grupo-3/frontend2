@@ -3,8 +3,8 @@ import { instance } from "./base.api.url";
 const endpoint = "advertising"
 
 export const advertisingsAPI = {
-    getAll: function(){
-        return instance.get(`${endpoint}/role/1`)
+    getAll: function(rolId: number){
+        return instance.get(`${endpoint}/role/${rolId}`)
     },
     getId: function(id : number) {
         return instance.get(`${endpoint}/${id}`)

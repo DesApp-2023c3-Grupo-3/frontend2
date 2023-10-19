@@ -58,7 +58,9 @@ function Sectores({
           <Listbox.Button
             id="sectors"
             className={`text-[20px] font-[400] tracking-[-0.4px] rounded-[30px] bg-[#D9D9D9] flex w-[365px] h-[50px] px-[40px] py-[12px] items-center ${
-              campos.selectedSector ? 'invalid-field' : ''
+              selectedSector.length === 0 && campos.selectedSector
+                ? 'invalid-field'
+                : ''
             }`}
             placeholder="Sector/es"
           >

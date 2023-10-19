@@ -1,13 +1,13 @@
 import { Days, daysOfTheWeek } from "../Pages/Avisos/components/Modal/DayPicker";
 
 const dayCodesToNumbers : any = {
-  LU: 0,
-  MA: 1,
-  MI: 2,
-  JU: 3,
-  VI: 4,
-  SA: 5,
-  DO: 6
+  DO: 0,
+  LU: 1,
+  MA: 2,
+  MI: 3,
+  JU: 4,
+  VI: 5,
+  SA: 6
 };
 
 export const convertDaysToNumbers = (selectedDays: Days[]): string[] => {
