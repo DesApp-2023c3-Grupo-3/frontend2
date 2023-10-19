@@ -14,7 +14,7 @@ export default function AdvertisingVideo({
   sx: string;
   withDots: boolean;
 }) {
-  const { selectedItem, changeSelectedItem } =
+  const { selectedItem, changeSelectedItem, selectedIndex } =
     useCarouselVideo(advertisingVideos);
 
   const videoId = obtenerIDdeVideo(selectedItem.payload);
@@ -39,7 +39,7 @@ export default function AdvertisingVideo({
       </div>
       {withDots && advertisingVideos.length > 1 && (
         <Dots
-          selectedIndex={1}
+          selectedIndex={selectedIndex}
           sx="absolute bottom-0"
           items={advertisingVideos}
         />
