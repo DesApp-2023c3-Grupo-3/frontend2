@@ -1,17 +1,23 @@
 import YouTube from 'react-youtube';
 import { obtenerIDdeVideo } from '../../../utils/strings';
 import '../../../index.css';
+import { useCarouselVideo } from '../../../hooks/useCarouselVideo';
+import { DataAdvertising } from '../../../store/useAdvertisingMessages';
+import Dots from '../../../components/Dots';
 
 export default function AdvertisingVideo({
-  payload,
-  changeSelectedItem,
+  advertisingVideos,
   sx,
+  withDots,
 }: {
-  payload: string;
-  changeSelectedItem: () => void;
+  advertisingVideos: DataAdvertising[];
   sx: string;
+  withDots: boolean;
 }) {
-  const videoId = obtenerIDdeVideo(payload);
+  const { selectedItem, changeSelectedItem, selectedIndex } =
+    useCarouselVideo(advertisingVideos);
+
+  const videoId = obtenerIDdeVideo(selectedItem.payload);
 
   const opts = {
     playerVars: {
@@ -22,13 +28,22 @@ export default function AdvertisingVideo({
   };
 
   return (
-    <div id="youtube-player-id" className={sx}>
-      <YouTube
-        videoId={videoId}
-        onEnd={changeSelectedItem}
-        opts={opts}
-        loading="lazy"
-      />
-    </div>
+    <>
+      <div id="youtube-player-id" className={sx}>
+        <YouTube
+          videoId={videoId}
+          onEnd={changeSelectedItem}
+          opts={opts}
+          loading="lazy"
+        />
+      </div>
+      {withDots && advertisingVideos.length > 1 && (
+        <Dots
+          selectedIndex={selectedIndex}
+          sx="absolute bottom-0"
+          items={advertisingVideos}
+        />
+      )}
+    </>
   );
 }
