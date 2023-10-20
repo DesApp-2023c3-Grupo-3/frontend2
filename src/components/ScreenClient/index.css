@@ -1,0 +1,9 @@
+#youtube-player-id iframe {
+  width: 100%;
+  height: 100%;
+  background-color: white !important;
+}
+
+#youtube-player-id div {
+  height: 100%;
+}

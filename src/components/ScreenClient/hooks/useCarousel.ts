@@ -1,15 +1,22 @@
 import { useEffect, useState } from 'react';
+import { isArrayWithVideos } from '../utils/arrays';
 
-export function useCarousel(items: any[], time: number) {
+export function useCarousel(items: any[], initialTime: number) {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [selectedItem, setSelectedItem] = useState(items[0]);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      selectNewItem(selectedIndex, items);
-    }, time * 1000);
+  const changeSelectedItem = () => {
+    selectNewItem(selectedIndex, items);
+  };
 
-    return () => clearInterval(interval);
+  useEffect(() => {
+    if (!isArrayWithVideos(items)) {
+      const interval = setInterval(() => {
+        selectNewItem(selectedIndex, items);
+      }, initialTime * 1000);
+
+      return () => clearInterval(interval);
+    }
   });
 
   const selectNewItem = (index: number, items: string[]) => {
@@ -20,5 +27,5 @@ export function useCarousel(items: any[], time: number) {
     setSelectedItem(items[newIndex]);
   };
 
-  return { selectedIndex, selectedItem };
+  return { selectedIndex, selectedItem, changeSelectedItem };
 }

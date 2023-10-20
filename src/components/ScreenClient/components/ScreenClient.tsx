@@ -1,18 +1,20 @@
 import { useConnectionSocket } from '../hooks/useConnectionSocket';
-import Advertising from './Advertising/Advertising';
-import Courses from './Course/Courses';
+import Screen from './Screen';
+import { useEffect } from 'react';
+import { useScreen } from '../store/useScreen';
+import Loader from '../styled-components/Loader';
+import { useConnectionMessage } from '../store/useConnectionMessage';
 
-function ScreenClient() {
-  const { socketConnection, error } = useConnectionSocket();
+function ScreenClient({ screenId }: { screenId: number }) {
+  const { socketConnection } = useConnectionSocket(screenId);
+  const setScreenId = useScreen((state) => state.setScreenId);
+  const typeScreen = useConnectionMessage((state) => state.connectionMessage);
 
-  console.log(socketConnection?.url, error);
+  useEffect(() => {
+    setScreenId(screenId);
+  }, [screenId]);
 
-  return (
-    <main className="bg-[#D9D9D9] h-screen grid grid-cols-12 gap-[1vh]">
-      <Advertising />
-      <Courses />
-    </main>
-  );
+  return socketConnection && typeScreen.sector.id ? <Screen /> : <Loader />;
 }
 
 export default ScreenClient;
