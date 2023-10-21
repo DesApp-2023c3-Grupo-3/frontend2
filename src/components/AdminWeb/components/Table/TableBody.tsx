@@ -17,11 +17,14 @@ function TableBody({ dataJSON, columns, onRowClick }: TableBodyProps) {
               return (
                 <th
                   key={columnName}
-                  className={`px-4 py-4 ${
+                  className={`px-6 py-4 
+                  ${
                     columnName === ''
                       ? 'w-[3em] flex justify-center'
-                      : 'w-[24em]'
-                  }`}
+                      : 'w-[24em] px-4 py-4 '
+                  } 
+                  ${columnName === 'Estado' ? 'w-[16px] ' : ''}
+                  `}
                 >
                   {columnName}
                 </th>

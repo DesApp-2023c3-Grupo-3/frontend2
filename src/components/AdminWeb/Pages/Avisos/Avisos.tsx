@@ -101,7 +101,7 @@ function Avisos() {
       },
     ],
     [
-      'Programacion',
+      'Programación',
       (advertising: Advertising) => {
         return starthour(advertising) + '-' + endhour(advertising);
       },
