@@ -15,7 +15,14 @@ function TableBody({ dataJSON, columns, onRowClick }: TableBodyProps) {
           <tr>
             {Array.from(columns.keys()).map((columnName) => {
               return (
-                <th key={columnName} className="px-4 py-4 w-[24.563em]">
+                <th
+                  key={columnName}
+                  className={`px-4 py-4 ${
+                    columnName === ''
+                      ? 'w-[3em] flex justify-center'
+                      : 'w-[24em]'
+                  }`}
+                >
                   {columnName}
                 </th>
               );

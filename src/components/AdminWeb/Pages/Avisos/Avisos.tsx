@@ -44,7 +44,7 @@ function Avisos() {
 
   const user = (name: string) => {
     return (
-      <div className="m-2 ml-10 flex justify-center items-center text-white text-[32px] font-[500] bg-[#2C9CBF] rounded-full w-[60px] h-[60px] text-center">
+      <div className="m-2 flex justify-center items-center text-white text-[32px] font-[500] bg-[#2C9CBF] rounded-full w-[60px] h-[60px] text-center">
         {name}
       </div>
     );
