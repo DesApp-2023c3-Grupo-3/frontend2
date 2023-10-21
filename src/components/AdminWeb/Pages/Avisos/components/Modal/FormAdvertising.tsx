@@ -2,7 +2,7 @@ import DatePickerDays from '../../../../components/DatePickerDays';
 import Sectores, { Sector } from '../../../../components/Sectores';
 import ImageTextVideo from './ImageTextVideo/ImageTextVideo';
 import DayPicker, { Days } from './DayPicker';
-import PickerTime from './PickerTime';
+import PickerTime from '../../../../components/PickerTime';
 import Swal from 'sweetalert2';
 import './form.sass';
 import dayjs, { Dayjs } from 'dayjs';

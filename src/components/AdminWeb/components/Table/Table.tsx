@@ -1,25 +1,22 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Pagination, ThemeProvider } from '@mui/material';
 import SearchBar from './SearchBar';
-import TableAdvertising from './TableAdvertising';
-import { Advertising } from '../../../../types/customTypes';
-import theme from '../../../../config/createTheme';
+import theme from '../../config/createTheme';
+import TableBody from './TableBody';
 
-interface TableMainProps {
-  advertisingsJSON: Advertising[];
-  setAdvertisingsJSON: () => void;
+interface TableProps {
+  dataJSON: any[];
+  columns: Map<string, (data: any) => void>;
+  onRowClick: (data: any) => void;
 }
 
-function TableMain({
-  advertisingsJSON = [],
-  setAdvertisingsJSON,
-}: TableMainProps) {
-  const [itemsPerPage, setItemsPerPage] = React.useState(7);
+function Table({ dataJSON, columns, onRowClick }: TableProps) {
+  const [itemsPerPage, setItemsPerPage] = useState(7);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const adjustItemsPerPage = () => {
       const windowHeight = window.innerHeight;
-      const rowHeight = 140;
+      const rowHeight = 130;
       const maxRowsToShow = Math.floor(windowHeight / rowHeight);
       setItemsPerPage(maxRowsToShow);
     };
@@ -33,8 +30,8 @@ function TableMain({
     };
   }, []);
 
-  const [currentPage, setCurrentPage] = React.useState(1);
-  const [searchTerm, setSearchTerm] = React.useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState('');
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
@@ -51,8 +48,8 @@ function TableMain({
     setCurrentPage(1);
   };
 
-  const filteredData = advertisingsJSON.filter((advertising) =>
-    advertising.name.toLowerCase().includes(searchTerm.toLowerCase()),
+  const filteredData = dataJSON.filter((data) =>
+    data.name.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   const currentData = filteredData.slice(startIndex, endIndex);
@@ -60,9 +57,10 @@ function TableMain({
   return (
     <div className="">
       <SearchBar searchTerm={searchTerm} onSearchChange={handleSearchChange} />
-      <TableAdvertising
-        advertisings={currentData}
-        setAdvertisingsJSON={setAdvertisingsJSON}
+      <TableBody
+        dataJSON={currentData}
+        columns={columns}
+        onRowClick={onRowClick}
       />
       <ThemeProvider theme={theme}>
         <Pagination
@@ -77,4 +75,4 @@ function TableMain({
   );
 }
 
-export default TableMain;
+export default Table;
