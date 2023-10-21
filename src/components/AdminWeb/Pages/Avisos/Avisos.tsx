@@ -1,4 +1,3 @@
-import Button from '../../components/Buttons/Button';
 import Modal from '../../components/Modal';
 import FormAdvertising from './components/Modal/FormAdvertising';
 import { useModal } from '../../hooks/useModal';
@@ -144,15 +143,11 @@ function Avisos() {
           onRowClick={handleRowClick}
         />
         <div className="flex justify-end">
-          <Button
-            onClick={openModal}
-            active={true}
-            label={'NUEVO AVISO'}
-            type={0}
-          />
           <Modal
             isOpen={isOpen}
             closeModal={closeModal}
+            openModal={openModal}
+            label="NUEVO AVISO"
             component={
               <FormAdvertising
                 setAdvertisingsJSON={GetData}
