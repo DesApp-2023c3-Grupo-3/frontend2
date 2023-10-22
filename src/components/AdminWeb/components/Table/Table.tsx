@@ -7,7 +7,7 @@ import TableBody from './TableBody';
 interface TableProps {
   dataJSON: any[];
   columns: Map<string, (data: any) => void>;
-  onRowClick: (data: any) => void;
+  onRowClick?: (data: any) => void;
 }
 
 function Table({ dataJSON, columns, onRowClick }: TableProps) {
