@@ -8,17 +8,11 @@ interface ModalProps {
   isOpen: boolean;
   closeModal: () => void;
   openModal: () => void;
-  component: React.ReactElement;
+  children: React.ReactElement;
   label: string;
 }
 
-function Modal({
-  isOpen,
-  closeModal,
-  openModal,
-  component,
-  label,
-}: ModalProps) {
+function Modal({ isOpen, closeModal, openModal, children, label }: ModalProps) {
   return (
     <>
       <Button onClick={openModal} active={true} label={label} type={0} />
@@ -54,7 +48,7 @@ function Modal({
                 </svg>
               </button>
             </div>
-            <div>{component}</div>
+            <div>{children}</div>
           </Dialog.Panel>
         </Dialog>
       </Transition>

@@ -148,15 +148,14 @@ function Avisos() {
             closeModal={closeModal}
             openModal={openModal}
             label="NUEVO AVISO"
-            component={
-              <FormAdvertising
-                setAdvertisingsJSON={GetData}
-                closeModal={closeModal}
-                isCreate={!isEditing}
-                advertising={editRow}
-              />
-            }
-          />
+          >
+            <FormAdvertising
+              setAdvertisingsJSON={GetData}
+              closeModal={closeModal}
+              isCreate={!isEditing}
+              advertising={editRow}
+            />
+          </Modal>
         </div>
       </div>
     </section>
