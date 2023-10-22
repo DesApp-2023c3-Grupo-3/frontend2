@@ -1,12 +1,15 @@
 import { useEffect, useState, useTransition } from 'react';
 import { User } from '../../types/customTypes';
 import TableMain from './components/Table/TableMain';
-//import ModalCreateCommission from './components/Modal/ModalCreateCommission';
+import Modal from '../../components/Modal';
+import Button from '../../components/Buttons/Button';
 import { userApi } from '../../../../services/users';
+import { useModal } from '../../hooks/useModal';
 
 function Usuarios() {
   const [usersJSON, setUsersJSON] = useState<any[]>([]);
   const [_, loadUsers] = useTransition();
+  const { isOpen, openModal, closeModal } = useModal();
 
   /*
     `${dayjs(item.schedule.startHour).format('hh:mm')} - ${dayjs(
@@ -48,13 +51,14 @@ function Usuarios() {
   ]);
 
   const updateUsersTable = async () => {
-    const updatedCommissions: any = await userApi.getAll();
-    setUsersJSON((updatedCommissions?.data as User[]) || []);
+    const updatedUsers: any = await userApi.getAll();
+    setUsersJSON((updatedUsers?.data as User[]) || []);
   };
 
   useEffect(() => {
+    openModal();
     loadUsers(() => {
-      //updateUsersTable();
+      updateUsersTable();
     });
   }, []);
 
@@ -66,10 +70,64 @@ function Usuarios() {
       <div className="mt-[-70px] mr-[3.1%]">
         <TableMain rowArray={usersJSON} columns={tableColumns} />
         <div className="flex justify-end">
-          {/*<ModalCreateCommission
-            commissionsJSON={usersJSON}
-            setUsersJSON={usersJSON}
-          />*/}
+          <Modal //Para llamar al modal necesitar usar el hook useModal para el estado del modal
+            isOpen={isOpen}
+            closeModal={closeModal}
+          >
+            <form action="" className="grid grid-cols-2 p-12">
+              <div className="flex flex-col gap-4">
+                <input
+                  type="text"
+                  placeholder="DNI"
+                  className="text-[20px] font-[400] tracking-[-0.4px] rounded-[30px] bg-[#D9D9D9] flex w-[365px] h-[50px] px-[40px] py-[12px] items-center"
+                />
+                <input
+                  type="password"
+                  placeholder="Contraseña"
+                  className="text-[20px] font-[400] tracking-[-0.4px] rounded-[30px] bg-[#D9D9D9] flex w-[365px] h-[50px] px-[40px] py-[12px] items-center"
+                />
+                <input
+                  type="text"
+                  placeholder="Nombre"
+                  className="text-[20px] font-[400] tracking-[-0.4px] rounded-[30px] bg-[#D9D9D9] flex w-[365px] h-[50px] px-[40px] py-[12px] items-center"
+                />
+                <input
+                  type="text"
+                  placeholder="Rol del usuario"
+                  className="text-[20px] font-[400] tracking-[-0.4px] rounded-[30px] bg-[#D9D9D9] flex w-[365px] h-[50px] px-[40px] py-[12px] items-center"
+                />
+                <select id="role" name="role" className="hidden">
+                  <option value="">A</option>
+                  <option value="">B</option>
+                </select>
+              </div>
+              <div className="flex flex-col items-center gap-8">
+                <article className="text-center">
+                  <img
+                    src="https://cdn.discordapp.com/attachments/1143714208404471908/1165447224805826601/Usuario.png?ex=6546e24f&is=65346d4f&hm=9d49d67482396f4d8b724cfc900d52b7a47382794abf63292d137ebafb7b0bc2&"
+                    alt="User preview"
+                  />
+                  <h4 className="text-xl font-bold mt-2">Administrador</h4>
+                  <span className="">Administrador</span>
+                </article>
+                <Button
+                  label="Guardar"
+                  onClick={closeModal}
+                  active={true}
+                  type={1}
+                />
+              </div>
+            </form>
+          </Modal>
+          <div className="flex justify-between mt-[2em] mx-[4.5em]">
+            <Button
+              onClick={openModal}
+              active={true}
+              type={0}
+              label="NUEVO USUARIO"
+              className="bg-[#2C9CBF] rounded-[15px] select-none py-[16px] w-[236px] text-white font-[600] text-[20px]"
+            />
+          </div>
         </div>
       </div>
     </div>
