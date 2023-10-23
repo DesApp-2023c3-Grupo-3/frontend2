@@ -1,138 +1,26 @@
 import ScreenCard from './components/ScreenCard';
-
-const screens = [
-  {
-    screenTitle: 'Pantalla 1',
-    sectorTitle: 'Malvinas Argentinas',
-    typeScreen: 1,
-  },
-  {
-    screenTitle: 'Pantalla 2',
-    sectorTitle: 'Malvinas Argentinas',
-    typeScreen: 1,
-  },
-  {
-    screenTitle: 'Pantalla 3',
-    sectorTitle: 'Malvinas Argentinas',
-    typeScreen: 1,
-  },
-  {
-    screenTitle: 'Pantalla 4',
-    sectorTitle: 'Malvinas Argentinas',
-    typeScreen: 1,
-  },
-  {
-    screenTitle: 'Pantalla 5',
-    sectorTitle: 'Malvinas Argentinas',
-    typeScreen: 1,
-  },
-  {
-    screenTitle: 'Pantalla 5',
-    sectorTitle: 'Malvinas Argentinas',
-    typeScreen: 1,
-  },
-  {
-    screenTitle: 'Pantalla 5',
-    sectorTitle: 'Malvinas Argentinas',
-    typeScreen: 1,
-  },
-  {
-    screenTitle: 'Pantalla 5',
-    sectorTitle: 'Malvinas Argentinas',
-    typeScreen: 1,
-  },
-  {
-    screenTitle: 'Pantalla 5',
-    sectorTitle: 'Malvinas Argentinas',
-    typeScreen: 1,
-  },
-  {
-    screenTitle: 'Pantalla 5',
-    sectorTitle: 'Malvinas Argentinas',
-    typeScreen: 1,
-  },
-  {
-    screenTitle: 'Pantalla 5',
-    sectorTitle: 'Malvinas Argentinas',
-    typeScreen: 1,
-  },
-  {
-    screenTitle: 'Pantalla 5',
-    sectorTitle: 'Malvinas Argentinas',
-    typeScreen: 1,
-  },
-  {
-    screenTitle: 'Pantalla 5',
-    sectorTitle: 'Malvinas Argentinas',
-    typeScreen: 1,
-  },
-  {
-    screenTitle: 'Pantalla 5',
-    sectorTitle: 'Malvinas Argentinas',
-    typeScreen: 1,
-  },
-  {
-    screenTitle: 'Pantalla 5',
-    sectorTitle: 'Malvinas Argentinas',
-    typeScreen: 1,
-  },
-  {
-    screenTitle: 'Pantalla 5',
-    sectorTitle: 'Malvinas Argentinas',
-    typeScreen: 1,
-  },
-  {
-    screenTitle: 'Pantalla 5',
-    sectorTitle: 'Malvinas Argentinas',
-    typeScreen: 1,
-  },
-  {
-    screenTitle: 'Pantalla 5',
-    sectorTitle: 'Malvinas Argentinas',
-    typeScreen: 1,
-  },
-  {
-    screenTitle: 'Pantalla 5',
-    sectorTitle: 'Malvinas Argentinas',
-    typeScreen: 1,
-  },
-  {
-    screenTitle: 'Pantalla 5',
-    sectorTitle: 'Malvinas Argentinas',
-    typeScreen: 1,
-  },
-  {
-    screenTitle: 'Pantalla 5',
-    sectorTitle: 'Malvinas Argentinas',
-    typeScreen: 1,
-  },
-  {
-    screenTitle: 'Pantalla 5',
-    sectorTitle: 'Malvinas Argentinas',
-    typeScreen: 1,
-  },
-  {
-    screenTitle: 'Pantalla 5',
-    sectorTitle: 'Malvinas Argentinas',
-    typeScreen: 1,
-  },
-  {
-    screenTitle: 'Pantalla 5',
-    sectorTitle: 'Malvinas Argentinas',
-    typeScreen: 1,
-  },
-];
+import { useFilters } from './store/useFilters';
+import { useScreens } from './store/useScreens';
 
 function ScreenMain() {
+  const screens = useScreens((state) => state.screens);
+  const sector = useFilters((state) => state.sector);
+
+  const filteredScreens = screens.filter(
+    (screen) => screen.sectorTitle === sector || sector === 'Todos',
+  );
+
   return (
     <main className="h-full">
       <section className="h-full grid grid-cols-[repeat(auto-fit,_minmax(190px,_1fr))] gap-4">
-        {screens.map((screen, index) => (
+        {filteredScreens.map((screen, index) => (
           <ScreenCard
             key={index}
+            id={screen.id}
             screenTitle={screen.screenTitle}
             sectorTitle={screen.sectorTitle}
             typeScreen={screen.typeScreen}
+            isSelected={screen.isSelected}
           />
         ))}
       </section>
