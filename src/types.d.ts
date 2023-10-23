@@ -5,10 +5,10 @@ type Advertising = {
   createdAt: string,
   updatedAt: string,
   deletedAt: null,
-  advertisingType: advertisingType
+  advertisingType: AdvertisingType
   user: User
-  advertisingSectors: advertisingSectors[]
-  advertisingSchedules : advertisingSchedules[]
+  advertisingSectors: AdvertisingSectors[]
+  advertisingSchedules: AdvertisingSchedules[]
   status: string
 };
 
