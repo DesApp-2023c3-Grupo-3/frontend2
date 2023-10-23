@@ -19,6 +19,14 @@
       "ecmaVersion": 12,
       "sourceType": "module"
     },
+    "overrides": [
+      {
+          "files": ["*.ts"],
+          "rules": {
+              "no-undef": "off"
+          }
+      }
+    ],
     "plugins": [
       "react",
       "jsx-a11y"
@@ -34,7 +42,6 @@
     "rules": {
       "react/react-in-jsx-scope": "off",
       "no-unused-vars": "warn",
-      "no-undef": "off",
       "react-hooks/exhaustive-deps": "off"
     }
   }
