@@ -12,10 +12,10 @@ function ScreenMain() {
 
   return (
     <main className="h-full">
-      <section className="h-full grid grid-cols-[repeat(auto-fit,_minmax(190px,_1fr))] gap-4">
+      <section className="grid justify-items-center grid-cols-[repeat(auto-fit,_minmax(192px,_1fr))] gap-y-4">
         {filteredScreens.map((screen, index) => (
           <ScreenCard
-            key={index}
+            key={screen.id}
             id={screen.id}
             screenTitle={screen.screenTitle}
             sectorTitle={screen.sectorTitle}

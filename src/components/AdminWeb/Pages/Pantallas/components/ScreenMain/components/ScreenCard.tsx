@@ -1,4 +1,5 @@
 import typeScreenOne from '../../../../../assets/typeScreen1.png';
+import typeScreenTwo from '../../../../../assets/typeScreen2.png';
 import { useScreens } from '../store/useScreens';
 
 interface ScreenCardProps {
@@ -20,6 +21,7 @@ function ScreenCard({
 
   const imageScreen: Record<number, string> = {
     1: typeScreenOne,
+    2: typeScreenTwo,
   };
 
   return (
