@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, useLocation, Navigate } from 'react-router-dom';
 import './App.css';
 import './components/AdminWeb/AdminWeb.sass';
 import ScreenClient from './components/ScreenClient/components/ScreenClient';
@@ -16,7 +16,7 @@ function TitleUpdater() {
         document.title = 'Iniciar Sesión';
         break;
       case '/screen':
-        document.title = 'Preview de Carteleras';
+        document.title = 'Cartelera';
         break;
       case '/admin':
         document.title = 'Administración';
@@ -37,7 +37,8 @@ function App() {
       <Routes>
         <Route path="/" element={<LoginScreen setScreenId={setCurrentScreenId} />} />
         <Route path="/screen" element={<ScreenClient screenId={currentScreenId} />} />
-        <Route path="/admin/*" element={<AdminWeb />} />
+        <Route path="/admin" element={<Navigate to="/admin/advertising" />} />
+        <Route path="/admin/*" element={<AdminWeb />}/>
       </Routes>
       <TitleUpdater />
     </BrowserRouter>
