@@ -1,6 +1,6 @@
 import typeScreenOne from '../../../../../assets/typeScreen1.png';
 import typeScreenTwo from '../../../../../assets/typeScreen2.png';
-import { useScreens } from '../store/useScreens';
+import { useScreenFilters } from '../../../store/useScreenFilters';
 
 interface ScreenCardProps {
   id: number;
@@ -17,7 +17,7 @@ function ScreenCard({
   typeScreen,
   isSelected,
 }: ScreenCardProps) {
-  const selectScreen = useScreens((state) => state.selectScreen);
+  const selectScreen = useScreenFilters((state) => state.selectScreen);
 
   const imageScreen: Record<number, string> = {
     1: typeScreenOne,
@@ -30,15 +30,17 @@ function ScreenCard({
         isSelected
           ? 'border-8 border-[#9F9F9F]'
           : 'hover:border-8 hover:border-[#9F9F9F]'
-      }  relative flex flex-col text-center justify-center items-center bg-[#222222] w-48 h-48 rounded-3xl overflow-hidden text-white`}
+      }  relative flex flex-col justify-center items-center bg-[#222222] w-48 h-48 rounded-3xl `}
     >
       <button
         onClick={() => selectScreen(id)}
-        className="absolute h-full w-full z-10"
+        className="absolute h-full w-full z-50"
       ></button>
-      <span className="text-3xl">{screenTitle}</span>
-      <span className="text-lg">{sectorTitle}</span>
-      <div className="absolute opacity-[15%] h-full w-full">
+      <div className="flex flex-col justify-center items-center relative h-full w-full z-40 text-white">
+        <span className="text-3xl">{screenTitle}</span>
+        <span className="text-lg">{sectorTitle}</span>
+      </div>
+      <div className="absolute opacity-[10%] h-full w-full">
         <img
           src={imageScreen[typeScreen]}
           alt="pantalla"

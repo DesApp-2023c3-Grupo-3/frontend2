@@ -1,14 +1,16 @@
 import { useEffect } from 'react';
-import { useScreens } from '../../ScreenMain/store/useScreens';
-import { useFilters } from '../../ScreenMain/store/useFilters';
+import { useScreenFilters } from '../../../store/useScreenFilters';
+import { useFilters } from '../../../store/useFilters';
 
 function SelectAllFilter() {
   const [isSelectedAll, setIsSelectedAll] = useFilters((state) => [
     state.isSelectedAll,
     state.setIsSelectedAll,
   ]);
-  const selectAllTheScreens = useScreens((state) => state.selectAllTheScreens);
-  const deselectAllTheScreens = useScreens(
+  const selectAllTheScreens = useScreenFilters(
+    (state) => state.selectAllTheScreens,
+  );
+  const deselectAllTheScreens = useScreenFilters(
     (state) => state.deselectAllTheScreens,
   );
 

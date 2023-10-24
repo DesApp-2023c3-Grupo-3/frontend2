@@ -4,8 +4,9 @@ import {
   Select,
   SelectChangeEvent,
 } from '@mui/material';
-import { useFilters } from '../../ScreenMain/store/useFilters';
-import { useScreens } from '../../ScreenMain/store/useScreens';
+import { useFilters } from '../../../store/useFilters';
+import { useScreenFilters } from '../../../store/useScreenFilters';
+import { getSectores } from '../../../utils/getSectores';
 
 function SelectSectorFilter() {
   const [sector, setSector, setIsSelectedAll] = useFilters((state) => [
@@ -13,9 +14,10 @@ function SelectSectorFilter() {
     state.setSector,
     state.setIsSelectedAll,
   ]);
-  const deselectAllTheScreens = useScreens(
-    (state) => state.deselectAllTheScreens,
-  );
+  const [deselectAllTheScreens, screens] = useScreenFilters((state) => [
+    state.deselectAllTheScreens,
+    state.screens,
+  ]);
 
   const handleChange = (event: SelectChangeEvent<string>) => {
     setSector(event.target.value);
@@ -36,8 +38,11 @@ function SelectSectorFilter() {
           sx={{ fontSize: '1.1rem' }}
         >
           <MenuItem value="Todos">Todos</MenuItem>
-          <MenuItem value="Malvinas Argentinas">Malvinas Argentinas</MenuItem>
-          <MenuItem value="Sector 3">Sector 3</MenuItem>
+          {getSectores(screens).map((screen, index) => (
+            <MenuItem key={index} value={screen}>
+              {screen}
+            </MenuItem>
+          ))}
         </Select>
       </FormControl>
     </div>

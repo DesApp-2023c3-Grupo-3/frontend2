@@ -18,12 +18,8 @@ interface StoreScreen {
     selectScreen: (id:number) => void
 }
 
-export const useScreens = create<StoreScreen>()((set, get) => ({
-    screens: [],
-
-    setScreens: (newScreens:Screen[]) => {
-        
-    },
+export const useScreenFilters = create<StoreScreen>()((set, get) => ({
+    screens: screensMock,
 
     selectAllTheScreens: () => {
         const newScreens = get().screens.map(screen => {
