@@ -13,16 +13,13 @@ function TitleUpdater() {
   useEffect(() => {
     switch (location.pathname) {
       case '/':
-        document.title = 'Iniciar Sesión';
+        document.title = 'Cartelera UNAHUR';
         break;
       case '/screen':
-        document.title = 'Cartelera';
-        break;
-      case '/admin':
-        document.title = 'Administración';
+        document.title = 'Cartelera UNAHUR | Preview';
         break;
       default:
-        document.title = 'Servicio de Carteleras UNAHUR';
+        document.title = 'Cartelera UNAHUR | Administrador';
     }
   }, [location]);
 
