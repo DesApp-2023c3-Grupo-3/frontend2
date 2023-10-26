@@ -65,16 +65,20 @@ function ScreenConfig() {
           return <CardModal key={index} onClick={handleClick} card={card} />;
         })}
       </div>
-      {isAnyCardSelected && (
-        <div className="flex gap-24">
-          {cardSelected?.id !== 3 && (
-            <QuantityInput title="Velocidad de los avisos" />
-          )}
-          {cardSelected?.id === 1 && (
-            <QuantityInput title="Velocidad de las comisiones" />
-          )}
-        </div>
-      )}
+
+      <div className="flex gap-24">
+        {isAnyCardSelected && (
+          <>
+            {cardSelected?.id !== 3 && (
+              <QuantityInput title="Velocidad de los avisos" />
+            )}
+            {cardSelected?.id === 1 && (
+              <QuantityInput title="Velocidad de las comisiones" />
+            )}
+          </>
+        )}
+      </div>
+
       <ButtonDisabled
         action={() => {}}
         label="APLICAR"
