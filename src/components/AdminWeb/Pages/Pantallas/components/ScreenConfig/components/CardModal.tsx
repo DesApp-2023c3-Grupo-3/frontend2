@@ -18,7 +18,7 @@ export default function CardModal({
   return (
     <section
       className={`border-4 overflow-hidden box-border relative rounded-3xl ${
-        isSelected ? 'border-green-400' : 'border-slate-200'
+        isSelected ? 'border-[#2C9CBF]' : 'border-slate-200'
       }`}
     >
       <button
