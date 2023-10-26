@@ -14,7 +14,7 @@ function Pantallas() {
       <Modal
         isOpen={isOpen}
         closeModal={closeModal}
-        component={<ScreenConfig />}
+        component={<ScreenConfig closeModal={closeModal} />}
       />
     </section>
   );

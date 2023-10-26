@@ -1,68 +1,39 @@
 import CardModal from './components/CardModal';
-import typeScreenOne from '../../../../assets/typeScreen1.png';
-import typeScreenTwo from '../../../../assets/typeScreen2.png';
-import typeScreenThree from '../../../../assets/typeScreen3.png';
-import { useState, useEffect } from 'react';
 import QuantityInput from './components/QuantityInput';
 import ButtonDisabled from '../ButtonDisabled';
+import { useConfig } from '../../hooks/useConfig';
+import { useCard } from '../../hooks/useCards';
+import Swal from 'sweetalert2';
 
-const initialCards = [
-  {
-    id: 1,
-    title: 'Avisos y comisiones',
-    description:
-      'Avisos en forma de imagen y vídeo, con la tabla de las comisiones como foco principal',
-    image: typeScreenOne,
-    isSelected: false,
-  },
-  {
-    id: 2,
-    title: 'Avisos y vídeos',
-    description:
-      'Avisos en forma de imagen y vídeo, con los vídeos como foco principal',
-    image: typeScreenTwo,
-    isSelected: false,
-  },
-  {
-    id: 3,
-    title: 'Vídeos',
-    description:
-      'Avisos en forma de vídeo, los vídeos son lo único que se muestra',
-    image: typeScreenThree,
-    isSelected: false,
-  },
-];
+const Toast = Swal.mixin({
+  toast: true,
+  position: 'bottom-end',
+  showConfirmButton: false,
+  timer: 3000,
+  timerProgressBar: true,
+});
 
-function ScreenConfig() {
-  const [cards, setCards] = useState(initialCards);
-
-  useEffect(() => {
-    return () => {
-      const closeCards = cards.map((card) => {
-        card.isSelected = false;
-        return card;
-      });
-      setCards(closeCards);
-    };
-  }, []);
-
-  const handleClick = (id: number) => {
-    const newCards = cards.map((card) => {
-      if (card.id === id) card.isSelected = !card.isSelected;
-      else card.isSelected = false;
-      return card;
+function ScreenConfig({ closeModal }: { closeModal: () => void }) {
+  const { config, changeCourseIntervalTime, changeAdvertisingIntervalTime } =
+    useConfig({
+      advertisingIntervalTime: 15,
+      courseIntervalTime: 15,
     });
-    setCards(newCards);
-  };
+  const { cards, selectCard, cardSelected, isAnyCardSelected } = useCard();
 
-  const cardSelected = cards.find((card) => card.isSelected);
-  const isAnyCardSelected = cards.some((card) => card.isSelected);
+  const handleClick = () => {
+    closeModal();
+    Toast.fire({
+      icon: 'success',
+      title: 'Se aplico correctamente',
+    });
+  };
 
   return (
     <section className="z-50 flex items-center justify-center flex-col px-10 py-5 gap-4">
       <div className="flex gap-10">
         {cards.map((card, index) => {
-          return <CardModal key={index} onClick={handleClick} card={card} />;
+          return <CardModal key={index} onClick={selectCard} card={card} />;
         })}
       </div>
 
@@ -70,17 +41,23 @@ function ScreenConfig() {
         {isAnyCardSelected && (
           <>
             {cardSelected?.id !== 3 && (
-              <QuantityInput title="Velocidad de los avisos" />
+              <QuantityInput
+                title="Velocidad de los avisos"
+                onChange={changeAdvertisingIntervalTime}
+              />
             )}
             {cardSelected?.id === 1 && (
-              <QuantityInput title="Velocidad de las comisiones" />
+              <QuantityInput
+                title="Velocidad de las comisiones"
+                onChange={changeCourseIntervalTime}
+              />
             )}
           </>
         )}
       </div>
 
       <ButtonDisabled
-        action={() => {}}
+        action={handleClick}
         label="APLICAR"
         condition={isAnyCardSelected}
         styleActive="rounded-lg flex items-center justify-center"

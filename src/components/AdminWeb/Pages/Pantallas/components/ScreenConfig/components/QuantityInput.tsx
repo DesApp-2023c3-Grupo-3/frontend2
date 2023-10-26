@@ -1,10 +1,22 @@
 import { ChangeEvent, useState } from 'react';
 
-export default function QuantityInput({ title }: { title: string }) {
+export default function QuantityInput({
+  title,
+  onChange,
+}: {
+  title: string;
+  onChange: (newConfig: number) => void;
+}) {
   const [count, setCount] = useState(15);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setCount(Math.max(Number(event.currentTarget.value), 1));
+    onChange(count);
+  };
+
+  const handleClick = (result: number) => {
+    setCount(result);
+    onChange(result);
   };
 
   return (
@@ -14,7 +26,7 @@ export default function QuantityInput({ title }: { title: string }) {
         {count < 2 ? (
           <span className="text-gray-500">-</span>
         ) : (
-          <button onClick={() => setCount(count - 1)}>-</button>
+          <button onClick={() => handleClick(count - 1)}>-</button>
         )}
         <input
           type="text"
@@ -23,7 +35,7 @@ export default function QuantityInput({ title }: { title: string }) {
           onChange={handleChange}
           className="text-center text-[#484848] w-10 border-2 rounded border-[#BFBFBF]"
         />
-        <button onClick={() => setCount(count + 1)}>+</button>
+        <button onClick={() => handleClick(count + 1)}>+</button>
       </label>
     </div>
   );
