@@ -17,7 +17,7 @@ const initialCards = [
   },
   {
     id: 2,
-    title: 'Avisos y vídeo',
+    title: 'Avisos y vídeos',
     description:
       'Avisos en forma de imagen y vídeo, con los vídeos como foco principal',
     image: typeScreenTwo,
@@ -25,7 +25,7 @@ const initialCards = [
   },
   {
     id: 3,
-    title: 'Avisos y comisiones',
+    title: 'Vídeos',
     description:
       'Avisos en forma de vídeo, los vídeos son lo único que se muestra',
     image: typeScreenThree,
@@ -55,6 +55,7 @@ function ScreenConfig() {
     setCards(newCards);
   };
 
+  const cardSelected = cards.find((card) => card.isSelected);
   const isAnyCardSelected = cards.some((card) => card.isSelected);
 
   return (
@@ -66,8 +67,12 @@ function ScreenConfig() {
       </div>
       {isAnyCardSelected && (
         <div className="flex gap-24">
-          <QuantityInput title="Velocidad de los avisos" />
-          <QuantityInput title="Velocidad de las comisiones" />
+          {cardSelected?.id !== 3 && (
+            <QuantityInput title="Velocidad de los avisos" />
+          )}
+          {cardSelected?.id === 1 && (
+            <QuantityInput title="Velocidad de las comisiones" />
+          )}
         </div>
       )}
       <ButtonDisabled

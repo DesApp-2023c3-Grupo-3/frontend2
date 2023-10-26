@@ -1,4 +1,3 @@
-import Button from '../../../../components/Buttons/Button';
 import { useScreenFilters } from '../../store/useScreenFilters';
 import ButtonDisabled from '../ButtonDisabled';
 import SelectAllFilter from './components/SelectAllFilter';
