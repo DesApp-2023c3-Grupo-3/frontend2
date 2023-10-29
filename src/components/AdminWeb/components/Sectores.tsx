@@ -3,14 +3,10 @@ import { Listbox, Transition } from '@headlessui/react';
 import { Checkbox } from '@mui/material';
 import { abbreviateSectorName } from '../utils/AbbreviateSectorName';
 import React from 'react';
+import { sectorApi } from '../../../services/sectores';
 
-const sectors: Sector[] = [
-  { id: 1, name: 'Edificio Malvinas' },
-  { id: 2, name: 'Sector 6' },
-  { id: 3, name: 'Sector E' },
-  { id: 4, name: 'Origone A' },
-];
-
+const sectors: any = sectorApi.getSector;
+console.log("sectores:", sectors);
 interface SectoresProps {
   selectedSector: Sector[];
   onSelectedSectorChange: (newSelectedSector: Sector[]) => void;
@@ -102,7 +98,7 @@ function Sectores({
               <span className="m-3 flex justify-center text-[#00000080] text-[20px]">
                 Edificio
               </span>
-              {sectors.map((sector) => (
+              {sectors.map((sector: any) => (
                 <div key={sector.id} className="flex justify-center">
                   <div>
                     <Listbox.Option
@@ -111,7 +107,7 @@ function Sectores({
                           ? 'bg-[#2C9CBF] border-[#2C9CBF]'
                           : 'text-[#000]'
                       }`}
-                      value={sector}
+                      value={sector.name}
                       onClick={() => {
                         handleSectorClick(sector);
                       }}

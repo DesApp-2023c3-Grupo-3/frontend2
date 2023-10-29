@@ -3,8 +3,8 @@ import DatePickerDays from './DatePickerDays';
 import Sectores from './Sectores';
 import React, { useState } from 'react';
 import { Commission } from '../../../../types/customTypes';
-import { abbreviateSectorName } from '../../../../utils/AbbreviateSectorName';
 import { commissionApi } from '../../../../../../services/commissions';
+
 
 interface FormCommissionProps {
   commissionsJSON: Commission[];
@@ -21,19 +21,14 @@ function FormCommission({
   const [tableData, setTableData] = useState<Commission[]>([]);
   const [excelData, setExcelData] = useState<any>();
   const [selectedFileName, setSelectedFileName] = useState('');
-
-  const newCommission = () => {
-    setHasDocument(!hasDocument);
-
-    const startDay = startDate.toLocaleDateString();
-    const endtDay = endDate.toLocaleDateString();
-    const sectores = selectedSector
-      .map((sector) => abbreviateSectorName(sector.name))
-      .join(', ');
-  };
-
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [endDate, setEndDate] = useState<Date>(new Date());
+  const [sector, setSector] = useState<Array<Commission['sector']>>([]);
+  const [selectedSector, setSelectedSector] = useState<Sector[]>([]);
+  
+  const handleSelectedSectorChange = (newSelectedSector: Sector[]) => {
+    setSelectedSector(newSelectedSector);
+  };
 
   const handleStartDateChange = (newStartDate: Date) => {
     setStartDate(newStartDate);
@@ -47,10 +42,7 @@ function FormCommission({
     name: string;
   }
 
-  const [selectedSector, setSelectedSector] = useState<Sector[]>([]);
-  const handleSelectedSectorChange = (newSelectedSector: Sector[]) => {
-    setSelectedSector(newSelectedSector);
-  };
+
 
   const toggleTable = () => {
     setHasDocument(!hasDocument);
