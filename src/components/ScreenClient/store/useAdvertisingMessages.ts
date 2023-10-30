@@ -80,14 +80,22 @@ export const useAdvertisingMessages = create<StoreAdvertising>()((set, get) => (
       )
       .then((advertisings) => get().addAdvertisingMessages(advertisings))
       .catch((error:Error) => get().setError(error.message))
-  },
+    },
 
-  updateAdvertising: (newMessage:DataAdvertising) => {
-    const advertisingMessagesFiltered = get().advertisingMessages.filter(message => message.id !== newMessage.id)
+    updateAdvertising: (newMessage:DataAdvertising) => {
+      const advertisingMessagesFiltered = get().advertisingMessages.filter(message => message.id !== newMessage.id)
 
-    set({
-      advertisingMessages: [...advertisingMessagesFiltered, newMessage]
-    })
-  }
+      set({
+        advertisingMessages: [...advertisingMessagesFiltered, newMessage]
+      })
+    },
+
+    deleteAdvertising: (newMessage:DataAdvertising) => {
+      const advertisingMessagesFiltered = get().advertisingMessages.filter(message => message.id !== newMessage.id)
+
+      set({
+        advertisingMessages: advertisingMessagesFiltered
+      })
+    }
 
 }));
