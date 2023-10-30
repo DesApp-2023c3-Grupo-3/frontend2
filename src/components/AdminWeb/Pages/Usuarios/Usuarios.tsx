@@ -26,8 +26,7 @@ function Usuarios() {
   tableColumns.set('DNI', (user: User) => user.dni);
   tableColumns.set('Nombre', (user: User) => user.name);
   tableColumns.set('Rol', () => selectedSector.name);
-  tableColumns.set('Contraseña', (user: User) => user.password);
-  tableColumns.set('Estado', (user: User) => user.id);
+  tableColumns.set('Creación', (user: User) => user.createdAt?.toString());
 
   const handleSelectedSectorChange = (newSelectedSector: any) => {
     setSelectedSector(newSelectedSector);
@@ -50,6 +49,15 @@ function Usuarios() {
     e.preventDefault();
     if (!hasValidUser()) return;
 
+    /*userApi.create(
+      {
+        id: selectedSector.id,
+        name: usernameRef.current?.value + '',
+        dni: dniRef.current?.value + '',
+        password: passwordRef.current?.value + '',
+      }
+    )*/
+
     setUsersJSON([
       {
         id: selectedSector.id,
@@ -59,6 +67,8 @@ function Usuarios() {
       },
       ...usersJSON,
     ]);
+
+    updateUsersTable()
     closeModal();
   };
 
@@ -85,7 +95,7 @@ function Usuarios() {
       <div className="mt-[-70px] mr-[3.1%]">
         <TableMain rowArray={usersJSON} columns={tableColumns} />
         <div className="flex justify-end">
-          <Modal //Para llamar al modal necesitar usar el hook useModal para el estado del modal
+          <Modal
             isOpen={isOpen}
             closeModal={closeModal}
           >
