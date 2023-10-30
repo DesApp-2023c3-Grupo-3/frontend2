@@ -43,7 +43,6 @@ export const useAdvertisingMessages = create<StoreAdvertising>()((set, get) => (
     },
 
     addAvalaibleAdvertisingMessage: () => {
-      setInterval(() => {
         const newAvailableMessages = get().advertisingMessages.filter(message => isActiveMessage({ 
           startHour: message.startHour,
           endHour: message.endHour
@@ -54,7 +53,6 @@ export const useAdvertisingMessages = create<StoreAdvertising>()((set, get) => (
                 avalaibleAdvertisingMessages: newAvailableMessages
               }))
         }
-      }, 1000)
     },
 
     setError: (error:string) => {
