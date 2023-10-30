@@ -23,6 +23,7 @@ type StoreAdvertising = {
     addAvalaibleAdvertisingMessage: () => void
     setError: (error:string) => void
     fetchAdvertisingsByScreenId: (screenId:number) => void
+    updateAdvertising: (message: DataAdvertising) => void
 };
   
 export const useAdvertisingMessages = create<StoreAdvertising>()((set, get) => ({
@@ -79,6 +80,14 @@ export const useAdvertisingMessages = create<StoreAdvertising>()((set, get) => (
       )
       .then((advertisings) => get().addAdvertisingMessages(advertisings))
       .catch((error:Error) => get().setError(error.message))
+  },
+
+  updateAdvertising: (newMessage:DataAdvertising) => {
+    const advertisingMessagesFiltered = get().advertisingMessages.filter(message => message.id !== newMessage.id)
+
+    set({
+      advertisingMessages: [...advertisingMessagesFiltered, newMessage]
+    })
   }
 
 }));

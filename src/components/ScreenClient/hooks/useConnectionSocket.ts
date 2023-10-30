@@ -9,7 +9,8 @@ const ACTION_MESSAGE = {
   CREATE_COURSE: 'CREATE_COURSES',
   CREATE_ADVERTISING: 'CREATE_ADVERTISING',
   START_CONNECTION: 'START_CONNECTION',
-  UPDATE_SCREEN_CONFIGURATION: 'UPDATE_SCREEN_CONFIGURATION'
+  UPDATE_SCREEN_CONFIGURATION: 'UPDATE_SCREEN_CONFIGURATION',
+  UPDATE_ADVERTISING: 'UPDATE_ADVERTISING'
 }
 
 export function useConnectionSocket(screenId: number) {
@@ -17,7 +18,7 @@ export function useConnectionSocket(screenId: number) {
   const [error, setError] = useState<Error>();
   
   const setConnection = useConnectionMessage(state => state.setConnection)
-  const addAdvertisingMessage = useAdvertisingMessages(state => state.addAdvertisingMessage)
+  const [addAdvertisingMessage, updateAdvertising] = useAdvertisingMessages(state => [state.addAdvertisingMessage, state.updateAdvertising])
   const addCourseMessages = useCourseMessages(state => state.addCourseMessages)
 
   const handlerOnMessage = (message: Message) => {
@@ -36,6 +37,8 @@ export function useConnectionSocket(screenId: number) {
       case ACTION_MESSAGE.UPDATE_SCREEN_CONFIGURATION:
         setConnection(newMessage.data)
         break
+      case ACTION_MESSAGE.UPDATE_ADVERTISING:
+        updateAdvertising(newMessage.data)
     }
   };
 
