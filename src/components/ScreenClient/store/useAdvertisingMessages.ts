@@ -24,7 +24,8 @@ type StoreAdvertising = {
     setError: (error:string) => void
     fetchAdvertisingsByScreenId: (screenId:number) => void
     updateAdvertising: (message: DataAdvertising) => void
-};
+    deleteAdvertising: (message: DataAdvertising) => void
+}; 
   
 export const useAdvertisingMessages = create<StoreAdvertising>()((set, get) => ({
     advertisingMessages: INITIAL_ADVERTISING,
