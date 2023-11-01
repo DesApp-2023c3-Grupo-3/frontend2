@@ -4,7 +4,7 @@ import Modal from '../../components/Modal';
 import Button from '../../components/Buttons/Button';
 import { userApi } from '../../../../services/users';
 import { useModal } from '../../hooks/useModal';
-import Sectores from '../Comisiones/components/Modal/Sectores';
+import Roles from '../../components/Roles';
 
 function Usuarios() {
   const [isPending, startTransition] = useTransition();
@@ -16,20 +16,19 @@ function Usuarios() {
   const passwordRef = useRef<HTMLInputElement>(null);
   const dniRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
-  const [selectedSector, setSelectedSector] = useState<Sector>({
+  const [selectedRole, setSelectedRole] = useState<UserRole>({
     id: -1,
     name: 'Rol del usuario',
-    topic: 'Undefined',
   });
 
   const tableColumns = new Map<string, (user: any) => void>();
   tableColumns.set('DNI', (user: User) => user.dni);
   tableColumns.set('Nombre', (user: User) => user.name);
-  tableColumns.set('Rol', () => selectedSector.name);
+  tableColumns.set('Rol', () => selectedRole.name);
   tableColumns.set('Creación', (user: User) => user.createdAt?.toString());
 
-  const handleSelectedSectorChange = (newSelectedSector: any) => {
-    setSelectedSector(newSelectedSector);
+  const handleSelectedUserRoleChange = (newSelectedRole: any) => {
+    setSelectedRole(newSelectedRole);
   };
 
   const hasValidUser = () => {
@@ -37,7 +36,7 @@ function Usuarios() {
       !invalidUsername() &&
       !invalidPassword() &&
       !invalidDNI() &&
-      selectedSector.id !== -1
+      selectedRole.id !== -1
     );
   };
 
@@ -49,18 +48,20 @@ function Usuarios() {
     e.preventDefault();
     if (!hasValidUser()) return;
 
-    /*userApi.create(
+    /*
+    userApi.create(
       {
         id: selectedSector.id,
         name: usernameRef.current?.value + '',
         dni: dniRef.current?.value + '',
         password: passwordRef.current?.value + '',
       }
-    )*/
+    ).then(() => updateUsersTable())
+    */
 
     setUsersJSON([
       {
-        id: selectedSector.id,
+        id: selectedRole.id,
         name: usernameRef.current?.value + '',
         dni: dniRef.current?.value + '',
         password: passwordRef.current?.value + '',
@@ -68,7 +69,6 @@ function Usuarios() {
       ...usersJSON,
     ]);
 
-    updateUsersTable()
     closeModal();
   };
 
@@ -130,9 +130,9 @@ function Usuarios() {
                     ref={emailRef}
                     className="hidden text-[20px] font-[400] tracking-[-0.4px] rounded-[30px] bg-[#D9D9D9] flex w-[365px] h-[50px] px-[40px] py-[12px] items-center"
                   />
-                  <Sectores
-                    selectedSector={selectedSector}
-                    onSelectedSectorChange={handleSelectedSectorChange}
+                  <Roles
+                    selectedRole={selectedRole}
+                    onSelectedRoleChange={handleSelectedUserRoleChange}
                   />
                 </div>
                 <div className="flex flex-col items-center gap-8">
@@ -140,11 +140,15 @@ function Usuarios() {
                     <img
                       src="https://cdn.discordapp.com/attachments/1143714208404471908/1165447224805826601/Usuario.png?ex=6546e24f&is=65346d4f&hm=9d49d67482396f4d8b724cfc900d52b7a47382794abf63292d137ebafb7b0bc2&"
                       alt="User preview"
+                      className='hidden'
                     />
+                    <div className='bg-[#2C9CBF] aspect-square h-32 rounded-full relative'>
+                      <span className='text-white text-5xl text-center w-fit h-fit m-auto absolute inset-0 itim'>{selectedRole.name[0]}</span>
+                    </div>
                     <h4 className="text-xl font-bold mt-2">
                       {usernameRef.current?.value}
                     </h4>
-                    <span className="">{selectedSector.name}</span>
+                    <span className="">{selectedRole.name}</span>
                   </article>
                   <Button
                     label={'GUARDAR'}

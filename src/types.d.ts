@@ -26,9 +26,9 @@ type User = {
 type UserRole = {
     id: number,
     name: string,
-    createdAt: string,
-    updatedAt: string,
-    deletedAt: null
+    createdAt?: string,
+    updatedAt?: string,
+    deletedAt?: null
 }
 
 type AdvertisingType = {
