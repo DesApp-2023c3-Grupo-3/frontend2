@@ -24,6 +24,14 @@ function Avisos() {
 
   const { isOpen, openModal, closeModal } = useModal();
 
+  const onCloseClick = () => {
+    closeModal();
+    setTimeout(() => {
+      setEditRow(undefined);
+      setIsEditing(false);
+    }, 250);
+  };
+
   const idRolUser = 1; // TODO: id del rol del usuario logeado
 
   const GetData = () => {
@@ -145,13 +153,13 @@ function Avisos() {
         <div className="flex justify-end">
           <Modal
             isOpen={isOpen}
-            closeModal={closeModal}
+            closeModal={onCloseClick}
             openModal={openModal}
             label="NUEVO AVISO"
           >
             <FormAdvertising
               setAdvertisingsJSON={GetData}
-              closeModal={closeModal}
+              closeModal={onCloseClick}
               isCreate={!isEditing}
               advertising={editRow}
             />
