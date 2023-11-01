@@ -1,5 +1,4 @@
 import { create } from "zustand";
-import { messages } from "../mocks/imagenes";
 import { isActiveMessage } from "../utils/hour";
 import { fetchCourses } from "../services/fetchCourses";
 
@@ -19,16 +18,22 @@ export interface StoreCourse {
     addAvalaibleCourseMessage: () => void
     setError: (error:string) => void
     fetchAdvertisingsBySectorId: (sectorId:number) => void
+    emptyCourseMessages: () => void
 }
   
   
 export const useCourseMessages = create<StoreCourse>()((set, get) => ({
-    courseMessages: messages[0].data,
+    courseMessages: [],
     avalaibleCourseMessages: [],  
     error: '',
 
-    addCourseMessages: (messages: DataCourse[]) => {
+    emptyCourseMessages: () => {
+      set({
+        courseMessages: []
+      })
+    },
 
+    addCourseMessages: (messages: DataCourse[]) => {
       set((state) => ({
         courseMessages: [...state.courseMessages, ...messages],
       }));

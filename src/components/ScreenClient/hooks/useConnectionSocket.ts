@@ -4,26 +4,33 @@ import { Message } from '../mocks/imagenes';
 import { useConnectionMessage } from '../store/useConnectionMessage';
 import { useAdvertisingMessages } from '../store/useAdvertisingMessages';
 import { useCourseMessages } from '../store/useCourseMessage';
+import { useNavigate } from 'react-router-dom'
 
 const ACTION_MESSAGE = {
   CREATE_COURSE: 'CREATE_COURSES',
   CREATE_ADVERTISING: 'CREATE_ADVERTISING',
   START_CONNECTION: 'START_CONNECTION',
   UPDATE_SCREEN_CONFIGURATION: 'UPDATE_SCREEN_CONFIGURATION',
-  UPDATE_ADVERTISING: 'UPDATE_ADVERTISING',
-  DELETE_ADVERTISING: 'DELETE_ADVERTISING',
-  END_CONNECTION: 'END_CONNECTION'
+  UPDATE_ADVERTISING: 'ADVERTISING_UPDATE',
+  DELETE_ADVERTISING: 'ADVERTISING_DELETE',
+  END_CONNECTION: 'SCREEN_CONNECTION_CLOSURE'
 }
 
 export function useConnectionSocket(screenId: number) {
   const [socketConnection, setSocketConnection] = useState<any>();
   const [error, setError] = useState<Error>();
+  const navigate = useNavigate()
   
   const setConnection = useConnectionMessage(state => state.setConnection)
+
   const [addAdvertisingMessage, updateAdvertising, deleteAdvertising] = useAdvertisingMessages(state => 
     [state.addAdvertisingMessage, state.updateAdvertising, state.deleteAdvertising])
+
   const addCourseMessages = useCourseMessages(state => state.addCourseMessages)
 
+  const finishConnection = () => {
+    navigate('/')
+  }
 
   const handlerOnMessage = (message: Message) => {
     const newMessage = message.data
@@ -48,7 +55,7 @@ export function useConnectionSocket(screenId: number) {
         deleteAdvertising(newMessage.data)
         break
       case ACTION_MESSAGE.END_CONNECTION:
-        (() => {})()
+        finishConnection()
         break
     }
   };

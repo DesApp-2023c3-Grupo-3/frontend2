@@ -25,12 +25,19 @@ type StoreAdvertising = {
     fetchAdvertisingsByScreenId: (screenId:number) => void
     updateAdvertising: (message: DataAdvertising) => void
     deleteAdvertising: (message: DataAdvertising) => void
+    emptyAdvertisingsMessages: () => void
 }; 
   
 export const useAdvertisingMessages = create<StoreAdvertising>()((set, get) => ({
     advertisingMessages: INITIAL_ADVERTISING,
     avalaibleAdvertisingMessages: [],
     error: '',
+
+    emptyAdvertisingsMessages: () => {
+      set({
+        advertisingMessages: []
+      })
+    },
 
     addAdvertisingMessage: (message: DataAdvertising) => {
       set((state) => ({
