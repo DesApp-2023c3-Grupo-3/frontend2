@@ -5,6 +5,7 @@ import Button from '../../components/Buttons/Button';
 import { userApi } from '../../../../services/users';
 import { useModal } from '../../hooks/useModal';
 import Roles from '../../components/Roles';
+import dayjs from 'dayjs';
 
 function Usuarios() {
   const [isPending, startTransition] = useTransition();
@@ -24,8 +25,8 @@ function Usuarios() {
   const tableColumns = new Map<string, (user: any) => void>();
   tableColumns.set('DNI', (user: User) => user.dni);
   tableColumns.set('Nombre', (user: User) => user.name);
-  tableColumns.set('Rol', () => selectedRole.name);
-  tableColumns.set('Creación', (user: User) => user.createdAt?.toString());
+  tableColumns.set('Rol', (user: User) => user.role?.name);
+  tableColumns.set('Creación', (user: User) => createdUserDate(user));
 
   const handleSelectedUserRoleChange = (newSelectedRole: any) => {
     setSelectedRole(newSelectedRole);
@@ -44,30 +45,23 @@ function Usuarios() {
   const invalidPassword = () => passwordRef.current?.value.trim() === '';
   const invalidDNI = () => dniRef.current?.value.trim() === '';
 
+  const createdUserDate = (user: User) =>
+    dayjs(user.createdAt).format(
+      'D/MM/YY - hh:mm',
+    );
+
   const createNewUser = (e: FormEvent) => {
     e.preventDefault();
     if (!hasValidUser()) return;
-
-    /*
+    
     userApi.create(
       {
-        id: selectedSector.id,
         name: usernameRef.current?.value + '',
         dni: dniRef.current?.value + '',
         password: passwordRef.current?.value + '',
+        role: selectedRole
       }
     ).then(() => updateUsersTable())
-    */
-
-    setUsersJSON([
-      {
-        id: selectedRole.id,
-        name: usernameRef.current?.value + '',
-        dni: dniRef.current?.value + '',
-        password: passwordRef.current?.value + '',
-      },
-      ...usersJSON,
-    ]);
 
     closeModal();
   };

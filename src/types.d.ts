@@ -13,7 +13,7 @@ type Advertising = {
 };
 
 type User = {
-    id: number,
+    id?: number,
     name: string,
     dni: string,
     password: string,
