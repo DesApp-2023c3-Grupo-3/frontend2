@@ -61,20 +61,22 @@ export const useCourseMessages = create<StoreCourse>()((set, get) => ({
     },
 
     fetchAdvertisingsBySectorId: (sectorId) => {
-      fetchCourses(sectorId)
-        .then(courses =>
-          courses.map((course:any) => {
-            const { classroom, name, schedule, subject } = course
+      if(get().courseMessages.length === 0) {
+        fetchCourses(sectorId)
+          .then(courses =>
+            courses.map((course:any) => {
+              const { classroom, name, schedule, subject } = course
 
-            return {
-              classroom: classroom.name,
-              name,
-              startHour: schedule.startHour,
-              endHour: schedule.endHour,
-              subject: subject.name
-            }
-          })
-        )
-        .then((courses) => get().addCourseMessages(courses))
+              return {
+                classroom: classroom.name,
+                name,
+                startHour: schedule.startHour,
+                endHour: schedule.endHour,
+                subject: subject.name
+              }
+            })
+          )
+          .then((courses) => get().addCourseMessages(courses))
+      }
     }
 }))
