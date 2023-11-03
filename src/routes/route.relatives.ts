@@ -6,4 +6,6 @@ export const ROUTES_RELATIVE = {
     excelToJson: `${API}/image/excel-to-json`,
     advertising: `${API}/advertising`,
     image: `${API}/image`,
+    advertisingScreen: `${API}/advertising/screen`,
+    courseSector: `${API}/course/sector`,
 }
