@@ -19,6 +19,9 @@ function Button({ onClick, active, type, label }: ButtonProps) {
   const deleteType =
     'bg-[white] text-[#ff4949] border-2 border-red-500 rounded-[30px] py-[16px] w-[300px] h-[40px] font-[600] text-[20px] hover:bg-[red]';
 
+  const createMobile =
+    'bg-[#2C9CBF] rounded-[20px] w-[100px] h-[40px] text-[#fff] uppercase text-[14px] font-[700] ';
+
   let style;
 
   switch (type) {
@@ -34,6 +37,8 @@ function Button({ onClick, active, type, label }: ButtonProps) {
     case 3:
       style = deleteType;
       break;
+    case 4:
+      style = createMobile;
   }
 
   return (
