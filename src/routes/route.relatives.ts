@@ -3,5 +3,7 @@ export const ROUTES_RELATIVE = {
     commission: `${API}/course`,
     downloadCommission: `${API}/course/download-template`,
     uploadCommission: `${API}/course/upload`,
-    excelToJson: `${API}/image/excel-to-json`
+    excelToJson: `${API}/image/excel-to-json`,
+    advertising: `${API}/advertising`,
+    image: `${API}/image`,
 }

@@ -1,13 +1,13 @@
-import { instance } from "./base.api.url";
+import axios from 'axios';
+import { ROUTES_RELATIVE } from '../routes/route.relatives';
 
-const endpoint = "image"
 
 export const imageAPI = {
     viewId: function(id : number) {
-        return instance.get(`${endpoint}/${id}/view`)
+        return axios.get(`${ROUTES_RELATIVE.image}/${id}/view`)
     },
     create: function(image : any) {
-        return instance.post(endpoint, image, {
+        return axios.post(ROUTES_RELATIVE.image, image, {
             headers: {
                 "Content-Type": 'multipart/form-data'
               }
