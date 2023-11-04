@@ -4,5 +4,5 @@ export const ROUTES_RELATIVE = {
     downloadCommission: `${API}/course/download-template`,
     uploadCommission: `${API}/course/upload`,
     excelToJson: `${API}/image/excel-to-json`,
-    getSector: `${API}/sector`
+    getSectors: `${API}/sector`
 }

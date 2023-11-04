@@ -276,7 +276,6 @@ function FormAdvertising({
             <Sectores
               selectedSector={selectedSector}
               onSelectedSectorChange={setSelectedSector}
-              campos={emptyFields}
             />
             <div>
               {ErrorMessage(
