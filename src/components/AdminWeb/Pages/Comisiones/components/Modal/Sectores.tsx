@@ -1,14 +1,8 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useState, useEffect } from 'react';
 import { Listbox, Transition } from '@headlessui/react';
 import { abbreviateSectorName } from '../../../../utils/AbbreviateSectorName';
 import { Checkbox } from '@mui/material';
-
-const sectors = [
-  { id: 1, name: 'Edificio Malvinas' },
-  { id: 2, name: 'Sector 6' },
-  { id: 3, name: 'Sector E' },
-  { id: 4, name: 'Origone A' },
-];
+import { sectorApi } from '../../../../../../services/sectores';
 
 interface SectoresProps {
   selectedSector: Sector[];
@@ -17,6 +11,12 @@ interface SectoresProps {
 
 function Sectores({ selectedSector, onSelectedSectorChange }: SectoresProps) {
   const [selectAll, setSelectAll] = useState(false);
+  const [sectorArray, setSectorArray] = useState<Sector[]>([]);
+
+  const updateSectorArray = async () => {
+    const newSectors = await sectorApi.getSector()
+    setSectorArray(newSectors as Sector[])
+  }
 
   const handleSelectAllChange = (event: {
     target: { checked: boolean | ((prevState: boolean) => boolean) };
@@ -24,11 +24,15 @@ function Sectores({ selectedSector, onSelectedSectorChange }: SectoresProps) {
     setSelectAll(event.target.checked);
 
     if (!selectAll) {
-      onSelectedSectorChange(sectors);
+      onSelectedSectorChange(sectorArray);
     } else {
       onSelectedSectorChange([]);
     }
   };
+
+  useEffect(() => {
+    updateSectorArray()
+  }, [])
 
   return (
     <div className="w-[365px] h-[50px] mt-[17px]">
@@ -37,7 +41,7 @@ function Sectores({ selectedSector, onSelectedSectorChange }: SectoresProps) {
         onChange={onSelectedSectorChange}
         multiple
       >
-        <div className="fixed flex-row justify-center z-10">
+        <div className="fixed flex-row justify-center z-[10000]">
           <Listbox.Button
             className={
               'text-[20px] font-[400] tracking-[-0.4px] rounded-[30px] bg-[#D9D9D9] flex w-[365px] h-[50px] px-[40px] py-[12px] items-center'
@@ -82,7 +86,7 @@ function Sectores({ selectedSector, onSelectedSectorChange }: SectoresProps) {
               <span className="m-3 flex justify-center text-[#00000080] text-[20px]">
                 Edificio
               </span>
-              {sectors.map((sector, sextorIdx) => (
+              {sectorArray.map((sector, sextorIdx) => (
                 <div key={sextorIdx} className="flex justify-center">
                   <div>
                     <Listbox.Option
@@ -139,7 +143,7 @@ function Sectores({ selectedSector, onSelectedSectorChange }: SectoresProps) {
 
 export default Sectores;
 
-interface Sector {
+export interface Sector {
   id: number;
   name: string;
 }
