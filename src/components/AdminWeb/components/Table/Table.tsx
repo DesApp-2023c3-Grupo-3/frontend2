@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Pagination, ThemeProvider } from '@mui/material';
-import theme from '../../../../config/createTheme';
 import SearchBar from './SearchBar';
-import TableCommisions from './TableCommissions';
-import { Commission } from '../../../../types/customTypes';
+import theme from '../../config/createTheme';
+import TableBody from './TableBody';
 
-function TableMain({ commissionsJSON }: { commissionsJSON: Commission[] }) {
+interface TableProps {
+  dataJSON: any[];
+  columns: Map<string, (data: any) => void>;
+  onRowClick?: (data: any) => void;
+}
+
+function Table({ dataJSON, columns, onRowClick }: TableProps) {
   const [itemsPerPage, setItemsPerPage] = useState(7);
 
   useEffect(() => {
@@ -43,19 +48,20 @@ function TableMain({ commissionsJSON }: { commissionsJSON: Commission[] }) {
     setCurrentPage(1);
   };
 
-  const filteredData = commissionsJSON.filter(
-    (commision) =>
-      commision.subject.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      commision.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      commision.classroom.name.toLowerCase().includes(searchTerm.toLowerCase()),
+  const filteredData = dataJSON.filter((data) =>
+    data.name.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   const currentData = filteredData.slice(startIndex, endIndex);
 
   return (
-    <div className="tableMain">
+    <div className="">
       <SearchBar searchTerm={searchTerm} onSearchChange={handleSearchChange} />
-      <TableCommisions commissions={currentData} />
+      <TableBody
+        dataJSON={currentData}
+        columns={columns}
+        onRowClick={onRowClick}
+      />
       <ThemeProvider theme={theme}>
         <Pagination
           className="flex justify-center bg-white pt-10"
@@ -69,4 +75,4 @@ function TableMain({ commissionsJSON }: { commissionsJSON: Commission[] }) {
   );
 }
 
-export default TableMain;
+export default Table;
