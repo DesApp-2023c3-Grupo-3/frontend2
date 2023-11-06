@@ -1,7 +1,6 @@
 import { Fragment, useState, useEffect } from 'react';
 import { Listbox, Transition } from '@headlessui/react';
 import { abbreviateSectorName } from '../../../../utils/AbbreviateSectorName';
-import { Checkbox } from '@mui/material';
 import { sectorApi } from '../../../../../../services/sectores';
 
 interface SectoresProps {
@@ -10,25 +9,12 @@ interface SectoresProps {
 }
 
 function Sectores({ selectedSector, onSelectedSectorChange }: SectoresProps) {
-  const [selectAll, setSelectAll] = useState(false);
   const [sectorArray, setSectorArray] = useState<Sector[]>([]);
 
   const updateSectorArray = async () => {
     const newSectors = await sectorApi.getSector()
     setSectorArray(newSectors as Sector[])
   }
-
-  const handleSelectAllChange = (event: {
-    target: { checked: boolean | ((prevState: boolean) => boolean) };
-  }) => {
-    setSelectAll(event.target.checked);
-
-    if (!selectAll) {
-      onSelectedSectorChange(sectorArray);
-    } else {
-      onSelectedSectorChange([]);
-    }
-  };
 
   useEffect(() => {
     updateSectorArray()
@@ -39,7 +25,7 @@ function Sectores({ selectedSector, onSelectedSectorChange }: SectoresProps) {
       <Listbox
         value={selectedSector}
         onChange={onSelectedSectorChange}
-        multiple
+        multiple={false}
       >
         <div className="fixed flex-row justify-center z-[10000]">
           <Listbox.Button
@@ -126,13 +112,6 @@ function Sectores({ selectedSector, onSelectedSectorChange }: SectoresProps) {
                   </div>
                 </div>
               ))}
-              <div className="flex justify-center items-center">
-                <Checkbox
-                  checked={selectAll}
-                  onChange={handleSelectAllChange}
-                />
-                <span>Seleccionar todo</span>
-              </div>
             </Listbox.Options>
           </Transition>
         </div>
