@@ -1,4 +1,6 @@
+import axios from "axios";
 import { instance } from "./base.api.url";
+import { ROUTES_RELATIVE } from "../routes/route.relatives";
 
 const endpoint = "image"
 
@@ -12,5 +14,10 @@ export const imageAPI = {
                 "Content-Type": 'multipart/form-data'
               }
         })
-    }
+    },
+    viewQr: function() {
+        return axios.get(ROUTES_RELATIVE.planeViewQr, {
+            responseType: 'arraybuffer', 
+          })
+    },
 }
