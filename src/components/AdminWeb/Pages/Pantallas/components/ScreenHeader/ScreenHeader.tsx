@@ -13,7 +13,7 @@ function ScreenHeader() {
         <SelectSectorFilter />
         <Button
           onClick={() => {}}
-          className="font-semibold text-xl text-white rounded-lg flex items-center justify-center w-[19%] bg-[#2C9CBF] py-2 px-7"
+          className="font-semibold text-xl text-white rounded-lg flex items-center justify-center w-[19%] bg-[#2C9CBF] hover:bg-[#2c9dbfc5] py-2 px-7"
           label="CONFIGURAR"
         />
       </form>
