@@ -57,7 +57,7 @@ export const useAdvertisingMessages = create<StoreAdvertising>()((set, get) => (
           endHour: message.endHour
         }))
        
-        if(JSON.stringify(newAvailableMessages) !== JSON.stringify(get().avalaibleAdvertisingMessages)) {
+        if(newAvailableMessages.length !== get().avalaibleAdvertisingMessages.length) {
               set(({
                 avalaibleAdvertisingMessages: newAvailableMessages
               }))

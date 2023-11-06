@@ -22,7 +22,7 @@ export default function Screen() {
 
   useEffect(() => {
     fetchAdvertisingsById(screenId);
-    fetchCoursesBySectorId(1);
+    fetchCoursesBySectorId(typeScreen.sector.id);
   }, []);
 
   const billboards: Record<number, ReactJSXElement> = {

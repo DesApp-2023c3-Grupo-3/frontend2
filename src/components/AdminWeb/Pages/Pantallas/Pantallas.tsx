@@ -14,8 +14,11 @@ function Pantallas() {
       <Modal
         isOpen={isOpen}
         closeModal={closeModal}
-        component={<ScreenConfig closeModal={closeModal} />}
-      />
+        openModal={openModal}
+        label="hola"
+      >
+        <ScreenConfig closeModal={closeModal} />
+      </Modal>
     </section>
   );
 }

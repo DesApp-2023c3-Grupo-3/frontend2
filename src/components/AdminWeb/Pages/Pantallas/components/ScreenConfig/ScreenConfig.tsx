@@ -60,7 +60,7 @@ function ScreenConfig({ closeModal }: { closeModal: () => void }) {
         action={handleClick}
         label="APLICAR"
         condition={isAnyCardSelected}
-        styleActive="rounded-lg flex items-center justify-center"
+        styleActive="rounded-lg flex items-center justify-center text-2xl w-[300px] h-[40px] font-[600] text-[20px] text-white bg-[#2C9CBF] hover:bg-[#2c9dbfc5]"
         styleDesactive="rounded-lg flex items-center justify-center text-2xl w-[300px] border-solid border-2 bg-[#ffffff] h-[40px] font-[600] text-[20px] text-blue-300 border-blue-200"
       />
     </section>
