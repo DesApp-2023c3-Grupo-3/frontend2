@@ -1,17 +1,21 @@
 import React from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
+import Button from './Buttons/Button';
 
 //El modal se usa con el hook useModal
 interface ModalProps {
   isOpen: boolean;
   closeModal: () => void;
-  component: React.ReactElement;
+  openModal: () => void;
+  children: React.ReactElement;
+  label: string;
 }
 
-function Modal({ isOpen, closeModal, component }: ModalProps) {
+function Modal({ isOpen, closeModal, openModal, children, label }: ModalProps) {
   return (
     <>
+      <Button onClick={openModal} active={true} label={label} type={0} />
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog as="div" className="" onClose={closeModal}>
           <Transition.Child
@@ -44,7 +48,7 @@ function Modal({ isOpen, closeModal, component }: ModalProps) {
                 </svg>
               </button>
             </div>
-            <div>{component}</div>
+            <div>{children}</div>
           </Dialog.Panel>
         </Dialog>
       </Transition>

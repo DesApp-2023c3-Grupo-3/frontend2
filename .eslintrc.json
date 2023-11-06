@@ -19,6 +19,14 @@
       "ecmaVersion": 12,
       "sourceType": "module"
     },
+    "overrides": [
+      {
+          "files": ["*.ts"],
+          "rules": {
+              "no-undef": "off"
+          }
+      }
+    ],
     "plugins": [
       "react",
       "jsx-a11y"

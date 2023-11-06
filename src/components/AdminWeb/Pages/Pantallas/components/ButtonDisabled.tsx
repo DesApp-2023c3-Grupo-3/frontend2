@@ -1,4 +1,4 @@
-import Button from '../../../components/Buttons/Button';
+import Button from './Button/Button';
 
 interface ButtonDisabledProps {
   label: string;
@@ -18,13 +18,7 @@ export default function ButtonDisabled({
   return (
     <>
       {condition ? (
-        <Button
-          onClick={action}
-          className={styleActive}
-          label={label}
-          active={true}
-          type={1}
-        />
+        <Button onClick={action} className={styleActive} label={label} />
       ) : (
         <button disabled={true} className={styleDesactive}>
           {label}
