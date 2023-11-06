@@ -1,4 +1,4 @@
-import Button from '../../../../components/Buttons/Button';
+import Button from '../Button/Button';
 import SelectAllFilter from './components/SelectAllFilter';
 import SelectSectorFilter from './components/SelectSectorFilter';
 
@@ -13,10 +13,8 @@ function ScreenHeader() {
         <SelectSectorFilter />
         <Button
           onClick={() => {}}
-          className="rounded-lg flex items-center justify-center text-2xl w-[19%]"
+          className="font-semibold text-xl text-white rounded-lg flex items-center justify-center w-[19%] bg-[#2C9CBF] py-2 px-7"
           label="CONFIGURAR"
-          active={true}
-          type={1}
         />
       </form>
     </header>
