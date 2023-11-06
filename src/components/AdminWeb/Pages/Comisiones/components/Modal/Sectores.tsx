@@ -24,8 +24,9 @@ function Sectores({ selectedSector, onSelectedSectorChange }: SectoresProps) {
     <div className="w-[365px] h-[50px] mt-[17px]">
       <Listbox
         value={selectedSector}
-        onChange={onSelectedSectorChange}
-        multiple={false}
+        onChange={(sector) => {
+          onSelectedSectorChange(Array.isArray(sector) ? sector : [sector])
+          }}
       >
         <div className="fixed flex-row justify-center z-[10000]">
           <Listbox.Button
