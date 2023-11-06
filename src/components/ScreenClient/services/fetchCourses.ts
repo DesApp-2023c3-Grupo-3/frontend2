@@ -1,7 +1,7 @@
-const BASE_URL = process.env.REACT_APP_API || "http://[::1]:3001/"
+import { ROUTES_RELATIVE } from '../../../routes/route.relatives';
 
 export const fetchCourses = async (sectorId:number) => {
-    const request = await fetch(`${BASE_URL}/course/sector/${sectorId}`)
+    const request = await fetch(`${ROUTES_RELATIVE.courseSector}/${sectorId}`)
     const Courses = await request.json()
   
     return Courses
