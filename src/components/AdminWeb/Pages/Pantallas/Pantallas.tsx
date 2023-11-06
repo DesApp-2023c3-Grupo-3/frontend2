@@ -15,7 +15,7 @@ function Pantallas() {
         isOpen={isOpen}
         closeModal={closeModal}
         openModal={openModal}
-        label="hola"
+        label=""
       >
         <ScreenConfig closeModal={closeModal} />
       </Modal>
