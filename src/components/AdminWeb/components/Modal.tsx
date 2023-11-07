@@ -7,7 +7,7 @@ import Button from './Buttons/Button';
 interface ModalProps {
   isOpen: boolean;
   closeModal: () => void;
-  openModal?: () => void;
+  openModal: () => void;
   children: React.ReactElement;
   label?: string;
 }

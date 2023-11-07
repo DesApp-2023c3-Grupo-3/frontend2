@@ -46,22 +46,20 @@ function Usuarios() {
   const invalidDNI = () => dniRef.current?.value.trim() === '';
 
   const createdUserDate = (user: User) =>
-    dayjs(user.createdAt).format(
-      'D/MM/YY - hh:mm',
-    );
+    dayjs(user.createdAt).format('D/MM/YY - hh:mm');
 
   const createNewUser = (e: FormEvent) => {
     e.preventDefault();
     if (!hasValidUser()) return;
-    
-    userApi.create(
-      {
+
+    userApi
+      .create({
         name: usernameRef.current?.value + '',
         dni: dniRef.current?.value + '',
         password: passwordRef.current?.value + '',
-        role: selectedRole
-      }
-    ).then(() => updateUsersTable())
+        role: selectedRole,
+      })
+      .then(() => updateUsersTable());
 
     closeModal();
   };
@@ -91,7 +89,9 @@ function Usuarios() {
         <div className="flex justify-end">
           <Modal
             isOpen={isOpen}
+            openModal={openModal}
             closeModal={closeModal}
+            label={'NUEVO USUARIO'}
           >
             <>
               <h1 className="text-7xl font-bold px-12 mt-8 mb-4">
@@ -134,10 +134,12 @@ function Usuarios() {
                     <img
                       src="https://cdn.discordapp.com/attachments/1143714208404471908/1165447224805826601/Usuario.png?ex=6546e24f&is=65346d4f&hm=9d49d67482396f4d8b724cfc900d52b7a47382794abf63292d137ebafb7b0bc2&"
                       alt="User preview"
-                      className='hidden'
+                      className="hidden"
                     />
-                    <div className='bg-[#2C9CBF] aspect-square h-32 rounded-full relative'>
-                      <span className='text-white text-5xl text-center w-fit h-fit m-auto absolute inset-0 itim'>{selectedRole.name[0]}</span>
+                    <div className="bg-[#2C9CBF] aspect-square h-32 rounded-full relative">
+                      <span className="text-white text-5xl text-center w-fit h-fit m-auto absolute inset-0 itim">
+                        {selectedRole.name[0]}
+                      </span>
                     </div>
                     <h4 className="text-xl font-bold mt-2">
                       {usernameRef.current?.value}
@@ -154,17 +156,6 @@ function Usuarios() {
               </form>
             </>
           </Modal>
-          <div className="flex justify-between mt-[2em] mx-[4.5em]">
-            {hasLoadedUsers && (
-              <Button
-                onClick={openModal}
-                active={hasLoadedUsers}
-                type={0}
-                label={'NUEVO USUARIO'}
-                className="bg-[#2C9CBF] rounded-[15px] select-none py-[16px] w-[236px] text-white font-[600] text-[20px]"
-              />
-            )}
-          </div>
         </div>
       </div>
     </div>
