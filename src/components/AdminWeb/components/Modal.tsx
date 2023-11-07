@@ -6,10 +6,10 @@ import { Fragment } from 'react';
 interface ModalProps {
   isOpen: boolean;
   closeModal: () => void;
-  component: React.ReactElement;
+  children: React.ReactElement;
 }
 
-function Modal({ isOpen, closeModal, component }: ModalProps) {
+function Modal({ isOpen, closeModal, children }: ModalProps) {
   return (
     <>
       <Transition appear show={isOpen} as={Fragment}>
@@ -44,7 +44,7 @@ function Modal({ isOpen, closeModal, component }: ModalProps) {
                 </svg>
               </button>
             </div>
-            <div>{component}</div>
+            <div>{children}</div>
           </Dialog.Panel>
         </Dialog>
       </Transition>

@@ -1,5 +1,5 @@
 type ButtonProps = {
-  onClick: () => void;
+  onClick: (arg?: any) => void;
   active: boolean;
   type: number;
   label: string;
