@@ -3,9 +3,9 @@ import { ROUTES_RELATIVE } from '../routes/route.relatives';
 
 export const userApi = {
   create: async function(newUser: User){
-    return axios.post(ROUTES_RELATIVE.createUser, newUser)
+    return axios.post(ROUTES_RELATIVE.user.createUser, newUser)
   },
   getAll: async function(){
-    return axios.get(ROUTES_RELATIVE.users)
+    return axios.get(ROUTES_RELATIVE.user.users)
   },
 }
