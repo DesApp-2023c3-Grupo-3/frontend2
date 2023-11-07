@@ -1,4 +1,5 @@
-import { instance } from "./base.api.url";
+import axios from 'axios';
+import { ROUTES_RELATIVE } from '../routes/route.relatives';
 
 interface ScreenData {
     templeteId: string,
@@ -10,13 +11,11 @@ interface ScreenData {
     }
 }
 
-const endpoint = "screen"
-
 export const screenAPI = {
     getAll: () => {
-        return instance.get(endpoint)
+        return axios.get(ROUTES_RELATIVE.screen.getAll);
     },
-    edit: (id:number,screenData:ScreenData) => {
-        return instance.patch(`${endpoint}/${id}`, screenData)
+    edit: (id:number, screenData:ScreenData) => {
+        return axios.patch(`${ROUTES_RELATIVE.screen.update}/${id}`, screenData);
     }
 }

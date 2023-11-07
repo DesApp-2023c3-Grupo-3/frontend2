@@ -6,14 +6,14 @@ export const imageAPI = {
         return axios.get(`${ROUTES_RELATIVE.image}/${id}/view`)
     },
     create: function(image : any) {
-        return axios.post(ROUTES_RELATIVE.image, image, {
+        return axios.post(ROUTES_RELATIVE.image.image, image, {
             headers: {
                 "Content-Type": 'multipart/form-data'
               }
         })
     },
     viewQr: function() {
-        return axios.get(ROUTES_RELATIVE.planeViewQr, {
+        return axios.get(ROUTES_RELATIVE.image.planeViewQr, {
             responseType: 'arraybuffer', 
           })
     },
