@@ -13,7 +13,7 @@ function Navbar() {
     <nav
       className={
         'fixed md:relative h-screen px-12 py-8 flex flex-col gap-2 ' +
-        (navDeployed ? 'translate-x-[-100%]' : 'translate-x-[0%]')
+        (navDeployed ? 'translate-x-[-100%]' : 'translate-x-[0%] z-[10]')
       }
     >
       <button
