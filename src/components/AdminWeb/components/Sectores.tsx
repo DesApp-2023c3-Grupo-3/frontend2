@@ -7,7 +7,7 @@ import { sectorApi } from '../../../services/sectores';
 interface SectoresProps {
   selectedSector: Sector[];
   onSelectedSectorChange: (newSelectedSector: Sector[]) => void;
-  hasError?: boolean;
+  hasError: boolean;
 }
 
 function Sectores({
