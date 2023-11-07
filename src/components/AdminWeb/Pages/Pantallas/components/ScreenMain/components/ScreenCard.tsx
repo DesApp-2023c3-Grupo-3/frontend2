@@ -1,5 +1,7 @@
 import typeScreenOne from '../../../../../assets/typeScreen1.png';
 import typeScreenTwo from '../../../../../assets/typeScreen2.png';
+import typeScreenThree from '../../../../../assets/typeScreen3.png';
+
 import { useScreenFilters } from '../../../store/useScreenFilters';
 
 interface ScreenCardProps {
@@ -22,13 +24,14 @@ function ScreenCard({
   const imageScreen: Record<number, string> = {
     1: typeScreenOne,
     2: typeScreenTwo,
+    3: typeScreenThree,
   };
 
   return (
     <section
       className={`${
         isSelected
-          ? 'border-8 border-[#9F9F9F]'
+          ? 'border-8 border-[#2C9CBF]'
           : 'hover:border-8 hover:border-[#9F9F9F]'
       }  relative flex flex-col justify-center items-center bg-[#222222] w-48 h-48 rounded-3xl `}
     >

@@ -13,16 +13,22 @@ function ScreenMain() {
   return (
     <main className="h-full">
       <section className="flex justify-center flex-wrap gap-4">
-        {filteredScreens.map((screen, index) => (
-          <ScreenCard
-            key={screen.id}
-            id={screen.id}
-            screenTitle={screen.screenTitle}
-            sectorTitle={screen.sectorTitle}
-            typeScreen={parseInt(screen.typeScreen)}
-            isSelected={screen.isSelected}
-          />
-        ))}
+        {filteredScreens.length > 0 ? (
+          filteredScreens.map((screen, index) => (
+            <ScreenCard
+              key={screen.id}
+              id={screen.id}
+              screenTitle={screen.screenTitle}
+              sectorTitle={screen.sectorTitle}
+              typeScreen={parseInt(screen.typeScreen)}
+              isSelected={screen.isSelected}
+            />
+          ))
+        ) : (
+          <p className="font-semibold text-3xl">
+            No hay pantallas para mostrar
+          </p>
+        )}
       </section>
     </main>
   );
