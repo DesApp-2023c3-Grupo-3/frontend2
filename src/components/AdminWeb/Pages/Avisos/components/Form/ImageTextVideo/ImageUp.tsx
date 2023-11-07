@@ -19,7 +19,7 @@ function ImageUp({ image, setImage }: ImageUpProps) {
 
       try {
         const response = await imageAPI.create(formData);
-        urlImg = `${ROUTES_RELATIVE.image}/${response.data.id}/view`;
+        urlImg = `${ROUTES_RELATIVE.image.image}/${response.data.id}/view`;
         setImage(urlImg);
       } catch (error) {
         console.error('Error al subir la imagen:', error);

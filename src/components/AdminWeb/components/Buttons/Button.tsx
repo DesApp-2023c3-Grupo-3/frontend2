@@ -1,11 +1,12 @@
 type ButtonProps = {
-  onClick: () => void;
+  onClick: (arg?: any) => void;
   active: boolean;
   type: number;
   label: string;
+  className?: string;
 };
 
-function Button({ onClick, active, type, label }: ButtonProps) {
+function Button({ onClick, active, type, label, className }: ButtonProps) {
   const blueType = active
     ? 'bg-[#2C9CBF] text-white rounded-[30px] py-[16px] w-[300px] h-[40px] font-[600] text-[20px] hover:bg-[#2c9dbfc5]'
     : 'border-solid border-2 border-blue-300 bg-[#ffffff] text-[#2C9CBF] rounded-[30px] py-[16px] w-[300px] h-[40px] font-[600] text-[20px] hover:text-blue-300 hover:border-blue-200 hover:bg-[#2c9dbfc5]';
@@ -45,7 +46,10 @@ function Button({ onClick, active, type, label }: ButtonProps) {
     <>
       <button
         onClick={onClick}
-        className={` ${style} flex items-center justify-center hover:text-white`}
+        className={
+          ` ${style} flex items-center justify-center hover:text-white` +
+          className
+        }
       >
         {label}
       </button>

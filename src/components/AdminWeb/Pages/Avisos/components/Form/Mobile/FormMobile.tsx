@@ -5,11 +5,11 @@ import { validationDate } from '../../../../../utils/validationDate';
 import { useAdvertisingData } from '../../../../../hooks/useAdvertisingData';
 import Button from '../../../../../components/Buttons/Button';
 import { CalenderMobile } from './CalenderMobile';
-import dayjs, { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 import { AdvertisingTypeMobile } from './AdvertisingTypeMobile';
 import Swal from 'sweetalert2';
 import { advertisingsAPI } from '../../../../../../../services/advertisings';
-import { Toast, messageError } from '../FormAdvertising';
+import { Toast } from '../FormAdvertising';
 import { convertDaysToNumbers } from '../../../../../utils/ConvertDaysToCode';
 
 interface FormMobileProps {

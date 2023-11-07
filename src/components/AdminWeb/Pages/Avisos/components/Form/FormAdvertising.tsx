@@ -264,17 +264,19 @@ function FormAdvertising({
               invalidName() && emptyFields.advertisingName,
             )}
           </div>
-          <div className="flex-col justify-center">
-            <Sectores
-              selectedSector={selectedSector}
-              onSelectedSectorChange={setSelectedSector}
-              campos={emptyFields}
-            />
-            <div>
-              {ErrorMessage(
-                '*Falta seleccionar los sectores.',
-                emptyFields.selectedSector && invalidSectors(),
-              )}
+          <div>
+            <div className="flex-col justify-center w-[365px] h-[50px]">
+              <Sectores
+                selectedSector={selectedSector}
+                onSelectedSectorChange={setSelectedSector}
+                hasError={emptyFields.selectedSector && invalidSectors()}
+              />
+              <div>
+                {ErrorMessage(
+                  '*Falta seleccionar los sectores.',
+                  emptyFields.selectedSector && invalidSectors(),
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -316,7 +318,7 @@ function FormAdvertising({
               )}
             </div>
           </div>
-          <div className="pr-[1em] pt-[20px] z-[999]">
+          <div className="pr-[1em] pt-[20px]">
             <ImageTextVideo
               text={text}
               image={image}

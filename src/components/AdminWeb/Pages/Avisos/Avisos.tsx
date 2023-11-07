@@ -2,6 +2,7 @@ import { useModal } from '../../hooks/useModal';
 import { Advertising } from '../../types/customTypes';
 import React from 'react';
 import { advertisingsAPI } from '../../../../services/advertisings';
+import { Helmet } from 'react-helmet';
 import { abbreviateSectorName } from '../../utils/AbbreviateSectorName';
 import dayjs from 'dayjs';
 import { DesktopBody } from './components/Body/DesktopBody';
@@ -171,7 +172,10 @@ function Avisos() {
   }, []);
 
   return (
-    <div className="">
+    <>
+      <Helmet>
+        <title>Administrador de cartelera | Avisos</title>
+      </Helmet>
       {isMobile ? (
         <MobileBody
           advertisingsJSON={advertisingsJSON}
@@ -197,7 +201,7 @@ function Avisos() {
           editRow={editRow}
         />
       )}
-    </div>
+    </>
   );
 }
 

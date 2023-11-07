@@ -55,7 +55,7 @@ export function NewAdvertising({
             <Sectores
               selectedSector={selectedSector}
               onSelectedSectorChange={setSelectedSector}
-              campos={emptyFields}
+              hasError={emptyFields.selectedSector && invalidSectors()}
             />
             <div className="absolute">
               {ErrorMessage(

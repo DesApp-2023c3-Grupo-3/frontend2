@@ -2,7 +2,6 @@ import ModalMobile from '../../../../components/Modal/ModalMobile';
 import Table from '../../../../components/Table/Table';
 import { Advertising } from '../../../../types/customTypes';
 import { FormMobile } from '../Form/Mobile/FormMobile';
-import { NewAdvertising } from '../Form/Mobile/NewAdvertising';
 
 interface MobileBodyProps {
   advertisingsJSON: any[];
