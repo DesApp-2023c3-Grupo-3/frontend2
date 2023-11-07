@@ -16,7 +16,7 @@ import { validationDate } from '../../../../utils/validationDate';
 import { useAdvertisingData } from '../../../../hooks/useAdvertisingData';
 import { InputName } from './InputNameAdvertising';
 
-function messageError(message: string) {
+export function messageError(message: string) {
   Swal.fire({
     icon: 'error',
     title: 'Oops...',
@@ -26,7 +26,7 @@ function messageError(message: string) {
 }
 
 //Alerts
-const Toast = Swal.mixin({
+export const Toast = Swal.mixin({
   toast: true,
   position: 'top-end',
   showConfirmButton: false,
@@ -252,12 +252,18 @@ function FormAdvertising({
     <div>
       <form className="mx-10">
         <div className=" flex h-[90px] justify-between items-center">
-          <InputName
-            emptyFields={emptyFields}
-            invalidName={invalidName}
-            advertisingName={advertisingName}
-            setAdvertisingName={setAdvertisingName}
-          />
+          <div>
+            <InputName
+              emptyFields={emptyFields}
+              invalidName={invalidName}
+              advertisingName={advertisingName}
+              setAdvertisingName={setAdvertisingName}
+            />
+            {ErrorMessage(
+              '*Falta completar el nombre del aviso.',
+              invalidName() && emptyFields.advertisingName,
+            )}
+          </div>
           <div className="flex-col justify-center">
             <Sectores
               selectedSector={selectedSector}

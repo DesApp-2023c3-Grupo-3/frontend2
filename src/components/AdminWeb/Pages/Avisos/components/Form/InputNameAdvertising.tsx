@@ -1,5 +1,3 @@
-import ErrorMessage from '../../../../components/ErrorMessage';
-
 interface inputNameProp {
   emptyFields: any;
   invalidName: () => boolean;
@@ -14,7 +12,7 @@ export function InputName({
   setAdvertisingName,
 }: inputNameProp) {
   return (
-    <div className="flex-col justify-center">
+    <div className="flex justify-center">
       <input
         id="advertisingName"
         type="text"
@@ -29,10 +27,6 @@ export function InputName({
         defaultValue={advertisingName}
         autoComplete="off"
       ></input>
-      {ErrorMessage(
-        '*Falta completar el nombre del aviso.',
-        invalidName() && emptyFields.advertisingName,
-      )}
     </div>
   );
 }
