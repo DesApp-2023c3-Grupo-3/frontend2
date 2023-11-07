@@ -311,7 +311,7 @@ function FormAdvertising({
             <Sectores
               selectedSector={selectedSector}
               onSelectedSectorChange={setSelectedSector}
-              campos={emptyFields}
+              hasError={emptyFields.selectedSector && invalidSectors()}
             />
             <div>
               {ErrorMessage(

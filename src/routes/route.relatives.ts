@@ -19,6 +19,9 @@ export const ROUTES_RELATIVE = {
       getAll: '/screen',
       update: '/screen'
     },
+    sector: {
+      getSectors: `${API}/sector`
+    },
     user: {
       users: `${API}/user`,
       createUser: `${API}/auth/register`

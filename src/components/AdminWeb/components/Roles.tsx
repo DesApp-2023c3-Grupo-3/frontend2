@@ -65,11 +65,7 @@ function Sectores({ selectedRole, onSelectedRoleChange }: RolesProps) {
                                   ? 'bg-[#2C9CBF] text-white'
                                   : 'text-[#919191]'
                               }
-                              ${
-                                selected
-                                  ? 'bg-[#2C9CBF] border-[#2C9CBF]'
-                                  : ''
-                              }
+                              ${selected ? 'bg-[#2C9CBF] border-[#2C9CBF]' : ''}
                               `
                     }
                     value={sector}
@@ -81,9 +77,7 @@ function Sectores({ selectedRole, onSelectedRoleChange }: RolesProps) {
                       <div className="flex justify-start items-center">
                         <span
                           className={`truncate flex justify-start items-center${
-                            selected
-                              ? 'font-medium text-white '
-                              : 'font-normal'
+                            selected ? 'font-medium text-white ' : 'font-normal'
                           }`}
                         >
                           {abbreviateSectorName(sector.name)}

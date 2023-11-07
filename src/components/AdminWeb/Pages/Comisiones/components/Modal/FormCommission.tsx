@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import { Commission } from '../../../../types/customTypes';
 import { commissionApi } from '../../../../../../services/commissions';
 
+
 interface FormCommissionProps {
   commissionsJSON: Commission[];
   setCommissionsJSON: React.Dispatch<React.SetStateAction<Commission[]>>;

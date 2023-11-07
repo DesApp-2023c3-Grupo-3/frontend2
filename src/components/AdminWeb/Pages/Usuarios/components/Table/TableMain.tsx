@@ -4,7 +4,13 @@ import theme from '../../../../config/createTheme';
 import SearchBar from './SearchBar';
 import TableCommisions from './TableCommissions';
 
-function TableMain({ rowArray, columns }: { rowArray: any[], columns: Map<string, (data: any) => void> }) {
+function TableMain({
+  rowArray,
+  columns,
+}: {
+  rowArray: any[];
+  columns: Map<string, (data: any) => void>;
+}) {
   const [itemsPerPage, setItemsPerPage] = useState(7);
 
   useEffect(() => {
@@ -42,7 +48,6 @@ function TableMain({ rowArray, columns }: { rowArray: any[], columns: Map<string
     setCurrentPage(1);
   };
 
-  
   const filteredData = rowArray.filter(
     (item) =>
       item.subject?.name.toLowerCase().includes(searchTerm.toLowerCase()) ||

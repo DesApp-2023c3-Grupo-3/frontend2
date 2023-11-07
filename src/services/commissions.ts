@@ -47,5 +47,5 @@ export const commissionApi = {
     } catch (error) {
         return error;
     }
-  },
+  }
 }

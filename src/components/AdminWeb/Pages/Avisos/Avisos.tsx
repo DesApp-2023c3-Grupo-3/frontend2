@@ -4,6 +4,7 @@ import { useModal } from '../../hooks/useModal';
 import { Advertising } from '../../types/customTypes';
 import React from 'react';
 import { advertisingsAPI } from '../../../../services/advertisings';
+import { Helmet } from 'react-helmet';
 import Table from '../../components/Table/Table';
 import { abbreviateSectorName } from '../../utils/AbbreviateSectorName';
 import dayjs from 'dayjs';
@@ -139,34 +140,40 @@ function Avisos() {
   };
 
   return (
-    <section className="mx-[3%]">
-      <h1 className="text-[4rem] font-[700] text-[#484848] tracking-[-1.28px] mt-[20px]">
-        Avisos
-      </h1>
+    <>
+      <Helmet>
+        <title>Administrador de cartelera | Avisos</title>
+      </Helmet>
+      <section className="mx-[3%]">
+        <h1 className="text-[4rem] font-[700] text-[#484848] tracking-[-1.28px] mt-[20px]">
+          Avisos
+        </h1>
 
-      <div className="mt-[-70px] ">
-        <Table
-          dataJSON={advertisingsJSON}
-          columns={tableColumns}
-          onRowClick={handleRowClick}
-        />
-        <div className="flex justify-end">
-          <Modal
-            isOpen={isOpen}
-            closeModal={onCloseClick}
-            openModal={openModal}
-            label="NUEVO AVISO"
-          >
-            <FormAdvertising
-              setAdvertisingsJSON={GetData}
+        <div className="mt-[-70px] ">
+          <Table
+            dataJSON={advertisingsJSON}
+            columns={tableColumns}
+            onRowClick={handleRowClick}
+          />
+          <div className="flex justify-end">
+            <Modal
+              isOpen={isOpen}
               closeModal={onCloseClick}
-              isCreate={!isEditing}
-              advertising={editRow}
-            />
-          </Modal>
+              openModal={openModal}
+              label="NUEVO AVISO"
+            >
+              <FormAdvertising
+                setAdvertisingsJSON={GetData}
+                closeModal={onCloseClick}
+                isCreate={!isEditing}
+                advertising={editRow}
+              />
+            </Modal>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
+    
   );
 }
 

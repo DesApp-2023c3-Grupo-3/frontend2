@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import './App.css';
 import './components/AdminWeb/AdminWeb.sass';
 import ScreenClient from './components/ScreenClient/components/ScreenClient';
@@ -12,15 +12,10 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route
-          path="/"
-          element={<LoginScreen setScreenId={setCurrentScreenId} />}
-        />
-        <Route
-          path="/screen"
-          element={<ScreenClient screenId={currentScreenId} />}
-        />
-        <Route path="/admin/*" element={<AdminWeb />} />
+        <Route path="/" element={<LoginScreen setScreenId={setCurrentScreenId} />} />
+        <Route path="/screen" element={<ScreenClient screenId={currentScreenId} />} />
+        <Route path="/admin" element={<Navigate to="/admin/advertising" />} />
+        <Route path="/admin/*" element={<AdminWeb />}/>
       </Routes>
     </BrowserRouter>
   );
