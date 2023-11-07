@@ -40,8 +40,8 @@ export const useCourseMessages = create<StoreCourse>()((set, get) => ({
           startHour: message.startHour,
           endHour: message.endHour
         }))
-        
-        if(JSON.stringify(newAvailableMessages) !== JSON.stringify(get().avalaibleCourseMessages)) {
+
+        if(newAvailableMessages.length !== get().avalaibleCourseMessages.length) {
               set(({
                 avalaibleCourseMessages: newAvailableMessages
               }))
