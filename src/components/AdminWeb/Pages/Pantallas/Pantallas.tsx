@@ -1,4 +1,4 @@
-import Modal from '../../components/Modal';
+import Modal from '../../components/Modal/Modal';
 import { useModal } from '../../hooks/useModal';
 import ScreenConfig from './components/ScreenConfig/ScreenConfig';
 import ScreenHeader from './components/ScreenHeader/ScreenHeader';
