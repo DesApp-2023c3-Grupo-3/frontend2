@@ -11,11 +11,6 @@ function SearchBar({
   const [isMobile, setIsMobile] = React.useState(
     window.matchMedia('(max-width: 768px)').matches,
   );
-  const [isSearch, setIsSearch] = React.useState(false);
-
-  const handleSearchClick = () => {
-    setIsSearch(!isSearch);
-  };
 
   React.useEffect(() => {
     const mediaQuery = window.matchMedia('(max-width: 768px)');
@@ -32,20 +27,17 @@ function SearchBar({
   }, []);
 
   return (
-    <div
-      className={`flex justify-end h-[55px] translate-y-[-10%] ${
-        isMobile && isSearch ? 'bg-white' : ''
-      }`}
-    >
+    <div className={`flex justify-end`}>
       {!isMobile ? (
         desktopSearch(searchTerm, onSearchChange)
       ) : (
-        <div className="container">
+        <div id="searchmobile" className="container py-[20px] relative">
           <input
             type="text"
             placeholder="Buscar aviso"
             value={searchTerm}
             onChange={onSearchChange}
+            className="z-[-1]"
           />
           <div className="search"></div>
         </div>
@@ -63,11 +55,11 @@ function desktopSearch(
   return (
     <div
       id="input"
-      className="flex justify-center border-2 hover:border-[3px] border-[#484848] rounded-[55px] py-[10px] w-[390px] cursor-text "
+      className="flex justify-end border-2 hover:border-[3px] border-[#484848] rounded-[55px] py-[10px] w-[390px] cursor-text h-[55px] translate-y-[-10%]"
     >
       <div className="flex items-center">{lupa}</div>
       <input
-        className="w-[85%] pl-2 h-full outline-none text-[20px]"
+        className="w-[85%] mx-2 outline-none text-[20px]"
         type="text"
         placeholder="Buscar aviso"
         value={searchTerm}

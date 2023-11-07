@@ -1,4 +1,4 @@
-import Modal from '../../../../components/Modal';
+import Modal from '../../../../components/Modal/Modal';
 import Table from '../../../../components/Table/Table';
 import { Advertising } from '../../../../types/customTypes';
 import FormAdvertising from '../Form/FormAdvertising';

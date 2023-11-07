@@ -1,6 +1,8 @@
-import Button from '../../../../components/Buttons/Button';
+import ModalMobile from '../../../../components/Modal/ModalMobile';
 import Table from '../../../../components/Table/Table';
 import { Advertising } from '../../../../types/customTypes';
+import { FormMobile } from '../Form/Mobile/FormMobile';
+import { NewAdvertising } from '../Form/Mobile/NewAdvertising';
 
 interface MobileBodyProps {
   advertisingsJSON: any[];
@@ -32,17 +34,24 @@ export function MobileBody({
           <h1 className="text-[3em] font-[700] text-[#484848] tracking-[-1.28px] ml-[25px]">
             Avisos
           </h1>
-          <div className="ml-[15px]">
-            <Button
-              onClick={() => console.log('asd')}
-              active={false}
-              type={4}
-              label={'Nuevo'}
-            />
+          <div id="modal" className="flex items-center ml-[15px] z-[4]">
+            <ModalMobile
+              isOpen={isOpen}
+              closeModal={onCloseClick}
+              openModal={openModal}
+              label="NUEVO"
+            >
+              <FormMobile
+                setAdvertisingsJSON={GetData}
+                closeModal={onCloseClick}
+                isCreate={!isEditing}
+                advertising={editRow}
+              />
+            </ModalMobile>
           </div>
         </div>
 
-        <div className="mt-[-70px] ">
+        <div className="mt-[-70px]">
           <Table
             dataJSON={advertisingsJSON}
             columns={tableColumns}

@@ -1,7 +1,7 @@
 import { useEffect, useState, useTransition } from 'react';
 import { Commission } from '../../types/customTypes';
 import { commissionApi } from '../../../../services/commissions';
-import Modal from '../../components/Modal';
+import Modal from '../../components/Modal/Modal';
 import { useModal } from '../../hooks/useModal';
 import FormCommission from './components/Modal/FormCommission';
 import Table from '../../components/Table/Table';
