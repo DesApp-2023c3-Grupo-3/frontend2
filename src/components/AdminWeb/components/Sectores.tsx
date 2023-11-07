@@ -7,17 +7,21 @@ import { sectorApi } from '../../../services/sectores';
 interface SectoresProps {
   selectedSector: Sector[];
   onSelectedSectorChange: (newSelectedSector: Sector[]) => void;
-  campos: any;
+  hasError?: boolean;
 }
 
-function Sectores({ selectedSector, onSelectedSectorChange, campos }: SectoresProps) {
+function Sectores({
+  selectedSector,
+  onSelectedSectorChange,
+  hasError,
+}: SectoresProps) {
   const [selectAll, setSelectAll] = useState(false);
   const [sectorArray, setSectorArray] = useState<Sector[]>([]);
 
   const updateSectorArray = async () => {
-    const newSectors = await sectorApi.getSector()
-    setSectorArray(newSectors as Sector[])
-  }
+    const newSectors = await sectorApi.getSector();
+    setSectorArray(newSectors as Sector[]);
+  };
 
   const handleSelectAllChange = (event: {
     target: { checked: boolean | ((prevState: boolean) => boolean) };
@@ -32,8 +36,8 @@ function Sectores({ selectedSector, onSelectedSectorChange, campos }: SectoresPr
   };
 
   useEffect(() => {
-    updateSectorArray()
-  }, [])
+    updateSectorArray();
+  }, []);
 
   return (
     <div className="w-[365px] h-[50px] mt-[17px]">
@@ -46,9 +50,7 @@ function Sectores({ selectedSector, onSelectedSectorChange, campos }: SectoresPr
           <Listbox.Button
             id="sectors"
             className={`text-[20px] font-[400] tracking-[-0.4px] rounded-[30px] bg-[#D9D9D9] flex w-[365px] h-[50px] px-[40px] py-[12px] items-center ${
-              selectedSector.length === 0 && campos.selectedSector
-                ? 'invalid-field'
-                : ''
+              selectedSector.length === 0 && hasError ? 'invalid-field' : ''
             }`}
             placeholder="Sector/es"
           >

@@ -5,28 +5,28 @@ import { sectorApi } from '../../../../../../services/sectores';
 
 interface SectoresProps {
   selectedSector: Sector;
-  onSelectedSectorChange: (newSelectedSector: Sector[]) => void;
+  onSelectedSectorChange: (newSelectedSector: Sector) => void;
 }
 
 function Sectores({ selectedSector, onSelectedSectorChange }: SectoresProps) {
   const [sectorArray, setSectorArray] = useState<Sector[]>([]);
 
   const updateSectorArray = async () => {
-    const newSectors = await sectorApi.getSector()
-    setSectorArray(newSectors as Sector[])
-  }
+    const newSectors = await sectorApi.getSector();
+    setSectorArray(newSectors as Sector[]);
+  };
 
   useEffect(() => {
-    updateSectorArray()
-  }, [])
+    updateSectorArray();
+  }, []);
 
   return (
     <div className="w-[365px] h-[50px] mt-[17px]">
       <Listbox
         value={selectedSector}
         onChange={(sector) => {
-          onSelectedSectorChange(Array.isArray(sector) ? sector : [sector])
-          }}
+          onSelectedSectorChange(sector);
+        }}
       >
         <div className="fixed flex-row justify-center z-[10000]">
           <Listbox.Button
@@ -89,7 +89,7 @@ function Sectores({ selectedSector, onSelectedSectorChange }: SectoresProps) {
                       }
                       value={sector}
                       onClick={() => {
-                        onSelectedSectorChange([sector]);
+                        onSelectedSectorChange(sector);
                       }}
                     >
                       {({ selected }) => (
