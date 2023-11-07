@@ -4,7 +4,7 @@ import { ROUTES_RELATIVE } from '../routes/route.relatives';
 export const commissionApi = {
   download: async function() {
     try {
-      const response = await axios.get(ROUTES_RELATIVE.downloadCommission, { responseType: 'blob' });
+      const response = await axios.get(ROUTES_RELATIVE.course.downloadCommission, { responseType: 'blob' });
       const blob = new Blob([response.data], { type: response.headers['content-type'] });
       const link = document.createElement('a');
       link.href = window.URL.createObjectURL(blob);
@@ -28,21 +28,21 @@ export const commissionApi = {
   },
   create: async function(excelData: any){
     try {
-      return this.post(excelData, ROUTES_RELATIVE.uploadCommission);
+      return this.post(excelData, ROUTES_RELATIVE.course.uploadCommission);
     } catch(error) {
       return error;
     }
   },
   toJson: async function(excelData: any){
     try{
-      return this.post(excelData, ROUTES_RELATIVE.excelToJson);
+      return this.post(excelData, ROUTES_RELATIVE.image.excelToJson);
     } catch(error) {
       return error;
     }
   },
   getAll: async function() {
     try {
-      const response = await axios.get(ROUTES_RELATIVE.commission);
+      const response = await axios.get(ROUTES_RELATIVE.course.commission);
       return response;
     } catch (error) {
         return error;
