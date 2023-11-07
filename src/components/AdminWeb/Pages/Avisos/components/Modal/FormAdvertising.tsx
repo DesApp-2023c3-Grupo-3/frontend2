@@ -2,7 +2,7 @@ import DatePickerDays from '../../../../components/DatePickerDays';
 import Sectores, { Sector } from '../../../../components/Sectores';
 import ImageTextVideo from './ImageTextVideo/ImageTextVideo';
 import DayPicker, { Days } from './DayPicker';
-import PickerTime from './PickerTime';
+import PickerTime from '../../../../components/PickerTime';
 import Swal from 'sweetalert2';
 import './form.sass';
 import dayjs, { Dayjs } from 'dayjs';
@@ -109,6 +109,46 @@ function FormAdvertising({
     setType,
   } = usePayload(advertising);
 
+  const invalidName = () => {
+    return advertisingName === '';
+  };
+
+  const invalidSectors = () => {
+    return selectedSector.length === 0;
+  };
+
+  const invalidselectedDays = () => {
+    return selectedDays.length === 0;
+  };
+
+  const invalidDate = () => {
+    return validationDate(startDate, endDate);
+  };
+
+  const invalidHours = () => {
+    return validationDate(startHour, endHour);
+  };
+
+  let payload = '';
+
+  const invalidadType = () => {
+    return payload === '';
+  };
+
+  switch (type) {
+    case 1:
+      payload = image;
+      break;
+    case 2:
+      payload = video;
+      break;
+    case 3:
+      payload = text;
+      break;
+    default:
+      break;
+  }
+
   const [emptyFields, setEmptyFields] = React.useState({
     advertisingName: false,
     selectedSector: false,
@@ -130,28 +170,23 @@ function FormAdvertising({
     }).then((result) => {
       if (result.isConfirmed) {
         if (advertising) {
-          //eliminarAdvertising(advertising.id); //api delete
-          Toast.fire({
-            icon: 'success',
-            title: 'Se ha eliminado el aviso',
-          });
-          closeModal();
+          advertisingsAPI
+            .delete(advertising.id)
+            .then((r) => {
+              Toast.fire({
+                icon: 'success',
+                title: 'Se ha eliminado el aviso',
+              });
+              setAdvertisingsJSON();
+              closeModal();
+            })
+            .catch((error) => console.error(error));
         }
       }
     });
   };
 
   const handleSendAdvertisingClick = () => {
-    const emptyFieldsUpdate = {
-      advertisingName: advertisingName === '',
-      selectedSector: selectedSector.length === 0,
-      selectedDays: selectedDays.length === 0,
-      date: validationDate(startDate, endDate),
-      hour: validationDate(startHour, endHour),
-      type: image === '' && text === '' && video === '',
-    };
-    setEmptyFields(emptyFieldsUpdate);
-
     const daysCode = convertDaysToNumbers(selectedDays);
 
     const hstart = dayjs(startHour).format('YYYY-MM-DD HH:mm:ss.SSS ZZ');
@@ -173,22 +208,6 @@ function FormAdvertising({
       return rest;
     });
 
-    let payload = '';
-
-    switch (type) {
-      case 1:
-        payload = image;
-        break;
-      case 2:
-        payload = video;
-        break;
-      case 3:
-        payload = text;
-        break;
-      default:
-        break;
-    }
-
     const newAdvertising = {
       name: advertisingName,
       payload: payload,
@@ -201,6 +220,16 @@ function FormAdvertising({
       sectors: sectores,
       schedules: schedules,
     };
+
+    const emptyFieldsUpdate = {
+      advertisingName: advertisingName === '',
+      selectedSector: selectedSector.length === 0,
+      selectedDays: selectedDays.length === 0,
+      date: validationDate(startDate, endDate),
+      hour: validationDate(startHour, endHour),
+      type: payload === '',
+    };
+    setEmptyFields(emptyFieldsUpdate);
 
     if (Object.values(emptyFieldsUpdate).filter((value) => value).length > 1) {
       //TODO: Faltaría agregar una lista de los campos que estan incompletos y ponerlo en el mensaje de error.
@@ -217,35 +246,37 @@ function FormAdvertising({
       messageError('Falta completar el horario de los avisos.');
     } else if (endDate !== null && startDate !== null && endDate <= startDate) {
       messageError('La fecha final no debe ser anterior a la de inicio.');
-    } else if (payload === '' && type === 0) {
+    } else if (payload === '') {
       messageError('Falta agregarle al aviso un texto, video o imagen.');
     } else if (type === 2 && !payload) {
       messageError('URL YouTube incorrecta.');
-    } else if (isCreate) {
-      advertisingsAPI
-        .create(newAdvertising)
-        .then((r) => {
-          setAdvertisingsJSON();
-          closeModal();
-          Toast.fire({
-            icon: 'success',
-            title: 'Se ha creado el aviso',
-          });
-        })
-        .catch((error) => console.error(error));
     } else {
-      if (advertising) {
+      if (isCreate) {
         advertisingsAPI
-          .edit(advertising.id, newAdvertising)
+          .create(newAdvertising)
           .then((r) => {
             setAdvertisingsJSON();
             closeModal();
             Toast.fire({
               icon: 'success',
-              title: 'Se ha editado el aviso',
+              title: 'Se ha creado el aviso',
             });
           })
           .catch((error) => console.error(error));
+      } else {
+        if (advertising) {
+          advertisingsAPI
+            .edit(advertising.id, newAdvertising)
+            .then((r) => {
+              setAdvertisingsJSON();
+              closeModal();
+              Toast.fire({
+                icon: 'success',
+                title: 'Se ha editado el aviso',
+              });
+            })
+            .catch((error) => console.error(error));
+        }
       }
     }
   };
@@ -260,16 +291,20 @@ function FormAdvertising({
               type="text"
               placeholder="Nombre del aviso..."
               className={`text-[20px] font-[400] tracking-[-0.4px] rounded-[30px] bg-[#D9D9D9] flex w-[365px] h-[50px] px-[40px] py-[12px] items-center ${
-                emptyFields.advertisingName ? 'invalid-field' : ''
+                emptyFields.advertisingName && invalidName()
+                  ? 'invalid-field'
+                  : ''
               }`}
               value={advertisingName}
-              onChange={(e) => setAdvertisingName(e.target.value)}
+              onChange={(e) => {
+                setAdvertisingName(e.target.value);
+              }}
               defaultValue={advertisingName}
               autoComplete="off"
             ></input>
             {ErrorMessage(
               '*Falta completar el nombre del aviso.',
-              emptyFields.advertisingName,
+              invalidName() && emptyFields.advertisingName,
             )}
           </div>
           <div className="flex-col justify-center">
@@ -280,7 +315,7 @@ function FormAdvertising({
             <div>
               {ErrorMessage(
                 '*Falta seleccionar los sectores.',
-                emptyFields.selectedSector,
+                emptyFields.selectedSector && invalidSectors(),
               )}
             </div>
           </div>
@@ -295,7 +330,10 @@ function FormAdvertising({
                 selectedDateFinal={endDate}
                 isCreate={isCreate}
               />
-              {ErrorMessage('*Falta completar las fechas.', emptyFields.date)}
+              {ErrorMessage(
+                '*Falta completar las fechas.',
+                emptyFields.date && invalidDate(),
+              )}
             </div>
             <div className="flex-col justify-center pt-10">
               <DayPicker
@@ -304,7 +342,7 @@ function FormAdvertising({
               />
               {ErrorMessage(
                 '*Falta elegir los días.',
-                emptyFields.selectedDays,
+                emptyFields.selectedDays && invalidselectedDays(),
               )}
             </div>
             <div className="flex-col justify-center pt-10">
@@ -314,7 +352,10 @@ function FormAdvertising({
                 selectedHourInit={startHour}
                 selectedHourFinal={endHour}
               />
-              {ErrorMessage('*Falta completar los horarios', emptyFields.hour)}
+              {ErrorMessage(
+                '*Falta completar los horarios',
+                emptyFields.hour && invalidHours(),
+              )}
             </div>
           </div>
           <div className="pr-[1em] pt-[20px] z-[999]">
@@ -330,32 +371,30 @@ function FormAdvertising({
             />
             {ErrorMessage(
               '*Falta completar el tipo del aviso',
-              emptyFields.type,
+              emptyFields.type && invalidadType(),
             )}
           </div>
         </div>
       </form>
       <div className="flex justify-between mt-[2em] mx-[4.5em]">
         <div>
-          <Button
-            onClick={handleDeleteAdvertisingClick}
-            active={true}
-            type={0}
-            label="ELIMINAR"
-            className={`${
-              isCreate
-                ? 'hidden'
-                : 'bg-[white] text-[#ff4949] border-2 border-red-500 rounded-[30px] py-[16px] w-[300px] h-[40px] font-[600] text-[20px] flex items-center justify-center hover:bg-[red] hover:text-[white]'
-            }`}
-          />
+          {!isCreate ? (
+            <Button
+              onClick={handleDeleteAdvertisingClick}
+              active={true}
+              type={3}
+              label="ELIMINAR"
+            />
+          ) : (
+            ''
+          )}
         </div>
         <div className="">
           <Button
             onClick={handleSendAdvertisingClick}
             active={true}
-            type={0}
+            type={1}
             label="GUARDAR"
-            className="rounded-[30px] py-[16px] w-[300px] h-[40px] font-[600] text-[20px] flex items-center justify-center hover:bg-[#2c9dbfc5]"
           />
         </div>
       </div>

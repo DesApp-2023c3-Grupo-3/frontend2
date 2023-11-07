@@ -2,7 +2,7 @@ import { create } from 'zustand';
 
 const INITIAL_CONNECTION_STATE = {
   screen: {
-    id: -1,
+    id: 0,
     subscription: "",
     templeteId: "",
     courseIntervalTime: 0,
@@ -11,7 +11,7 @@ const INITIAL_CONNECTION_STATE = {
     updatedAt: "", 
     deletedAt: "",
     sector: {
-      id: -1,
+      id: 0,
       name: "",
       topic: "",
       createdAt: "",
@@ -20,7 +20,7 @@ const INITIAL_CONNECTION_STATE = {
     }
   },
   sector: {
-    id: -1,
+    id: 0,
     name: "",
     topic: "",
     createdAt: "",
@@ -28,7 +28,7 @@ const INITIAL_CONNECTION_STATE = {
     deletedAt: ""
   },
   action: "",
-  id: -1
+  id: 0
 };
 
 interface ScreenConnection {

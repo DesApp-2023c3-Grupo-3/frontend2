@@ -5,7 +5,9 @@ function ErrorMessage(message: string, condition: boolean) {
     return null; // No muestra nada si la condición es falsa
   }
 
-  return <p className="text-[red] text-[12px] ml-3 relative">{message}</p>;
+  return (
+    <span className="text-[red] text-[12px] ml-3 relative">{message}</span>
+  );
 }
 
 export default ErrorMessage;

@@ -4,7 +4,7 @@ import { abbreviateSectorName } from '../../../../utils/AbbreviateSectorName';
 import { sectorApi } from '../../../../../../services/sectores';
 
 interface SectoresProps {
-  selectedSector: Sector[];
+  selectedSector: Sector;
   onSelectedSectorChange: (newSelectedSector: Sector[]) => void;
 }
 
@@ -56,11 +56,7 @@ function Sectores({ selectedSector, onSelectedSectorChange }: SectoresProps) {
               </svg>
             </div>
             <span className="flex text-black opacity-[0.33] items-center">
-              {selectedSector.length === 0
-                ? 'Sector/es'
-                : selectedSector
-                    .map((sector) => abbreviateSectorName(sector.name))
-                    .join(', ')}
+              {selectedSector === null ? 'Sector/es' : selectedSector.name}
             </span>
           </Listbox.Button>
           <Transition
@@ -93,7 +89,7 @@ function Sectores({ selectedSector, onSelectedSectorChange }: SectoresProps) {
                       }
                       value={sector}
                       onClick={() => {
-                        onSelectedSectorChange([...selectedSector, sector]);
+                        onSelectedSectorChange([sector]);
                       }}
                     >
                       {({ selected }) => (

@@ -23,18 +23,22 @@ function FormCommission({
   const [selectedFileName, setSelectedFileName] = useState('');
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [endDate, setEndDate] = useState<Date>(new Date());
-  const [sector, setSector] = useState<Array<Commission['sector']>>([]);
-  const [selectedSector, setSelectedSector] = useState<Sector[]>([]);
-  
-  const handleSelectedSectorChange = (newSelectedSector: Sector[]) => {
-    setSelectedSector(newSelectedSector);
-  };
+  const [selectedSector, setSelectedSector] = useState<Sector>({
+    id: -1,
+    name: 'Sector/es',
+  });
+  const [hasSelectedDates, setHasSelectedDates] = useState<{
+    hasStartDate: boolean;
+    hasEndDate: boolean;
+  }>({ hasStartDate: false, hasEndDate: false });
 
   const handleStartDateChange = (newStartDate: Date) => {
     setStartDate(newStartDate);
+    setHasSelectedDates({ ...hasSelectedDates, hasStartDate: true });
   };
   const handleEndDateChange = (newEndDate: Date) => {
     setEndDate(newEndDate);
+    setHasSelectedDates({ ...hasSelectedDates, hasEndDate: true });
   };
 
   interface Sector {
@@ -42,7 +46,9 @@ function FormCommission({
     name: string;
   }
 
-
+  const handleSelectedSectorChange = (newSelectedSector: Sector) => {
+    setSelectedSector(newSelectedSector);
+  };
 
   const toggleTable = () => {
     setHasDocument(!hasDocument);
@@ -58,9 +64,6 @@ function FormCommission({
     const excel = e.target?.files[0];
     const formData = new FormData();
     formData.append('file', excel);
-    formData.append('startDate', startDate.toString());
-    formData.append('endDate', endDate.toString());
-    formData.append('sector', selectedSector.toString());
     setExcelData(formData);
     setSelectedFileName(excel.name);
     const newTableData: any = await commissionApi.toJson(formData);
@@ -78,13 +81,25 @@ function FormCommission({
   };
 
   const uploadTemplate = () => {
-    if (!hasDocument) return;
+    if (!hasValidCommission()) return;
+    excelData.append('startDate', startDate.toISOString());
+    excelData.append('endDate', endDate.toISOString());
+    excelData.append('sector', selectedSector.id.toString());
     commissionApi.create(excelData).then(() => updateCommissionsTable());
     closeModal();
   };
 
   const downloadTemplate = () => {
     commissionApi.download();
+  };
+
+  const hasValidCommission = () => {
+    return (
+      hasDocument &&
+      selectedSector.id !== -1 &&
+      hasSelectedDates.hasStartDate &&
+      hasSelectedDates.hasEndDate
+    );
   };
 
   return (
@@ -211,7 +226,7 @@ function FormCommission({
         />
         <Button
           onClick={uploadTemplate}
-          active={hasDocument}
+          active={hasValidCommission()}
           type={1}
           label={'GUARDAR'}
         />
