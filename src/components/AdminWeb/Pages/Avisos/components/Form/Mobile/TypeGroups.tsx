@@ -1,21 +1,27 @@
-import { useState } from 'react';
+import * as React from 'react';
 import { RadioGroup } from '@headlessui/react';
 
-const type = [
+const types = [
   {
+    id: 1,
     name: 'Imagen',
   },
   {
+    id: 2,
     name: 'Video',
   },
   {
+    id: 3,
     name: 'Texto',
   },
 ];
 
-export default function TypeGroup() {
-  const [selected, setSelected] = useState(type[0]);
+interface TypeGroupProp {
+  type: number;
+  setType: (a: any) => void;
+}
 
+export function TypeGroup({ type, setType }: TypeGroupProp) {
   return (
     <div className="w-full px-4 py-16">
       <div className="mb-3">
@@ -24,12 +30,15 @@ export default function TypeGroup() {
         </span>
       </div>
       <div className="mx-auto w-full max-w-md">
-        <RadioGroup value={selected} onChange={setSelected}>
+        <RadioGroup
+          value={types.find((plan) => plan.id === type)}
+          onChange={(e) => setType(e.id)}
+        >
           <RadioGroup.Label className="sr-only">Server size</RadioGroup.Label>
           <div className="space-y-2">
-            {type.map((plan) => (
+            {types.map((plan) => (
               <RadioGroup.Option
-                key={plan.name}
+                key={plan.id}
                 value={plan}
                 className={({ active, checked }) =>
                   `h-[70px]
@@ -42,7 +51,7 @@ export default function TypeGroup() {
                     relative flex cursor-pointer rounded-[20px] px-5 py-4 shadow-md focus:outline-none`
                 }
               >
-                {({ active, checked }) => (
+                {({ checked }) => (
                   <>
                     <div className="flex w-full items-center justify-between">
                       <div className="flex items-center">

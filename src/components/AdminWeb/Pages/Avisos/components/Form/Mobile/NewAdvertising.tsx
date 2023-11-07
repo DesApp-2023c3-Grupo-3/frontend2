@@ -1,7 +1,7 @@
 import ErrorMessage from '../../../../../components/ErrorMessage';
 import Sectores, { Sector } from '../../../../../components/Sectores';
 import { InputName } from '../InputNameAdvertising';
-import TypeGroup from './TypeGroup';
+import { TypeGroup } from './TypeGroups';
 
 interface NewAdvertisingProp {
   emptyFields: {
@@ -18,6 +18,8 @@ interface NewAdvertisingProp {
   selectedSector: Sector[];
   setSelectedSector: (a: Sector[]) => void;
   invalidSectors: () => boolean;
+  type: number;
+  setType: (a: number) => void;
 }
 
 export function NewAdvertising({
@@ -28,9 +30,11 @@ export function NewAdvertising({
   selectedSector,
   setSelectedSector,
   invalidSectors,
+  type,
+  setType,
 }: NewAdvertisingProp) {
   return (
-    <>
+    <div className="">
       <div>
         <div className="ml-[20px] text-[24px] font-bold mt-[-50px]">
           <span>NUEVO AVISO</span>
@@ -59,9 +63,9 @@ export function NewAdvertising({
           </div>
         </div>
         <div>
-          <TypeGroup />
+          <TypeGroup type={type} setType={setType} />
         </div>
       </div>
-    </>
+    </div>
   );
 }
