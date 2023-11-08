@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 
 export function useCarouselVideo(items: any[]) {
   const [selectedIndex, setSelectedIndex] = useState(0);

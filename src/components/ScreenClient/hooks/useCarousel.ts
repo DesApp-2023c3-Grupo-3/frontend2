@@ -5,11 +5,11 @@ export function useCarousel(items: any[], initialTime: number) {
   const [selectedItem, setSelectedItem] = useState(items[0]);
 
   useEffect(() => {
-      const interval = setInterval(() => {
-        selectNewItem(selectedIndex, items);
-      }, initialTime * 1000);
+    const interval = setInterval(() => {
+      selectNewItem(selectedIndex, items);
+    }, initialTime * 1000);
 
-      return () => clearInterval(interval);
+    return () => clearInterval(interval);
   });
 
   const selectNewItem = (index: number, items: string[]) => {

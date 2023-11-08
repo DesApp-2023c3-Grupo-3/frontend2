@@ -1,4 +1,4 @@
-import dayjs from "dayjs";
+import dayjs from 'dayjs';
 
 export function createHour() {
   const date = new Date();
@@ -13,7 +13,7 @@ export function createHour() {
   return { hour, minute, seconds };
 }
 
-export function formatDate(date:string) {
+export function formatDate(date: string) {
   const newDate = dayjs(new Date(date));
 
   const hour = String(newDate.hour()).padStart(2, '0');
@@ -23,12 +23,18 @@ export function formatDate(date:string) {
   return `${hour}:${minutes}:${seconds}`;
 }
 
-export function isActiveMessage({ startHour, endHour }:{ startHour:string, endHour:string }) {
-  const { hour, minute, seconds } = createHour()
+export function isActiveMessage({
+  startHour,
+  endHour,
+}: {
+  startHour: string;
+  endHour: string;
+}) {
+  const { hour, minute, seconds } = createHour();
 
-  const actualHour = `${hour}:${minute}:${seconds}`
-  const startHourFormat = formatDate(startHour)
-  const endHourFormat = formatDate(endHour)
+  const actualHour = `${hour}:${minute}:${seconds}`;
+  const startHourFormat = formatDate(startHour);
+  const endHourFormat = formatDate(endHour);
 
-  return actualHour >= startHourFormat && actualHour <= endHourFormat
+  return actualHour >= startHourFormat && actualHour <= endHourFormat;
 }

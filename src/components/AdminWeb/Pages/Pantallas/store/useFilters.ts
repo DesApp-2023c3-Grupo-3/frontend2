@@ -1,26 +1,25 @@
-import { create } from "zustand";
+import { create } from 'zustand';
 
 interface StoreUseFilters {
-    isSelectedAll: boolean,
-    sector: string,
-    setIsSelectedAll: (newState: boolean) => void
-    setSector: (newSector: string) => void
+  isSelectedAll: boolean;
+  sector: string;
+  setIsSelectedAll: (newState: boolean) => void;
+  setSector: (newSector: string) => void;
 }
 
 export const useFilters = create<StoreUseFilters>()((set) => ({
-    isSelectedAll: false,
-    sector: "Todos",
+  isSelectedAll: false,
+  sector: 'Todos',
 
-    setIsSelectedAll: (newState: boolean) => {
-        set(({
-            isSelectedAll: newState
-        }))
-    },
+  setIsSelectedAll: (newState: boolean) => {
+    set({
+      isSelectedAll: newState,
+    });
+  },
 
-    setSector: (newSector: string) => {
-        set(({
-            sector: newSector
-        }))
-    } 
-
-}))
+  setSector: (newSector: string) => {
+    set({
+      sector: newSector,
+    });
+  },
+}));

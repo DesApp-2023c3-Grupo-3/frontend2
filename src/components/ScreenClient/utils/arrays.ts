@@ -1,5 +1,5 @@
-import { Message } from "../mocks/imagenes";
-import { DataAdvertising } from "../store/useAdvertisingMessages";
+import { Message } from '../mocks/imagenes';
+import { DataAdvertising } from '../store/useAdvertisingMessages';
 
 const ADVERTISING_TYPE_VIDEO = 2;
 

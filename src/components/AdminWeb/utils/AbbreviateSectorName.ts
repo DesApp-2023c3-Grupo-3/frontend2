@@ -1,10 +1,10 @@
-import { Sector } from "../components/Sectores";
+import { Sector } from '../components/Sectores';
 
-const sectorCodesToName : any = {
-  1:'Malvinas Argentinas',
-  2:'Sector 6',
-  3:'Sector E',
-  4:'Origone A'
+const sectorCodesToName: any = {
+  1: 'Malvinas Argentinas',
+  2: 'Sector 6',
+  3: 'Sector E',
+  4: 'Origone A',
 };
 
 export function abbreviateSectorName(sectorName: string): string {
@@ -32,4 +32,3 @@ export const convertCodesToSectors = (codes: number[]): Sector[] => {
     }
   });
 };
-

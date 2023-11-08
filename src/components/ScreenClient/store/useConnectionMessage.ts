@@ -3,32 +3,32 @@ import { create } from 'zustand';
 const INITIAL_CONNECTION_STATE = {
   screen: {
     id: 0,
-    subscription: "",
-    templeteId: "",
+    subscription: '',
+    templeteId: '',
     courseIntervalTime: 0,
     advertisingIntervalTime: 0,
-    createdAt: "",
-    updatedAt: "", 
-    deletedAt: "",
+    createdAt: '',
+    updatedAt: '',
+    deletedAt: '',
     sector: {
       id: 0,
-      name: "",
-      topic: "",
-      createdAt: "",
-      updatedAt: "",
-      deletedAt: ""
-    }
+      name: '',
+      topic: '',
+      createdAt: '',
+      updatedAt: '',
+      deletedAt: '',
+    },
   },
   sector: {
     id: 0,
-    name: "",
-    topic: "",
-    createdAt: "",
-    updatedAt: "",
-    deletedAt: ""
+    name: '',
+    topic: '',
+    createdAt: '',
+    updatedAt: '',
+    deletedAt: '',
   },
-  action: "",
-  id: 0
+  action: '',
+  id: 0,
 };
 
 interface ScreenConnection {
@@ -39,46 +39,46 @@ interface ScreenConnection {
   advertisingIntervalTime: number;
   sector: SectorScreen;
   createdAt: string;
-  updatedAt: string; 
+  updatedAt: string;
   deletedAt: string;
 }
 
 interface DataConnection {
-  screen: ScreenConnection,
-  sector: SectorConnection,
-  id: number,
-  action: string
+  screen: ScreenConnection;
+  sector: SectorConnection;
+  id: number;
+  action: string;
 }
 
 interface SectorConnection {
-  createdAt: string,
-  deletedAt: string,
-  id: number,
-  name:string,
-  topic:string,
-  updatedAt: string,
+  createdAt: string;
+  deletedAt: string;
+  id: number;
+  name: string;
+  topic: string;
+  updatedAt: string;
 }
 
 interface SectorScreen {
-  id: number,
-  name: string,
-  topic: string,
-  createdAt: string,
-  updatedAt: string,
-  deletedAt: string
+  id: number;
+  name: string;
+  topic: string;
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: string;
 }
 
 type StoreConnection = {
-    connectionMessage: DataConnection
-    setConnection: (connection: DataConnection) => void
+  connectionMessage: DataConnection;
+  setConnection: (connection: DataConnection) => void;
 };
 
-export const useConnectionMessage = create<StoreConnection>()(set => ({
-    connectionMessage: INITIAL_CONNECTION_STATE,
-  
-    setConnection: (connection: DataConnection) => {
-      set(({
-        connectionMessage: connection
-      }))
-    },
-}))
+export const useConnectionMessage = create<StoreConnection>()((set) => ({
+  connectionMessage: INITIAL_CONNECTION_STATE,
+
+  setConnection: (connection: DataConnection) => {
+    set({
+      connectionMessage: connection,
+    });
+  },
+}));
