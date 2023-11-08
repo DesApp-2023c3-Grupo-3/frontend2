@@ -23,9 +23,6 @@ jobs:
         id: get_tag
         run: echo "::set-output name=tag::$(echo $GITHUB_REF | awk 'BEGIN {FS="/"} {print $3}')"
 
-      - name: Valor
-        run: echo ${{secrets.REACT_APP_WEBSOCKET_HOST}} >> $GITHUB_OUTPUT
-
       - name: Construir imagen de Docker
         env:
           REACT_APP_WEBSOCKET_HOST: ${{ secrets.REACT_APP_WEBSOCKET_HOST }}
