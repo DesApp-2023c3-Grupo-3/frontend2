@@ -16,6 +16,8 @@ function Avisos() {
   const [editRow, setEditRow] = React.useState<Advertising>();
   const [isEditing, setIsEditing] = React.useState(false);
 
+  const [loading, setLoading] = React.useState(false);
+
   const handleRowClick = (advertising: any) => {
     setEditRow(advertising);
     setIsEditing(true);
@@ -35,10 +37,12 @@ function Avisos() {
   const idRolUser = 1; // TODO: id del rol del usuario logeado
 
   const GetData = () => {
+    setLoading(true);
     advertisingsAPI
       .getAll(idRolUser)
       .then((r) => {
         setAdvertisingsJSON(r.data);
+        setLoading(false);
       })
       .catch((e) => {
         console.error(e);
@@ -187,6 +191,7 @@ function Avisos() {
           GetData={GetData}
           isEditing={isEditing}
           editRow={editRow}
+          loading={loading}
         />
       ) : (
         <DesktopBody
@@ -199,6 +204,7 @@ function Avisos() {
           GetData={GetData}
           isEditing={isEditing}
           editRow={editRow}
+          loading={loading}
         />
       )}
     </>

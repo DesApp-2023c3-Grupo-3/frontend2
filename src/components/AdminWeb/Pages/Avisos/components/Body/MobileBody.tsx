@@ -1,3 +1,4 @@
+import Loader from '../../../../components/Loader';
 import ModalMobile from '../../../../components/Modal/ModalMobile';
 import Table from '../../../../components/Table/Table';
 import { Advertising } from '../../../../types/customTypes';
@@ -13,6 +14,7 @@ interface MobileBodyProps {
   GetData: () => void;
   isEditing: boolean;
   editRow?: Advertising;
+  loading: boolean;
 }
 
 export function MobileBody({
@@ -25,39 +27,46 @@ export function MobileBody({
   GetData,
   isEditing,
   editRow,
+  loading,
 }: MobileBodyProps) {
   return (
     <>
-      <section className="mx-[3%] mt-[3em]">
+      <section className="mx-[3%] mt-[3em] w-full">
         <div className="flex items-center">
           <h1 className="text-[3em] font-[700] text-[#484848] tracking-[-1.28px] ml-[25px]">
             Avisos
           </h1>
-          <div id="modal" className="flex items-center ml-[15px] z-[4]">
-            <ModalMobile
-              isOpen={isOpen}
-              closeModal={onCloseClick}
-              openModal={openModal}
-              label="NUEVO"
-            >
-              <FormMobile
-                setAdvertisingsJSON={GetData}
+          {!loading && (
+            <div id="modal" className="flex items-center ml-[15px] z-[4]">
+              <ModalMobile
+                isOpen={isOpen}
                 closeModal={onCloseClick}
-                isCreate={!isEditing}
-                advertising={editRow}
-              />
-            </ModalMobile>
-          </div>
+                openModal={openModal}
+                label="NUEVO"
+              >
+                <FormMobile
+                  setAdvertisingsJSON={GetData}
+                  closeModal={onCloseClick}
+                  isCreate={!isEditing}
+                  advertising={editRow}
+                />
+              </ModalMobile>
+            </div>
+          )}
         </div>
 
-        <div className="mt-[-70px]">
-          <Table
-            dataJSON={advertisingsJSON}
-            columns={tableColumns}
-            onRowClick={handleRowClick}
-          />
-          <div className="flex justify-end"></div>
-        </div>
+        {loading ? (
+          <Loader />
+        ) : (
+          <div className="mt-[-70px]">
+            <Table
+              dataJSON={advertisingsJSON}
+              columns={tableColumns}
+              onRowClick={handleRowClick}
+            />
+            <div className="flex justify-end"></div>
+          </div>
+        )}
       </section>
     </>
   );
