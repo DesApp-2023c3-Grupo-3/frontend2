@@ -1,6 +1,9 @@
 # Etapa de compilación
 FROM node:14 AS builder
 
+ARG REACT_APP_WEBSOCKET_HOST
+ENV REACT_APP_WEBSOCKET_HOST=${REACT_APP_WEBSOCKET_HOST}
+
 WORKDIR /app
 
 COPY package*.json ./
@@ -13,8 +16,7 @@ RUN npm run build
 # Etapa de producción
 FROM nginx:alpine
 
-ARG REACT_APP_WEBSOCKET_HOST
-ENV REACT_APP_WEBSOCKET_HOST=${REACT_APP_WEBSOCKET_HOST}
+
 
 ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}
