@@ -1,6 +1,7 @@
 const HOST = process.env.REACT_APP_WEBSOCKET_HOST || window.location.hostname;
 const PORT = process.env.REACT_APP_WEBSOCKET_PORT || window.location.port;
 
+console.log('Soy el host:' , HOST)
 export const initializeSocketConnection = async (
   screenId: number,
   onMessageAction: any,
