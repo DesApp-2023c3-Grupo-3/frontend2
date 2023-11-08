@@ -1,6 +1,22 @@
-import qr from '../assets/qr.png';
+import React, { useState, useEffect } from 'react';
+import { imageAPI } from '../../../services/image';
 
 function Footer() {
+  const [qrImage, setQrImage] = useState('');
+
+  useEffect(() => {
+    imageAPI
+      .viewQr()
+      .then((response) => {
+        const blob = new Blob([response.data], { type: 'image/png' });
+        const imageUrl = URL.createObjectURL(blob);
+        setQrImage(imageUrl);
+      })
+      .catch((error) => {
+        console.error('Error al obtener la imagen del código QR:', error);
+      });
+  }, []);
+
   return (
     <footer className="flex w-full h-[19%]">
       <section className="text-[7vh] w-2/4 flex justify-center items-center">
@@ -12,7 +28,9 @@ function Footer() {
             Escanea el código y recorre los espacios de la Universidad.
           </p>
           <article className="p-1 bg-white rounded-2xl h-[80%] overflow-hidden">
-            <img src={qr} className="w-full h-full" alt="" />
+            {qrImage && (
+              <img src={qrImage} className="w-full h-full" alt="Código QR" />
+            )}
           </article>
         </div>
       </section>
