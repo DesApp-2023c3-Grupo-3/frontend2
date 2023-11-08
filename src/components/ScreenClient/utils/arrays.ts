@@ -43,7 +43,7 @@ function splitListWithVideos(array: DataAdvertising[]) {
   return [arrayWithVideos, arrayWithoutVideos];
 }
 
-export function theyAreEqual(array1:DataAdvertising[], array2:DataAdvertising[]) {
+export function theyAreEqual(array1:any[], array2:any[]) {
 
   if (array1.length !== array2.length) return false
 
