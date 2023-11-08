@@ -1,5 +1,3 @@
-import * as React from 'react';
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { TimePicker } from '@mui/x-date-pickers';
 import dayjs, { Dayjs } from 'dayjs';
 
@@ -32,28 +30,27 @@ function PickerTime({
 
   return (
     <div className="flex items-center justify-center">
-      <div className=" ">
-        <DemoContainer components={['Inicio', 'Final']}>
-          <TimePicker
-            className=" w-[100px]"
-            label="Hora de Inicio"
-            value={selectedHourInit}
-            onChange={(newTime: any) => {
-              handleStartHourChange(newTime);
-            }}
-            defaultValue={selectedHourInit}
-          />
-
-          <TimePicker
-            className=" w-[100px] "
-            label="Hora Final"
-            value={selectedHourFinal}
-            onChange={(newTime: any) => {
-              handleEndHourChange(newTime);
-            }}
-            defaultValue={selectedHourFinal}
-          />
-        </DemoContainer>
+      <div className="w-[40%] min-w-[160px] mr-3">
+        <TimePicker
+          className=""
+          label="Hora de Inicio"
+          value={selectedHourInit}
+          onChange={(newTime: any) => {
+            handleStartHourChange(newTime);
+          }}
+          defaultValue={selectedHourInit}
+        />
+      </div>
+      <div className="w-[40%] min-w-[160px]">
+        <TimePicker
+          className=""
+          label="Hora Final"
+          value={selectedHourFinal}
+          onChange={(newTime: any) => {
+            handleEndHourChange(newTime);
+          }}
+          defaultValue={selectedHourFinal}
+        />
       </div>
     </div>
   );

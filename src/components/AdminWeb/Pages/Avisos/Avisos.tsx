@@ -1,13 +1,12 @@
-import Modal from '../../components/Modal';
-import FormAdvertising from './components/Modal/FormAdvertising';
 import { useModal } from '../../hooks/useModal';
 import { Advertising } from '../../types/customTypes';
 import React from 'react';
 import { advertisingsAPI } from '../../../../services/advertisings';
 import { Helmet } from 'react-helmet';
-import Table from '../../components/Table/Table';
 import { abbreviateSectorName } from '../../utils/AbbreviateSectorName';
 import dayjs from 'dayjs';
+import { DesktopBody } from './components/Body/DesktopBody';
+import { MobileBody } from './components/Body/MobileBody';
 
 function Avisos() {
   const [advertisingsJSON, setAdvertisingsJSON] = React.useState<Advertising[]>(
@@ -83,7 +82,7 @@ function Avisos() {
   const endhour = (advertising: Advertising) =>
     dayjs(advertising.advertisingSchedules[0].schedule.endHour).format('HH:mm');
 
-  const tableColumns = new Map<string, (advertising: any) => void>([
+  const tableColumnsDesktop = new Map<string, (advertising: any) => void>([
     [
       '',
       (advertising: Advertising) => {
@@ -122,6 +121,21 @@ function Avisos() {
     ],
   ]);
 
+  const tableColumnsMobile = new Map<string, (user: any) => void>([
+    [
+      'Nombre',
+      (advertising: Advertising) => {
+        return advertising.name;
+      },
+    ],
+    [
+      'Estado',
+      (advertising: Advertising) => {
+        return status(advertising);
+      },
+    ],
+  ]);
+
   const status = (advertising: Advertising) => {
     return (
       <div
@@ -139,41 +153,55 @@ function Avisos() {
     today: 'bg-[#C2B222]',
   };
 
+  const [isMobile, setIsMobile] = React.useState(
+    window.matchMedia('(max-width: 768px)').matches,
+  );
+
+  React.useEffect(() => {
+    const mediaQuery = window.matchMedia('(max-width: 768px)');
+
+    const handleResize = () => {
+      setIsMobile(mediaQuery.matches);
+    };
+
+    mediaQuery.addEventListener('change', handleResize);
+
+    return () => {
+      mediaQuery.removeEventListener('change', handleResize);
+    };
+  }, []);
+
   return (
     <>
       <Helmet>
         <title>Administrador de cartelera | Avisos</title>
       </Helmet>
-      <section className="mx-[3%]">
-        <h1 className="text-[4rem] font-[700] text-[#484848] tracking-[-1.28px] mt-[20px]">
-          Avisos
-        </h1>
-
-        <div className="mt-[-70px] ">
-          <Table
-            dataJSON={advertisingsJSON}
-            columns={tableColumns}
-            onRowClick={handleRowClick}
-          />
-          <div className="flex justify-end">
-            <Modal
-              isOpen={isOpen}
-              closeModal={onCloseClick}
-              openModal={openModal}
-              label="NUEVO AVISO"
-            >
-              <FormAdvertising
-                setAdvertisingsJSON={GetData}
-                closeModal={onCloseClick}
-                isCreate={!isEditing}
-                advertising={editRow}
-              />
-            </Modal>
-          </div>
-        </div>
-      </section>
+      {isMobile ? (
+        <MobileBody
+          advertisingsJSON={advertisingsJSON}
+          tableColumns={tableColumnsMobile}
+          handleRowClick={handleRowClick}
+          isOpen={isOpen}
+          onCloseClick={onCloseClick}
+          openModal={openModal}
+          GetData={GetData}
+          isEditing={isEditing}
+          editRow={editRow}
+        />
+      ) : (
+        <DesktopBody
+          advertisingsJSON={advertisingsJSON}
+          tableColumns={tableColumnsDesktop}
+          handleRowClick={handleRowClick}
+          isOpen={isOpen}
+          onCloseClick={onCloseClick}
+          openModal={openModal}
+          GetData={GetData}
+          isEditing={isEditing}
+          editRow={editRow}
+        />
+      )}
     </>
-    
   );
 }
 

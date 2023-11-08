@@ -101,8 +101,9 @@ function FormCommission({
   return (
     <div className="formCommission">
       <form className="mx-10">
-        <div className=" flex h-[90px] justify-between items-center">
+        <div className="flex h-[90px] justify-between items-center">
           <Sectores
+            style="w-[365px] h-[50px]"
             selectedSector={selectedSector}
             onSelectedSectorChange={handleSelectedSectorChange}
             hasError={true}
