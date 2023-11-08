@@ -12,7 +12,7 @@ export function useAvalaibleAdvertising(split:(lista:DataAdvertising[]) => DataA
         ],
     );
       const [first, second] = split(avalaibleAdvertisingMessages);
-    
+
       useEffect(() => {
         const interval = setInterval(() => {
             addAvalaibleAdvertisingMessage()

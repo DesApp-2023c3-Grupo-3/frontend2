@@ -1,12 +1,12 @@
 import { create } from "zustand";
-import { filterMessages } from "../utils/arrays";
+import { filterMessages, theyAreEqual } from "../utils/arrays";
 import { messages } from "../mocks/imagenes";
 import { isActiveMessage } from "../utils/hour";
 import { fetchAdvertisings } from "../services/fetchAdvertisings";
 
 export interface DataAdvertising {
     advertisingTypeId: number;
-    id: number;
+    advertisingId: number;
     payload: string;
     startHour: string,
     endHour: string
@@ -57,7 +57,9 @@ export const useAdvertisingMessages = create<StoreAdvertising>()((set, get) => (
           endHour: message.endHour
         }))
        
-        if(newAvailableMessages.length !== get().avalaibleAdvertisingMessages.length) {
+        console.log(theyAreEqual(newAvailableMessages, get().avalaibleAdvertisingMessages))
+
+        if(!theyAreEqual(newAvailableMessages, get().avalaibleAdvertisingMessages)) {
               set(({
                 avalaibleAdvertisingMessages: newAvailableMessages
               }))
@@ -93,19 +95,22 @@ export const useAdvertisingMessages = create<StoreAdvertising>()((set, get) => (
     },
 
     updateAdvertising: (newMessage:DataAdvertising) => {
-      const advertisingMessagesFiltered = get().advertisingMessages.filter(message => message.id !== newMessage.id)
-
+      const advertisingMessagesFiltered = get().advertisingMessages.filter(message => message.advertisingId !== newMessage.advertisingId)
+      
       set({
         advertisingMessages: [...advertisingMessagesFiltered, newMessage]
       })
     },
 
     deleteAdvertising: (newMessage:DataAdvertising) => {
-      const advertisingMessagesFiltered = get().advertisingMessages.filter(message => message.id !== newMessage.id)
+      const advertisingMessagesFiltered = get().advertisingMessages.filter(message => message.advertisingId !== newMessage.advertisingId)
 
       set({
         advertisingMessages: advertisingMessagesFiltered
       })
+
+      console.log(get().advertisingMessages)
+      console.log(get().avalaibleAdvertisingMessages)
     }
 
 }));

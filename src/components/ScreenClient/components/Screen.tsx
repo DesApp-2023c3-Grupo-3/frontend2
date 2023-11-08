@@ -36,6 +36,6 @@ export default function Screen() {
       Error: {fetchError}
     </div>
   ) : (
-    billboards[parseInt(typeScreen.screen.templeteId)]
+    billboards[1]
   );
 }
