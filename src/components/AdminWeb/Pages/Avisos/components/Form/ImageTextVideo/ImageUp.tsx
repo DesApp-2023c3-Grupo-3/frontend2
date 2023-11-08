@@ -79,7 +79,7 @@ export default ImageUp;
 
 const upImage = (handleImageUpload: any) => {
   return (
-    <label>
+    <>
       <input
         type="file"
         id="image-upload"
@@ -103,7 +103,7 @@ const upImage = (handleImageUpload: any) => {
           strokeLinejoin="round"
         />
       </svg>
-    </label>
+    </>
   );
 };
 
