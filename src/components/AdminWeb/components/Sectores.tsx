@@ -8,12 +8,14 @@ interface SectoresProps {
   selectedSector: Sector[];
   onSelectedSectorChange: (newSelectedSector: Sector[]) => void;
   hasError: boolean;
+  canChooseMany: boolean;
 }
 
 function Sectores({
   selectedSector,
   onSelectedSectorChange,
   hasError,
+  canChooseMany,
 }: SectoresProps) {
   const [selectAll, setSelectAll] = useState(false);
   const [sectorArray, setSectorArray] = useState<Sector[]>([]);
@@ -35,6 +37,11 @@ function Sectores({
     }
   };
 
+  const handlerOnSelect = (selected: Sector[] | Sector) => {
+    const toChange = Array.isArray(selected) ? selected : [selected];
+    onSelectedSectorChange(toChange);
+  };
+
   useEffect(() => {
     updateSectorArray();
   }, []);
@@ -43,8 +50,8 @@ function Sectores({
     <div className="w-[365px] h-[50px] mt-[17px]">
       <Listbox
         value={selectedSector}
-        onChange={onSelectedSectorChange}
-        multiple
+        onChange={handlerOnSelect}
+        multiple={canChooseMany}
       >
         <div className="fixed flex-row justify-center z-[10000]">
           <Listbox.Button
@@ -111,9 +118,9 @@ function Sectores({
                                 `
                       }
                       value={sector}
-                      onClick={() => {
-                        onSelectedSectorChange([...selectedSector, sector]);
-                      }}
+                      // onClick={() => {
+                      //   handlerOnSelect(sector);
+                      // }}
                     >
                       {({ selected }) => (
                         <div className="flex justify-start items-center">
@@ -132,13 +139,13 @@ function Sectores({
                   </div>
                 </div>
               ))}
-              <div className="flex justify-center items-center">
+              {canChooseMany ? <div className="flex justify-center items-center">
                 <Checkbox
                   checked={selectAll}
                   onChange={handleSelectAllChange}
                 />
                 <span>Seleccionar todo</span>
-              </div>
+              </div> : <></>}
             </Listbox.Options>
           </Transition>
         </div>

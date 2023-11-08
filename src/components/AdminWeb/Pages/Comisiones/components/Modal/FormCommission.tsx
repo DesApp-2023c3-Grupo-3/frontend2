@@ -1,6 +1,6 @@
 import Button from '../../../../components/Buttons/Button';
 import DatePickerDays from './DatePickerDays';
-import Sectores from './Sectores';
+import Sectores, { Sector } from '../../../../components/Sectores';
 import React, { useState } from 'react';
 import { Commission } from '../../../../types/customTypes';
 import { commissionApi } from '../../../../../../services/commissions';
@@ -23,10 +23,10 @@ function FormCommission({
   const [selectedFileName, setSelectedFileName] = useState('');
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [endDate, setEndDate] = useState<Date>(new Date());
-  const [selectedSector, setSelectedSector] = useState<Sector>({
+  const [selectedSector, setSelectedSector] = useState<Sector[]>([{
     id: -1,
     name: 'Sector/es',
-  });
+  }]);
   const [hasSelectedDates, setHasSelectedDates] = useState<{
     hasStartDate: boolean;
     hasEndDate: boolean;
@@ -41,12 +41,7 @@ function FormCommission({
     setHasSelectedDates({ ...hasSelectedDates, hasEndDate: true });
   };
 
-  interface Sector {
-    id: number;
-    name: string;
-  }
-
-  const handleSelectedSectorChange = (newSelectedSector: Sector) => {
+  const handleSelectedSectorChange = (newSelectedSector: Sector[]) => {
     setSelectedSector(newSelectedSector);
   };
 
@@ -84,7 +79,7 @@ function FormCommission({
     if (!hasValidCommission()) return;
     excelData.append('startDate', startDate.toISOString());
     excelData.append('endDate', endDate.toISOString());
-    excelData.append('sector', selectedSector.id.toString());
+    excelData.append('sector', selectedSector[0].id.toString());
     commissionApi.create(excelData).then(() => updateCommissionsTable());
     closeModal();
   };
@@ -96,7 +91,7 @@ function FormCommission({
   const hasValidCommission = () => {
     return (
       hasDocument &&
-      selectedSector.id !== -1 &&
+      selectedSector[0].id !== -1 &&
       hasSelectedDates.hasStartDate &&
       hasSelectedDates.hasEndDate
     );
@@ -109,6 +104,8 @@ function FormCommission({
           <Sectores
             selectedSector={selectedSector}
             onSelectedSectorChange={handleSelectedSectorChange}
+            hasError={1 > 2}
+            canChooseMany={false}
           />
           <div className="flex mt-[10px]">
             <DatePickerDays
