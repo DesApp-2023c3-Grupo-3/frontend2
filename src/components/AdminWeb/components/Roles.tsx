@@ -1,23 +1,22 @@
 import { Fragment, useState } from 'react';
 import { Listbox, Transition } from '@headlessui/react';
-import { abbreviateSectorName } from '../../../../utils/AbbreviateSectorName';
+import { abbreviateSectorName } from '../utils/AbbreviateSectorName';
 
 const sectors = [
-  { id: 1, name: 'Edificio Malvinas' },
-  { id: 2, name: 'Sector 6' },
-  { id: 3, name: 'Sector E' },
-  { id: 4, name: 'Origone A' },
+  { id: 1, name: 'Administrador' },
+  { id: 2, name: 'Comunicaciones' },
+  { id: 3, name: 'Gestión' },
 ];
 
-interface SectoresProps {
-  selectedSector: Sector;
-  onSelectedSectorChange: (newSelectedSector: Sector) => void;
+interface RolesProps {
+  selectedRole: UserRole;
+  onSelectedRoleChange: (newSelectedRole: UserRole) => void;
 }
 
-function Sectores({ selectedSector, onSelectedSectorChange }: SectoresProps) {
+function Sectores({ selectedRole, onSelectedRoleChange }: RolesProps) {
   return (
     <div className="w-[365px] h-[50px] mt-[17px]">
-      <Listbox value={selectedSector} onChange={onSelectedSectorChange}>
+      <Listbox value={selectedRole} onChange={onSelectedRoleChange}>
         <div className="fixed flex-row justify-center z-10">
           <Listbox.Button
             className={
@@ -46,7 +45,7 @@ function Sectores({ selectedSector, onSelectedSectorChange }: SectoresProps) {
               </svg>
             </div>
             <span className="flex text-black opacity-[0.33] items-center">
-              {selectedSector === null ? 'Sector/es' : selectedSector.name}
+              {selectedRole === null ? 'Sector/es' : selectedRole.name}
             </span>
           </Listbox.Button>
           <Transition
@@ -55,48 +54,37 @@ function Sectores({ selectedSector, onSelectedSectorChange }: SectoresProps) {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Listbox.Options className="bg-white w-[254px] ml-auto flex-row justify-center items-center shadow-lg rounded-t-[2px] rounded-b-[10px] ">
-              <span className="m-3 flex justify-center text-[#00000080] text-[20px]">
-                Edificio
-              </span>
+            <Listbox.Options className="bg-white w-[254px] mx-auto flex-row justify-center items-center shadow-lg rounded-t-[2px] rounded-b-[10px] py-4">
               {sectors.map((sector, sextorIdx) => (
                 <div key={sextorIdx} className="flex justify-center">
-                  <div>
-                    <Listbox.Option
-                      className={({ active, selected }) =>
-                        ` border-2 border-[#919191] flex justify-start items-center relative cursor-pointer mb-[3px] pl-2 rounded-[20px] h-[30px] w-[82px] 
-                                ${
-                                  active
-                                    ? 'bg-[#2C9CBF] text-white'
-                                    : 'text-[#000]'
-                                }
-                                ${
-                                  selected
-                                    ? 'bg-[#2C9CBF] border-[#2C9CBF]'
-                                    : ''
-                                }
-                                `
-                      }
-                      value={sector}
-                      onClick={() => {
-                        onSelectedSectorChange(sector);
-                      }}
-                    >
-                      {({ selected }) => (
-                        <div className="flex justify-start items-center">
-                          <span
-                            className={`truncate flex justify-start items-center${
-                              selected
-                                ? 'font-medium text-white '
-                                : 'font-normal'
-                            }`}
-                          >
-                            {abbreviateSectorName(sector.name)}
-                          </span>
-                        </div>
-                      )}
-                    </Listbox.Option>
-                  </div>
+                  <Listbox.Option
+                    className={({ active, selected }) =>
+                      ` border-2 border-[#919191] flex justify-start items-center relative cursor-pointer mb-[3px] rounded-[20px] h-[30px] px-6
+                              ${
+                                active
+                                  ? 'bg-[#2C9CBF] text-white'
+                                  : 'text-[#919191]'
+                              }
+                              ${selected ? 'bg-[#2C9CBF] border-[#2C9CBF]' : ''}
+                              `
+                    }
+                    value={sector}
+                    onClick={() => {
+                      onSelectedRoleChange(sector);
+                    }}
+                  >
+                    {({ selected }) => (
+                      <div className="flex justify-start items-center">
+                        <span
+                          className={`truncate flex justify-start items-center${
+                            selected ? 'font-medium text-white ' : 'font-normal'
+                          }`}
+                        >
+                          {abbreviateSectorName(sector.name)}
+                        </span>
+                      </div>
+                    )}
+                  </Listbox.Option>
                 </div>
               ))}
             </Listbox.Options>

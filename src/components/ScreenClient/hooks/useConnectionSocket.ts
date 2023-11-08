@@ -7,13 +7,13 @@ import { useCourseMessages } from '../store/useCourseMessage';
 import { useNavigate } from 'react-router-dom'
 
 const ACTION_MESSAGE = {
-  CREATE_COURSE: 'CREATE_COURSES',
-  CREATE_ADVERTISING: 'CREATE_ADVERTISING',
   START_CONNECTION: 'START_CONNECTION',
   UPDATE_SCREEN_CONFIGURATION: 'UPDATE_SCREEN_CONFIGURATION',
-  UPDATE_ADVERTISING: 'ADVERTISING_UPDATE',
-  DELETE_ADVERTISING: 'ADVERTISING_DELETE',
-  END_CONNECTION: 'SCREEN_CONNECTION_CLOSURE'
+  SCREEN_REMOTE_DISCONNECT: 'SCREEN_REMOTE_DISCONNECT',
+  CREATE_ADVERTISING: 'CREATE_ADVERTISING',
+  UPDATE_ADVERTISING: 'UPDATE_ADVERTISING',
+  DELETE_ADVERTISING: 'DELETE_ADVERTISING',
+  CREATE_COURSE: 'CREATE_COURSES',
 }
 
 export function useConnectionSocket(screenId: number) {
@@ -54,7 +54,7 @@ export function useConnectionSocket(screenId: number) {
       case ACTION_MESSAGE.DELETE_ADVERTISING:
         deleteAdvertising(newMessage.data)
         break
-      case ACTION_MESSAGE.END_CONNECTION:
+      case ACTION_MESSAGE.SCREEN_REMOTE_DISCONNECT:
         finishConnection()
         break
     }

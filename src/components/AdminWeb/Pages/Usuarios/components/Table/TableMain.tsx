@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Pagination, ThemeProvider } from '@mui/material';
+import theme from '../../../../config/createTheme';
 import SearchBar from './SearchBar';
-import theme from '../../config/createTheme';
-import TableBody from './TableBody';
+import TableCommisions from './TableCommissions';
 
-interface TableProps {
-  dataJSON: any[];
+function TableMain({
+  rowArray,
+  columns,
+}: {
+  rowArray: any[];
   columns: Map<string, (data: any) => void>;
-  onRowClick?: (data: any) => void;
-}
-
-function Table({ dataJSON, columns, onRowClick }: TableProps) {
+}) {
   const [itemsPerPage, setItemsPerPage] = useState(7);
 
   useEffect(() => {
@@ -48,20 +48,19 @@ function Table({ dataJSON, columns, onRowClick }: TableProps) {
     setCurrentPage(1);
   };
 
-  const filteredData = dataJSON.filter((data) =>
-    data.name.toLowerCase().includes(searchTerm.toLowerCase()),
+  const filteredData = rowArray.filter(
+    (item) =>
+      item.subject?.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.classroom?.name.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   const currentData = filteredData.slice(startIndex, endIndex);
 
   return (
-    <div className={''}>
+    <div className="tableMain">
       <SearchBar searchTerm={searchTerm} onSearchChange={handleSearchChange} />
-      <TableBody
-        dataJSON={currentData}
-        columns={columns}
-        onRowClick={onRowClick}
-      />
+      <TableCommisions rowArray={rowArray} columns={columns} />
       <ThemeProvider theme={theme}>
         <Pagination
           className="flex justify-center bg-white pt-10"
@@ -75,4 +74,4 @@ function Table({ dataJSON, columns, onRowClick }: TableProps) {
   );
 }
 
-export default Table;
+export default TableMain;

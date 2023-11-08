@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { imageAPI } from '../../../../../../../services/image';
+import { ROUTES_RELATIVE } from '../../../../../../../routes/route.relatives';
 
 interface ImageUpProps {
   image: string;
@@ -18,7 +19,7 @@ function ImageUp({ image, setImage }: ImageUpProps) {
 
       try {
         const response = await imageAPI.create(formData);
-        urlImg = `${response.config.baseURL}/image/${response.data.id}/view`;
+        urlImg = `${ROUTES_RELATIVE.image.image}/${response.data.id}/view`;
         setImage(urlImg);
       } catch (error) {
         console.error('Error al subir la imagen:', error);

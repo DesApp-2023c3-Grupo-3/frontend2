@@ -1,7 +1,7 @@
 import React from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
-import Button from './Buttons/Button';
+import Button from '../Buttons/Button';
 
 //El modal se usa con el hook useModal
 interface ModalProps {
@@ -9,13 +9,17 @@ interface ModalProps {
   closeModal: () => void;
   openModal: () => void;
   children: React.ReactElement;
-  label: string;
+  label?: string;
 }
 
 function Modal({ isOpen, closeModal, openModal, children, label }: ModalProps) {
   return (
     <>
-      <Button onClick={openModal} active={true} label={label} type={0} />
+      {label ? (
+        <Button onClick={openModal} active={true} label={label} type={0} />
+      ) : (
+        ''
+      )}
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog as="div" className="" onClose={closeModal}>
           <Transition.Child

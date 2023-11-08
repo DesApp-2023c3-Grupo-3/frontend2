@@ -1,5 +1,6 @@
 import { useConnectionSocket } from '../hooks/useConnectionSocket';
 import Screen from './Screen';
+import { Helmet } from 'react-helmet';
 import { useEffect } from 'react';
 import { useScreen } from '../store/useScreen';
 import Loader from '../styled-components/Loader';
@@ -18,14 +19,22 @@ function ScreenClient({ screenId }: { screenId: number }) {
     console.log(isMobile);
   }, [screenId]);
 
-  return isMobile ? (
-    <div className="text-center h-screen w-screen bg-green-700 text-white text-2xl font-bold flex items-center justify-center">
-      No se puede acceder a la cartelera desde un celular.
-    </div>
-  ) : socketConnection && typeScreen.sector.id ? (
-    <Screen />
-  ) : (
-    <Loader />
+  return (
+    <>
+      <Helmet>
+        <title>Cartelera UNAHUR | Cartelera</title>
+      </Helmet>
+      {isMobile ? (
+        <div className="text-center h-screen w-screen bg-green-700 text-white text-2xl font-bold flex items-center justify-center">
+          No se puede acceder a la cartelera desde un celular.
+        </div>
+      ) : socketConnection && typeScreen.sector.id ? (
+        <Screen />
+      ) : (
+        <Loader />
+      )}
+      ;
+    </>
   );
 }
 
