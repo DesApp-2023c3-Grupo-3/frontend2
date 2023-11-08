@@ -136,7 +136,7 @@ function Sectores({
                   </div>
                 </div>
               ))}
-              {canChooseMany ? (
+              {canChooseMany && (
                 <div className="flex justify-center items-center">
                   <Checkbox
                     checked={selectAll}
@@ -144,8 +144,6 @@ function Sectores({
                   />
                   <span>Seleccionar todo</span>
                 </div>
-              ) : (
-                <></>
               )}
             </Listbox.Options>
           </Transition>
