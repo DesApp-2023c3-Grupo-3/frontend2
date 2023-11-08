@@ -7,13 +7,17 @@ import { sectorApi } from '../../../services/sectores';
 interface SectoresProps {
   selectedSector: Sector[];
   onSelectedSectorChange: (newSelectedSector: Sector[]) => void;
+  style?: string;
   hasError: boolean;
+  canChooseMany: boolean;
 }
 
 function Sectores({
   selectedSector,
   onSelectedSectorChange,
+  style,
   hasError,
+  canChooseMany,
 }: SectoresProps) {
   const [selectAll, setSelectAll] = useState(false);
   const [sectorArray, setSectorArray] = useState<Sector[]>([]);
@@ -35,16 +39,21 @@ function Sectores({
     }
   };
 
+  const handlerOnSelect = (selected: Sector[] | Sector) => {
+    const toChange = Array.isArray(selected) ? selected : [selected];
+    onSelectedSectorChange(toChange);
+  };
+
   useEffect(() => {
     updateSectorArray();
   }, []);
 
   return (
-    <div className="z-[1000] flex justify-center">
+    <div className={`z-[1000] flex justify-center ${style}`}>
       <Listbox
         value={selectedSector}
-        onChange={onSelectedSectorChange}
-        multiple
+        onChange={handlerOnSelect}
+        multiple={canChooseMany}
       >
         <div className="fixed flex-row justify-center z-[20]">
           <Listbox.Button
@@ -111,9 +120,6 @@ function Sectores({
                                 `
                       }
                       value={sector}
-                      onClick={() => {
-                        onSelectedSectorChange([...selectedSector, sector]);
-                      }}
                     >
                       {({ selected }) => (
                         <div className="flex justify-start items-center">
@@ -132,13 +138,15 @@ function Sectores({
                   </div>
                 </div>
               ))}
-              <div className="flex justify-center items-center">
-                <Checkbox
-                  checked={selectAll}
-                  onChange={handleSelectAllChange}
-                />
-                <span>Seleccionar todo</span>
-              </div>
+              {canChooseMany && (
+                <div className="flex justify-center items-center">
+                  <Checkbox
+                    checked={selectAll}
+                    onChange={handleSelectAllChange}
+                  />
+                  <span>Seleccionar todo</span>
+                </div>
+              )}
             </Listbox.Options>
           </Transition>
         </div>
