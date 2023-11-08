@@ -1,7 +1,7 @@
 import { Sector } from "../components/Sectores";
 
 const sectorCodesToName : any = {
-  1:'Edificio Malvinas',
+  1:'Malvinas Argentinas',
   2:'Sector 6',
   3:'Sector E',
   4:'Origone A'
@@ -9,7 +9,7 @@ const sectorCodesToName : any = {
 
 export function abbreviateSectorName(sectorName: string): string {
   const sectorAbbreviations: { [key: string]: string } = {
-    'Edificio Malvinas': 'MA',
+    'Malvinas Argentinas': 'MA',
     'Sector 6': 'S6',
     'Sector E': 'SE',
     'Origone A': 'OA',
