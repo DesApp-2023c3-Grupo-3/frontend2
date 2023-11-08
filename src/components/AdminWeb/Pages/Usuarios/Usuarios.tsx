@@ -1,12 +1,12 @@
 import { Helmet } from 'react-helmet';
 import { FormEvent, useEffect, useRef, useState, useTransition } from 'react';
 import TableMain from './components/Table/TableMain';
-import Modal from '../../components/Modal';
 import Button from '../../components/Buttons/Button';
 import { userApi } from '../../../../services/users';
 import { useModal } from '../../hooks/useModal';
 import Roles from '../../components/Roles';
 import dayjs from 'dayjs';
+import Modal from '../../components/Modal/Modal';
 
 function Usuarios() {
   const [isPending, startTransition] = useTransition();

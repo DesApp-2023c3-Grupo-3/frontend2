@@ -19,20 +19,23 @@ function ScreenClient({ screenId }: { screenId: number }) {
     console.log(isMobile);
   }, [screenId]);
 
-  return <>
-    <Helmet>
-      <title>Cartelera UNAHUR | Cartelera</title>
-    </Helmet>
-    {isMobile ? (
-      <div className="text-center h-screen w-screen bg-green-700 text-white text-2xl font-bold flex items-center justify-center">
-        No se puede acceder a la cartelera desde un celular.
-      </div>
-    ) : socketConnection && typeScreen.sector.id ? (
-      <Screen />
-    ) : (
-      <Loader />
-    )};
-  </>
+  return (
+    <>
+      <Helmet>
+        <title>Cartelera UNAHUR | Cartelera</title>
+      </Helmet>
+      {isMobile ? (
+        <div className="text-center h-screen w-screen bg-green-700 text-white text-2xl font-bold flex items-center justify-center">
+          No se puede acceder a la cartelera desde un celular.
+        </div>
+      ) : socketConnection && typeScreen.sector.id ? (
+        <Screen />
+      ) : (
+        <Loader />
+      )}
+      ;
+    </>
+  );
 }
 
 export default ScreenClient;

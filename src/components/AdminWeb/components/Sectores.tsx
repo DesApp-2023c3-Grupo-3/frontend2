@@ -40,13 +40,13 @@ function Sectores({
   }, []);
 
   return (
-    <div className="w-[365px] h-[50px] mt-[17px]">
+    <div className="z-[1000] flex justify-center">
       <Listbox
         value={selectedSector}
         onChange={onSelectedSectorChange}
         multiple
       >
-        <div className="fixed flex-row justify-center z-[10000]">
+        <div className="fixed flex-row justify-center z-[20]">
           <Listbox.Button
             id="sectors"
             className={`text-[20px] font-[400] tracking-[-0.4px] rounded-[30px] bg-[#D9D9D9] flex w-[365px] h-[50px] px-[40px] py-[12px] items-center ${

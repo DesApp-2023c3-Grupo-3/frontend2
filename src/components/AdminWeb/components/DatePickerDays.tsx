@@ -1,5 +1,3 @@
-import * as React from 'react';
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { DatePicker } from '@mui/x-date-pickers';
 import dayjs, { Dayjs } from 'dayjs';
 
@@ -21,31 +19,31 @@ function DatePickerDays({
   const dateStart = selectedDateInit ? dayjs(selectedDateInit) : null;
 
   return (
-    <div className="flex items-center justify-center ">
-      <div className="">
-        <DemoContainer components={['Inicio', 'Final']}>
-          <DatePicker
-            disablePast={isCreate}
-            className="w-[100px]"
-            value={selectedDateInit}
-            onChange={(newDate: any) => {
-              onChangeStartDate(newDate);
-            }}
-            label="Fecha de Inicio"
-            defaultValue={dateStart}
-          />
-          <DatePicker
-            disablePast={isCreate}
-            className="w-[100px]"
-            value={selectedDateFinal}
-            onChange={(newDate: any) => {
-              onChangeEndDate(newDate);
-            }}
-            label="Fecha Final"
-            minDate={selectedDateInit || null}
-            defaultValue={dateStart}
-          />
-        </DemoContainer>
+    <div className="flex items-center justify-center">
+      <div className="w-[40%] min-w-[160px] mr-3">
+        <DatePicker
+          disablePast={isCreate}
+          className=""
+          value={selectedDateInit}
+          onChange={(newDate: any) => {
+            onChangeStartDate(newDate);
+          }}
+          label="Fecha de Inicio"
+          defaultValue={dateStart}
+        />
+      </div>
+      <div className="w-[40%] min-w-[160px]">
+        <DatePicker
+          disablePast={isCreate}
+          className=""
+          value={selectedDateFinal}
+          onChange={(newDate: any) => {
+            onChangeEndDate(newDate);
+          }}
+          label="Fecha Final"
+          minDate={selectedDateInit || null}
+          defaultValue={dateStart}
+        />
       </div>
     </div>
   );

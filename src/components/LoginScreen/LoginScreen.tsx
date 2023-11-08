@@ -4,7 +4,6 @@ import { FormEvent, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 
-
 function LoginScreen({ setScreenId }: { setScreenId: any }) {
   const navigate = useNavigate();
   const usernameRef = useRef<HTMLInputElement>(null);
@@ -79,7 +78,9 @@ function LoginScreen({ setScreenId }: { setScreenId: any }) {
             </span>
             <div className="line thin mt-4 w-[21ch]" />
           </div>
-          <h3 className="text-3xl font-bold tracking-wide mt-20">¡Bienvenido!</h3>
+          <h3 className="text-3xl font-bold tracking-wide mt-20">
+            ¡Bienvenido!
+          </h3>
           <span className="text-sm mt-8 opacity-80">
             Inicia sesión con tus datos
           </span>
@@ -120,7 +121,7 @@ function LoginScreen({ setScreenId }: { setScreenId: any }) {
           />
         </article>
       </section>
-  </>
+    </>
   );
 }
 
