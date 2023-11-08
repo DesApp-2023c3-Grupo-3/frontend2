@@ -5,7 +5,6 @@ import React, { useState } from 'react';
 import { Commission } from '../../../../types/customTypes';
 import { commissionApi } from '../../../../../../services/commissions';
 
-
 interface FormCommissionProps {
   commissionsJSON: Commission[];
   setCommissionsJSON: React.Dispatch<React.SetStateAction<Commission[]>>;
@@ -23,10 +22,12 @@ function FormCommission({
   const [selectedFileName, setSelectedFileName] = useState('');
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [endDate, setEndDate] = useState<Date>(new Date());
-  const [selectedSector, setSelectedSector] = useState<Sector[]>([{
-    id: -1,
-    name: 'Sector/es',
-  }]);
+  const [selectedSector, setSelectedSector] = useState<Sector[]>([
+    {
+      id: -1,
+      name: 'Sector/es',
+    },
+  ]);
   const [hasSelectedDates, setHasSelectedDates] = useState<{
     hasStartDate: boolean;
     hasEndDate: boolean;
@@ -104,7 +105,7 @@ function FormCommission({
           <Sectores
             selectedSector={selectedSector}
             onSelectedSectorChange={handleSelectedSectorChange}
-            hasError={1 > 2}
+            hasError={true}
             canChooseMany={false}
           />
           <div className="flex mt-[10px]">

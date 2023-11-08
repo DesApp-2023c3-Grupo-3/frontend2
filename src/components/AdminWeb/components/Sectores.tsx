@@ -118,9 +118,6 @@ function Sectores({
                                 `
                       }
                       value={sector}
-                      // onClick={() => {
-                      //   handlerOnSelect(sector);
-                      // }}
                     >
                       {({ selected }) => (
                         <div className="flex justify-start items-center">
@@ -139,13 +136,17 @@ function Sectores({
                   </div>
                 </div>
               ))}
-              {canChooseMany ? <div className="flex justify-center items-center">
-                <Checkbox
-                  checked={selectAll}
-                  onChange={handleSelectAllChange}
-                />
-                <span>Seleccionar todo</span>
-              </div> : <></>}
+              {canChooseMany ? (
+                <div className="flex justify-center items-center">
+                  <Checkbox
+                    checked={selectAll}
+                    onChange={handleSelectAllChange}
+                  />
+                  <span>Seleccionar todo</span>
+                </div>
+              ) : (
+                <></>
+              )}
             </Listbox.Options>
           </Transition>
         </div>
