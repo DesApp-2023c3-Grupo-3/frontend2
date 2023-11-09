@@ -1,7 +1,7 @@
 export const API =
-  process.env.REACT_APP_API ||
-  `http://${window.location.hostname}:4000` ||
-  'http://186.12.145.198:4000';
+  `http://${process.env.REACT_APP_API}:${process.env.REACT_APP_PORT}`
+
+  console.log('soy la api: ' ,API)
 export const ROUTES_RELATIVE = {
   course: {
     commission: `${API}/course`,

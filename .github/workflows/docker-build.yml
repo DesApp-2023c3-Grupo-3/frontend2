@@ -31,6 +31,8 @@ jobs:
           docker build -t valentinochiappanni07/frontend:${{ steps.get_tag.outputs.tag }} \
             --build-arg REACT_APP_WEBSOCKET_HOST="$REACT_APP_WEBSOCKET_HOST" \
             --build-arg REACT_APP_WEBSOCKET_PORT="$REACT_APP_WEBSOCKET_PORT" \
+            --build-arg REACT_APP_API="$REACT_APP_API" \
+            --build-arg REACT_APP_API="$REACT_APP_PORT" \
             .
           docker push valentinochiappanni07/frontend:${{ steps.get_tag.outputs.tag }}
 
