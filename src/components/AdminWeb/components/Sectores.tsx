@@ -112,6 +112,7 @@ function Sectores({
               {loading ? (
                 <Loader />
               ) : (
+                sectorArray.length > 0 &&
                 sectorArray.map((sector, sextorIdx) => (
                   <div key={sextorIdx} className="flex justify-center">
                     <div>
@@ -154,7 +155,9 @@ function Sectores({
                 <div className="flex justify-center items-center">
                   <Checkbox
                     checked={selectAll}
-                    onChange={handleSelectAllChange}
+                    onChange={
+                      sectorArray.length > 0 ? handleSelectAllChange : () => {}
+                    }
                   />
                   <span>Seleccionar todo</span>
                 </div>

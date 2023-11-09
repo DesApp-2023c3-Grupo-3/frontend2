@@ -71,11 +71,18 @@ interface SectorScreen {
 type StoreConnection = {
     connectionMessage: DataConnection
     setConnection: (connection: DataConnection) => void
+    emptyConnectionMessage: () => void
 };
 
 export const useConnectionMessage = create<StoreConnection>()(set => ({
     connectionMessage: INITIAL_CONNECTION_STATE,
   
+    emptyConnectionMessage: () => {
+      set({
+        connectionMessage: INITIAL_CONNECTION_STATE
+      })
+    },
+
     setConnection: (connection: DataConnection) => {
       set(({
         connectionMessage: connection
