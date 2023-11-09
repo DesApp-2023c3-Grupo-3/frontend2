@@ -27,6 +27,8 @@ jobs:
         env:
           REACT_APP_WEBSOCKET_HOST: ${{ secrets.REACT_APP_WEBSOCKET_HOST }}
           REACT_APP_WEBSOCKET_PORT: ${{ secrets.REACT_APP_WEBSOCKET_PORT }}
+          REACT_APP_API: ${{ secrets.REACT_APP_API }}
+          REACT_APP_PORT: ${{ secrets.REACT_APP_PORT }}
         run: |
           docker build -t valentinochiappanni07/frontend:${{ steps.get_tag.outputs.tag }} \
             --build-arg REACT_APP_WEBSOCKET_HOST="$REACT_APP_WEBSOCKET_HOST" \
