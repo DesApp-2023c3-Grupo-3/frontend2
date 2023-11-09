@@ -7,7 +7,7 @@ export interface ILoaderProps {
 
 export default function Loader({ type = 1, className }: ILoaderProps) {
   return (
-    <div className="flex justify-center items-center m-10">
+    <div className="flex justify-center items-center h-[70%]">
       {type === 1 ? (
         <CircularProgress className={className} />
       ) : (
