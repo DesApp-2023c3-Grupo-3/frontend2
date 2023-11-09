@@ -9,6 +9,7 @@ export const initializeSocketConnection = async (
   try {
     const wsUrl = `ws://${HOST}:${PORT}/messaging`;
     const ws = new WebSocket(wsUrl);
+    console.log('socket:  ', wsUrl)
 
     ws.addEventListener('open', () => {
       console.log(`WebSocket Connected ${wsUrl}`);
