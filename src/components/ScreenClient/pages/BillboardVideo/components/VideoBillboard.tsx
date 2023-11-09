@@ -6,7 +6,7 @@ import MainBillboard from '../../../styled-components/MainBillboard';
 import { useAvalaibleAdvertising } from '../../../hooks/useAvalaibleAdvertising';
 import DefaultCard from '../../../styled-components/DefaultCard';
 
-export default function VideoBillboard() {
+export default function VideoWithAdvertisingBillboard() {
   const { first, second } = useAvalaibleAdvertising(splitListWithoutVideos);
 
   return (

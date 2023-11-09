@@ -10,7 +10,7 @@ export const initializeSocketConnection = async (
     const ws = new WebSocket(wsUrl);
 
     ws.addEventListener('open', () => {
-      console.log(`WebSocket Connected ${wsUrl}`);
+      console.info(`WebSocket Connected ${wsUrl}`);
       ws.send(
         JSON.stringify({
           screenId,
@@ -25,7 +25,7 @@ export const initializeSocketConnection = async (
     });
 
     ws.addEventListener('error', (error) => {
-      console.log(`ERROR: ${error}`);
+      console.error(`ERROR: ${error}`);
     });
 
     return ws;

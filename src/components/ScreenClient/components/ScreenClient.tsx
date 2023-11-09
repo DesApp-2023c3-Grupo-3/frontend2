@@ -16,7 +16,6 @@ function ScreenClient({ screenId }: { screenId: number }) {
   useEffect(() => {
     setScreenId(screenId);
     setIsMobile(/Mobi|Android/i.test(navigator.userAgent));
-    console.log(isMobile);
   }, [screenId]);
 
   return (

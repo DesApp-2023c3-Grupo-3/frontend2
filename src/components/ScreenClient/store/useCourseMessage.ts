@@ -1,5 +1,4 @@
 import { create } from "zustand";
-import { messages } from "../mocks/imagenes";
 import { isActiveMessage } from "../utils/hour";
 import { fetchCourses } from "../services/fetchCourses";
 
@@ -19,16 +18,22 @@ export interface StoreCourse {
     addAvalaibleCourseMessage: () => void
     setError: (error:string) => void
     fetchAdvertisingsBySectorId: (sectorId:number) => void
+    emptyCourseMessages: () => void
 }
   
   
 export const useCourseMessages = create<StoreCourse>()((set, get) => ({
-    courseMessages: messages[0].data,
+    courseMessages: [],
     avalaibleCourseMessages: [],  
     error: '',
 
-    addCourseMessages: (messages: DataCourse[]) => {
+    emptyCourseMessages: () => {
+      set({
+        courseMessages: []
+      })
+    },
 
+    addCourseMessages: (messages: DataCourse[]) => {
       set((state) => ({
         courseMessages: [...state.courseMessages, ...messages],
       }));
@@ -56,20 +61,22 @@ export const useCourseMessages = create<StoreCourse>()((set, get) => ({
     },
 
     fetchAdvertisingsBySectorId: (sectorId) => {
-      fetchCourses(sectorId)
-        .then(courses =>
-          courses.map((course:any) => {
-            const { classroom, name, schedule, subject } = course
+      if(get().courseMessages.length === 0) {
+        fetchCourses(sectorId)
+          .then(courses =>
+            courses.map((course:any) => {
+              const { classroom, name, schedule, subject } = course
 
-            return {
-              classroom: classroom.name,
-              name,
-              startHour: schedule.startHour,
-              endHour: schedule.endHour,
-              subject: subject.name
-            }
-          })
-        )
-        .then((courses) => get().addCourseMessages(courses))
+              return {
+                classroom: classroom.name,
+                name,
+                startHour: schedule.startHour,
+                endHour: schedule.endHour,
+                subject: subject.name
+              }
+            })
+          )
+          .then((courses) => get().addCourseMessages(courses))
+      }
     }
 }))

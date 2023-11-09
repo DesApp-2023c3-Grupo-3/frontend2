@@ -1,12 +1,12 @@
 import { create } from "zustand";
-import { filterMessages } from "../utils/arrays";
+import { filterMessages, theyAreEqual } from "../utils/arrays";
 import { messages } from "../mocks/imagenes";
 import { isActiveMessage } from "../utils/hour";
 import { fetchAdvertisings } from "../services/fetchAdvertisings";
 
 export interface DataAdvertising {
     advertisingTypeId: number;
-    id: number;
+    advertisingId: number;
     payload: string;
     startHour: string,
     endHour: string
@@ -23,12 +23,21 @@ type StoreAdvertising = {
     addAvalaibleAdvertisingMessage: () => void
     setError: (error:string) => void
     fetchAdvertisingsByScreenId: (screenId:number) => void
-};
+    updateAdvertising: (message: DataAdvertising) => void
+    deleteAdvertising: (message: DataAdvertising) => void
+    emptyAdvertisingsMessages: () => void
+}; 
   
 export const useAdvertisingMessages = create<StoreAdvertising>()((set, get) => ({
     advertisingMessages: INITIAL_ADVERTISING,
     avalaibleAdvertisingMessages: [],
     error: '',
+
+    emptyAdvertisingsMessages: () => {
+      set({
+        advertisingMessages: []
+      })
+    },
 
     addAdvertisingMessage: (message: DataAdvertising) => {
       set((state) => ({
@@ -43,18 +52,15 @@ export const useAdvertisingMessages = create<StoreAdvertising>()((set, get) => (
     },
 
     addAvalaibleAdvertisingMessage: () => {
-      setInterval(() => {
         const newAvailableMessages = get().advertisingMessages.filter(message => isActiveMessage({ 
           startHour: message.startHour,
           endHour: message.endHour
         }))
-       
-        if(newAvailableMessages.length !== get().avalaibleAdvertisingMessages.length) {
+        if(!theyAreEqual(newAvailableMessages, get().avalaibleAdvertisingMessages)) {
               set(({
                 avalaibleAdvertisingMessages: newAvailableMessages
               }))
         }
-      }, 1000)
     },
 
     setError: (error:string) => {
@@ -64,23 +70,41 @@ export const useAdvertisingMessages = create<StoreAdvertising>()((set, get) => (
     },
 
     fetchAdvertisingsByScreenId: (screenId:number) => {
-      fetchAdvertisings(screenId)
-      .then((advertisings) =>
-        advertisings.map((advertising: any) => {
-          const { id, payload, advertisingType, advertisingSchedules } =
-            advertising;
-            
-          return {
-            advertisingTypeId: advertisingType['id'],
-            advertisingId: id,
-            payload,
-            startHour: advertisingSchedules[0]['schedule']['startHour'],
-            endHour: advertisingSchedules[0]['schedule']['endHour'],
-          };
-        }),
-      )
-      .then((advertisings) => get().addAdvertisingMessages(advertisings))
-      .catch((error:Error) => get().setError(error.message))
-  }
+      if(get().advertisingMessages.length === 0) {
+        fetchAdvertisings(screenId)
+        .then((advertisings) =>
+          advertisings.map((advertising: any) => {
+            const { id, payload, advertisingType, advertisingSchedules } =
+              advertising;
+              
+            return {
+              advertisingTypeId: advertisingType['id'],
+              advertisingId: id,
+              payload,
+              startHour: advertisingSchedules[0]['schedule']['startHour'],
+              endHour: advertisingSchedules[0]['schedule']['endHour'],
+            };
+          }),
+        )
+        .then((advertisings) => get().addAdvertisingMessages(advertisings))
+        .catch((error:Error) => get().setError(error.message))
+      }
+    },
+
+    updateAdvertising: (newMessage:DataAdvertising) => {
+      const advertisingMessagesFiltered = get().advertisingMessages.filter(message => message.advertisingId !== newMessage.advertisingId)
+      
+      set({
+        advertisingMessages: [...advertisingMessagesFiltered, newMessage]
+      })
+    },
+
+    deleteAdvertising: (newMessage:DataAdvertising) => {
+      const advertisingMessagesFiltered = get().advertisingMessages.filter(message => message.advertisingId !== newMessage.advertisingId)
+
+      set({
+        advertisingMessages: advertisingMessagesFiltered
+      })
+    }
 
 }));

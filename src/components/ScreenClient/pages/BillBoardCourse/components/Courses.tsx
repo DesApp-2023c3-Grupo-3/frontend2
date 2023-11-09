@@ -19,7 +19,11 @@ function Courses() {
           <Footer />
         </>
       ) : (
-        <DefaultCard sx="h-full" />
+        <>
+          <Header />
+          <DefaultCard sx="h-full" />
+          <Footer />
+        </>
       )}
     </BillboardCard>
   );

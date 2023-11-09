@@ -1,5 +1,5 @@
 import { useScreenFilters } from '../../store/useScreenFilters';
-import ButtonDisabled from '../ButtonDisabled';
+import ButtonDisabled from '../Button/ButtonDisabled';
 import SelectAllFilter from './components/SelectAllFilter';
 import SelectSectorFilter from './components/SelectSectorFilter';
 import React from 'react';
