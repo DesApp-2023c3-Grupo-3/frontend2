@@ -101,9 +101,9 @@ function Sectores({
               <span className="m-3 flex justify-center text-[#00000080] text-[20px]">
                 Edificio
               </span>
-              {sectorArray.map((sector, sextorIdx) => (
-                <div key={sextorIdx} className="flex justify-center">
-                  <div>
+              {sectorArray.length > 0 && (
+                sectorArray.map((sector, sextorIdx) => (
+                  <div key={sextorIdx} className="flex justify-center">
                     <Listbox.Option
                       className={({ active, selected }) =>
                         ` border-2 border-[#919191] flex justify-start items-center relative cursor-pointer mb-[3px] pl-2 rounded-[20px] h-[30px] w-[82px] 
@@ -136,8 +136,8 @@ function Sectores({
                       )}
                     </Listbox.Option>
                   </div>
-                </div>
-              ))}
+                  ))
+                )}
               {canChooseMany && (
                 <div className="flex justify-center items-center">
                   <Checkbox
