@@ -56,9 +56,6 @@ export const useAdvertisingMessages = create<StoreAdvertising>()((set, get) => (
           startHour: message.startHour,
           endHour: message.endHour
         }))
-       
-        console.log(theyAreEqual(newAvailableMessages, get().avalaibleAdvertisingMessages))
-
         if(!theyAreEqual(newAvailableMessages, get().avalaibleAdvertisingMessages)) {
               set(({
                 avalaibleAdvertisingMessages: newAvailableMessages
@@ -108,9 +105,6 @@ export const useAdvertisingMessages = create<StoreAdvertising>()((set, get) => (
       set({
         advertisingMessages: advertisingMessagesFiltered
       })
-
-      console.log(get().advertisingMessages)
-      console.log(get().avalaibleAdvertisingMessages)
     }
 
 }));
