@@ -1,6 +1,11 @@
-const API = `http://${process.env.REACT_APP_API}:${process.env.REACT_APP_PORT}`
+const HOST = process.env.REACT_APP_API ;
+const PORT = process.env.REACT_APP_PORT ;
+export const API =
+  `http://${HOST}:${PORT}`;
 
   console.log('soy la api: ' ,API)
+  console.log('Ruta dinamica host:',HOST)
+  console.log('Ruta dinamica host:',PORT)
 export const ROUTES_RELATIVE = {
   course: {
     commission: `${API}/course`,
