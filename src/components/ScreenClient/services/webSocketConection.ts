@@ -1,5 +1,5 @@
-const HOST = process.env.REACT_APP_WEBSOCKET_HOST || window.location.hostname;
-const PORT = process.env.REACT_APP_WEBSOCKET_PORT || window.location.port;
+const HOST = process.env.REACT_APP_WEBSOCKET_HOST;
+const PORT = process.env.REACT_APP_WEBSOCKET_PORT;
 
 export const initializeSocketConnection = async (
   screenId: number,
