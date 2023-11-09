@@ -1,11 +1,12 @@
 import CourseBillboard from '../pages/BillBoardCourse/components/CourseBillboard';
-import VideoBillboard from '../pages/BillboardVideo/components/VideoBillboard';
+import VideoWithAdvertisingBillboard from '../pages/BillboardVideo/components/VideoBillboard';
 import { ReactJSXElement } from '@emotion/react/types/jsx-namespace';
 import { useAdvertisingMessages } from '../store/useAdvertisingMessages';
 import { useEffect } from 'react';
 import { useScreen } from '../store/useScreen';
 import { useConnectionMessage } from '../store/useConnectionMessage';
 import { useCourseMessages } from '../store/useCourseMessage';
+import OnlyVideoBillboard from '../pages/BillboardOnlyVideo/OnlyVideoBillboard';
 
 export default function Screen() {
   const fetchAdvertisingsById = useAdvertisingMessages(
@@ -26,7 +27,8 @@ export default function Screen() {
 
   const billboards: Record<number, ReactJSXElement> = {
     1: <CourseBillboard />,
-    2: <VideoBillboard />,
+    2: <VideoWithAdvertisingBillboard />,
+    3: <OnlyVideoBillboard />,
   };
 
   return fetchError ? (
@@ -34,6 +36,6 @@ export default function Screen() {
       Error: {fetchError}
     </div>
   ) : (
-    billboards[parseInt(typeScreen.screen.templeteId)]
+    billboards[1]
   );
 }

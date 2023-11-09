@@ -1,6 +1,6 @@
 import CardModal from './components/CardModal';
 import QuantityInput from './components/QuantityInput';
-import ButtonDisabled from '../ButtonDisabled';
+import ButtonDisabled from '../Button/ButtonDisabled';
 import { useConfig } from '../../hooks/useConfig';
 import { useCard } from '../../hooks/useCards';
 import Swal from 'sweetalert2';

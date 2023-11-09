@@ -42,3 +42,11 @@ function splitListWithVideos(array: DataAdvertising[]) {
 
   return [arrayWithVideos, arrayWithoutVideos];
 }
+
+export function theyAreEqual(array1:any[], array2:any[]) {
+
+  if (array1.length !== array2.length) return false
+
+  return array1.every(element => array2.includes(element))
+
+}
