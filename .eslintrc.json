@@ -43,6 +43,8 @@
       "react/react-in-jsx-scope": "off",
       "no-unused-vars": "off",
       "no-undef": "off",
-      "react-hooks/exhaustive-deps": "off"
+      "react-hooks/exhaustive-deps": "off",
+      "jsx-a11y/label-has-for": "off",
+      "jsx-a11y/label-has-associated-control": "off"
     }
   }
