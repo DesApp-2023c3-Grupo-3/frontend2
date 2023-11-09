@@ -18,7 +18,7 @@ function Button({ onClick, active, type, label, className }: ButtonProps) {
     'bg-[#2C9CBF] rounded-[15px] py-[16px] w-[300px] text-white font-[600] text-[20px] hover:bg-[#2c9dbfc5]';
 
   const deleteType =
-    'bg-[white] text-[#ff4949] border-2 border-red-500 rounded-[30px] py-[16px] w-[300px] h-[40px] font-[600] text-[20px] hover:bg-[red]';
+    'bg-[white] text-[#ff4949] border-2 border-red-500 rounded-[30px] py-[16px] w-[300px] h-[40px] font-[600] text-[20px] hover:bg-[red] hover:text-[white]';
 
   const createMobile =
     'bg-[#2C9CBF] rounded-[20px] w-[100px] h-[40px] text-[#fff] uppercase text-[14px] font-[700] ';

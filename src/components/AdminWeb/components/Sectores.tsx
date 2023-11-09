@@ -3,6 +3,7 @@ import { Listbox, Transition } from '@headlessui/react';
 import { abbreviateSectorName } from '../utils/AbbreviateSectorName';
 import { Checkbox } from '@mui/material';
 import { sectorApi } from '../../../services/sectores';
+import Loader from './Loader';
 
 interface SectoresProps {
   selectedSector: Sector[];
@@ -21,10 +22,17 @@ function Sectores({
 }: SectoresProps) {
   const [selectAll, setSelectAll] = useState(false);
   const [sectorArray, setSectorArray] = useState<Sector[]>([]);
+  const [loading, setLoading] = useState(false);
 
   const updateSectorArray = async () => {
-    const newSectors = await sectorApi.getSector();
-    setSectorArray(newSectors as Sector[]);
+    setLoading(true);
+    try {
+      const newSectors = await sectorApi.getSector();
+      setSectorArray(newSectors as Sector[]);
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleSelectAllChange = (event: {
@@ -97,16 +105,19 @@ function Sectores({
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Listbox.Options className="bg-white w-[254px] ml-auto flex-row justify-center items-center shadow-lg rounded-t-[2px] rounded-b-[10px] ">
+            <Listbox.Options className=" bg-white w-[254px] ml-auto flex-row justify-center items-center shadow-lg rounded-t-[2px] rounded-b-[10px] pb-3">
               <span className="m-3 flex justify-center text-[#00000080] text-[20px]">
                 Edificio
               </span>
-              {sectorArray.map((sector, sextorIdx) => (
-                <div key={sextorIdx} className="flex justify-center">
-                  <div>
-                    <Listbox.Option
-                      className={({ active, selected }) =>
-                        ` border-2 border-[#919191] flex justify-start items-center relative cursor-pointer mb-[3px] pl-2 rounded-[20px] h-[30px] w-[82px] 
+              {loading ? (
+                <Loader />
+              ) : (
+                sectorArray.map((sector, sextorIdx) => (
+                  <div key={sextorIdx} className="flex justify-center">
+                    <div>
+                      <Listbox.Option
+                        className={({ active, selected }) =>
+                          ` border-2 border-[#919191] flex justify-start items-center relative cursor-pointer mb-[3px] pl-2 rounded-[20px] h-[30px] w-[82px] 
                                 ${
                                   active
                                     ? 'bg-[#2C9CBF] text-white'
@@ -118,26 +129,27 @@ function Sectores({
                                     : ''
                                 }
                                 `
-                      }
-                      value={sector}
-                    >
-                      {({ selected }) => (
-                        <div className="flex justify-start items-center">
-                          <span
-                            className={`truncate flex justify-start items-center${
-                              selected
-                                ? 'font-medium text-white '
-                                : 'font-normal'
-                            }`}
-                          >
-                            {abbreviateSectorName(sector.name)}
-                          </span>
-                        </div>
-                      )}
-                    </Listbox.Option>
+                        }
+                        value={sector}
+                      >
+                        {({ selected }) => (
+                          <div className="flex justify-start items-center">
+                            <span
+                              className={`truncate flex justify-start items-center${
+                                selected
+                                  ? 'font-medium text-white '
+                                  : 'font-normal'
+                              }`}
+                            >
+                              {abbreviateSectorName(sector.name)}
+                            </span>
+                          </div>
+                        )}
+                      </Listbox.Option>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))
+              )}
               {canChooseMany && (
                 <div className="flex justify-center items-center">
                   <Checkbox

@@ -35,7 +35,9 @@ function ImageUp({ image, setImage }: ImageUpProps) {
   return (
     <div className="w-[330px] h-[300px] relative flex justify-center">
       {loading ? (
-        <Loader />
+        <div className="translate-y-[10%]">
+          <Loader />
+        </div>
       ) : (
         <div>
           <div className="absolute top-0 right-0">

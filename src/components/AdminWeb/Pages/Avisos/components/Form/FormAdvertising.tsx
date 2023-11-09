@@ -15,6 +15,7 @@ import { convertDaysToNumbers } from '../../../../utils/ConvertDaysToCode';
 import { validationDate } from '../../../../utils/validationDate';
 import { useAdvertisingData } from '../../../../hooks/useAdvertisingData';
 import { InputName } from './InputNameAdvertising';
+import Loader from '../../../../components/Loader';
 
 export function messageError(message: string) {
   Swal.fire({
@@ -76,6 +77,9 @@ function FormAdvertising({
     setType,
   } = useAdvertisingData(advertising);
 
+  const [loading, setLoading] = React.useState(false);
+  const [loadingDelete, setLoadingDelete] = React.useState(false);
+
   const invalidName = () => {
     return advertisingName === '';
   };
@@ -135,6 +139,7 @@ function FormAdvertising({
       cancelButtonColor: '#d33',
       confirmButtonText: 'Si, borrar.',
     }).then((result) => {
+      setLoadingDelete(true);
       if (result.isConfirmed) {
         if (advertising) {
           advertisingsAPI
@@ -146,6 +151,7 @@ function FormAdvertising({
               });
               setAdvertisingsJSON();
               closeModal();
+              setLoadingDelete(false);
             })
             .catch((error) => console.error(error));
         }
@@ -219,6 +225,7 @@ function FormAdvertising({
       messageError('URL YouTube incorrecta.');
     } else {
       if (isCreate) {
+        setLoading(true);
         advertisingsAPI
           .create(newAdvertising)
           .then((r) => {
@@ -228,10 +235,12 @@ function FormAdvertising({
               icon: 'success',
               title: 'Se ha creado el aviso',
             });
+            setLoading(false);
           })
           .catch((error) => console.error(error));
       } else {
         if (advertising) {
+          setLoading(true);
           advertisingsAPI
             .edit(advertising.id, newAdvertising)
             .then((r) => {
@@ -241,6 +250,7 @@ function FormAdvertising({
                 icon: 'success',
                 title: 'Se ha editado el aviso',
               });
+              setLoading(false);
             })
             .catch((error) => console.error(error));
         }
@@ -339,24 +349,36 @@ function FormAdvertising({
       </form>
       <div className="flex justify-between mt-[2em] mx-[4.5em]">
         <div>
-          {!isCreate ? (
-            <Button
-              onClick={handleDeleteAdvertisingClick}
-              active={true}
-              type={3}
-              label="ELIMINAR"
-            />
-          ) : (
-            ''
+          {!isCreate && (
+            <div className="w-[300px]">
+              {loadingDelete ? (
+                <Loader
+                  type={2}
+                  color={'error'}
+                  className="w-[200px] translate-y-3 "
+                />
+              ) : (
+                <Button
+                  onClick={handleDeleteAdvertisingClick}
+                  active={true}
+                  type={3}
+                  label="ELIMINAR"
+                />
+              )}
+            </div>
           )}
         </div>
-        <div className="">
-          <Button
-            onClick={handleSendAdvertisingClick}
-            active={true}
-            type={1}
-            label="GUARDAR"
-          />
+        <div className="w-[300px] flex justify-center">
+          {loading ? (
+            <Loader type={2} className="w-[200px] translate-y-3" />
+          ) : (
+            <Button
+              onClick={handleSendAdvertisingClick}
+              active={true}
+              type={1}
+              label="GUARDAR"
+            />
+          )}
         </div>
       </div>
     </div>

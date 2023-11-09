@@ -12,6 +12,7 @@ import Loader from '../../components/Loader';
 function Usuarios() {
   const [usersJSON, setUsersJSON] = useState<User[]>([]);
   const [loading, setLoading] = useState(false);
+  const [loadingCreate, setLoadingCreate] = useState(false);
 
   const [_, updateState] = useState({});
   const { isOpen, openModal, closeModal } = useModal();
@@ -51,6 +52,7 @@ function Usuarios() {
     dayjs(user.createdAt).format('D/MM/YY - hh:mm');
 
   const createNewUser = (e: FormEvent) => {
+    setLoadingCreate(true);
     e.preventDefault();
     if (!hasValidUser()) return;
 
@@ -61,9 +63,11 @@ function Usuarios() {
         password: passwordRef.current?.value + '',
         role: selectedRole,
       })
-      .then(() => updateUsersTable());
-
-    closeModal();
+      .then(() => {
+        updateUsersTable();
+        closeModal();
+        setLoadingCreate(false);
+      });
   };
 
   const updateUsersTable = async () => {
@@ -155,12 +159,16 @@ function Usuarios() {
                         </h4>
                         <span className="">{selectedRole.name}</span>
                       </article>
-                      <Button
-                        label={'GUARDAR'}
-                        onClick={createNewUser}
-                        active={hasValidUser()}
-                        type={0}
-                      />
+                      {loadingCreate ? (
+                        <Loader />
+                      ) : (
+                        <Button
+                          label={'GUARDAR'}
+                          onClick={createNewUser}
+                          active={hasValidUser()}
+                          type={0}
+                        />
+                      )}
                     </div>
                   </form>
                 </>

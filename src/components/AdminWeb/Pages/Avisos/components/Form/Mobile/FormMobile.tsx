@@ -11,6 +11,7 @@ import Swal from 'sweetalert2';
 import { advertisingsAPI } from '../../../../../../../services/advertisings';
 import { Toast } from '../FormAdvertising';
 import { convertDaysToNumbers } from '../../../../../utils/ConvertDaysToCode';
+import Loader from '../../../../../components/Loader';
 
 interface FormMobileProps {
   setAdvertisingsJSON: () => void;
@@ -51,6 +52,9 @@ export function FormMobile({
     setVideoPayload,
     setType,
   } = useAdvertisingData(advertising);
+
+  const [loading, setLoading] = React.useState(false);
+  const [loadingDelete, setLoadingDelete] = React.useState(false);
 
   const invalidName = () => {
     return advertisingName === '';
@@ -132,6 +136,7 @@ export function FormMobile({
       confirmButtonText: 'Si, borrar.',
     }).then((result) => {
       if (result.isConfirmed) {
+        setLoadingDelete(true);
         if (advertising) {
           advertisingsAPI
             .delete(advertising.id)
@@ -142,6 +147,7 @@ export function FormMobile({
               });
               setAdvertisingsJSON();
               closeModal();
+              setLoadingDelete(false);
             })
             .catch((error) => console.error(error));
         }
@@ -229,6 +235,7 @@ export function FormMobile({
       schedules: schedules,
     };
     if (!invalidPayload()) {
+      setLoading(true);
       if (isCreate) {
         advertisingsAPI
           .create(newAdvertising)
@@ -239,6 +246,7 @@ export function FormMobile({
               icon: 'success',
               title: 'Se ha creado el aviso',
             });
+            setLoading(false);
           })
           .catch((error) => console.error(error));
       } else {
@@ -252,6 +260,7 @@ export function FormMobile({
                 icon: 'success',
                 title: 'Se ha editado el aviso',
               });
+              setLoading(false);
             })
             .catch((error) => console.error(error));
         }
@@ -314,15 +323,19 @@ export function FormMobile({
         )}
       </div>
       <div className="flex items-center justify-center">
-        {currentStep === 1 && !isCreate ? (
-          <button
-            onClick={handleDeleteAdvertisingClick}
-            className="bg-[red] w-[40px] h-[40px] rounded-full flex justify-center items-center mr-3"
-          >
-            {trash}
-          </button>
-        ) : (
-          ''
+        {currentStep === 1 && !isCreate && (
+          <div className="w-[40px] h-[40px] mr-3">
+            {loadingDelete ? (
+              <Loader type={1} color={'error'} />
+            ) : (
+              <button
+                onClick={handleDeleteAdvertisingClick}
+                className="bg-[red] w-[40px] h-[40px] rounded-full flex justify-center items-center mr-3"
+              >
+                {trash}
+              </button>
+            )}
+          </div>
         )}
         {currentStep > 1 && (
           <button
@@ -344,15 +357,19 @@ export function FormMobile({
         ) : (
           ''
         )}
-        {currentStep === 3 ? (
-          <Button
-            onClick={handleSendAdvertisingClick}
-            active={true}
-            type={1}
-            label="GUARDAR"
-          ></Button>
-        ) : (
-          ''
+        {currentStep === 3 && (
+          <div className="w-[300px]">
+            {loading ? (
+              <Loader type={2} className="w-[60vw]" />
+            ) : (
+              <Button
+                onClick={handleSendAdvertisingClick}
+                active={true}
+                type={1}
+                label="GUARDAR"
+              ></Button>
+            )}
+          </div>
         )}
       </div>
     </div>
