@@ -1,48 +1,50 @@
 {
-    "env": {
-      "browser": true,
-      "es2021": true,
-      "jest": true
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "jest": true
+  },
+  "extends": [
+    "react-app",
+    "react-app/jest",
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:jsx-a11y/recommended"
+  ],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
     },
-    "extends": [
-      "react-app",
-      "react-app/jest",
-      "eslint:recommended",
-      "plugin:react/recommended",
-      "plugin:react-hooks/recommended",
-      "plugin:jsx-a11y/recommended"
-    ],
-    "parserOptions": {
-      "ecmaFeatures": {
-        "jsx": true
-      },
-      "ecmaVersion": 12,
-      "sourceType": "module"
-    },
-    "overrides": [
-      {
-          "files": ["*.ts"],
-          "rules": {
-              "no-undef": "off"
-          }
-      }
-    ],
-    "plugins": [
-      "react",
-      "jsx-a11y"
-    ],
-    "settings": {
-      "react": {
-        "version": "detect"
-      }
-    },
-    "globals": {
-      "process": "readonly"
-    },
-    "rules": {
-      "react/react-in-jsx-scope": "off",
-      "no-unused-vars": "off",
-      "no-undef": "off",
-      "react-hooks/exhaustive-deps": "off"
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
+  "overrides": [
+    {
+        "files": ["*.ts"],
+        "rules": {
+            "no-undef": "off"
+        }
     }
+  ],
+  "plugins": [
+    "react",
+    "jsx-a11y"
+  ],
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "globals": {
+    "process": "readonly"
+  },
+  "rules": {
+    "react/react-in-jsx-scope": "off",
+    "no-unused-vars": "off",
+    "no-undef": "off",
+    "react-hooks/exhaustive-deps": "off",
+    "jsx-a11y/label-has-for": "off",
+    "jsx-a11y/label-has-associated-control": "off"
   }
+}
