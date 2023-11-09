@@ -15,9 +15,13 @@ function Comisiones() {
 
   const updateCommissionsTable = async () => {
     setLoading(true);
-    const updatedCommissions: any = await commissionApi.getAll();
-    setCommissionsJSON((updatedCommissions?.data as Commission[]) || []);
-    setLoading(false);
+    try {
+      const updatedCommissions: any = await commissionApi.getAll();
+      setCommissionsJSON((updatedCommissions?.data as Commission[]) || []);
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(() => {

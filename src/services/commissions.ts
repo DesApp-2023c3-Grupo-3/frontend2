@@ -41,11 +41,6 @@ export const commissionApi = {
     }
   },
   getAll: async function() {
-    try {
-      const response = await axios.get(ROUTES_RELATIVE.course.commission);
-      return response;
-    } catch (error) {
-        return error;
-    }
+      return axios.get(ROUTES_RELATIVE.course.commission);
   }
 }

@@ -68,11 +68,13 @@ function Usuarios() {
 
   const updateUsersTable = async () => {
     setLoading(true);
-    const updatedUsers: any = await userApi.getAll().catch(() => {
-      return [];
-    });
-    setUsersJSON((updatedUsers?.data as User[]) || []);
-    setLoading(false);
+    try {
+      const updatedUsers: any = await userApi.getAll();
+      setUsersJSON((updatedUsers?.data as User[]) || []);
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(() => {
