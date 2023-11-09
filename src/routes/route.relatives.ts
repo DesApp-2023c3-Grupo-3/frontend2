@@ -1,5 +1,4 @@
-export const API =
-  `http://${process.env.REACT_APP_API}:${process.env.REACT_APP_PORT}`
+const API = `http://${process.env.REACT_APP_API}:${process.env.REACT_APP_PORT}`
 
   console.log('soy la api: ' ,API)
 export const ROUTES_RELATIVE = {
