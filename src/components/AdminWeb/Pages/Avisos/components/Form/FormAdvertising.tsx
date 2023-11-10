@@ -217,7 +217,7 @@ function FormAdvertising({
       messageError('Falta seleccionar los días de la semana.');
     } else if (validationDate(startHour, endHour)) {
       messageError('Falta completar el horario de los avisos.');
-    } else if (endDate !== null && startDate !== null && endDate <= startDate) {
+    } else if (endDate !== null && startDate !== null && endDate < startDate) {
       messageError('La fecha final no debe ser anterior a la de inicio.');
     } else if (payload === '') {
       messageError('Falta agregarle al aviso un texto, video o imagen.');

@@ -86,7 +86,7 @@ export function FormMobile({
   };
 
   const startGreater = () => {
-    return !(endDate !== null && startDate !== null && endDate <= startDate);
+    return !(endDate !== null && startDate !== null && endDate < startDate);
   };
 
   let payload = '';
