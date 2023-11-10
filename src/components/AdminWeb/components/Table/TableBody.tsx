@@ -5,9 +5,10 @@ interface TableBodyProps {
   dataJSON: any[];
   columns: Map<string, (data: any) => void>;
   onRowClick?: (data: any) => void;
+  rowRef: React.MutableRefObject<HTMLTableRowElement | null>;
 }
 
-function TableBody({ dataJSON, columns, onRowClick }: TableBodyProps) {
+function TableBody({ dataJSON, columns, onRowClick, rowRef }: TableBodyProps) {
   return (
     <div>
       <table className="table-auto border-collapse overflow-hidden rounded-tl-[20px] rounded-tr-[20px] mt-10 font-[500]">
@@ -40,6 +41,7 @@ function TableBody({ dataJSON, columns, onRowClick }: TableBodyProps) {
               index={index}
               columns={columns}
               onRowClick={onRowClick}
+              rowRef={rowRef}
             />
           ))}
         </tbody>

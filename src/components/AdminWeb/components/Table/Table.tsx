@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Pagination, ThemeProvider } from '@mui/material';
 import SearchBar from './SearchBar';
 import theme from '../../config/createTheme';
@@ -11,16 +11,26 @@ interface TableProps {
 }
 
 function Table({ dataJSON, columns, onRowClick }: TableProps) {
-  const [itemsPerPage, setItemsPerPage] = useState(7);
+  const [itemsPerPage, setItemsPerPage] = useState(1);
+  const rowRef = useRef<HTMLTableRowElement>(null);
+
+  const adjustItemsPerPage = () => {
+    const row = rowRef.current;
+
+    if (row) {
+      const windowHeight = window.innerHeight - 350;
+      const maxRowsToShow = Math.floor(
+        windowHeight / row.getBoundingClientRect().height,
+      );
+      if (maxRowsToShow <= 0) {
+        setItemsPerPage(1);
+      } else {
+        setItemsPerPage(maxRowsToShow);
+      }
+    }
+  };
 
   useEffect(() => {
-    const adjustItemsPerPage = () => {
-      const windowHeight = window.innerHeight;
-      const rowHeight = 130;
-      const maxRowsToShow = Math.floor(windowHeight / rowHeight);
-      setItemsPerPage(maxRowsToShow);
-    };
-
     adjustItemsPerPage();
 
     window.addEventListener('resize', adjustItemsPerPage);
@@ -61,6 +71,7 @@ function Table({ dataJSON, columns, onRowClick }: TableProps) {
         dataJSON={currentData}
         columns={columns}
         onRowClick={onRowClick}
+        rowRef={rowRef}
       />
       <ThemeProvider theme={theme}>
         <Pagination

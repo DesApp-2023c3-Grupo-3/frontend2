@@ -3,9 +3,10 @@ interface TableRowProps {
   index: number;
   columns: Map<string, (data: any) => void>;
   onRowClick?: (data: any) => void;
+  rowRef: React.MutableRefObject<HTMLTableRowElement | null>;
 }
 
-function TableRow({ item, index, columns, onRowClick }: TableRowProps) {
+function TableRow({ item, index, columns, onRowClick, rowRef }: TableRowProps) {
   const handleRowClick = () => {
     if (onRowClick) {
       onRowClick(item);
@@ -14,9 +15,10 @@ function TableRow({ item, index, columns, onRowClick }: TableRowProps) {
 
   return (
     <tr
+      ref={index === 0 ? rowRef : null}
       onClick={handleRowClick}
       key={index}
-      className={` ${onRowClick ? 'hover:bg-[#c4c4c4]' : ''}
+      className={`row ${onRowClick ? 'hover:bg-[#c4c4c4]' : ''}
             ${index % 2 === 0 ? 'bg-[#F1F1F1]' : 'bg-[#DFDFDF]'}
         `}
     >
