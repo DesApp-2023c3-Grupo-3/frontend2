@@ -36,23 +36,6 @@ export function MobileBody({
           <h1 className="text-[3em] font-[700] text-[#484848] tracking-[-1.28px] ml-[25px]">
             Avisos
           </h1>
-          {!loading && (
-            <div id="modal" className="flex items-center ml-[15px] z-[4]">
-              <ModalMobile
-                isOpen={isOpen}
-                closeModal={onCloseClick}
-                openModal={openModal}
-                label="NUEVO"
-              >
-                <FormMobile
-                  setAdvertisingsJSON={GetData}
-                  closeModal={onCloseClick}
-                  isCreate={!isEditing}
-                  advertising={editRow}
-                />
-              </ModalMobile>
-            </div>
-          )}
         </div>
 
         {loading ? (
@@ -65,6 +48,38 @@ export function MobileBody({
               onRowClick={handleRowClick}
             />
             <div className="flex justify-end"></div>
+          </div>
+        )}
+        {!loading && (
+          <div
+            id="modal"
+            className="flex mt-[4em] mr-[1em] pb-[3em] items-center justify-end z-[4]"
+          >
+            <ModalMobile
+              isOpen={isOpen}
+              closeModal={onCloseClick}
+              openModal={openModal}
+              label={
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    fill="white"
+                    d="M19 12.998h-6v6h-2v-6H5v-2h6v-6h2v6h6z"
+                  />
+                </svg>
+              }
+            >
+              <FormMobile
+                setAdvertisingsJSON={GetData}
+                closeModal={onCloseClick}
+                isCreate={!isEditing}
+                advertising={editRow}
+              />
+            </ModalMobile>
           </div>
         )}
       </section>

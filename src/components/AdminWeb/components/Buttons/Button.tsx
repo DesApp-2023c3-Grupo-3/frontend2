@@ -2,7 +2,7 @@ type ButtonProps = {
   onClick: (arg?: any) => void;
   active: boolean;
   type: number;
-  label: string;
+  label: any;
   className?: string;
 };
 
@@ -21,7 +21,7 @@ function Button({ onClick, active, type, label, className }: ButtonProps) {
     'bg-[white] text-[#ff4949] border-2 border-red-500 rounded-[30px] py-[16px] w-[300px] h-[40px] font-[600] text-[20px] hover:bg-[red] hover:text-[white]';
 
   const createMobile =
-    'bg-[#2C9CBF] rounded-[20px] w-[100px] h-[40px] text-[#fff] uppercase text-[14px] font-[700] ';
+    'bg-[#2C9CBF] rounded-full w-[50px] h-[50px] text-[#fff] text-[50px] font-[100]';
 
   let style;
 

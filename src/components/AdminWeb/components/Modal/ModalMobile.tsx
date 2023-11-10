@@ -9,7 +9,7 @@ interface ModalProps {
   closeModal: () => void;
   openModal: () => void;
   children: React.ReactElement;
-  label?: string;
+  label?: any;
 }
 
 function Modal({ isOpen, closeModal, openModal, children, label }: ModalProps) {
