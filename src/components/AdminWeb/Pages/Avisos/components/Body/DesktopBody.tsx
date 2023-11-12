@@ -44,6 +44,7 @@ export function DesktopBody({
               dataJSON={advertisingsJSON}
               columns={tableColumns}
               onRowClick={handleRowClick}
+              placeholder="Buscar Aviso"
             />
             <div className="flex justify-end">
               <Modal

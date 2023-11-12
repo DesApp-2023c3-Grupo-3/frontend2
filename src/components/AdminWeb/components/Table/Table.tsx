@@ -8,9 +8,10 @@ interface TableProps {
   dataJSON: any[];
   columns: Map<string, (data: any) => void>;
   onRowClick?: (data: any) => void;
+  placeholder?: string;
 }
 
-function Table({ dataJSON, columns, onRowClick }: TableProps) {
+function Table({ dataJSON, columns, onRowClick, placeholder }: TableProps) {
   const [itemsPerPage, setItemsPerPage] = useState(1);
   const rowRef = useRef<HTMLTableRowElement>(null);
 
@@ -66,7 +67,11 @@ function Table({ dataJSON, columns, onRowClick }: TableProps) {
 
   return (
     <div className={''}>
-      <SearchBar searchTerm={searchTerm} onSearchChange={handleSearchChange} />
+      <SearchBar
+        searchTerm={searchTerm}
+        onSearchChange={handleSearchChange}
+        placeholder={placeholder}
+      />
       <TableBody
         dataJSON={currentData}
         columns={columns}

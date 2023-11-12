@@ -71,7 +71,11 @@ function Comisiones() {
           <Loader />
         ) : (
           <div className="mt-[-70px] mr-[3.1%]">
-            <Table dataJSON={commissionsJSON} columns={tableColumns} />
+            <Table
+              dataJSON={commissionsJSON}
+              columns={tableColumns}
+              placeholder="Buscar Comision"
+            />
             <div className="flex justify-end">
               <Modal
                 isOpen={isOpen}

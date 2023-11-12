@@ -46,6 +46,7 @@ export function MobileBody({
               dataJSON={advertisingsJSON}
               columns={tableColumns}
               onRowClick={handleRowClick}
+              placeholder="Buscar Aviso"
             />
             <div className="flex justify-end"></div>
           </div>
