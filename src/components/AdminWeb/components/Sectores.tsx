@@ -56,6 +56,14 @@ function Sectores({
     updateSectorArray();
   }, []);
 
+  useEffect(() => {
+    if (selectedSector.length === sectorArray.length) {
+      setSelectAll(true);
+    } else {
+      setSelectAll(false);
+    }
+  }, [handlerOnSelect]);
+
   return (
     <div className={`z-[1000] flex justify-center ${style}`}>
       <Listbox

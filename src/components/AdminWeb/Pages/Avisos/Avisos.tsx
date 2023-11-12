@@ -41,7 +41,12 @@ function Avisos() {
     advertisingsAPI
       .getAll(idRolUser)
       .then((r) => {
-        setAdvertisingsJSON(r.data);
+        const orderedData = r.data.sort((a: any, b: any) => {
+          const order = ['active', 'today', 'pending', 'deprecated'];
+          return order.indexOf(a.status) - order.indexOf(b.status);
+        });
+
+        setAdvertisingsJSON(orderedData);
         setLoading(false);
       })
       .catch((e) => {
