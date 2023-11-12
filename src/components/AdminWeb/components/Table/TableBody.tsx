@@ -9,6 +9,8 @@ interface TableBodyProps {
 }
 
 function TableBody({ dataJSON, columns, onRowClick, rowRef }: TableBodyProps) {
+  const order = ['active', 'today', 'pending', 'deprecated'];
+
   return (
     <div>
       <table className="table-auto border-collapse overflow-hidden rounded-tl-[20px] rounded-tr-[20px] mt-10 font-[500]">
@@ -34,16 +36,18 @@ function TableBody({ dataJSON, columns, onRowClick, rowRef }: TableBodyProps) {
           </tr>
         </thead>
         <tbody className="text-[20px] font[500]">
-          {dataJSON.map((data, index) => (
-            <TableRow
-              key={data.id}
-              item={data}
-              index={index}
-              columns={columns}
-              onRowClick={onRowClick}
-              rowRef={rowRef}
-            />
-          ))}
+          {dataJSON
+            .sort((a, b) => order.indexOf(a.status) - order.indexOf(b.status))
+            .map((data, index) => (
+              <TableRow
+                key={data.id}
+                item={data}
+                index={index}
+                columns={columns}
+                onRowClick={onRowClick}
+                rowRef={rowRef}
+              />
+            ))}
         </tbody>
       </table>
     </div>
