@@ -74,14 +74,19 @@ function Avisos() {
 
   const dayOrder = ['Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa', 'Do'];
 
-  const schedule = (advertising: Advertising) =>
-    advertising.advertisingSchedules
-      .map((schedule) => schedule.schedule.dayCode)
-      .map((d) => d.charAt(0).toUpperCase() + d.slice(1).toLowerCase())
-      .sort((a, b) => {
-        return dayOrder.indexOf(a) - dayOrder.indexOf(b);
-      })
-      .join('-');
+  const schedule = (advertising: Advertising) => {
+    if (advertising.advertisingSchedules.length === 7) {
+      return 'Todos los días';
+    } else {
+      return advertising.advertisingSchedules
+        .map((schedule) => schedule.schedule.dayCode)
+        .map((d) => d.charAt(0).toUpperCase() + d.slice(1).toLowerCase())
+        .sort((a, b) => {
+          return dayOrder.indexOf(a) - dayOrder.indexOf(b);
+        })
+        .join('-');
+    }
+  };
 
   const starthour = (advertising: Advertising) =>
     dayjs(advertising.advertisingSchedules[0].schedule.startHour).format(
