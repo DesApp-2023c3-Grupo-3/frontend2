@@ -261,8 +261,8 @@ function FormAdvertising({
   return (
     <div>
       <form className="mx-10">
-        <div className=" flex h-[90px] justify-between items-center">
-          <div>
+        <div className=" flex my-5 justify-between items-center">
+          <div className="flex-col w-[365px] h-[50px]">
             <InputName
               emptyFields={emptyFields}
               invalidName={invalidName}
@@ -274,20 +274,18 @@ function FormAdvertising({
               invalidName() && emptyFields.advertisingName,
             )}
           </div>
-          <div>
-            <div className="flex-col justify-center w-[365px] h-[50px]">
-              <Sectores
-                selectedSector={selectedSector}
-                onSelectedSectorChange={setSelectedSector}
-                hasError={emptyFields.selectedSector && invalidSectors()}
-                canChooseMany={true}
-              />
-              <div>
-                {ErrorMessage(
-                  '*Falta seleccionar los sectores.',
-                  emptyFields.selectedSector && invalidSectors(),
-                )}
-              </div>
+          <div className="flex-col w-[365px] h-[50px]">
+            <Sectores
+              selectedSector={selectedSector}
+              onSelectedSectorChange={setSelectedSector}
+              hasError={emptyFields.selectedSector && invalidSectors()}
+              canChooseMany={true}
+            />
+            <div className=" translate-y-[50px]">
+              {ErrorMessage(
+                '*Falta seleccionar los sectores.',
+                emptyFields.selectedSector && invalidSectors(),
+              )}
             </div>
           </div>
         </div>
