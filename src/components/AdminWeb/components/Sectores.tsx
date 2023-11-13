@@ -28,7 +28,7 @@ function Sectores({
     setLoading(true);
     try {
       const newSectors = await sectorApi.getSector();
-      setSectorArray(newSectors as Sector[]);
+      setSectorArray(sortedSectors(newSectors));
       setLoading(false);
     } catch (error) {
       console.error(error);
@@ -47,9 +47,20 @@ function Sectores({
     }
   };
 
-  const handlerOnSelect = (selected: Sector[] | Sector) => {
+  const handleDeselect = (sector: Sector) => {
+    const selectedSectorsUpdated = selectedSector.filter(
+      (el) => el.id !== sector.id,
+    );
+    onSelectedSectorChange(selectedSectorsUpdated);
+  };
+
+  const handlerOnSelect = (selected: Sector[]) => {
     const toChange = Array.isArray(selected) ? selected : [selected];
     onSelectedSectorChange(toChange);
+  };
+
+  const isSelected = (sector: Sector) => {
+    return selectedSector.find((sec) => sec.id === sector.id) ? true : false;
   };
 
   useEffect(() => {
@@ -102,9 +113,9 @@ function Sectores({
             <span className="flex text-black opacity-[0.33] items-center">
               {selectedSector.length === 0
                 ? 'Sector/es'
-                : selectedSector
+                : `${selectedSector
                     .map((sector) => abbreviateSectorName(sector.name))
-                    .join(', ')}
+                    .join(', ')}`}
             </span>
           </Listbox.Button>
           <Transition
@@ -121,12 +132,15 @@ function Sectores({
                 <Loader />
               ) : (
                 sectorArray.length > 0 &&
-                sectorArray.map((sector, sextorIdx) => (
-                  <div key={sextorIdx} className="flex justify-center">
-                    <div>
-                      <Listbox.Option
-                        className={({ active, selected }) =>
-                          ` border-2 border-[#919191] flex justify-start items-center relative cursor-pointer mb-[3px] pl-2 rounded-[20px] h-[30px] w-[82px] 
+                sectorArray.map((sector) => {
+                  const selected = isSelected(sector);
+
+                  return (
+                    <div key={sector.id} className="flex justify-center">
+                      <div>
+                        <Listbox.Option
+                          className={({ active }) =>
+                            ` border-2 border-[#919191] flex justify-start items-center relative cursor-pointer mb-[3px] pl-2 rounded-[20px] h-[30px] w-[82px] 
                                 ${
                                   active
                                     ? 'bg-[#2C9CBF] text-white'
@@ -138,26 +152,27 @@ function Sectores({
                                     : ''
                                 }
                                 `
-                        }
-                        value={sector}
-                      >
-                        {({ selected }) => (
-                          <div className="flex justify-start items-center">
-                            <span
-                              className={`truncate flex justify-start items-center${
-                                selected
-                                  ? 'font-medium text-white '
-                                  : 'font-normal'
-                              }`}
-                            >
-                              {abbreviateSectorName(sector.name)}
-                            </span>
-                          </div>
-                        )}
-                      </Listbox.Option>
+                          }
+                          value={sector}
+                        >
+                          {() => (
+                            <div className="flex justify-start items-center">
+                              <span
+                                className={`truncate flex justify-start items-center${
+                                  selected
+                                    ? 'font-medium text-white '
+                                    : 'font-normal'
+                                }`}
+                              >
+                                {abbreviateSectorName(sector.name)}
+                              </span>
+                            </div>
+                          )}
+                        </Listbox.Option>
+                      </div>
                     </div>
-                  </div>
-                ))
+                  );
+                })
               )}
               {canChooseMany && (
                 <div className="flex justify-center items-center">
@@ -179,6 +194,10 @@ function Sectores({
 }
 
 export default Sectores;
+
+const sortedSectors = (sectors: Sector[]): Sector[] => {
+  return [...sectors].sort((a, b) => a.id - b.id);
+};
 
 export interface Sector {
   id: number;
