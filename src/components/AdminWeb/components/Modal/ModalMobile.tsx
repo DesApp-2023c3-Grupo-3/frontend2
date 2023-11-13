@@ -2,6 +2,7 @@ import React from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
 import Button from '../Buttons/Button';
+import { Fab } from '@mui/material';
 
 //El modal se usa con el hook useModal
 interface ModalProps {
@@ -16,7 +17,7 @@ function Modal({ isOpen, closeModal, openModal, children, label }: ModalProps) {
   return (
     <>
       {label ? (
-        <div className="absolute">
+        <div className="fixed bottom-[5%] right-[5%]">
           <Button onClick={openModal} active={true} label={label} type={4} />{' '}
         </div>
       ) : (
