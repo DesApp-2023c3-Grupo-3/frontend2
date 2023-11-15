@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { ROUTES_RELATIVE } from '../routes/route.relatives';
+import { dataConfig } from './auth.guard';
 
 export const commissionApi = {
   download: async function() {
@@ -16,12 +17,7 @@ export const commissionApi = {
   },
   post: async function(data: any, endpoint: string) {
     try {
-      return axios.post(endpoint, data, {
-        headers: {
-          "content-type": "multipart/form-data",
-          //Authorization: `Bearer ${userInfo.token}`,
-        },
-      });
+      return axios.post(endpoint, data, dataConfig);
     } catch(error) {
       return error;
     }
@@ -42,7 +38,7 @@ export const commissionApi = {
   },
   getAll: async function() {
     try {
-      const response = await axios.get(ROUTES_RELATIVE.course.commission);
+      const response = await axios.get(ROUTES_RELATIVE.course.commission, dataConfig);
       return response;
     } catch (error) {
         return error;
