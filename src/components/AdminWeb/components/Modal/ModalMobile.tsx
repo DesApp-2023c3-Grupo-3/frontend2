@@ -2,7 +2,6 @@ import React from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
 import Button from '../Buttons/Button';
-import { Fab } from '@mui/material';
 
 //El modal se usa con el hook useModal
 interface ModalProps {
