@@ -47,12 +47,12 @@ function Sectores({
     }
   };
 
-  const handleDeselect = (sector: Sector) => {
-    const selectedSectorsUpdated = selectedSector.filter(
-      (el) => el.id !== sector.id,
-    );
-    onSelectedSectorChange(selectedSectorsUpdated);
-  };
+  // const handleDeselect = (sector: Sector) => {
+  //   const selectedSectorsUpdated = selectedSector.filter(
+  //     (el) => el.id !== sector.id,
+  //   );
+  //   onSelectedSectorChange(selectedSectorsUpdated);
+  // };
 
   const handlerOnSelect = (selected: Sector[]) => {
     const toChange = Array.isArray(selected) ? selected : [selected];
@@ -82,7 +82,7 @@ function Sectores({
         onChange={handlerOnSelect}
         multiple={canChooseMany}
       >
-        <div className="fixed flex-row justify-center z-[20]">
+        <div className=" flex-row justify-center relative z-[20]">
           <Listbox.Button
             id="sectors"
             className={`text-[20px] font-[400] tracking-[-0.4px] rounded-[30px] bg-[#D9D9D9] flex w-[365px] h-[50px] px-[40px] py-[12px] items-center ${
@@ -124,7 +124,7 @@ function Sectores({
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Listbox.Options className=" bg-white w-[254px] ml-auto flex-row justify-center items-center shadow-lg rounded-t-[2px] rounded-b-[10px] pb-3">
+            <Listbox.Options className=" bg-white w-[254px] ml-auto shadow-lg rounded-t-[2px] rounded-b-[10px] pb-3 absolute left-[15%]">
               <span className="m-3 flex justify-center text-[#00000080] text-[20px]">
                 Edificio
               </span>
