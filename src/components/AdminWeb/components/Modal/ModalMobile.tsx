@@ -16,7 +16,7 @@ function Modal({ isOpen, closeModal, openModal, children, label }: ModalProps) {
   return (
     <>
       {label ? (
-        <div className="fixed bottom-[5%] right-[5%]">
+        <div className="fixed bottom-[5%] right-[10%]">
           <Button onClick={openModal} active={true} label={label} type={4} />{' '}
         </div>
       ) : (

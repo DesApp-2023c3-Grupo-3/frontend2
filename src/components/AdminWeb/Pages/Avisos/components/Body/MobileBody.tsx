@@ -31,7 +31,7 @@ export function MobileBody({
 }: MobileBodyProps) {
   return (
     <>
-      <section className="mx-[3%] mt-[3em] w-full">
+      <section className="mt-[3em] w-full h-full">
         <div className="flex items-center">
           <h1 className="text-[3em] font-[700] text-[#484848] tracking-[-1.28px] ml-[25px]">
             Avisos
@@ -48,7 +48,6 @@ export function MobileBody({
               onRowClick={handleRowClick}
               placeholder="Buscar Aviso"
             />
-            <div className="flex justify-end"></div>
           </div>
         )}
         {!loading && (
