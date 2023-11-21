@@ -24,7 +24,11 @@ function TableRow({ item, index, columns, onRowClick, rowRef }: TableRowProps) {
     >
       {Array.from(columns.keys()).map((columnName) => {
         return (
-          <td key={columnName} id={columnName} className="py-2 px-6">
+          <td
+            key={columnName}
+            id={columnName}
+            className="py-2 px-6 text-ellipsis max-w-[220px] overflow-hidden"
+          >
             {columns.get(columnName)?.call(item, item) || '-'}
           </td>
         );
