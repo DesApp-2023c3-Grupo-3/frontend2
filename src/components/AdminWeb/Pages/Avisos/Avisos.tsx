@@ -7,6 +7,7 @@ import { abbreviateSectorName } from '../../utils/AbbreviateSectorName';
 import dayjs from 'dayjs';
 import { DesktopBody } from './components/Body/DesktopBody';
 import { MobileBody } from './components/Body/MobileBody';
+import { FormMobile } from './components/Form/Mobile/FormMobile';
 
 function Avisos() {
   const [advertisingsJSON, setAdvertisingsJSON] = React.useState<Advertising[]>(
@@ -192,17 +193,23 @@ function Avisos() {
       </Helmet>
       {isMobile ? (
         <MobileBody
-          advertisingsJSON={advertisingsJSON}
+          dataJson={advertisingsJSON}
           tableColumns={tableColumnsMobile}
           handleRowClick={handleRowClick}
           isOpen={isOpen}
           onCloseClick={onCloseClick}
           openModal={openModal}
-          GetData={GetData}
-          isEditing={isEditing}
-          editRow={editRow}
           loading={loading}
-        />
+          title="Avisos"
+          placeholder="Buscar Avisos"
+        >
+          <FormMobile
+            setAdvertisingsJSON={GetData}
+            closeModal={onCloseClick}
+            isCreate={!isEditing}
+            advertising={editRow}
+          />
+        </MobileBody>
       ) : (
         <DesktopBody
           advertisingsJSON={advertisingsJSON}

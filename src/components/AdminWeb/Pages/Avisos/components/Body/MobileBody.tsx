@@ -1,40 +1,38 @@
 import Loader from '../../../../components/Loader';
 import ModalMobile from '../../../../components/Modal/ModalMobile';
 import Table from '../../../../components/Table/Table';
-import { Advertising } from '../../../../types/customTypes';
-import { FormMobile } from '../Form/Mobile/FormMobile';
 
 interface MobileBodyProps {
-  advertisingsJSON: any[];
+  dataJson: any[];
   tableColumns: Map<string, (data: any) => void>;
-  handleRowClick: (data: any) => void;
+  handleRowClick?: (data: any) => void;
   isOpen: boolean;
   onCloseClick: () => void;
   openModal: () => void;
-  GetData: () => void;
-  isEditing: boolean;
-  editRow?: Advertising;
   loading: boolean;
+  children: React.ReactElement;
+  title: string;
+  placeholder: string;
 }
 
 export function MobileBody({
-  advertisingsJSON,
+  dataJson,
   tableColumns,
   handleRowClick,
   isOpen,
   onCloseClick,
   openModal,
-  GetData,
-  isEditing,
-  editRow,
   loading,
+  children,
+  title,
+  placeholder,
 }: MobileBodyProps) {
   return (
     <>
       <section className="mt-[3em] w-full h-full">
         <div className="flex items-center">
           <h1 className="text-[3em] font-[700] text-[#484848] tracking-[-1.28px] ml-[25px]">
-            Avisos
+            {title}
           </h1>
         </div>
 
@@ -43,10 +41,10 @@ export function MobileBody({
         ) : (
           <div className="mt-[-70px]">
             <Table
-              dataJSON={advertisingsJSON}
+              dataJSON={dataJson}
               columns={tableColumns}
               onRowClick={handleRowClick}
-              placeholder="Buscar Aviso"
+              placeholder={placeholder}
             />
           </div>
         )}
@@ -73,12 +71,7 @@ export function MobileBody({
                 </svg>
               }
             >
-              <FormMobile
-                setAdvertisingsJSON={GetData}
-                closeModal={onCloseClick}
-                isCreate={!isEditing}
-                advertising={editRow}
-              />
+              {children}
             </ModalMobile>
           </div>
         )}
