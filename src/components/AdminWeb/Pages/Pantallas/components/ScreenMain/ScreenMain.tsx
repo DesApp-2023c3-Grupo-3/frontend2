@@ -1,9 +1,9 @@
+import useFetchScreens from '../../hooks/useFetchScreens';
 import { useFilters } from '../../store/useFilters';
-import { useScreenFilters } from '../../store/useScreenFilters';
 import ScreenCard from './components/ScreenCard';
 
 function ScreenMain() {
-  const screens = useScreenFilters((state) => state.screens);
+  const { screens } = useFetchScreens();
   const sector = useFilters((state) => state.sector);
 
   const filteredScreens = screens.filter(
@@ -14,7 +14,7 @@ function ScreenMain() {
     <main className="h-full">
       <section className="flex justify-center flex-wrap gap-4">
         {filteredScreens.length > 0 ? (
-          filteredScreens.map((screen, index) => (
+          filteredScreens.map((screen) => (
             <ScreenCard
               key={screen.id}
               id={screen.id}

@@ -1,5 +1,4 @@
 import { create } from "zustand";
-import { screensMock } from "../mocks/screens";
 
 export interface Screen {
     id: number
@@ -16,10 +15,11 @@ interface StoreScreen {
     selectAllTheScreens: () => void
     deselectAllTheScreens: () => void
     selectScreen: (id:number) => void
+    addScreens: (screens:Screen[]) => void
 }
 
 export const useScreenFilters = create<StoreScreen>()((set, get) => ({
-    screens: screensMock,
+    screens: [],
 
     selectAllTheScreens: () => {
         const newScreens = get().screens.map(screen => {
@@ -52,6 +52,12 @@ export const useScreenFilters = create<StoreScreen>()((set, get) => ({
         })
         set({
             screens: newScreens
+        })
+    },
+
+    addScreens: (screens:Screen[]) => {
+        set({
+            screens
         })
     }
     
