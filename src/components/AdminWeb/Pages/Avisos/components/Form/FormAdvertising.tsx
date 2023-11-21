@@ -281,7 +281,7 @@ function FormAdvertising({
               hasError={emptyFields.selectedSector && invalidSectors()}
               canChooseMany={true}
             />
-            <div className=" translate-y-[50px]">
+            <div className="">
               {ErrorMessage(
                 '*Falta seleccionar los sectores.',
                 emptyFields.selectedSector && invalidSectors(),
