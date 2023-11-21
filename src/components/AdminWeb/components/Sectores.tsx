@@ -6,7 +6,7 @@ import { sectorApi } from '../../../services/sectores';
 import Loader from './Loader';
 
 interface SectoresProps {
-  selectedSector: Sector[];
+  selectedSector: any[];
   onSelectedSectorChange: (newSelectedSector: Sector[]) => void;
   style?: string;
   hasError: boolean;
@@ -59,8 +59,12 @@ function Sectores({
     onSelectedSectorChange(toChange);
   };
 
-  const isSelected = (sector: Sector) => {
-    return selectedSector.find((sec) => sec.id === sector.id) ? true : false;
+  const isSelected = (sector: any) => {
+    const index = selectedSector.findIndex((s) => s.id === sector.id);
+    if (index !== -1) {
+      selectedSector[index] = sector;
+    }
+    return selectedSector.find((s) => s.id === sector.id);
   };
 
   useEffect(() => {
@@ -132,47 +136,43 @@ function Sectores({
                 <Loader />
               ) : (
                 sectorArray.length > 0 &&
-                sectorArray.map((sector) => {
-                  const selected = isSelected(sector);
-
-                  return (
-                    <div key={sector.id} className="flex justify-center">
-                      <div>
-                        <Listbox.Option
-                          className={({ active }) =>
-                            ` border-2 border-[#919191] flex justify-start items-center relative cursor-pointer mb-[3px] pl-2 rounded-[20px] h-[30px] w-[82px] 
+                sectorArray.map((sector) => (
+                  <div key={sector.id} className="flex justify-center">
+                    <div>
+                      <Listbox.Option
+                        className={({ active }) =>
+                          ` border-2 border-[#919191] flex justify-start items-center relative cursor-pointer mb-[3px] pl-2 rounded-[20px] h-[30px] w-[82px] 
                                 ${
                                   active
-                                    ? 'bg-[#2C9CBF] text-white'
+                                    ? 'bg-[#3cacce] text-white'
                                     : 'text-[#000]'
                                 }
                                 ${
-                                  selected
+                                  isSelected(sector)
                                     ? 'bg-[#2C9CBF] border-[#2C9CBF]'
                                     : ''
                                 }
                                 `
-                          }
-                          value={sector}
-                        >
-                          {() => (
-                            <div className="flex justify-start items-center">
-                              <span
-                                className={`truncate flex justify-start items-center${
-                                  selected
-                                    ? 'font-medium text-white '
-                                    : 'font-normal'
-                                }`}
-                              >
-                                {abbreviateSectorName(sector.name)}
-                              </span>
-                            </div>
-                          )}
-                        </Listbox.Option>
-                      </div>
+                        }
+                        value={sector}
+                      >
+                        {() => (
+                          <div className="flex justify-start items-center">
+                            <span
+                              className={`truncate flex justify-start items-center${
+                                isSelected(sector)
+                                  ? 'font-medium text-white '
+                                  : 'font-normal'
+                              }`}
+                            >
+                              {abbreviateSectorName(sector.name)}
+                            </span>
+                          </div>
+                        )}
+                      </Listbox.Option>
                     </div>
-                  );
-                })
+                  </div>
+                ))
               )}
               {canChooseMany && (
                 <div className="flex justify-center items-center">
