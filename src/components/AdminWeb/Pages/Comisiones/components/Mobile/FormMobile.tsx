@@ -1,9 +1,9 @@
 import * as React from 'react';
 import Button from '../../../../components/Buttons/Button';
 import { Step1 } from './Step1';
-import dayjs from 'dayjs';
 import { Step2 } from './Step2';
 import { commissionApi } from '../../../../../../services/commissions';
+import { validationDate } from '../../../../utils/validationDate';
 
 interface FormMobileProps {
   setCommissionsJSON: (e: any) => void;
@@ -15,8 +15,8 @@ export function FormMobile({
   closeModal,
 }: FormMobileProps) {
   const [selectedFileName, setSelectedFileName] = React.useState('');
-  const [startDate, setStartDate] = React.useState<any>(dayjs(new Date()));
-  const [endDate, setEndDate] = React.useState<any>(dayjs(new Date()));
+  const [startDate, setStartDate] = React.useState<any>(null);
+  const [endDate, setEndDate] = React.useState<any>(null);
   const [selectedSector, setSelectedSector] = React.useState<Sector[]>([]);
   const [hasDocument, setHasDocument] = React.useState<boolean>(false);
   const [excelData, setExcelData] = React.useState<any>();
@@ -25,7 +25,9 @@ export function FormMobile({
 
   const handleNextStep = () => {
     if (currentStep === 1) {
-      setCurrentStep(2);
+      if (validateStep1()) {
+        setCurrentStep(2);
+      }
     } else {
       setCurrentStep(1);
     }
@@ -46,19 +48,45 @@ export function FormMobile({
 
   const uploadTemplate = () => {
     //setLoadingButton(true);
-    if (!hasValidCommission()) return;
-    excelData.append('startDate', startDate.toISOString());
-    excelData.append('endDate', endDate.toISOString());
-    excelData.append('sector', selectedSector[0].id.toString());
-    commissionApi.create(excelData).then(() => {
-      updateCommissionsTable();
-      closeModal();
-      //setLoadingButton(false);
-    });
+    if (!hasValidCommission()) {
+      validateStep2();
+    } else {
+      excelData.append('startDate', startDate.toISOString());
+      excelData.append('endDate', endDate.toISOString());
+      excelData.append('sector', selectedSector[0].id.toString());
+      commissionApi.create(excelData).then(() => {
+        updateCommissionsTable();
+        closeModal();
+        //setLoadingButton(false);
+      });
+    }
   };
 
   const downloadTemplate = () => {
     commissionApi.download();
+  };
+
+  const [emptyFieldsStep1, setEmptyFieldsStep1] = React.useState({
+    selectedSector: false,
+    date: false,
+  });
+
+  const validateStep1 = () => {
+    const update = {
+      selectedSector: selectedSector.length === 0,
+      date: validationDate(startDate, endDate),
+    };
+    setEmptyFieldsStep1(update);
+
+    return !update.selectedSector && !update.date;
+  };
+
+  const [isValidateStep2, setValidateStep2] = React.useState(true);
+
+  const validateStep2 = () => {
+    setValidateStep2(hasDocument);
+
+    return isValidateStep2;
   };
 
   return (
@@ -78,6 +106,7 @@ export function FormMobile({
             endDate={endDate}
             setStartDate={setStartDate}
             setEndDate={setEndDate}
+            emptyFields={emptyFieldsStep1}
           />
         </div>
       ) : (
@@ -92,6 +121,7 @@ export function FormMobile({
             selectedFileName={selectedFileName}
             setSelectedFileName={setSelectedFileName}
             downloadTemplate={downloadTemplate}
+            isValidateStep2={isValidateStep2}
           />
         </div>
       )}

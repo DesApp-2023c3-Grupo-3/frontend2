@@ -1,6 +1,8 @@
 import * as React from 'react';
 import Sectores from '../../../../components/Sectores';
 import DatePickerDays from '../../../../components/DatePickerDays';
+import ErrorMessage from '../../../../components/ErrorMessage';
+import { validationDate } from '../../../../utils/validationDate';
 
 interface Step1Props {
   selectedSector: any[];
@@ -9,6 +11,7 @@ interface Step1Props {
   endDate: any;
   setStartDate: (e: any) => void;
   setEndDate: (e: any) => void;
+  emptyFields: any;
 }
 
 export function Step1({
@@ -18,9 +21,13 @@ export function Step1({
   setStartDate,
   endDate,
   setEndDate,
+  emptyFields,
 }: Step1Props) {
   const handleSelectedSectorChange = (e: Sector[]) => {
     setSelectedSector(e);
+  };
+  const invalidDate = () => {
+    return validationDate(startDate, endDate);
   };
 
   return (
@@ -33,8 +40,12 @@ export function Step1({
             hasError={false}
             canChooseMany={false}
           />
+          {ErrorMessage(
+            '*Falta seleccionar los sectores.',
+            selectedSector.length === 0 && emptyFields.selectedSector,
+          )}
         </div>
-        <div className="block shrink-1 grow-0 basis-auto self-center order-0 mt-10">
+        <div className="block shrink-1 grow-0 basis-auto self-center order-0 mt-10 w-[365px]">
           <DatePickerDays
             onChangeStartDate={setStartDate}
             onChangeEndDate={setEndDate}
@@ -42,6 +53,10 @@ export function Step1({
             selectedDateFinal={endDate}
             isCreate={true}
           />
+          {ErrorMessage(
+            '*Falta seleccionar las fechas.',
+            invalidDate() && emptyFields.date,
+          )}
         </div>
       </div>
     </div>
