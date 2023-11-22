@@ -1,11 +1,11 @@
 import axios from 'axios';
 import { ROUTES_RELATIVE } from '../routes/route.relatives';
-import { dataConfig } from './auth.guard';
+import { getHeaders, handleCall } from './validationMiddleware';
 
 export const commissionApi = {
   download: async function() {
     try {
-      const response = await axios.get(ROUTES_RELATIVE.course.downloadCommission, { responseType: 'blob' });
+      const response = await handleCall(axios.get, [ROUTES_RELATIVE.course.downloadCommission, { responseType: 'blob' }], getHeaders);
       const blob = new Blob([response.data], { type: response.headers['content-type'] });
       const link = document.createElement('a');
       link.href = window.URL.createObjectURL(blob);
@@ -17,28 +17,28 @@ export const commissionApi = {
   },
   post: async function(data: any, endpoint: string) {
     try {
-      return axios.post(endpoint, data, dataConfig);
+      return handleCall(axios.post, [endpoint, data], getHeaders);
     } catch(error) {
       return error;
     }
   },
   create: async function(excelData: any){
     try {
-      return this.post(excelData, ROUTES_RELATIVE.course.uploadCommission);
+      return handleCall(this.post, [excelData, ROUTES_RELATIVE.course.uploadCommission], getHeaders);
     } catch(error) {
       return error;
     }
   },
   toJson: async function(excelData: any){
     try{
-      return this.post(excelData, ROUTES_RELATIVE.image.excelToJson);
+      return handleCall(this.post, [excelData, ROUTES_RELATIVE.image.excelToJson], getHeaders);
     } catch(error) {
       return error;
     }
   },
   getAll: async function() {
     try {
-      const response = await axios.get(ROUTES_RELATIVE.course.commission, dataConfig);
+      const response = await handleCall(axios.get, [ROUTES_RELATIVE.course.commission], getHeaders);
       return response;
     } catch (error) {
         return error;

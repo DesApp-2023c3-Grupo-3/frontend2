@@ -1,12 +1,12 @@
 import axios from 'axios';
 import { ROUTES_RELATIVE } from '../routes/route.relatives';
-import { dataConfig } from './auth.guard';
+import { getHeaders, handleCall } from './validationMiddleware';
 
 export const userApi = {
   create: async function(newUser: User){
-    return axios.post(ROUTES_RELATIVE.user.createUser, newUser, dataConfig)
+    return handleCall(axios.post, [ROUTES_RELATIVE.user.createUser, newUser], getHeaders)
   },
   getAll: async function(){
-    return axios.get(ROUTES_RELATIVE.user.users, dataConfig)
+    return handleCall(axios.get, [ROUTES_RELATIVE.user.users], getHeaders)
   },
 }
