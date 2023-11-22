@@ -7,7 +7,7 @@ import Loader from './Loader';
 
 interface SectoresProps {
   selectedSector: any[];
-  onSelectedSectorChange: (newSelectedSector: Sector[]) => void;
+  onSelectedSectorChange: (newSelectedSector: any[]) => void;
   style?: string;
   hasError: boolean;
   canChooseMany: boolean;

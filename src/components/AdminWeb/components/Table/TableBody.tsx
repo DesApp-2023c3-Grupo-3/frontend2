@@ -23,7 +23,7 @@ function TableBody({ dataJSON, columns, onRowClick, rowRef }: TableBodyProps) {
             return (
               <th
                 key={columnName}
-                className={`px-6 py-4 
+                className={`
                   ${
                     columnName === ''
                       ? 'w-[3em] flex justify-center'

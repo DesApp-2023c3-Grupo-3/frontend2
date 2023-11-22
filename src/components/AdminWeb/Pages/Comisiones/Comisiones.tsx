@@ -1,16 +1,16 @@
-import { useEffect, useState, useTransition } from 'react';
+import { useEffect, useState } from 'react';
 import { Commission } from '../../types/customTypes';
 import { commissionApi } from '../../../../services/commissions';
 import { Helmet } from 'react-helmet';
 import Modal from '../../components/Modal/Modal';
 import { useModal } from '../../hooks/useModal';
-import FormCommission from './components/Modal/FormCommission';
+import FormCommission from './components/Form/FormCommission';
 import Table from '../../components/Table/Table';
 import dayjs from 'dayjs';
 import Loader from '../../components/Loader';
 import React from 'react';
-import { FormMobile } from '../Avisos/components/Form/Mobile/FormMobile';
-import { MobileBody } from '../Avisos/components/Body/MobileBody';
+import { MobileBody } from '../../components/Mobile/MobileBody';
+import { FormMobile } from './components/Mobile/FormMobile';
 
 function Comisiones() {
   const [commissionsJSON, setCommissionsJSON] = useState<any[]>([]);
@@ -118,10 +118,8 @@ function Comisiones() {
             placeholder="Buscar Comision"
           >
             <FormMobile
-              setAdvertisingsJSON={updateCommissionsTable}
+              setCommissionsJSON={setCommissionsJSON}
               closeModal={closeModal}
-              isCreate={true}
-              advertising={undefined}
             />
           </MobileBody>
         ) : (

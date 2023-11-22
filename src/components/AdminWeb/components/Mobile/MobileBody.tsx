@@ -1,6 +1,6 @@
-import Loader from '../../../../components/Loader';
-import ModalMobile from '../../../../components/Modal/ModalMobile';
-import Table from '../../../../components/Table/Table';
+import Loader from '../Loader';
+import ModalMobile from '../Modal/ModalMobile';
+import Table from '../Table/Table';
 
 interface MobileBodyProps {
   dataJson: any[];

@@ -6,7 +6,7 @@ import { Helmet } from 'react-helmet';
 import { abbreviateSectorName } from '../../utils/AbbreviateSectorName';
 import dayjs from 'dayjs';
 import { DesktopBody } from './components/Body/DesktopBody';
-import { MobileBody } from './components/Body/MobileBody';
+import { MobileBody } from '../../components/Mobile/MobileBody';
 import { FormMobile } from './components/Form/Mobile/FormMobile';
 
 function Avisos() {

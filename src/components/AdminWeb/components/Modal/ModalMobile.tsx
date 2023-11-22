@@ -35,7 +35,7 @@ function Modal({ isOpen, closeModal, openModal, children, label }: ModalProps) {
           >
             <div className="fixed inset-0 bg-black bg-opacity-25" />
           </Transition.Child>
-          <Dialog.Panel className="top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] absolute w-[100%] h-[100%] bg-white z-50">
+          <Dialog.Panel className=" inset-0 absolute w-[screen] h-[screen] bg-white z-50">
             <div className="h-[60px] flex justify-end items-center">
               <button onClick={closeModal}>
                 <svg
