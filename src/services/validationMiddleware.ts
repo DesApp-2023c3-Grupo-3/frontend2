@@ -33,7 +33,6 @@ export const getHeaders = () => {
 export var handleCall = async (callBack: any, args: any[]) => {
     try {
         const serverResponse = await callBack(...args, getHeaders());
-        console.log("token valido")
         return serverResponse
     } catch (error) {
         try {
