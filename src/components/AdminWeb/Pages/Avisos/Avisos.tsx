@@ -8,6 +8,7 @@ import dayjs from 'dayjs';
 import { DesktopBody } from './components/Body/DesktopBody';
 import { MobileBody } from '../../components/Mobile/MobileBody';
 import { FormMobile } from './components/Form/Mobile/FormMobile';
+import { getPayload } from '../../../../services/validationMiddleware';
 
 function Avisos() {
   const [advertisingsJSON, setAdvertisingsJSON] = React.useState<Advertising[]>(
@@ -35,7 +36,7 @@ function Avisos() {
     }, 250);
   };
 
-  const idRolUser = 1; // TODO: id del rol del usuario logeado
+  const idRolUser = getPayload().tokenRoleId;
 
   const GetData = () => {
     setLoading(true);
