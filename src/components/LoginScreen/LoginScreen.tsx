@@ -4,6 +4,7 @@ import { FormEvent, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { tokenApi } from '../../services/auth';
+import { getPayload } from '../../services/validationMiddleware';
 
 function LoginScreen({
   setScreenId,
@@ -42,7 +43,10 @@ function LoginScreen({
       setInvalidNotice('La contraseña es incorrecta.');
       return;
     }
-
+    const routeNavigation: any = () => {
+      const rolId: number = getPayload().tokenRoleId;
+      return rolId == 3 ? '/comission' : '/advertising';
+    };
     // TODO Login para ingresar a AdminWeb
     try {
       await generateTokens(
@@ -55,7 +59,7 @@ function LoginScreen({
       return;
     }
 
-    navigate('/admin');
+    navigate('/admin' + routeNavigation());
   };
 
   const invalidUsername = () => {
