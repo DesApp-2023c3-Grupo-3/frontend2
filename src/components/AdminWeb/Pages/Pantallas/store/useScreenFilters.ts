@@ -5,7 +5,7 @@ export interface Screen {
     screenTitle: string, 
     sectorTitle: string,
     typeScreen: string,
-    suscription: string,
+    subscription: string,
     isSelected: boolean,
     sectorId: number
 }

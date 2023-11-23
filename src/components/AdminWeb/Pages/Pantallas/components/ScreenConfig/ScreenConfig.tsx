@@ -5,6 +5,7 @@ import { useConfig } from '../../hooks/useConfig';
 import { useCard } from '../../hooks/useCards';
 import Swal from 'sweetalert2';
 import { useScreenFilters } from '../../store/useScreenFilters';
+import { screenAPI } from '../../../../../../services/screens';
 
 const Toast = Swal.mixin({
   toast: true,
@@ -24,8 +25,30 @@ function ScreenConfig({ closeModal }: { closeModal: () => void }) {
     (state) => state.deselectAllTheScreens,
   );
   const { cards, selectCard, cardSelected, isAnyCardSelected } = useCard();
+  const screens = useScreenFilters((state) => state.screens);
+
+  const updateScreens = () => {
+    const selectedScreens = screens.filter((screen) => screen.isSelected);
+    const mappedScreens = selectedScreens.map((screen) => {
+      const { id, typeScreen, subscription, sectorId } = screen;
+
+      return {
+        id,
+        templeteId: typeScreen,
+        subscription,
+        courseIntervalTime: config.courseIntervalTime,
+        advertisingIntervalTime: config.advertisingIntervalTime,
+        sector: {
+          id: sectorId,
+        },
+      };
+    });
+
+    screenAPI.edit(mappedScreens);
+  };
 
   const handleClick = () => {
+    updateScreens();
     deselectAllTheScreens();
     closeModal();
     Toast.fire({
