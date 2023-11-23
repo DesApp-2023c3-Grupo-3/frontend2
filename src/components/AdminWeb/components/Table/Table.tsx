@@ -7,10 +7,16 @@ import TableBody from './TableBody';
 interface TableProps {
   dataJSON: any[];
   columns: Map<string, (data: any) => void>;
+  searchableColumns?: string[];
   onRowClick?: (data: any) => void;
 }
 
-function Table({ dataJSON, columns, onRowClick }: TableProps) {
+function Table({
+  dataJSON,
+  columns,
+  searchableColumns = [],
+  onRowClick,
+}: TableProps) {
   const [itemsPerPage, setItemsPerPage] = useState(7);
   const [filteredData, setFilteredData] = useState(dataJSON);
 
@@ -53,16 +59,24 @@ function Table({ dataJSON, columns, onRowClick }: TableProps) {
   const updateFilteredData: any = (searchTerm: string) => {
     let filteredResult: any[] = [];
 
-    Array.from(columns.keys()).forEach((columnName) => {
+    const columnsToMatch =
+      searchableColumns.length > 0
+        ? searchableColumns
+        : Array.from(columns.keys());
+
+    columnsToMatch.forEach((columnName: string) => {
       const output = dataJSON.filter((data) => {
         const columnValue = (
           columns.get(columnName)?.call(data, data) || '-'
         ).toLowerCase();
+
         return columnValue.includes(searchTerm.toLowerCase());
       });
 
       filteredResult = Array.from(new Set<any>([...filteredResult, ...output]));
     });
+
+    console.log(filteredResult);
 
     setFilteredData(filteredResult);
   };
