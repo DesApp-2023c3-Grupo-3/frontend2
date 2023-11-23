@@ -1,10 +1,13 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import adminPicture from './assets/admin.png';
+import { getPayload } from '../../services/validationMiddleware';
 
 function Navbar() {
-  const [navDeployed, setNavDeployed] = useState(false);
-
+  const [navDeployed, setNavDeployed] = useState(
+    /Mobi|Android/i.test(navigator.userAgent),
+  );
+  const roleId = getPayload().tokenRoleId;
   const switchNavbar = () => {
     if (!/Mobi|Android/i.test(navigator.userAgent)) return;
     setNavDeployed(!navDeployed);
@@ -49,10 +52,16 @@ function Navbar() {
         className="relative flex flex-col"
         role="presentation"
       >
-        <NavLink to="/admin/advertising">Avisos</NavLink>
-        <NavLink to="/admin/comission">Comisiones</NavLink>
-        <NavLink to="/admin/screen">Pantallas</NavLink>
-        <NavLink to="/admin/user">Administrar usuarios</NavLink>
+        {roleId === 1 || roleId == 2 ? (
+          <NavLink to="/admin/advertising">Avisos</NavLink>
+        ) : null}
+        {roleId === 1 || roleId == 3 ? (
+          <NavLink to="/admin/comission">Comisiones</NavLink>
+        ) : null}
+        {roleId === 1 ? <NavLink to="/admin/screen">Pantallas</NavLink> : null}
+        {roleId === 1 ? (
+          <NavLink to="/admin/user">Administrar usuarios</NavLink>
+        ) : null}
       </div>
       <NavLink to="/" className="sign-out mt-auto">
         Cerrar sesion
