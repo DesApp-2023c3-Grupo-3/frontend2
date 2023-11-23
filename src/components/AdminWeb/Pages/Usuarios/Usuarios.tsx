@@ -90,7 +90,11 @@ function Usuarios() {
           Usuarios
         </h1>
         <div className="mt-[-70px] mr-[3.1%]">
-          <TableMain dataJSON={usersJSON} columns={tableColumns} />
+          <TableMain
+            dataJSON={usersJSON}
+            columns={tableColumns}
+            searchableColumns={['DNI', 'Nombre']}
+          />
           <div className="flex justify-end">
             <Modal
               isOpen={isOpen}
