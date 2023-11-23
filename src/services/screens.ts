@@ -17,7 +17,7 @@ export const screenAPI = {
     getAll: () => {
         return handleCall(axios.get, [ROUTES_RELATIVE.screen.getAll]);
     },
-    edit: (id:number, screenData:ScreenData) => {
-        return handleCall(axios.patch, [`${ROUTES_RELATIVE.screen.update}/${id}`, screenData]);
+    edit: (screenData:ScreenData[]) => {
+        return handleCall(axios.patch, [ROUTES_RELATIVE.screen.update, screenData]);
     }
 }

@@ -7,7 +7,11 @@ export interface Screen {
     typeScreen: string,
     subscription: string,
     isSelected: boolean,
-    sectorId: number
+    sector: {
+        id:number,
+        topic:string,
+        name:string
+    }
 }
 
 interface StoreScreen {

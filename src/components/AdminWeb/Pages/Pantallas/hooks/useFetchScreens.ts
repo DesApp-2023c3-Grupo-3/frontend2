@@ -18,7 +18,11 @@ export default function useFetchScreens() {
                 typeScreen: templeteId,
                 subscription,
                 isSelected: false,
-                sectorId: sector.id
+                sector: {
+                  id: sector.id,
+                  name: sector.name,
+                  topic: sector.topic
+                }
               })
             })
     

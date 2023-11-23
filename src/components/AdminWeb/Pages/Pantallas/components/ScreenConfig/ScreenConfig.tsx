@@ -15,6 +15,14 @@ const Toast = Swal.mixin({
   timerProgressBar: true,
 });
 
+const messageError = (error: string) =>
+  Swal.fire({
+    icon: 'error',
+    title: 'Oops...',
+    text: error,
+    confirmButtonColor: '#2C9CBF',
+  });
+
 function ScreenConfig({ closeModal }: { closeModal: () => void }) {
   const { config, changeCourseIntervalTime, changeAdvertisingIntervalTime } =
     useConfig({
@@ -29,8 +37,13 @@ function ScreenConfig({ closeModal }: { closeModal: () => void }) {
 
   const updateScreens = () => {
     const selectedScreens = screens.filter((screen) => screen.isSelected);
+
+    selectedScreens.forEach((screen) => {
+      screen.typeScreen = String(cardSelected?.id);
+    });
+
     const mappedScreens = selectedScreens.map((screen) => {
-      const { id, typeScreen, subscription, sectorId } = screen;
+      const { id, typeScreen, subscription, sector } = screen;
 
       return {
         id,
@@ -38,23 +51,26 @@ function ScreenConfig({ closeModal }: { closeModal: () => void }) {
         subscription,
         courseIntervalTime: config.courseIntervalTime,
         advertisingIntervalTime: config.advertisingIntervalTime,
-        sector: {
-          id: sectorId,
-        },
+        sector,
       };
     });
 
-    screenAPI.edit(mappedScreens);
+    return screenAPI.edit(mappedScreens);
   };
 
   const handleClick = () => {
-    updateScreens();
-    deselectAllTheScreens();
-    closeModal();
-    Toast.fire({
-      icon: 'success',
-      title: 'Se aplico correctamente',
-    });
+    updateScreens()
+      .then(() => {
+        Toast.fire({
+          icon: 'success',
+          title: 'Se aplico correctamente',
+        });
+      })
+      .then(() => {
+        deselectAllTheScreens();
+        closeModal();
+      })
+      .catch((error) => messageError(error.message));
   };
 
   return (

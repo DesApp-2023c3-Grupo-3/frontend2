@@ -21,7 +21,7 @@ export const ROUTES_RELATIVE = {
     },
     screen: {
       getAll: `${API}/screen`,
-      update: `${API}/screen`
+      update: `${API}/screen/multiple`
     },
     sector: {
       getSectors: `${API}/sector`
