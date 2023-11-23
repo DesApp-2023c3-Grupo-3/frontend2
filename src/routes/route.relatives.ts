@@ -1,5 +1,5 @@
-const HOST = process.env.REACT_APP_API ;
-const PORT = process.env.REACT_APP_PORT ;
+const HOST = '186.12.145.198' //process.env.REACT_APP_API ;
+const PORT = '4000' //process.env.REACT_APP_PORT ;
 export const API =
   `http://${HOST}:${PORT}`;
 
@@ -28,7 +28,8 @@ export const ROUTES_RELATIVE = {
     },
     user: {
       users: `${API}/user`,
-      createUser: `${API}/auth/register`
+      createUser: `${API}/auth/register`,
+      deleteUser: `${API}/user`
     },
     auth: {
       login: `${API}/auth/login`,

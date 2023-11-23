@@ -8,6 +8,7 @@ import Roles from '../../components/Roles';
 import dayjs from 'dayjs';
 import Modal from '../../components/Modal/Modal';
 import Loader from '../../components/Loader';
+import Swal from 'sweetalert2';
 
 function Usuarios() {
   const [usersJSON, setUsersJSON] = useState<User[]>([]);
@@ -19,11 +20,20 @@ function Usuarios() {
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const dniRef = useRef<HTMLInputElement>(null);
-  const emailRef = useRef<HTMLInputElement>(null);
+  const roleRef = useRef<HTMLInputElement>(null);
+  const [editRow, setEditRow] = useState<User>();
+  const [isEditing, setIsEditing] = useState(false);
   const [selectedRole, setSelectedRole] = useState<UserRole>({
     id: -1,
     name: 'Rol del usuario',
   });
+
+  const handleRowClick = (user: User) => {
+    setEditRow(user);
+    setSelectedRole(user.role as UserRole);
+    setIsEditing(true);
+    openModal();
+  };
 
   const tableColumns = new Map<string, (user: any) => void>();
   tableColumns.set('DNI', (user: User) => user.dni);
@@ -70,6 +80,51 @@ function Usuarios() {
       });
   };
 
+  const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener('mouseenter', Swal.stopTimer);
+      toast.addEventListener('mouseleave', Swal.resumeTimer);
+    },
+  });
+
+  const handleDeleteUserClick = (e: any) => {
+    e.preventDefault();
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: 'No se podrá recuperar el usuario.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, borrar.',
+    }).then((result) => {
+      setLoading(true);
+      if (result.isConfirmed && editRow) {
+        userApi
+          .delete(editRow)
+          .then(() => {
+            Toast.fire({
+              icon: 'success',
+              title: 'Se ha eliminado el usuario',
+            });
+            closeModal();
+            setLoading(false);
+            setIsEditing(false);
+          })
+          .then(() => updateUsersTable())
+          .catch((error) => console.error(error));
+      }
+      if (result.isDenied || result.isDismissed) {
+        setLoading(false);
+      }
+    });
+  };
+
   const updateUsersTable = async () => {
     setLoading(true);
     try {
@@ -102,6 +157,7 @@ function Usuarios() {
               dataJSON={usersJSON}
               columns={tableColumns}
               searchableColumns={['DNI', 'Nombre', 'Rol']}
+              onRowClick={handleRowClick}
             />
             <div className="flex justify-end">
               <Modal
@@ -119,6 +175,7 @@ function Usuarios() {
                       <input
                         type="text"
                         placeholder="DNI"
+                        defaultValue={editRow?.dni}
                         ref={dniRef}
                         className="text-[20px] font-[400] tracking-[-0.4px] rounded-[30px] bg-[#D9D9D9] flex w-[365px] h-[50px] px-[40px] py-[12px] items-center"
                       />
@@ -131,6 +188,7 @@ function Usuarios() {
                       <input
                         type="text"
                         placeholder="Nombre"
+                        defaultValue={editRow?.name}
                         ref={usernameRef}
                         onChange={() => updateState({})}
                         className="text-[20px] font-[400] tracking-[-0.4px] rounded-[30px] bg-[#D9D9D9] flex w-[365px] h-[50px] px-[40px] py-[12px] items-center"
@@ -138,7 +196,7 @@ function Usuarios() {
                       <input
                         type="text"
                         placeholder="Rol del usuario"
-                        ref={emailRef}
+                        ref={roleRef}
                         className="hidden text-[20px] font-[400] tracking-[-0.4px] rounded-[30px] bg-[#D9D9D9] flex w-[365px] h-[50px] px-[40px] py-[12px] items-center"
                       />
                       <Roles
@@ -163,6 +221,16 @@ function Usuarios() {
                         </h4>
                         <span className="">{selectedRole.name}</span>
                       </article>
+                      {loadingCreate ? (
+                        <Loader />
+                      ) : (
+                        <Button
+                          onClick={handleDeleteUserClick}
+                          active={true}
+                          type={3}
+                          label="ELIMINAR"
+                        />
+                      )}
                       {loadingCreate ? (
                         <Loader />
                       ) : (
