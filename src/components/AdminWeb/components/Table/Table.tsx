@@ -88,8 +88,6 @@ function Table({
       filteredResult = Array.from(new Set<any>([...filteredResult, ...output]));
     });
 
-    console.log(filteredResult);
-
     setFilteredData(filteredResult);
   };
 

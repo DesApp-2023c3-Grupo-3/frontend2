@@ -33,6 +33,9 @@ function Usuarios() {
     setSelectedRole(user.role as UserRole);
     setIsEditing(true);
     openModal();
+    setTimeout(() => {
+      updateState({});
+    }, 60);
   };
 
   const tableColumns = new Map<string, (user: any) => void>();
@@ -62,22 +65,51 @@ function Usuarios() {
     dayjs(user.createdAt).format('D/MM/YY - hh:mm');
 
   const createNewUser = (e: FormEvent) => {
-    setLoadingCreate(true);
     e.preventDefault();
     if (!hasValidUser()) return;
 
-    userApi
-      .create({
-        name: usernameRef.current?.value + '',
-        dni: dniRef.current?.value + '',
-        password: passwordRef.current?.value + '',
-        role: selectedRole,
-      })
-      .then(() => {
-        updateUsersTable();
-        closeModal();
-        setLoadingCreate(false);
-      });
+    setLoadingCreate(true);
+
+    if (isEditing) {
+      userApi
+        .update({
+          id: editRow?.id,
+          name: usernameRef.current?.value + '',
+          dni: dniRef.current?.value + '',
+          password: passwordRef.current?.value + '',
+          role: selectedRole,
+        })
+        .then(() => {
+          updateUsersTable();
+          closeModal();
+          setLoadingCreate(false);
+        });
+    } else {
+      userApi
+        .create({
+          name: usernameRef.current?.value + '',
+          dni: dniRef.current?.value + '',
+          password: passwordRef.current?.value + '',
+          role: selectedRole,
+        })
+        .then(() => {
+          updateUsersTable();
+          closeModal();
+          setLoadingCreate(false);
+        });
+    }
+  };
+
+  const handleOpenModal = () => {
+    setIsEditing(false);
+    setEditRow({
+      name: '',
+      dni: '',
+      password: '',
+      role: selectedRole,
+    });
+    updateState({});
+    openModal();
   };
 
   const Toast = Swal.mixin({
@@ -158,11 +190,12 @@ function Usuarios() {
               columns={tableColumns}
               searchableColumns={['DNI', 'Nombre', 'Rol']}
               onRowClick={handleRowClick}
+              placeholder="Buscar usuarios..."
             />
             <div className="flex justify-end">
               <Modal
                 isOpen={isOpen}
-                openModal={openModal}
+                openModal={handleOpenModal}
                 closeModal={closeModal}
                 label={'NUEVO USUARIO'}
               >
@@ -225,20 +258,20 @@ function Usuarios() {
                         <Loader />
                       ) : (
                         <Button
-                          onClick={handleDeleteUserClick}
-                          active={true}
-                          type={3}
-                          label="ELIMINAR"
-                        />
-                      )}
-                      {loadingCreate ? (
-                        <Loader />
-                      ) : (
-                        <Button
                           label={'GUARDAR'}
                           onClick={createNewUser}
                           active={hasValidUser()}
                           type={0}
+                        />
+                      )}
+                      {!isEditing ? null : loadingCreate ? (
+                        <Loader />
+                      ) : (
+                        <Button
+                          onClick={handleDeleteUserClick}
+                          active={true}
+                          type={3}
+                          label="ELIMINAR"
                         />
                       )}
                     </div>

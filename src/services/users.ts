@@ -9,6 +9,9 @@ export const userApi = {
   delete: async function(user: User){
     return handleCall(axios.delete, [ROUTES_RELATIVE.user.deleteUser + '/' + user.id])
   },
+  update: async function(user: User){
+    return handleCall(axios.patch, [ROUTES_RELATIVE.user.updateUser + '/' + user.id, user])
+  },
   getAll: async function(){
     return handleCall(axios.get, [ROUTES_RELATIVE.user.users])
   },
