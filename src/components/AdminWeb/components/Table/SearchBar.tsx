@@ -36,7 +36,6 @@ function SearchBar({
             type="text"
             placeholder="Buscar aviso"
             value={searchTerm}
-            onChange={onSearchChange}
             className="z-[-1]"
           />
           <div className="search"></div>

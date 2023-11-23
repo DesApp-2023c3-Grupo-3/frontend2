@@ -1,5 +1,4 @@
 import TableRow from './TableRow';
-import * as React from 'react';
 
 interface TableBodyProps {
   dataJSON: any[];

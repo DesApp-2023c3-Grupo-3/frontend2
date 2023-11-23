@@ -12,6 +12,7 @@ interface TableProps {
 
 function Table({ dataJSON, columns, onRowClick }: TableProps) {
   const [itemsPerPage, setItemsPerPage] = useState(7);
+  const [filteredData, setFilteredData] = useState(dataJSON);
 
   useEffect(() => {
     const adjustItemsPerPage = () => {
@@ -46,11 +47,25 @@ function Table({ dataJSON, columns, onRowClick }: TableProps) {
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
     setCurrentPage(1);
+    updateFilteredData(event.target.value);
   };
 
-  const filteredData = dataJSON.filter((data) =>
-    data.name.toLowerCase().includes(searchTerm.toLowerCase()),
-  );
+  const updateFilteredData: any = (searchTerm: string) => {
+    let filteredResult: any[] = [];
+
+    Array.from(columns.keys()).forEach((columnName) => {
+      const output = dataJSON.filter((data) => {
+        const columnValue = (
+          columns.get(columnName)?.call(data, data) || '-'
+        ).toLowerCase();
+        return columnValue.includes(searchTerm.toLowerCase());
+      });
+
+      filteredResult = Array.from(new Set<any>([...filteredResult, ...output]));
+    });
+
+    setFilteredData(filteredResult);
+  };
 
   const currentData = filteredData.slice(startIndex, endIndex);
 
