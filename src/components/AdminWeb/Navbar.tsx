@@ -16,12 +16,15 @@ function Navbar() {
   return (
     <nav
       className={
-        'fixed md:relative h-screen px-12 py-8 flex flex-col gap-2 ' +
+        'fixed md:relative h-screen px-12 py-8 flex flex-col gap-2 w-screen md:w-auto ' +
         (navDeployed ? 'translate-x-[-100%]' : 'translate-x-[0%] z-[10]')
       }
     >
       <button
-        className={'md:hidden absolute cursor-pointer right-[-2rem]'}
+        className={
+          'md:hidden absolute cursor-pointer ' +
+          (!navDeployed ? 'right-[1rem]' : 'right-[-2rem]')
+        }
         onClick={switchNavbar}
       >
         <svg
