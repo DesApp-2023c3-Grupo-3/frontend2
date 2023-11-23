@@ -20,7 +20,7 @@ function DatePickerDays({
 
   return (
     <div className="flex items-center justify-center">
-      <div className="w-[40%] min-w-[160px] mr-3">
+      <div className="w-[40%] min-w-[120px] mr-3">
         <DatePicker
           disablePast={isCreate}
           className=""
@@ -32,7 +32,7 @@ function DatePickerDays({
           defaultValue={dateStart}
         />
       </div>
-      <div className="w-[40%] min-w-[160px]">
+      <div className="w-[40%] min-w-[120px]">
         <DatePicker
           disablePast={isCreate}
           className=""

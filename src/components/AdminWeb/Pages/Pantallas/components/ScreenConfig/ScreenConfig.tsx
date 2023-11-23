@@ -4,6 +4,7 @@ import ButtonDisabled from '../Button/ButtonDisabled';
 import { useConfig } from '../../hooks/useConfig';
 import { useCard } from '../../hooks/useCards';
 import Swal from 'sweetalert2';
+import { useScreenFilters } from '../../store/useScreenFilters';
 
 const Toast = Swal.mixin({
   toast: true,
@@ -19,9 +20,13 @@ function ScreenConfig({ closeModal }: { closeModal: () => void }) {
       advertisingIntervalTime: 15,
       courseIntervalTime: 15,
     });
+  const deselectAllTheScreens = useScreenFilters(
+    (state) => state.deselectAllTheScreens,
+  );
   const { cards, selectCard, cardSelected, isAnyCardSelected } = useCard();
 
   const handleClick = () => {
+    deselectAllTheScreens();
     closeModal();
     Toast.fire({
       icon: 'success',

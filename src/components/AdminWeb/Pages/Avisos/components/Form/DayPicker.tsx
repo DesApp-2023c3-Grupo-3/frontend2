@@ -37,6 +37,14 @@ function DayPicker({ onSelectedDaysChange, selectedDays }: DayPickerProps) {
     onSelectedDaysChange(newSelectedDays);
   };
 
+  React.useEffect(() => {
+    if (selectedDays.length === 7) {
+      setSelectAllDays(true);
+    } else {
+      setSelectAllDays(false);
+    }
+  }, [handleDayClick]);
+
   return (
     <div className="flex-row">
       <div className="flex justify-center">

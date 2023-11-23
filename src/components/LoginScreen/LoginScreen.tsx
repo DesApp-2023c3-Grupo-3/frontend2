@@ -3,15 +3,26 @@ import unahurLogo from './assets/unahur.png';
 import { FormEvent, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
+import { tokenApi } from '../../services/auth';
+import { getPayload } from '../../services/validationMiddleware';
 
-function LoginScreen({ setScreenId }: { setScreenId: any }) {
+function LoginScreen({
+  setScreenId,
+  setTokensOnLogin,
+}: {
+  setScreenId: any;
+  setTokensOnLogin: Function;
+}) {
   const navigate = useNavigate();
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const screenIdRef = useRef<HTMLInputElement>(null);
   const [invalidNotice, setInvalidNotice] = useState('');
+  const [isMobile, setIsMobile] = useState(
+    /Mobi|Android/i.test(navigator.userAgent),
+  );
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     // TODO Validacion screen
     if (invalidScreenId()) {
@@ -32,9 +43,23 @@ function LoginScreen({ setScreenId }: { setScreenId: any }) {
       setInvalidNotice('La contraseña es incorrecta.');
       return;
     }
-
+    const routeNavigation: any = () => {
+      const rolId: number = getPayload().tokenRoleId;
+      return rolId == 3 ? '/comission' : '/advertising';
+    };
     // TODO Login para ingresar a AdminWeb
-    navigate('/admin');
+    try {
+      await generateTokens(
+        `${usernameRef.current?.value}`,
+        `${passwordRef.current?.value}`,
+      );
+    } catch (error) {
+      setInvalidNotice('Hubo un problema con la generación de tokens.');
+      console.error(error);
+      return;
+    }
+
+    navigate('/admin' + routeNavigation());
   };
 
   const invalidUsername = () => {
@@ -47,6 +72,17 @@ function LoginScreen({ setScreenId }: { setScreenId: any }) {
 
   const invalidScreenId = () => {
     return passwordRef.current?.value.trim() === '1';
+  };
+
+  const generateTokens = async (dni: string, password: string) => {
+    const tokensRecibidos = await tokenApi.login({
+      dni: `${dni}`,
+      password: `${password}`,
+    });
+    setTokensOnLogin(
+      tokensRecibidos.data.accessToken,
+      tokensRecibidos.data.refreshToken,
+    );
   };
 
   const navigateToScreen = () => {
@@ -100,7 +136,12 @@ function LoginScreen({ setScreenId }: { setScreenId: any }) {
               name="password"
               ref={passwordRef}
             />
-            <span className="text-sm text-center mt-4 opacity-80">
+            <span
+              className={
+                'text-sm text-center mt-4 opacity-80 ' +
+                (isMobile ? 'hidden' : '')
+              }
+            >
               O ingrese el código de pantalla
             </span>
             <input
@@ -108,6 +149,7 @@ function LoginScreen({ setScreenId }: { setScreenId: any }) {
               placeholder="ID de pantalla"
               name="screen-id"
               ref={screenIdRef}
+              className={isMobile ? 'hidden' : ''}
             />
             <button type="submit" className="mt-4 font-bold">
               Ingresar
