@@ -38,16 +38,20 @@ export function Step2({
     formData.append('file', excel);
     setExcelData(formData);
     setSelectedFileName(excel.name);
-    setLoading(true);
     try {
-      const newTableData: any = await commissionApi.toJson(formData);
-      if (Array.isArray(newTableData.data)) {
-        setTableData(Array.from(newTableData.data));
-        toggleTable();
-      } else {
-        alert('El archivo subido no es válido');
-      }
-      setLoading(false);
+      setLoading(true);
+      commissionApi
+        .toJson(formData)
+        .then((r) => {
+          setTableData(Array.from(r.data));
+          toggleTable();
+          setLoading(false);
+        })
+        .catch((error) => {
+          setLoading(false);
+          alert('El archivo subido no es válido');
+          console.error(error);
+        });
     } catch (error) {
       console.error(error);
     }
@@ -142,6 +146,7 @@ export function Step2({
                 <input
                   id="dropzone-file"
                   type="file"
+                  accept=".xlsx, .xls"
                   onChange={onFileLoaded}
                   className="hidden"
                 />

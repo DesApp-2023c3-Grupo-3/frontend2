@@ -47,7 +47,7 @@ export function FormMobile({
   };
 
   const hasValidCommission = () => {
-    return hasDocument && selectedSector[0].id !== -1 && startDate && endDate;
+    return hasDocument && selectedSector.length !== 0 && startDate && endDate;
   };
 
   const uploadTemplate = () => {

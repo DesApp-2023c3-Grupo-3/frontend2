@@ -15,6 +15,7 @@ import { convertDaysToNumbers } from '../../../../utils/ConvertDaysToCode';
 import { validationDate } from '../../../../utils/validationDate';
 import { useAdvertisingData } from '../../../../hooks/useAdvertisingData';
 import { InputName } from './InputNameAdvertising';
+import { getPayload } from '../../../../../../services/validationMiddleware';
 import Loader from '../../../../components/Loader';
 
 export function messageError(message: string) {
@@ -188,7 +189,7 @@ function FormAdvertising({
         id: type,
       },
       user: {
-        id: 1,
+        id: getPayload().userId,
       },
       sectors: sectores,
       schedules: schedules,

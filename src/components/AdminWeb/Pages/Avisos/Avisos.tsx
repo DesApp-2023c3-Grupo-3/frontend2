@@ -35,12 +35,10 @@ function Avisos() {
     }, 250);
   };
 
-  const idRolUser = 1; // TODO: id del rol del usuario logeado
-
   const GetData = () => {
     setLoading(true);
     advertisingsAPI
-      .getAll(idRolUser)
+      .getAll()
       .then((r) => {
         const orderedData = r.data.sort((a: any, b: any) => {
           const order = ['active', 'today', 'pending', 'deprecated'];
