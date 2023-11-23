@@ -7,7 +7,7 @@ import Loader from './Loader';
 
 interface SectoresProps {
   selectedSector: any[];
-  onSelectedSectorChange: (newSelectedSector: Sector[]) => void;
+  onSelectedSectorChange: (newSelectedSector: any[]) => void;
   style?: string;
   hasError: boolean;
   canChooseMany: boolean;
@@ -47,13 +47,6 @@ function Sectores({
     }
   };
 
-  // const handleDeselect = (sector: Sector) => {
-  //   const selectedSectorsUpdated = selectedSector.filter(
-  //     (el) => el.id !== sector.id,
-  //   );
-  //   onSelectedSectorChange(selectedSectorsUpdated);
-  // };
-
   const handlerOnSelect = (selected: Sector[]) => {
     const toChange = Array.isArray(selected) ? selected : [selected];
     onSelectedSectorChange(toChange);
@@ -79,6 +72,8 @@ function Sectores({
     }
   }, [handlerOnSelect]);
 
+  const isMobile = window.innerWidth <= 640;
+
   return (
     <div className={`z-[1000] flex justify-center ${style}`}>
       <Listbox
@@ -89,9 +84,11 @@ function Sectores({
         <div className=" flex-row justify-center relative z-[20]">
           <Listbox.Button
             id="sectors"
-            className={`text-[20px] font-[400] tracking-[-0.4px] rounded-[30px] bg-[#D9D9D9] flex w-[365px] h-[50px] px-[40px] py-[12px] items-center ${
+            className={`text-[20px] font-[400] tracking-[-0.4px] rounded-[30px] bg-[#D9D9D9] flex w-[365px] max-h-[365px]: h-[50px] px-[40px] py-[12px] items-center ${
               selectedSector.length === 0 && hasError ? 'invalid-field' : ''
-            }`}
+            }
+            ${isMobile ? 'w-[90vw]' : ''}
+            `}
             placeholder="Sector/es"
           >
             <div className="mr-5 ml-[-15px]">
