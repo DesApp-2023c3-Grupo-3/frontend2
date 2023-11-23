@@ -8,7 +8,6 @@ import dayjs from 'dayjs';
 import { DesktopBody } from './components/Body/DesktopBody';
 import { MobileBody } from '../../components/Mobile/MobileBody';
 import { FormMobile } from './components/Form/Mobile/FormMobile';
-import { getPayload } from '../../../../services/validationMiddleware';
 
 function Avisos() {
   const [advertisingsJSON, setAdvertisingsJSON] = React.useState<Advertising[]>(
@@ -36,12 +35,10 @@ function Avisos() {
     }, 250);
   };
 
-  const idRolUser = getPayload().tokenRoleId;
-
   const GetData = () => {
     setLoading(true);
     advertisingsAPI
-      .getAll(idRolUser)
+      .getAll()
       .then((r) => {
         const orderedData = r.data.sort((a: any, b: any) => {
           const order = ['active', 'today', 'pending', 'deprecated'];

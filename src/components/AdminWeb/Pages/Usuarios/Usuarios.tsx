@@ -201,7 +201,7 @@ function Usuarios() {
               >
                 <>
                   <h1 className="text-7xl font-bold px-12 mt-8 mb-4">
-                    Crear nuevo usuario
+                    {!isEditing ? 'Crear' : 'Editar'} nuevo usuario
                   </h1>
                   <form className="grid grid-cols-2 px-12">
                     <div className="flex flex-col gap-4">
@@ -261,7 +261,7 @@ function Usuarios() {
                           label={'GUARDAR'}
                           onClick={createNewUser}
                           active={hasValidUser()}
-                          type={0}
+                          type={1}
                         />
                       )}
                       {!isEditing ? null : loadingCreate ? (
