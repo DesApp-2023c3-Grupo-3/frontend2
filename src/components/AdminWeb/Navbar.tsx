@@ -3,7 +3,9 @@ import { NavLink } from 'react-router-dom';
 import adminPicture from './assets/admin.png';
 
 function Navbar() {
-  const [navDeployed, setNavDeployed] = useState(false);
+  const [navDeployed, setNavDeployed] = useState(
+    /Mobi|Android/i.test(navigator.userAgent),
+  );
 
   const switchNavbar = () => {
     setNavDeployed(!navDeployed);
