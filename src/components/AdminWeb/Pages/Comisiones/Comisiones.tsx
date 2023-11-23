@@ -7,20 +7,25 @@ import { useModal } from '../../hooks/useModal';
 import FormCommission from './components/Modal/FormCommission';
 import Table from '../../components/Table/Table';
 import dayjs from 'dayjs';
+import Loader from '../../components/Loader';
 
 function Comisiones() {
   const [commissionsJSON, setCommissionsJSON] = useState<any[]>([]);
-  const [_, loadCommissions] = useTransition();
+  const [loading, setLoading] = useState(false);
 
   const updateCommissionsTable = async () => {
-    const updatedCommissions: any = await commissionApi.getAll();
-    setCommissionsJSON((updatedCommissions?.data as Commission[]) || []);
+    setLoading(true);
+    try {
+      const updatedCommissions: any = await commissionApi.getAll();
+      setCommissionsJSON((updatedCommissions?.data as Commission[]) || []);
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(() => {
-    loadCommissions(() => {
-      updateCommissionsTable();
-    });
+    updateCommissionsTable();
   }, []);
 
   const { isOpen, openModal, closeModal } = useModal();
@@ -58,27 +63,35 @@ function Comisiones() {
       <Helmet>
         <title>Administrador de cartelera | Comisiones</title>
       </Helmet>
-      <div className="flex flex-col w-100 pl-12">
+      <div className="flex flex-col w-full pl-12">
         <h1 className="text-[4rem] font-[700] text-[#484848] tracking-[-1.28px] mt-[20px]">
           Comisiones
         </h1>
-        <div className="mt-[-70px] mr-[3.1%]">
-          <Table dataJSON={commissionsJSON} columns={tableColumns} />
-          <div className="flex justify-end">
-            <Modal
-              isOpen={isOpen}
-              closeModal={closeModal}
-              openModal={openModal}
-              label="AGREGAR COMISIONES"
-            >
-              <FormCommission
-                commissionsJSON={commissionsJSON}
-                setCommissionsJSON={setCommissionsJSON}
+        {loading ? (
+          <Loader />
+        ) : (
+          <div className="mt-[-70px] mr-[3.1%]">
+            <Table
+              dataJSON={commissionsJSON}
+              columns={tableColumns}
+              placeholder="Buscar Comision"
+            />
+            <div className="flex justify-end">
+              <Modal
+                isOpen={isOpen}
                 closeModal={closeModal}
-              />
-            </Modal>
+                openModal={openModal}
+                label="AGREGAR COMISIONES"
+              >
+                <FormCommission
+                  commissionsJSON={commissionsJSON}
+                  setCommissionsJSON={setCommissionsJSON}
+                  closeModal={closeModal}
+                />
+              </Modal>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </>
   );

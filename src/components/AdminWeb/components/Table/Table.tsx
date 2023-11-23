@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Pagination, ThemeProvider } from '@mui/material';
 import SearchBar from './SearchBar';
 import theme from '../../config/createTheme';
@@ -8,19 +8,30 @@ interface TableProps {
   dataJSON: any[];
   columns: Map<string, (data: any) => void>;
   onRowClick?: (data: any) => void;
+  placeholder?: string;
 }
 
-function Table({ dataJSON, columns, onRowClick }: TableProps) {
-  const [itemsPerPage, setItemsPerPage] = useState(7);
+function Table({ dataJSON, columns, onRowClick, placeholder }: TableProps) {
+  const [itemsPerPage, setItemsPerPage] = useState(1);
+  const rowRef = useRef<HTMLTableRowElement>(null);
+
+  const adjustItemsPerPage = () => {
+    const row = rowRef.current;
+
+    if (row) {
+      const windowHeight = window.innerHeight - 350;
+      const maxRowsToShow = Math.floor(
+        windowHeight / row.getBoundingClientRect().height,
+      );
+      if (maxRowsToShow <= 0) {
+        setItemsPerPage(1);
+      } else {
+        setItemsPerPage(maxRowsToShow);
+      }
+    }
+  };
 
   useEffect(() => {
-    const adjustItemsPerPage = () => {
-      const windowHeight = window.innerHeight;
-      const rowHeight = 130;
-      const maxRowsToShow = Math.floor(windowHeight / rowHeight);
-      setItemsPerPage(maxRowsToShow);
-    };
-
     adjustItemsPerPage();
 
     window.addEventListener('resize', adjustItemsPerPage);
@@ -56,11 +67,16 @@ function Table({ dataJSON, columns, onRowClick }: TableProps) {
 
   return (
     <div className={''}>
-      <SearchBar searchTerm={searchTerm} onSearchChange={handleSearchChange} />
+      <SearchBar
+        searchTerm={searchTerm}
+        onSearchChange={handleSearchChange}
+        placeholder={placeholder}
+      />
       <TableBody
         dataJSON={currentData}
         columns={columns}
         onRowClick={onRowClick}
+        rowRef={rowRef}
       />
       <ThemeProvider theme={theme}>
         <Pagination

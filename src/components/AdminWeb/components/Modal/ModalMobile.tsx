@@ -9,14 +9,14 @@ interface ModalProps {
   closeModal: () => void;
   openModal: () => void;
   children: React.ReactElement;
-  label?: string;
+  label?: any;
 }
 
 function Modal({ isOpen, closeModal, openModal, children, label }: ModalProps) {
   return (
     <>
       {label ? (
-        <div className="absolute">
+        <div className="fixed bottom-[5%] right-[10%]">
           <Button onClick={openModal} active={true} label={label} type={4} />{' '}
         </div>
       ) : (
