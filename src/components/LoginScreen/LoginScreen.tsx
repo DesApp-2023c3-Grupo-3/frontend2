@@ -18,6 +18,9 @@ function LoginScreen({
   const passwordRef = useRef<HTMLInputElement>(null);
   const screenIdRef = useRef<HTMLInputElement>(null);
   const [invalidNotice, setInvalidNotice] = useState('');
+  const [isMobile, setIsMobile] = useState(
+    /Mobi|Android/i.test(navigator.userAgent),
+  );
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -133,7 +136,12 @@ function LoginScreen({
               name="password"
               ref={passwordRef}
             />
-            <span className="text-sm text-center mt-4 opacity-80">
+            <span
+              className={
+                'text-sm text-center mt-4 opacity-80 ' +
+                (isMobile ? 'hidden' : '')
+              }
+            >
               O ingrese el código de pantalla
             </span>
             <input
@@ -141,6 +149,7 @@ function LoginScreen({
               placeholder="ID de pantalla"
               name="screen-id"
               ref={screenIdRef}
+              className={isMobile ? 'hidden' : ''}
             />
             <button type="submit" className="mt-4 font-bold">
               Ingresar

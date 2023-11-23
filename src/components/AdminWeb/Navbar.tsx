@@ -4,7 +4,9 @@ import adminPicture from './assets/admin.png';
 import { getPayload } from '../../services/validationMiddleware';
 
 function Navbar() {
-  const [navDeployed, setNavDeployed] = useState(false);
+  const [navDeployed, setNavDeployed] = useState(
+    /Mobi|Android/i.test(navigator.userAgent),
+  );
   const roleId = getPayload().tokenRoleId;
   const switchNavbar = () => {
     setNavDeployed(!navDeployed);
