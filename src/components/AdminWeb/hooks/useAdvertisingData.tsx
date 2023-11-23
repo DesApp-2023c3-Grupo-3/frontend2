@@ -44,12 +44,8 @@ export function useAdvertisingData(advertising: Advertising | undefined) {
     advertising ? dayslist : [],
   );
 
-  const sectorIds = advertising?.advertisingSectors.map((s) => s.sector.id);
-
-  const sectors = sectorIds ? convertCodesToSectors(sectorIds) : [];
-
-  const [selectedSector, setSelectedSector] = React.useState<Sector[]>(
-    advertising ? sectors : [],
+  const [selectedSector, setSelectedSector] = React.useState<any[]>(
+    advertising ? advertising.advertisingSectors.map((s) => s.sector) : [],
   );
 
   const {
