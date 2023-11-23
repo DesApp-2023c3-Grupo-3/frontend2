@@ -20,8 +20,11 @@ export const getTokens = () => {
 
 export const getPayload = () => {
     let accessToken = getTokens().accessToken.split('.');
-      const tokenRoleId =JSON.parse(atob(accessToken[1])).payload.role.id
+    const payload =JSON.parse(atob(accessToken[1])).payload
+      const tokenRoleId =payload.role.id
+      const userId =payload.id
     return {
+        userId,
         tokenRoleId
     }
 }
