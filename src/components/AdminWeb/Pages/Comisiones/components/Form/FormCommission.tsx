@@ -7,6 +7,7 @@ import Loader from '../../../../components/Loader';
 import ErrorMessage from '../../../../components/ErrorMessage';
 import { validationDate } from '../../../../utils/validationDate';
 import DatePickerDays from '../../../../components/DatePickerDays';
+import { error } from 'console';
 
 interface FormCommissionProps {
   commissionsJSON: Commission[];
@@ -50,16 +51,20 @@ function FormCommission({
     formData.append('file', excel);
     setExcelData(formData);
     setSelectedFileName(excel.name);
-    setLoading(true);
     try {
-      const newTableData: any = await commissionApi.toJson(formData);
-      if (Array.isArray(newTableData.data)) {
-        setTableData(Array.from(newTableData.data));
-        toggleTable();
-      } else {
-        alert('El archivo subido no es válido');
-      }
-      setLoading(false);
+      setLoading(true);
+      commissionApi
+        .toJson(formData)
+        .then((r) => {
+          setTableData(Array.from(r.data));
+          toggleTable();
+          setLoading(false);
+        })
+        .catch((error) => {
+          setLoading(false);
+          alert('El archivo subido no es válido');
+          console.error(error);
+        });
     } catch (error) {
       console.error(error);
     }
@@ -79,7 +84,7 @@ function FormCommission({
   };
 
   const hasValidCommission = () => {
-    return hasDocument && selectedSector[0].id !== -1 && startDate && endDate;
+    return hasDocument && selectedSector.length === 0 && startDate && endDate;
   };
 
   const [emptyFields, setEmptyFields] = React.useState({
@@ -241,6 +246,7 @@ function FormCommission({
                     <input
                       id="dropzone-file"
                       type="file"
+                      accept=".xlsx, .xls"
                       onChange={onFileLoaded}
                       className="hidden"
                     />

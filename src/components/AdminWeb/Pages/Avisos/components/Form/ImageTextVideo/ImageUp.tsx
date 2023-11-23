@@ -2,6 +2,7 @@ import * as React from 'react';
 import { imageAPI } from '../../../../../../../services/image';
 import { ROUTES_RELATIVE } from '../../../../../../../routes/route.relatives';
 import Loader from '../../../../../components/Loader';
+import { error } from 'console';
 
 interface ImageUpProps {
   image: string;
@@ -21,14 +22,18 @@ function ImageUp({ image, setImage }: ImageUpProps) {
       const formData = new FormData();
       formData.append('file', file);
 
-      try {
-        const response = await imageAPI.create(formData);
-        urlImg = `${ROUTES_RELATIVE.image.image}/${response.data.id}/view`;
-        setImage(urlImg);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error al subir la imagen:', error);
-      }
+      imageAPI
+        .create(formData)
+        .then((r) => {
+          urlImg = `${ROUTES_RELATIVE.image.image}/${r.data.id}/view`;
+          setImage(urlImg);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error('Error al subir la imagen:', error);
+          alert('Error al subir la imagen');
+          setLoading(false);
+        });
     }
   };
 
