@@ -33,12 +33,13 @@ export const getHeaders = () => {
 export var handleCall = async (callBack: any, args: any[]) => {
     try {
         const serverResponse = await callBack(...args, getHeaders());
+        console.log("token valido")
         return serverResponse
     } catch (error) {
         try {
             const {data} = await tokenApi.refresh({"refreshToken": `${getTokens().refreshToken}`});
-            getHeaders().headers.Authorization = `Bearer ${data}`;
-            setTokens(data, getTokens().refreshToken);
+            getHeaders().headers.Authorization = `Bearer ${data.accessToken}`;
+            setTokens(data.accessToken, data.refreshToken);
             const serverResponse = await callBack(...args, getHeaders());
             return serverResponse
         } catch (error) {
