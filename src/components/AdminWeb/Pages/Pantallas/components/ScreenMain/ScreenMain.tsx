@@ -10,11 +10,15 @@ function ScreenMain() {
     (screen) => screen.sectorTitle === sector || sector === 'Todos',
   );
 
+  const ordScreensBySector = filteredScreens.sort(
+    (screen1, screen2) => screen1.id - screen2.id,
+  );
+
   return (
     <main className="h-full">
       <section className="flex justify-center flex-wrap gap-4">
         {filteredScreens.length > 0 ? (
-          filteredScreens.map((screen) => (
+          ordScreensBySector.map((screen) => (
             <ScreenCard
               key={screen.id}
               id={screen.id}
