@@ -1,10 +1,12 @@
 import Button from '../../../../components/Buttons/Button';
-import DatePickerDays from './DatePickerDays';
 import Sectores, { Sector } from '../../../../components/Sectores';
 import React, { useState } from 'react';
 import { Commission } from '../../../../types/customTypes';
 import { commissionApi } from '../../../../../../services/commissions';
 import Loader from '../../../../components/Loader';
+import ErrorMessage from '../../../../components/ErrorMessage';
+import { validationDate } from '../../../../utils/validationDate';
+import DatePickerDays from '../../../../components/DatePickerDays';
 
 interface FormCommissionProps {
   commissionsJSON: Commission[];
@@ -21,30 +23,12 @@ function FormCommission({
   const [tableData, setTableData] = useState<Commission[]>([]);
   const [excelData, setExcelData] = useState<any>();
   const [selectedFileName, setSelectedFileName] = useState('');
-  const [startDate, setStartDate] = useState<Date>(new Date());
-  const [endDate, setEndDate] = useState<Date>(new Date());
-  const [selectedSector, setSelectedSector] = useState<Sector[]>([
-    {
-      id: -1,
-      name: 'Sector/es',
-    },
-  ]);
-  const [hasSelectedDates, setHasSelectedDates] = useState<{
-    hasStartDate: boolean;
-    hasEndDate: boolean;
-  }>({ hasStartDate: false, hasEndDate: false });
+  const [startDate, setStartDate] = React.useState<any>(null);
+  const [endDate, setEndDate] = React.useState<any>(null);
+  const [selectedSector, setSelectedSector] = useState<Sector[]>([]);
 
   const [loading, setLoading] = useState(false);
   const [loadingButton, setLoadingButton] = useState(false);
-
-  const handleStartDateChange = (newStartDate: Date) => {
-    setStartDate(newStartDate);
-    setHasSelectedDates({ ...hasSelectedDates, hasStartDate: true });
-  };
-  const handleEndDateChange = (newEndDate: Date) => {
-    setEndDate(newEndDate);
-    setHasSelectedDates({ ...hasSelectedDates, hasEndDate: true });
-  };
 
   const handleSelectedSectorChange = (newSelectedSector: Sector[]) => {
     setSelectedSector(newSelectedSector);
@@ -90,47 +74,81 @@ function FormCommission({
     }
   };
 
-  const uploadTemplate = () => {
-    setLoadingButton(true);
-    if (!hasValidCommission()) return;
-    excelData.append('startDate', startDate.toISOString());
-    excelData.append('endDate', endDate.toISOString());
-    excelData.append('sector', selectedSector[0].id.toString());
-    commissionApi.create(excelData).then(() => {
-      updateCommissionsTable();
-      closeModal();
-      setLoadingButton(false);
-    });
-  };
-
   const downloadTemplate = () => {
     commissionApi.download();
   };
 
   const hasValidCommission = () => {
-    return (
-      hasDocument &&
-      selectedSector[0].id !== -1 &&
-      hasSelectedDates.hasStartDate &&
-      hasSelectedDates.hasEndDate
-    );
+    return hasDocument && selectedSector[0].id !== -1 && startDate && endDate;
+  };
+
+  const [emptyFields, setEmptyFields] = React.useState({
+    selectedSector: false,
+    date: false,
+    file: false,
+  });
+
+  const validate = () => {
+    const update = {
+      selectedSector: selectedSector.length === 0,
+      date: validationDate(startDate, endDate),
+      file: !hasDocument,
+    };
+    setEmptyFields(update);
+
+    return !update.selectedSector && !update.date && !update.file;
+  };
+
+  const uploadTemplate = () => {
+    if (validate()) {
+      setLoadingButton(true);
+      excelData.append('startDate', startDate.toISOString());
+      excelData.append('endDate', endDate.toISOString());
+      excelData.append('sector', selectedSector[0].id.toString());
+      commissionApi.create(excelData).then(() => {
+        updateCommissionsTable();
+        closeModal();
+        setLoadingButton(false);
+      });
+    }
+  };
+
+  const invalidDate = () => {
+    return validationDate(startDate, endDate);
   };
 
   return (
     <div className="formCommission">
       <form className="mx-10">
-        <div className="flex h-[90px] justify-between items-center">
-          <Sectores
-            selectedSector={selectedSector}
-            onSelectedSectorChange={handleSelectedSectorChange}
-            hasError={true}
-            canChooseMany={false}
-          />
-          <div className="flex mt-[10px]">
-            <DatePickerDays
-              onChangeStartDate={handleStartDateChange}
-              onChangeEndDate={handleEndDateChange}
+        <div className="flex h-[90px] mt-[10px] justify-between items-center">
+          <div className="">
+            <Sectores
+              selectedSector={selectedSector}
+              onSelectedSectorChange={handleSelectedSectorChange}
+              hasError={emptyFields.selectedSector}
+              canChooseMany={false}
             />
+            <div className="">
+              {ErrorMessage(
+                '*Falta seleccionar los sectores.',
+                emptyFields.selectedSector && selectedSector.length === 0,
+              )}
+            </div>
+          </div>
+          <div className="">
+            <DatePickerDays
+              onChangeStartDate={setStartDate}
+              onChangeEndDate={setEndDate}
+              isCreate={true}
+              selectedDateInit={startDate}
+              selectedDateFinal={endDate}
+            />
+            <div className="absoltue translate-x-[40px]">
+              {ErrorMessage(
+                '*Falta seleccionar las fechas.',
+                invalidDate() && emptyFields.date,
+              )}
+            </div>
           </div>
         </div>
         <div className="mr-[2em] mt-[20px] rounded-[20px] flex justify-center items-center bg-[#D9D9D9] w-[700px] h-[328px] ml-[110px] relative">
@@ -227,6 +245,10 @@ function FormCommission({
                       className="hidden"
                     />
                   </label>
+                  {ErrorMessage(
+                    '*Falta agregar un archivo con las comisiones.',
+                    emptyFields.file,
+                  )}
                 </>
               )}
             </div>
@@ -247,7 +269,9 @@ function FormCommission({
           />
         ) : (
           <Button
-            onClick={uploadTemplate}
+            onClick={() => {
+              uploadTemplate();
+            }}
             active={hasValidCommission()}
             type={1}
             label={'GUARDAR'}
