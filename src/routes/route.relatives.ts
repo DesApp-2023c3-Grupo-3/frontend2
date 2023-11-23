@@ -29,5 +29,9 @@ export const ROUTES_RELATIVE = {
     user: {
       users: `${API}/user`,
       createUser: `${API}/auth/register`
+    },
+    auth: {
+      login: `${API}/auth/login`,
+      refreshToken: `${API}/auth/refresh-token`
     }
 }

@@ -1,11 +1,12 @@
 import axios from 'axios';
 import { ROUTES_RELATIVE } from '../routes/route.relatives';
+import { handleCall } from './validationMiddleware';
 
 export const userApi = {
   create: async function(newUser: User){
-    return axios.post(ROUTES_RELATIVE.user.createUser, newUser)
+    return handleCall(axios.post, [ROUTES_RELATIVE.user.createUser, newUser])
   },
   getAll: async function(){
-    return axios.get(ROUTES_RELATIVE.user.users)
+    return handleCall(axios.get, [ROUTES_RELATIVE.user.users])
   },
 }
