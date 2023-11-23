@@ -3,8 +3,8 @@ import { ROUTES_RELATIVE } from '../routes/route.relatives';
 import { handleCall } from './validationMiddleware';
 
 export const advertisingsAPI = {
-    getAll: function(rolId: number){
-        return handleCall(axios.get, [`${ROUTES_RELATIVE.advertising.advertising}/role/${rolId}`])
+    getAll: function(){
+        return handleCall(axios.get, [`${ROUTES_RELATIVE.advertising.advertising}`])
     },
     getId: function(id : number) {
         return handleCall(axios.get, [`${ROUTES_RELATIVE.advertising.advertising}/${id}`])

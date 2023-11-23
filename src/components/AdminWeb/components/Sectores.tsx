@@ -111,7 +111,7 @@ function Sectores({
                 />
               </svg>
             </div>
-            <span className="flex text-black opacity-[0.33] items-center">
+            <span className="absolute flex ml-3 text-black opacity-[0.33] truncate w-[80%]">
               {selectedSector.length === 0
                 ? 'Sector/es'
                 : `${selectedSector
@@ -154,7 +154,7 @@ function Sectores({
                         value={sector}
                       >
                         {() => (
-                          <div className="flex justify-start items-center">
+                          <div className="flex justify-start items-center truncate">
                             <span
                               className={`truncate flex justify-start items-center${
                                 isSelected(sector)

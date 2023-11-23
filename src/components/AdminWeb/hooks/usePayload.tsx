@@ -6,7 +6,7 @@ export function usePayload(advertising: Advertising | undefined) {
   let image1 = '';
   let video1 = '';
 
-  const typeid = advertising ? advertising.advertisingType.id : -1;
+  const typeid = advertising ? advertising.advertisingType.id : 1;
 
   switch (typeid) {
     case 1:

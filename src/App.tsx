@@ -33,7 +33,6 @@ function App() {
           path="/screen"
           element={<ScreenClient screenId={currentScreenId} />}
         />
-        <Route path="/admin" element={<Navigate to="/admin/advertising" />} />
         <Route path="/admin/*" element={<AdminWeb />} />
       </Routes>
     </BrowserRouter>

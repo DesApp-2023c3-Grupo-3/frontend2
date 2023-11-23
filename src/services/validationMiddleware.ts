@@ -18,6 +18,17 @@ export const getTokens = () => {
     }
 }
 
+export const getPayload = () => {
+    let accessToken = getTokens().accessToken.split('.');
+    const payload =JSON.parse(atob(accessToken[1])).payload
+      const tokenRoleId =payload.role.id
+      const userId =payload.id
+    return {
+        userId,
+        tokenRoleId
+    }
+}
+
 export const setTokens = (accessToken: string, refreshToken: string) => {
     localStorage.setItem("accessToken", `Bearer ${accessToken}`);
     localStorage.setItem("refreshToken", refreshToken);

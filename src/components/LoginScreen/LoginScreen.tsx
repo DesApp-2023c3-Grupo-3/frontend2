@@ -4,6 +4,7 @@ import { FormEvent, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { tokenApi } from '../../services/auth';
+import { getPayload } from '../../services/validationMiddleware';
 
 function LoginScreen({
   setScreenId,
@@ -17,6 +18,9 @@ function LoginScreen({
   const passwordRef = useRef<HTMLInputElement>(null);
   const screenIdRef = useRef<HTMLInputElement>(null);
   const [invalidNotice, setInvalidNotice] = useState('');
+  const [isMobile, setIsMobile] = useState(
+    /Mobi|Android/i.test(navigator.userAgent),
+  );
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -39,7 +43,10 @@ function LoginScreen({
       setInvalidNotice('La contraseña es incorrecta.');
       return;
     }
-
+    const routeNavigation: any = () => {
+      const rolId: number = getPayload().tokenRoleId;
+      return rolId == 3 ? '/comission' : '/advertising';
+    };
     // TODO Login para ingresar a AdminWeb
     try {
       await generateTokens(
@@ -52,7 +59,7 @@ function LoginScreen({
       return;
     }
 
-    navigate('/admin');
+    navigate('/admin' + routeNavigation());
   };
 
   const invalidUsername = () => {
@@ -129,7 +136,12 @@ function LoginScreen({
               name="password"
               ref={passwordRef}
             />
-            <span className="text-sm text-center mt-4 opacity-80">
+            <span
+              className={
+                'text-sm text-center mt-4 opacity-80 ' +
+                (isMobile ? 'hidden' : '')
+              }
+            >
               O ingrese el código de pantalla
             </span>
             <input
@@ -137,11 +149,12 @@ function LoginScreen({
               placeholder="ID de pantalla"
               name="screen-id"
               ref={screenIdRef}
+              className={isMobile ? 'hidden' : ''}
             />
             <button type="submit" className="mt-4 font-bold">
               Ingresar
             </button>
-            <span>{invalidNotice}</span>
+            <span className="max-w-[12rem] text-center">{invalidNotice}</span>
           </form>
           <img
             src={unahurLogo}
