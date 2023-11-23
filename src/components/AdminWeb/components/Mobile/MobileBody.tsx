@@ -27,11 +27,17 @@ export function MobileBody({
   title,
   placeholder,
 }: MobileBodyProps) {
+  const isMiniMobile = window.matchMedia('(max-width: 320px)').matches;
+
   return (
     <>
       <section className="mt-[3em] w-full h-full">
         <div className="flex items-center">
-          <h1 className="text-[3em] font-[700] text-[#484848] tracking-[-1.28px] ml-[25px]">
+          <h1
+            className={` text-[3em] font-[700] text-[#484848] tracking-[-1.28px] ml-[25px] ${
+              isMiniMobile && 'text-[24px]'
+            }`}
+          >
             {title}
           </h1>
         </div>

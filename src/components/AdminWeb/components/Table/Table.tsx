@@ -66,7 +66,7 @@ function Table({ dataJSON, columns, onRowClick, placeholder }: TableProps) {
   const currentData = filteredData.slice(startIndex, endIndex);
 
   return (
-    <div className={''}>
+    <div className="">
       <SearchBar
         searchTerm={searchTerm}
         onSearchChange={handleSearchChange}

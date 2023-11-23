@@ -10,6 +10,7 @@ interface TableBodyProps {
 
 function TableBody({ dataJSON, columns, onRowClick, rowRef }: TableBodyProps) {
   const isMobile = window.matchMedia('(max-width: 768px)').matches;
+  const isMiniMobile = window.matchMedia('(max-width: 320px)').matches;
 
   return (
     <table
@@ -30,7 +31,12 @@ function TableBody({ dataJSON, columns, onRowClick, rowRef }: TableBodyProps) {
                       : 'w-[auto] min-w-[180px] px-4 py-4 '
                   } 
                   ${columnName === 'Estado' ? 'w-[16px] ' : ''}
-                  ${isMobile ? 'min-w-[33%] max-w-[33%] w-[33%] ' : ''}
+                  ${
+                    isMobile
+                      ? 'min-w-[33vw] max-w-[33vw] w-[33vw] text-[20px]'
+                      : ''
+                  }
+                  ${isMiniMobile ? ' text-[18px]' : ''}
                   `}
               >
                 {columnName}
@@ -39,7 +45,7 @@ function TableBody({ dataJSON, columns, onRowClick, rowRef }: TableBodyProps) {
           })}
         </tr>
       </thead>
-      <tbody className="text-[20px] font[500]">
+      <tbody className={`"text-[20px] font[500]" ${isMobile && 'text-[16px]'}`}>
         {dataJSON.map((data, index) => (
           <TableRow
             key={data.id}

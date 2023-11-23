@@ -45,7 +45,7 @@ export function Step1({
             selectedSector.length === 0 && emptyFields.selectedSector,
           )}
         </div>
-        <div className="block shrink-1 grow-0 basis-auto self-center order-0 mt-10 w-[365px]">
+        <div className="block shrink-1 grow-0 basis-auto self-center order-0 mt-10 w-[90vw]">
           <DatePickerDays
             onChangeStartDate={setStartDate}
             onChangeEndDate={setEndDate}
