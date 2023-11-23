@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet';
 import { FormEvent, useEffect, useRef, useState } from 'react';
-import TableMain from './components/Table/TableMain';
+import TableMain from '../../components/Table/Table';
 import Button from '../../components/Buttons/Button';
 import { userApi } from '../../../../services/users';
 import { useModal } from '../../hooks/useModal';
@@ -98,7 +98,11 @@ function Usuarios() {
           <Loader />
         ) : (
           <div className="mt-[-70px] mr-[3.1%]">
-            <TableMain rowArray={usersJSON} columns={tableColumns} />
+            <TableMain
+              dataJSON={usersJSON}
+              columns={tableColumns}
+              searchableColumns={['DNI', 'Nombre', 'Rol']}
+            />
             <div className="flex justify-end">
               <Modal
                 isOpen={isOpen}
@@ -149,7 +153,7 @@ function Usuarios() {
                           alt="User preview"
                           className="hidden"
                         />
-                        <div className="bg-[#2C9CBF] aspect-square h-32 rounded-full relative">
+                        <div className="bg-[#2C9CBF] aspect-square h-32 rounded-full relative mx-auto">
                           <span className="text-white text-5xl text-center w-fit h-fit m-auto absolute inset-0 itim">
                             {selectedRole.name[0]}
                           </span>
