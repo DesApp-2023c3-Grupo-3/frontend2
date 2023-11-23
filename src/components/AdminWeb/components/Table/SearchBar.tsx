@@ -4,9 +4,11 @@ import './tableStyle.sass';
 function SearchBar({
   searchTerm,
   onSearchChange,
+  placeholder = 'Buscar',
 }: {
   searchTerm: string;
   onSearchChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  placeholder?: string;
 }) {
   const [isMobile, setIsMobile] = React.useState(
     window.matchMedia('(max-width: 768px)').matches,
@@ -29,12 +31,12 @@ function SearchBar({
   return (
     <div className={`flex justify-end`}>
       {!isMobile ? (
-        desktopSearch(searchTerm, onSearchChange)
+        desktopSearch(searchTerm, onSearchChange, placeholder)
       ) : (
         <div id="searchmobile" className="container py-[20px] relative">
           <input
             type="text"
-            placeholder="Buscar aviso"
+            placeholder={placeholder}
             value={searchTerm}
             className="z-[-1]"
           />
@@ -50,6 +52,7 @@ export default SearchBar;
 function desktopSearch(
   searchTerm: string,
   onSearchChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
+  placeholder: string,
 ) {
   return (
     <div
@@ -60,7 +63,7 @@ function desktopSearch(
       <input
         className="w-[85%] mx-2 outline-none text-[20px]"
         type="text"
-        placeholder="Buscar aviso"
+        placeholder={placeholder}
         value={searchTerm}
         onChange={onSearchChange}
       />
