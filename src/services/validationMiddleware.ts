@@ -24,16 +24,15 @@ export const setTokens = (accessToken: string, refreshToken: string) => {
 }
 
 export const getHeaders = () => {
-    const { accessToken, refreshToken } = getTokens()
+    const accessToken = getTokens().accessToken
     return {headers: {
-        'Authorization': accessToken,
-        'RefreshToken': refreshToken
+        'Authorization': accessToken
     }}
 }
 
-export var handleCall = async (callBack: any, args: any[], dataConfig: {}) => {
+export var handleCall = async (callBack: any, args: any[]) => {
     try {
-        const serverResponse = await callBack(...args, dataConfig);
+        const serverResponse = await callBack(...args, getHeaders());
         return serverResponse
     } catch (error) {
         try {

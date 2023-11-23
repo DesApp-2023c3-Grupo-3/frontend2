@@ -4,14 +4,13 @@ import { getTokens, handleCall, getHeaders } from "./validationMiddleware";
 
 export const imageAPI = {
     viewId: function(id : number) {
-        return handleCall(axios.get, [`${ROUTES_RELATIVE.image}/${id}/view`], getHeaders())
+        return handleCall(axios.get, [`${ROUTES_RELATIVE.image}/${id}/view`])
     },
     create: function(image : any) {
-        return handleCall(axios.post, [ROUTES_RELATIVE.image.image, image], {
+        return axios.post(ROUTES_RELATIVE.image.image, image, {
             headers: {
                 "Content-Type": 'multipart/form-data',
-                "Authorization": `${getTokens().accessToken}`,
-                "RefreshToken": `${getTokens().refreshToken}`
+                "Authorization": `${getTokens().accessToken}`
               }
         })
     },

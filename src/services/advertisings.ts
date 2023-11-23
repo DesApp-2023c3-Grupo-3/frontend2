@@ -1,21 +1,21 @@
 import axios from 'axios';
 import { ROUTES_RELATIVE } from '../routes/route.relatives';
-import { getHeaders, handleCall } from './validationMiddleware';
+import { handleCall } from './validationMiddleware';
 
 export const advertisingsAPI = {
     getAll: function(rolId: number){
-        return handleCall(axios.get, [`${ROUTES_RELATIVE.advertising.advertising}/role/${rolId}`], getHeaders)
+        return handleCall(axios.get, [`${ROUTES_RELATIVE.advertising.advertising}/role/${rolId}`])
     },
     getId: function(id : number) {
-        return handleCall(axios.get, [`${ROUTES_RELATIVE.advertising.advertising}/${id}`], getHeaders)
+        return handleCall(axios.get, [`${ROUTES_RELATIVE.advertising.advertising}/${id}`])
     },
     create: function(advertisingData : any) {
-        return handleCall(axios.post, [ROUTES_RELATIVE.advertising.advertising, advertisingData], getHeaders);
+        return handleCall(axios.post, [ROUTES_RELATIVE.advertising.advertising, advertisingData]);
     },
     edit: function(id : number, advertising : any) {
-        return handleCall(axios.patch, [`${ROUTES_RELATIVE.advertising.advertising}/${id}`, advertising], getHeaders)
+        return handleCall(axios.patch, [`${ROUTES_RELATIVE.advertising.advertising}/${id}`, advertising])
     },
     delete: function(id:number) {
-        return handleCall(axios.delete, [`${ROUTES_RELATIVE.advertising.advertising}/${id}`], getHeaders)
+        return handleCall(axios.delete, [`${ROUTES_RELATIVE.advertising.advertising}/${id}`])
     }
 }
