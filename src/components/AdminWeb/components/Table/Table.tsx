@@ -7,12 +7,20 @@ import TableBody from './TableBody';
 interface TableProps {
   dataJSON: any[];
   columns: Map<string, (data: any) => void>;
+  searchableColumns?: string[];
   onRowClick?: (data: any) => void;
   placeholder?: string;
 }
 
-function Table({ dataJSON, columns, onRowClick, placeholder }: TableProps) {
-  const [itemsPerPage, setItemsPerPage] = useState(1);
+function Table({
+  dataJSON,
+  columns,
+  searchableColumns = [],
+  onRowClick,
+  placeholder,
+}: TableProps) {
+  const [itemsPerPage, setItemsPerPage] = useState(7);
+  const [filteredData, setFilteredData] = useState(dataJSON);
   const rowRef = useRef<HTMLTableRowElement>(null);
 
   const adjustItemsPerPage = () => {
@@ -57,11 +65,33 @@ function Table({ dataJSON, columns, onRowClick, placeholder }: TableProps) {
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
     setCurrentPage(1);
+    updateFilteredData(event.target.value);
   };
 
-  const filteredData = dataJSON.filter((data) =>
-    data.name.toLowerCase().includes(searchTerm.toLowerCase()),
-  );
+  const updateFilteredData: any = (searchTerm: string) => {
+    let filteredResult: any[] = [];
+
+    const columnsToMatch =
+      searchableColumns.length > 0
+        ? searchableColumns
+        : Array.from(columns.keys());
+
+    columnsToMatch.forEach((columnName: string) => {
+      const output = dataJSON.filter((data) => {
+        const columnValue = (columns.get(columnName)?.call(data, data) || '-')
+          .toString()
+          .toLowerCase();
+
+        return columnValue.includes(searchTerm.toLowerCase());
+      });
+
+      filteredResult = Array.from(new Set<any>([...filteredResult, ...output]));
+    });
+
+    console.log(filteredResult);
+
+    setFilteredData(filteredResult);
+  };
 
   const currentData = filteredData.slice(startIndex, endIndex);
 
