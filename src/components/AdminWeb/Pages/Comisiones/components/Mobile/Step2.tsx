@@ -38,7 +38,7 @@ export function Step2({
     formData.append('file', excel);
     setExcelData(formData);
     setSelectedFileName(excel.name);
-    //setLoading(true);
+    setLoading(true);
     try {
       const newTableData: any = await commissionApi.toJson(formData);
       if (Array.isArray(newTableData.data)) {
@@ -47,7 +47,7 @@ export function Step2({
       } else {
         alert('El archivo subido no es válido');
       }
-      //setLoading(false);
+      setLoading(false);
     } catch (error) {
       console.error(error);
     }

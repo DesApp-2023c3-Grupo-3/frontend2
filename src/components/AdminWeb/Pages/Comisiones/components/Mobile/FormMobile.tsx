@@ -4,6 +4,7 @@ import { Step1 } from './Step1';
 import { Step2 } from './Step2';
 import { commissionApi } from '../../../../../../services/commissions';
 import { validationDate } from '../../../../utils/validationDate';
+import Loader from '../../../../components/Loader';
 
 interface FormMobileProps {
   setCommissionsJSON: (e: any) => void;
@@ -22,6 +23,9 @@ export function FormMobile({
   const [excelData, setExcelData] = React.useState<any>();
 
   const [currentStep, setCurrentStep] = React.useState(1);
+
+  const [loadingDownload, setLoadingDownload] = React.useState(false);
+  const [loadingSave, setLoadingSave] = React.useState(false);
 
   const handleNextStep = () => {
     if (currentStep === 1) {
@@ -47,23 +51,26 @@ export function FormMobile({
   };
 
   const uploadTemplate = () => {
-    //setLoadingButton(true);
     if (!hasValidCommission()) {
       validateStep2();
     } else {
+      setLoadingSave(true);
       excelData.append('startDate', startDate.toISOString());
       excelData.append('endDate', endDate.toISOString());
       excelData.append('sector', selectedSector[0].id.toString());
       commissionApi.create(excelData).then(() => {
         updateCommissionsTable();
         closeModal();
-        //setLoadingButton(false);
+        setLoadingSave(false);
       });
     }
   };
 
   const downloadTemplate = () => {
-    commissionApi.download();
+    setLoadingDownload(true);
+    commissionApi.download().finally(() => {
+      setLoadingDownload(false);
+    });
   };
 
   const [emptyFieldsStep1, setEmptyFieldsStep1] = React.useState({
@@ -114,15 +121,17 @@ export function FormMobile({
           <h4 className="flex justify-center items-center font-semibold text-[16px]">
             Archivo de comisiones
           </h4>
-          <Step2
-            setExcelData={setExcelData}
-            hasDocument={hasDocument}
-            setHasDocument={setHasDocument}
-            selectedFileName={selectedFileName}
-            setSelectedFileName={setSelectedFileName}
-            downloadTemplate={downloadTemplate}
-            isValidateStep2={isValidateStep2}
-          />
+          {
+            <Step2
+              setExcelData={setExcelData}
+              hasDocument={hasDocument}
+              setHasDocument={setHasDocument}
+              selectedFileName={selectedFileName}
+              setSelectedFileName={setSelectedFileName}
+              downloadTemplate={downloadTemplate}
+              isValidateStep2={isValidateStep2}
+            />
+          }
         </div>
       )}
 
@@ -149,20 +158,28 @@ export function FormMobile({
             </button>
             <div>
               <div className="mb-3">
-                <Button
-                  onClick={downloadTemplate}
-                  active={hasDocument}
-                  type={2}
-                  label={'DESCARGAR TEMPLATE'}
-                />
+                {!loadingDownload ? (
+                  <Button
+                    onClick={downloadTemplate}
+                    active={hasDocument}
+                    type={2}
+                    label={'DESCARGAR TEMPLATE'}
+                  />
+                ) : (
+                  <Loader />
+                )}
               </div>
               <div>
-                <Button
-                  onClick={uploadTemplate}
-                  active={hasValidCommission()}
-                  type={1}
-                  label={'GUARDAR'}
-                />
+                {!loadingSave ? (
+                  <Button
+                    onClick={uploadTemplate}
+                    active={hasValidCommission()}
+                    type={1}
+                    label={'GUARDAR'}
+                  />
+                ) : (
+                  <Loader />
+                )}
               </div>
             </div>
           </div>

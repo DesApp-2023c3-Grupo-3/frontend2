@@ -27,7 +27,7 @@ function TableRow({ item, index, columns, onRowClick, rowRef }: TableRowProps) {
           <td
             key={columnName}
             id={columnName}
-            className="py-2 px-6 text-ellipsis max-w-[220px] overflow-hidden"
+            className="py-2 px-6 text-ellipsis max-w-[220px] overflow-hidden text-[20px]"
           >
             {columns.get(columnName)?.call(item, item) || '-'}
           </td>
