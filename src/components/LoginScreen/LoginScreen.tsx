@@ -3,15 +3,22 @@ import unahurLogo from './assets/unahur.png';
 import { FormEvent, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
+import { tokenApi } from '../../services/auth';
 
-function LoginScreen({ setScreenId }: { setScreenId: any }) {
+function LoginScreen({
+  setScreenId,
+  setTokensOnLogin,
+}: {
+  setScreenId: any;
+  setTokensOnLogin: Function;
+}) {
   const navigate = useNavigate();
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const screenIdRef = useRef<HTMLInputElement>(null);
   const [invalidNotice, setInvalidNotice] = useState('');
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     // TODO Validacion screen
     if (invalidScreenId()) {
@@ -34,6 +41,17 @@ function LoginScreen({ setScreenId }: { setScreenId: any }) {
     }
 
     // TODO Login para ingresar a AdminWeb
+    try {
+      await generateTokens(
+        `${usernameRef.current?.value}`,
+        `${passwordRef.current?.value}`,
+      );
+    } catch (error) {
+      setInvalidNotice('Hubo un problema con la generación de tokens.');
+      console.error(error);
+      return;
+    }
+
     navigate('/admin');
   };
 
@@ -47,6 +65,17 @@ function LoginScreen({ setScreenId }: { setScreenId: any }) {
 
   const invalidScreenId = () => {
     return passwordRef.current?.value.trim() === '1';
+  };
+
+  const generateTokens = async (dni: string, password: string) => {
+    const tokensRecibidos = await tokenApi.login({
+      dni: `${dni}`,
+      password: `${password}`,
+    });
+    setTokensOnLogin(
+      tokensRecibidos.data.accessToken,
+      tokensRecibidos.data.refreshToken,
+    );
   };
 
   const navigateToScreen = () => {

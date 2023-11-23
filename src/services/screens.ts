@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { ROUTES_RELATIVE } from '../routes/route.relatives';
+import { handleCall } from './validationMiddleware';
 
 interface ScreenData {
     id:number,
@@ -14,9 +15,9 @@ interface ScreenData {
 
 export const screenAPI = {
     getAll: () => {
-        return axios.get(ROUTES_RELATIVE.screen.getAll);
+        return handleCall(axios.get, [ROUTES_RELATIVE.screen.getAll]);
     },
-    edit: (screenData:ScreenData[]) => {
-        return axios.patch(ROUTES_RELATIVE.screen.update, screenData);
+    edit: (id:number, screenData:ScreenData) => {
+        return handleCall(axios.patch, [`${ROUTES_RELATIVE.screen.update}/${id}`, screenData]);
     }
 }

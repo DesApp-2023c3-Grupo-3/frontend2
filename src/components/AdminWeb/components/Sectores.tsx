@@ -3,10 +3,11 @@ import { Listbox, Transition } from '@headlessui/react';
 import { abbreviateSectorName } from '../utils/AbbreviateSectorName';
 import { Checkbox } from '@mui/material';
 import { sectorApi } from '../../../services/sectores';
+import Loader from './Loader';
 
 interface SectoresProps {
-  selectedSector: Sector[];
-  onSelectedSectorChange: (newSelectedSector: Sector[]) => void;
+  selectedSector: any[];
+  onSelectedSectorChange: (newSelectedSector: any[]) => void;
   style?: string;
   hasError: boolean;
   canChooseMany: boolean;
@@ -21,10 +22,17 @@ function Sectores({
 }: SectoresProps) {
   const [selectAll, setSelectAll] = useState(false);
   const [sectorArray, setSectorArray] = useState<Sector[]>([]);
+  const [loading, setLoading] = useState(false);
 
   const updateSectorArray = async () => {
-    const newSectors = await sectorApi.getSector();
-    setSectorArray(newSectors as Sector[]);
+    setLoading(true);
+    try {
+      const newSectors = await sectorApi.getSector();
+      setSectorArray(sortedSectors(newSectors));
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleSelectAllChange = (event: {
@@ -39,14 +47,32 @@ function Sectores({
     }
   };
 
-  const handlerOnSelect = (selected: Sector[] | Sector) => {
+  const handlerOnSelect = (selected: Sector[]) => {
     const toChange = Array.isArray(selected) ? selected : [selected];
     onSelectedSectorChange(toChange);
+  };
+
+  const isSelected = (sector: any) => {
+    const index = selectedSector.findIndex((s) => s.id === sector.id);
+    if (index !== -1) {
+      selectedSector[index] = sector;
+    }
+    return selectedSector.find((s) => s.id === sector.id);
   };
 
   useEffect(() => {
     updateSectorArray();
   }, []);
+
+  useEffect(() => {
+    if (selectedSector.length === sectorArray.length) {
+      setSelectAll(true);
+    } else {
+      setSelectAll(false);
+    }
+  }, [handlerOnSelect]);
+
+  const isMobile = window.innerWidth <= 640;
 
   return (
     <div className={`z-[1000] flex justify-center ${style}`}>
@@ -55,12 +81,14 @@ function Sectores({
         onChange={handlerOnSelect}
         multiple={canChooseMany}
       >
-        <div className="fixed flex-row justify-center z-[20]">
+        <div className=" flex-row justify-center relative z-[20]">
           <Listbox.Button
             id="sectors"
-            className={`text-[20px] font-[400] tracking-[-0.4px] rounded-[30px] bg-[#D9D9D9] flex w-[365px] h-[50px] px-[40px] py-[12px] items-center ${
+            className={`text-[20px] font-[400] tracking-[-0.4px] rounded-[30px] bg-[#D9D9D9] flex w-[365px] max-h-[365px]: h-[50px] px-[40px] py-[12px] items-center ${
               selectedSector.length === 0 && hasError ? 'invalid-field' : ''
-            }`}
+            }
+            ${isMobile ? 'w-[90vw]' : ''}
+            `}
             placeholder="Sector/es"
           >
             <div className="mr-5 ml-[-15px]">
@@ -86,9 +114,9 @@ function Sectores({
             <span className="flex text-black opacity-[0.33] items-center">
               {selectedSector.length === 0
                 ? 'Sector/es'
-                : selectedSector
+                : `${selectedSector
                     .map((sector) => abbreviateSectorName(sector.name))
-                    .join(', ')}
+                    .join(', ')}`}
             </span>
           </Listbox.Button>
           <Transition
@@ -97,52 +125,59 @@ function Sectores({
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Listbox.Options className="bg-white w-[254px] ml-auto flex-row justify-center items-center shadow-lg rounded-t-[2px] rounded-b-[10px] ">
+            <Listbox.Options className=" bg-white w-[254px] ml-auto shadow-lg rounded-t-[2px] rounded-b-[10px] pb-3 absolute left-[15%]">
               <span className="m-3 flex justify-center text-[#00000080] text-[20px]">
                 Edificio
               </span>
-              {sectorArray.length > 0 && (
-                sectorArray.map((sector, sextorIdx) => (
-                  <div key={sextorIdx} className="flex justify-center">
-                    <Listbox.Option
-                      className={({ active, selected }) =>
-                        ` border-2 border-[#919191] flex justify-start items-center relative cursor-pointer mb-[3px] pl-2 rounded-[20px] h-[30px] w-[82px] 
+              {loading ? (
+                <Loader />
+              ) : (
+                sectorArray.length > 0 &&
+                sectorArray.map((sector) => (
+                  <div key={sector.id} className="flex justify-center">
+                    <div>
+                      <Listbox.Option
+                        className={({ active }) =>
+                          ` border-2 border-[#919191] flex justify-start items-center relative cursor-pointer mb-[3px] pl-2 rounded-[20px] h-[30px] w-[82px] 
                                 ${
                                   active
-                                    ? 'bg-[#2C9CBF] text-white'
+                                    ? 'bg-[#3cacce] text-white'
                                     : 'text-[#000]'
                                 }
                                 ${
-                                  selected
+                                  isSelected(sector)
                                     ? 'bg-[#2C9CBF] border-[#2C9CBF]'
                                     : ''
                                 }
                                 `
-                      }
-                      value={sector}
-                    >
-                      {({ selected }) => (
-                        <div className="flex justify-start items-center">
-                          <span
-                            className={`truncate flex justify-start items-center${
-                              selected
-                                ? 'font-medium text-white '
-                                : 'font-normal'
-                            }`}
-                          >
-                            {abbreviateSectorName(sector.name)}
-                          </span>
-                        </div>
-                      )}
-                    </Listbox.Option>
+                        }
+                        value={sector}
+                      >
+                        {() => (
+                          <div className="flex justify-start items-center">
+                            <span
+                              className={`truncate flex justify-start items-center${
+                                isSelected(sector)
+                                  ? 'font-medium text-white '
+                                  : 'font-normal'
+                              }`}
+                            >
+                              {abbreviateSectorName(sector.name)}
+                            </span>
+                          </div>
+                        )}
+                      </Listbox.Option>
+                    </div>
                   </div>
-                  ))
-                )}
+                ))
+              )}
               {canChooseMany && (
                 <div className="flex justify-center items-center">
                   <Checkbox
                     checked={selectAll}
-                    onChange={sectorArray.length > 0 ? (handleSelectAllChange) : (() => {})}
+                    onChange={
+                      sectorArray.length > 0 ? handleSelectAllChange : () => {}
+                    }
                   />
                   <span>Seleccionar todo</span>
                 </div>
@@ -156,6 +191,10 @@ function Sectores({
 }
 
 export default Sectores;
+
+const sortedSectors = (sectors: Sector[]): Sector[] => {
+  return [...sectors].sort((a, b) => a.id - b.id);
+};
 
 export interface Sector {
   id: number;

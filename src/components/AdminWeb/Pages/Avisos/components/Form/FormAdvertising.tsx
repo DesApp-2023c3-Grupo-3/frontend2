@@ -15,6 +15,7 @@ import { convertDaysToNumbers } from '../../../../utils/ConvertDaysToCode';
 import { validationDate } from '../../../../utils/validationDate';
 import { useAdvertisingData } from '../../../../hooks/useAdvertisingData';
 import { InputName } from './InputNameAdvertising';
+import Loader from '../../../../components/Loader';
 
 export function messageError(message: string) {
   Swal.fire({
@@ -76,6 +77,9 @@ function FormAdvertising({
     setType,
   } = useAdvertisingData(advertising);
 
+  const [loading, setLoading] = React.useState(false);
+  const [loadingDelete, setLoadingDelete] = React.useState(false);
+
   const invalidName = () => {
     return advertisingName === '';
   };
@@ -135,6 +139,7 @@ function FormAdvertising({
       cancelButtonColor: '#d33',
       confirmButtonText: 'Si, borrar.',
     }).then((result) => {
+      setLoadingDelete(true);
       if (result.isConfirmed) {
         if (advertising) {
           advertisingsAPI
@@ -146,6 +151,7 @@ function FormAdvertising({
               });
               setAdvertisingsJSON();
               closeModal();
+              setLoadingDelete(false);
             })
             .catch((error) => console.error(error));
         }
@@ -211,7 +217,7 @@ function FormAdvertising({
       messageError('Falta seleccionar los días de la semana.');
     } else if (validationDate(startHour, endHour)) {
       messageError('Falta completar el horario de los avisos.');
-    } else if (endDate !== null && startDate !== null && endDate <= startDate) {
+    } else if (endDate !== null && startDate !== null && endDate < startDate) {
       messageError('La fecha final no debe ser anterior a la de inicio.');
     } else if (payload === '') {
       messageError('Falta agregarle al aviso un texto, video o imagen.');
@@ -219,6 +225,7 @@ function FormAdvertising({
       messageError('URL YouTube incorrecta.');
     } else {
       if (isCreate) {
+        setLoading(true);
         advertisingsAPI
           .create(newAdvertising)
           .then((r) => {
@@ -228,10 +235,12 @@ function FormAdvertising({
               icon: 'success',
               title: 'Se ha creado el aviso',
             });
+            setLoading(false);
           })
           .catch((error) => console.error(error));
       } else {
         if (advertising) {
+          setLoading(true);
           advertisingsAPI
             .edit(advertising.id, newAdvertising)
             .then((r) => {
@@ -241,6 +250,7 @@ function FormAdvertising({
                 icon: 'success',
                 title: 'Se ha editado el aviso',
               });
+              setLoading(false);
             })
             .catch((error) => console.error(error));
         }
@@ -251,8 +261,8 @@ function FormAdvertising({
   return (
     <div>
       <form className="mx-10">
-        <div className=" flex h-[90px] justify-between items-center">
-          <div>
+        <div className=" flex my-5 justify-between items-center">
+          <div className="flex-col w-[365px] h-[50px]">
             <InputName
               emptyFields={emptyFields}
               invalidName={invalidName}
@@ -264,20 +274,18 @@ function FormAdvertising({
               invalidName() && emptyFields.advertisingName,
             )}
           </div>
-          <div>
-            <div className="flex-col justify-center w-[365px] h-[50px]">
-              <Sectores
-                selectedSector={selectedSector}
-                onSelectedSectorChange={setSelectedSector}
-                hasError={emptyFields.selectedSector && invalidSectors()}
-                canChooseMany={true}
-              />
-              <div>
-                {ErrorMessage(
-                  '*Falta seleccionar los sectores.',
-                  emptyFields.selectedSector && invalidSectors(),
-                )}
-              </div>
+          <div className="flex-col w-[365px] h-[50px]">
+            <Sectores
+              selectedSector={selectedSector}
+              onSelectedSectorChange={setSelectedSector}
+              hasError={emptyFields.selectedSector && invalidSectors()}
+              canChooseMany={true}
+            />
+            <div className="">
+              {ErrorMessage(
+                '*Falta seleccionar los sectores.',
+                emptyFields.selectedSector && invalidSectors(),
+              )}
             </div>
           </div>
         </div>
@@ -339,24 +347,36 @@ function FormAdvertising({
       </form>
       <div className="flex justify-between mt-[2em] mx-[4.5em]">
         <div>
-          {!isCreate ? (
-            <Button
-              onClick={handleDeleteAdvertisingClick}
-              active={true}
-              type={3}
-              label="ELIMINAR"
-            />
-          ) : (
-            ''
+          {!isCreate && (
+            <div className="w-[300px]">
+              {loadingDelete ? (
+                <Loader
+                  type={2}
+                  color={'error'}
+                  className="w-[200px] translate-y-3 "
+                />
+              ) : (
+                <Button
+                  onClick={handleDeleteAdvertisingClick}
+                  active={true}
+                  type={3}
+                  label="ELIMINAR"
+                />
+              )}
+            </div>
           )}
         </div>
-        <div className="">
-          <Button
-            onClick={handleSendAdvertisingClick}
-            active={true}
-            type={1}
-            label="GUARDAR"
-          />
+        <div className="w-[300px] flex justify-center">
+          {loading ? (
+            <Loader type={2} className="w-[200px] translate-y-3" />
+          ) : (
+            <Button
+              onClick={handleSendAdvertisingClick}
+              active={true}
+              type={1}
+              label="GUARDAR"
+            />
+          )}
         </div>
       </div>
     </div>
