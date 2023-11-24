@@ -40,7 +40,8 @@ function ScreenConfig({ closeModal }: { closeModal: () => void }) {
 
     selectedScreens.forEach((screen) => {
       screen.typeScreen = String(cardSelected?.id);
-  const handleClick = () => {
+    });
+
     deselectAllTheScreens();
     closeModal();
     Toast.fire({
