@@ -73,7 +73,7 @@ function Comisiones() {
             >
               <FormCommission
                 commissionsJSON={commissionsJSON}
-                setCommissionsJSON={setCommissionsJSON}
+                updateCommissionsTable={updateCommissionsTable}
                 closeModal={closeModal}
               />
             </Modal>

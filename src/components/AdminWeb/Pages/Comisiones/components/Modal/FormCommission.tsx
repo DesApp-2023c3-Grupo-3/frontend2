@@ -7,13 +7,13 @@ import { commissionApi } from '../../../../../../services/commissions';
 
 interface FormCommissionProps {
   commissionsJSON: Commission[];
-  setCommissionsJSON: React.Dispatch<React.SetStateAction<Commission[]>>;
+  updateCommissionsTable: () => void;
   closeModal: () => void;
 }
 
 function FormCommission({
   commissionsJSON,
-  setCommissionsJSON,
+  updateCommissionsTable,
   closeModal,
 }: FormCommissionProps) {
   const [hasDocument, setHasDocument] = useState<boolean>(false);
@@ -69,11 +69,6 @@ function FormCommission({
     } else {
       alert('El archivo subido no es válido');
     }
-  };
-
-  const updateCommissionsTable = async () => {
-    const updatedCommissions: any = await commissionApi.getAll();
-    setCommissionsJSON((updatedCommissions?.data as Commission[]) || []);
   };
 
   const uploadTemplate = () => {
