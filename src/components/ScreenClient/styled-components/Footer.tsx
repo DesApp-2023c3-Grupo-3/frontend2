@@ -27,7 +27,7 @@ function Footer() {
           <p className="w-[70%]">
             Escanea el código y recorre los espacios de la Universidad.
           </p>
-          <article className="p-1 bg-white rounded-2xl h-[80%] overflow-hidden">
+          <article className=" bg-white rounded-2xl h-[80%] overflow-hidden">
             {qrImage && (
               <img src={qrImage} className="w-full h-full" alt="Código QR" />
             )}

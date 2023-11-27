@@ -6,6 +6,7 @@ import { useCard } from '../../hooks/useCards';
 import Swal from 'sweetalert2';
 import { useScreenFilters } from '../../store/useScreenFilters';
 import ScreenSelectedInfo from './components/ScreenSelectedInfo';
+import { screenAPI } from '../../../../../../services/screens';
 
 const Toast = Swal.mixin({
   toast: true,
@@ -14,6 +15,14 @@ const Toast = Swal.mixin({
   timer: 3000,
   timerProgressBar: true,
 });
+
+const messageError = (error: string) =>
+  Swal.fire({
+    icon: 'error',
+    title: 'Oops...',
+    text: error,
+    confirmButtonColor: '#2C9CBF',
+  });
 
 function ScreenConfig({ closeModal }: { closeModal: () => void }) {
   const { config, changeCourseIntervalTime, changeAdvertisingIntervalTime } =
@@ -25,14 +34,51 @@ function ScreenConfig({ closeModal }: { closeModal: () => void }) {
     (state) => state.deselectAllTheScreens,
   );
   const { cards, selectCard, cardSelected, isAnyCardSelected } = useCard();
+  const screens = useScreenFilters((state) => state.screens);
 
-  const handleClick = () => {
+  const updateScreens = () => {
+    const selectedScreens = screens.filter((screen) => screen.isSelected);
+
+    selectedScreens.forEach((screen) => {
+      screen.typeScreen = String(cardSelected?.id);
+    });
+
     deselectAllTheScreens();
     closeModal();
     Toast.fire({
       icon: 'success',
       title: 'Se aplico correctamente',
     });
+
+    const mappedScreens = selectedScreens.map((screen) => {
+      const { id, typeScreen, subscription, sector } = screen;
+
+      return {
+        id,
+        templeteId: typeScreen,
+        subscription,
+        courseIntervalTime: config.courseIntervalTime,
+        advertisingIntervalTime: config.advertisingIntervalTime,
+        sector,
+      };
+    });
+
+    return screenAPI.edit(mappedScreens);
+  };
+
+  const handleClick = () => {
+    updateScreens()
+      .then(() => {
+        Toast.fire({
+          icon: 'success',
+          title: 'Se aplico correctamente',
+        });
+      })
+      .then(() => {
+        deselectAllTheScreens();
+        closeModal();
+      })
+      .catch((error) => messageError(error.message));
   };
 
   return (
