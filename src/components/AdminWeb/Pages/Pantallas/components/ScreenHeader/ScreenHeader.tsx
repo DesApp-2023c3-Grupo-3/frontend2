@@ -6,6 +6,7 @@ import React from 'react';
 
 function ScreenHeader({ openConfig }: { openConfig: () => void }) {
   const screens = useScreenFilters((state) => state.screens);
+  const numbersOfScreens = screens.filter((screen) => screen.isSelected).length;
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -24,13 +25,20 @@ function ScreenHeader({ openConfig }: { openConfig: () => void }) {
       >
         <SelectAllFilter />
         <SelectSectorFilter />
-        <ButtonDisabled
-          label="CONFIGURAR"
-          condition={isAnyScreenSelected}
-          action={openConfig}
-          styleActive="rounded-lg flex items-center justify-center text-2xl w-[300px] h-[40px] font-[600] text-[20px] text-white bg-[#2C9CBF] hover:bg-[#2c9dbfc5]"
-          styleDesactive="rounded-lg flex items-center justify-center text-2xl w-[300px] border-solid border-2 bg-[#ffffff] h-[40px] font-[600] text-[20px] text-blue-300 border-blue-200"
-        />
+        <div className="relative">
+          {numbersOfScreens > 0 && (
+            <div className="bg-white border-2 border-[#2C9CBF] text-[#2C9CBF] font-semibold rounded-full absolute w-7 h-7 right-[-0.6rem] top-[-0.6rem] flex justify-center items-center">
+              {numbersOfScreens}
+            </div>
+          )}
+          <ButtonDisabled
+            label="CONFIGURAR"
+            condition={isAnyScreenSelected}
+            action={openConfig}
+            styleActive="rounded-lg flex items-center justify-center text-2xl w-[300px] h-[40px] font-[600] text-[20px] text-white bg-[#2C9CBF] hover:bg-[#2c9dbfc5]"
+            styleDesactive="rounded-lg flex items-center justify-center text-2xl w-[300px] border-solid border-2 bg-[#ffffff] h-[40px] font-[600] text-[20px] text-blue-300 border-blue-200"
+          />
+        </div>
       </form>
     </header>
   );

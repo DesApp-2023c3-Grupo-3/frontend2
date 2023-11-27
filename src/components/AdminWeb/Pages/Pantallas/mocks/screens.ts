@@ -118,5 +118,68 @@ export const screensMock: Screen[] = [
       id: 13,
       sectorId: 1
     },
+    {
+      screenTitle: 'Pantalla 1',
+      sectorTitle: 'Sector 3',
+      typeScreen: "2",
+      isSelected: false,
+      suscription: "a",
+      id: 13,
+      sectorId: 1
+    },
+    {
+      screenTitle: 'Pantalla 1',
+      sectorTitle: 'Sector 3',
+      typeScreen: "2",
+      isSelected: false,
+      suscription: "a",
+      id: 13,
+      sectorId: 1
+    },
+    {
+      screenTitle: 'Pantalla 1',
+      sectorTitle: 'Sector 3',
+      typeScreen: "2",
+      isSelected: false,
+      suscription: "a",
+      id: 13,
+      sectorId: 1
+    },
+    {
+      screenTitle: 'Pantalla 1',
+      sectorTitle: 'Sector 3',
+      typeScreen: "2",
+      isSelected: false,
+      suscription: "a",
+      id: 13,
+      sectorId: 1
+    },
+    {
+      screenTitle: 'Pantalla 1',
+      sectorTitle: 'Sector 3',
+      typeScreen: "2",
+      isSelected: false,
+      suscription: "a",
+      id: 13,
+      sectorId: 1
+    },
+    {
+      screenTitle: 'Pantalla 1',
+      sectorTitle: 'Sector 3',
+      typeScreen: "2",
+      isSelected: false,
+      suscription: "a",
+      id: 13,
+      sectorId: 1
+    },
+    {
+      screenTitle: 'Pantalla 1',
+      sectorTitle: 'Sector 3',
+      typeScreen: "2",
+      isSelected: false,
+      suscription: "a",
+      id: 13,
+      sectorId: 1
+    },
   ];
   

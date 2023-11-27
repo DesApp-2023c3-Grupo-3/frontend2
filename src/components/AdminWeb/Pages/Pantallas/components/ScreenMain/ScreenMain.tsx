@@ -11,7 +11,7 @@ function ScreenMain() {
   );
 
   return (
-    <main className="h-full">
+    <main className="relative h-full">
       <section className="flex justify-center flex-wrap gap-4">
         {filteredScreens.length > 0 ? (
           filteredScreens.map((screen, index) => (
