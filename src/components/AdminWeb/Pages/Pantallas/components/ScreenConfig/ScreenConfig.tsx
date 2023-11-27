@@ -5,6 +5,7 @@ import { useConfig } from '../../hooks/useConfig';
 import { useCard } from '../../hooks/useCards';
 import Swal from 'sweetalert2';
 import { useScreenFilters } from '../../store/useScreenFilters';
+import ScreenSelectedInfo from './components/ScreenSelectedInfo';
 
 const Toast = Swal.mixin({
   toast: true,
@@ -35,7 +36,9 @@ function ScreenConfig({ closeModal }: { closeModal: () => void }) {
   };
 
   return (
-    <section className="z-50 flex items-center justify-center flex-col px-10 md:py-5 gap-2 md:gap-4">
+    <section className="relative z-50 flex items-center justify-center flex-col px-10 md:py-2 gap-2 md:gap-2">
+      <ScreenSelectedInfo />
+
       <div className="flex flex-col gap-2 md:gap-10 md:flex-row">
         {cards.map((card, index) => (
           <CardModal key={index} onClick={selectCard} card={card} />

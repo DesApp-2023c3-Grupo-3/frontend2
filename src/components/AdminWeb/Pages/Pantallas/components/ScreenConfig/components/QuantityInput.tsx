@@ -20,7 +20,7 @@ export default function QuantityInput({
   };
 
   return (
-    <div className="flex flex-col text-lg md:text-2xl items-center">
+    <div className="flex flex-col text-sm md:text-2xl items-center">
       <span className="text-black">{title}</span>
       <label className="flex gap-4 items-center text-[#2C9CBF] font-semibold">
         {count < 2 ? (
