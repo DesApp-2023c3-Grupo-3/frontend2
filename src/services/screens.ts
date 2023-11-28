@@ -19,5 +19,8 @@ export const screenAPI = {
     },
     edit: (screenData:ScreenData[]) => {
         return handleCall(axios.patch, [ROUTES_RELATIVE.screen.update, screenData]);
+    },
+    disconnect: (id:number) => {
+        return handleCall(axios.post, [`${ROUTES_RELATIVE.screen.disconnect}/${id}`]);
     }
 }

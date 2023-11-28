@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 import { useScreenFilters } from '../../store/useScreenFilters';
 import ScreenSelectedInfo from './components/ScreenSelectedInfo';
 import { screenAPI } from '../../../../../../services/screens';
+import Button from '../Button/Button';
 
 const Toast = Swal.mixin({
   toast: true,
@@ -35,10 +36,9 @@ function ScreenConfig({ closeModal }: { closeModal: () => void }) {
   );
   const { cards, selectCard, cardSelected, isAnyCardSelected } = useCard();
   const screens = useScreenFilters((state) => state.screens);
+  const selectedScreens = screens.filter((screen) => screen.isSelected);
 
   const updateScreens = () => {
-    const selectedScreens = screens.filter((screen) => screen.isSelected);
-
     selectedScreens.forEach((screen) => {
       screen.typeScreen = String(cardSelected?.id);
     });
@@ -66,12 +66,12 @@ function ScreenConfig({ closeModal }: { closeModal: () => void }) {
     return screenAPI.edit(mappedScreens);
   };
 
-  const handleClick = () => {
-    updateScreens()
+  const handleSuccessfulMessage = (message: string, promise: Promise<any>) => {
+    promise
       .then(() => {
         Toast.fire({
           icon: 'success',
-          title: 'Se aplico correctamente',
+          title: message,
         });
       })
       .then(() => {
@@ -79,6 +79,17 @@ function ScreenConfig({ closeModal }: { closeModal: () => void }) {
         closeModal();
       })
       .catch((error) => messageError(error.message));
+  };
+
+  const handleUpdateClick = () => {
+    handleSuccessfulMessage('Se aplico correctamente', updateScreens());
+  };
+
+  const handleSignOffClick = (id: number) => {
+    handleSuccessfulMessage(
+      'Cierre de sesión aplicado correctamente',
+      screenAPI.disconnect(id),
+    );
   };
 
   return (
@@ -109,14 +120,23 @@ function ScreenConfig({ closeModal }: { closeModal: () => void }) {
           </>
         )}
       </div>
-
-      <ButtonDisabled
-        action={handleClick}
-        label="APLICAR"
-        condition={isAnyCardSelected}
-        styleActive="rounded-lg flex items-center justify-center text-xl md:text-2xl w-[300px] h-[40px] font-[600] text-white bg-[#2C9CBF] hover:bg-[#2c9dbfc5]"
-        styleDesactive="rounded-lg flex items-center justify-center text-xl md:text-2xl w-[300px] border-solid border-2 bg-[#ffffff] h-[40px] font-[600] text-blue-300 border-blue-200"
-      />
+      <div className="flex text-xl md:text-2xl gap-5 font-[500] text-white">
+        {cardSelected || selectedScreens.length > 1 ? (
+          <ButtonDisabled
+            action={handleUpdateClick}
+            label="APLICAR"
+            condition={isAnyCardSelected}
+            styleActive="rounded-lg flex items-center justify-center w-[300px] h-[40px] bg-[#2C9CBF] hover:bg-[#2c9dbfc5]"
+            styleDesactive="rounded-lg flex items-center justify-center text-2xl w-[300px] border-solid border-2 bg-[#ffffff] h-[40px] text-blue-300 border-blue-200"
+          />
+        ) : (
+          <Button
+            onClick={() => handleSignOffClick(selectedScreens[0].id)}
+            label="CERRAR SESIÓN"
+            className="rounded-lg flex items-center justify-center w-[300px] h-[40px] bg-red-500 hover:bg-red-600"
+          />
+        )}
+      </div>
     </section>
   );
 }

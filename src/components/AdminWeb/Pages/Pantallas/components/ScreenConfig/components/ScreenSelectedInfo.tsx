@@ -34,7 +34,7 @@ export default function ScreenSelectedInfo() {
         <div>
           {screenNames
             .splice(0, screenNames.length - 1)
-            .map((screen) => screen + ', ')}{' '}
+            .map((screen) => screen + ', ')}
           {screenNames[screenNames.length - 1]}
         </div>
       )}
