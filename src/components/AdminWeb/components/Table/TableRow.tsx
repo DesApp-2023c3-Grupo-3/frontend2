@@ -13,6 +13,8 @@ function TableRow({ item, index, columns, onRowClick, rowRef }: TableRowProps) {
     }
   };
 
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
+
   return (
     <tr
       ref={index === 0 ? rowRef : null}
@@ -20,6 +22,7 @@ function TableRow({ item, index, columns, onRowClick, rowRef }: TableRowProps) {
       key={index}
       className={`row ${onRowClick ? 'hover:bg-[#c4c4c4]' : ''}
             ${index % 2 === 0 ? 'bg-[#F1F1F1]' : 'bg-[#DFDFDF]'}
+            relative
         `}
     >
       {Array.from(columns.keys()).map((columnName) => {
@@ -27,9 +30,18 @@ function TableRow({ item, index, columns, onRowClick, rowRef }: TableRowProps) {
           <td
             key={columnName}
             id={columnName}
-            className="py-2 px-6 text-ellipsis max-w-[220px] overflow-hidden text-[20px]"
+            className={`py-2 px-6 text-[20px]
+            ${isMobile ? 'max-w-[100px] h-[50px]' : 'max-w-[220px] '}
+            relative `}
           >
-            {columns.get(columnName)?.call(item, item) || '-'}
+            <div
+              className={`
+            ${columnName === 'Rol' && isMobile && 'flex justify-center'}
+            overflow-hidden text-ellipsis w-[100px]
+            `}
+            >
+              {columns.get(columnName)?.call(item, item) || '-'}
+            </div>
           </td>
         );
       })}

@@ -9,6 +9,9 @@ import dayjs from 'dayjs';
 import Modal from '../../components/Modal/Modal';
 import Loader from '../../components/Loader';
 import Swal from 'sweetalert2';
+import { MobileBody } from '../../components/Mobile/MobileBody';
+import { FormMobile } from './components/Form/FormMobile';
+import { userDiv } from '../../utils/userDiv';
 
 function Usuarios() {
   const [usersJSON, setUsersJSON] = useState<User[]>([]);
@@ -172,116 +175,141 @@ function Usuarios() {
     updateUsersTable();
   }, []);
 
+  const isMobile = window.innerWidth <= 768;
+
+  const tableColumnsMobile = new Map<string, (user: any) => void>();
+  tableColumnsMobile.set('DNI', (user: User) => user.dni);
+  tableColumnsMobile.set('Nombre', (user: User) => user.name);
+  tableColumnsMobile.set('Rol', (user: User) =>
+    user.role ? userDiv(user.role.name.charAt(0)) : '',
+  );
+
   return (
     <>
       <Helmet>
         <title>Administrador de cartelera | Usuarios</title>
       </Helmet>
-      <div className="flex flex-col w-full pl-12">
-        <h1 className="text-[4rem] font-[700] text-[#484848] tracking-[-1.28px] mt-[20px]">
-          Usuarios
-        </h1>
-        {loading ? (
-          <Loader />
-        ) : (
-          <div className="mt-[-70px] mr-[3.1%]">
-            <TableMain
-              dataJSON={usersJSON}
-              columns={tableColumns}
-              searchableColumns={['DNI', 'Nombre', 'Rol']}
-              onRowClick={handleRowClick}
-              placeholder="Buscar usuarios..."
-            />
-            <div className="flex justify-end">
-              <Modal
-                isOpen={isOpen}
-                openModal={handleOpenModal}
-                closeModal={closeModal}
-                label={'NUEVO USUARIO'}
-              >
-                <>
-                  <h1 className="text-7xl font-bold px-12 mt-8 mb-4">
-                    {!isEditing ? 'Crear' : 'Editar'} nuevo usuario
-                  </h1>
-                  <form className="grid grid-cols-2 px-12">
-                    <div className="flex flex-col gap-4">
-                      <input
-                        type="text"
-                        placeholder="DNI"
-                        defaultValue={editRow?.dni}
-                        ref={dniRef}
-                        className="text-[20px] font-[400] tracking-[-0.4px] rounded-[30px] bg-[#D9D9D9] flex w-[365px] h-[50px] px-[40px] py-[12px] items-center"
-                      />
-                      <input
-                        type="password"
-                        placeholder="Contraseña"
-                        ref={passwordRef}
-                        className="text-[20px] font-[400] tracking-[-0.4px] rounded-[30px] bg-[#D9D9D9] flex w-[365px] h-[50px] px-[40px] py-[12px] items-center"
-                      />
-                      <input
-                        type="text"
-                        placeholder="Nombre"
-                        defaultValue={editRow?.name}
-                        ref={usernameRef}
-                        onChange={() => updateState({})}
-                        className="text-[20px] font-[400] tracking-[-0.4px] rounded-[30px] bg-[#D9D9D9] flex w-[365px] h-[50px] px-[40px] py-[12px] items-center"
-                      />
-                      <input
-                        type="text"
-                        placeholder="Rol del usuario"
-                        ref={roleRef}
-                        className="hidden text-[20px] font-[400] tracking-[-0.4px] rounded-[30px] bg-[#D9D9D9] flex w-[365px] h-[50px] px-[40px] py-[12px] items-center"
-                      />
-                      <Roles
-                        selectedRole={selectedRole}
-                        onSelectedRoleChange={handleSelectedUserRoleChange}
-                      />
-                    </div>
-                    <div className="flex flex-col items-center gap-8">
-                      <article className="text-center">
-                        <img
-                          src="https://cdn.discordapp.com/attachments/1143714208404471908/1165447224805826601/Usuario.png?ex=6546e24f&is=65346d4f&hm=9d49d67482396f4d8b724cfc900d52b7a47382794abf63292d137ebafb7b0bc2&"
-                          alt="User preview"
-                          className="hidden"
+      {!isMobile ? (
+        <div className="flex flex-col w-full pl-12">
+          <h1 className="text-[4rem] font-[700] text-[#484848] tracking-[-1.28px] mt-[20px]">
+            Usuarios
+          </h1>
+          {loading ? (
+            <Loader />
+          ) : (
+            <div className="mt-[-70px] mr-[3.1%]">
+              <TableMain
+                dataJSON={usersJSON}
+                columns={tableColumns}
+                searchableColumns={['DNI', 'Nombre', 'Rol']}
+                onRowClick={handleRowClick}
+                placeholder="Buscar usuarios..."
+              />
+              <div className="flex justify-end">
+                <Modal
+                  isOpen={isOpen}
+                  openModal={handleOpenModal}
+                  closeModal={closeModal}
+                  label={'NUEVO USUARIO'}
+                >
+                  <>
+                    <h1 className="text-7xl font-bold px-12 mt-8 mb-4">
+                      {!isEditing ? 'Crear' : 'Editar'} nuevo usuario
+                    </h1>
+                    <form className="grid grid-cols-2 px-12">
+                      <div className="flex flex-col gap-4">
+                        <input
+                          type="text"
+                          placeholder="DNI"
+                          defaultValue={editRow?.dni}
+                          ref={dniRef}
+                          className="text-[20px] font-[400] tracking-[-0.4px] rounded-[30px] bg-[#D9D9D9] flex w-[365px] h-[50px] px-[40px] py-[12px] items-center"
                         />
-                        <div className="bg-[#2C9CBF] aspect-square h-32 rounded-full relative mx-auto">
-                          <span className="text-white text-5xl text-center w-fit h-fit m-auto absolute inset-0 itim">
-                            {selectedRole.name[0]}
-                          </span>
-                        </div>
-                        <h4 className="text-xl font-bold mt-2">
-                          {usernameRef.current?.value}
-                        </h4>
-                        <span className="">{selectedRole.name}</span>
-                      </article>
-                      {loadingCreate ? (
-                        <Loader />
-                      ) : (
-                        <Button
-                          label={'GUARDAR'}
-                          onClick={createNewUser}
-                          active={hasValidUser()}
-                          type={1}
+                        <input
+                          type="password"
+                          placeholder="Contraseña"
+                          ref={passwordRef}
+                          className="text-[20px] font-[400] tracking-[-0.4px] rounded-[30px] bg-[#D9D9D9] flex w-[365px] h-[50px] px-[40px] py-[12px] items-center"
                         />
-                      )}
-                      {!isEditing ? null : loadingCreate ? (
-                        <Loader />
-                      ) : (
-                        <Button
-                          onClick={handleDeleteUserClick}
-                          active={true}
-                          type={3}
-                          label="ELIMINAR"
+                        <input
+                          type="text"
+                          placeholder="Nombre"
+                          defaultValue={editRow?.name}
+                          ref={usernameRef}
+                          onChange={() => updateState({})}
+                          className="text-[20px] font-[400] tracking-[-0.4px] rounded-[30px] bg-[#D9D9D9] flex w-[365px] h-[50px] px-[40px] py-[12px] items-center"
                         />
-                      )}
-                    </div>
-                  </form>
-                </>
-              </Modal>
+                        <input
+                          type="text"
+                          placeholder="Rol del usuario"
+                          ref={roleRef}
+                          className="hidden text-[20px] font-[400] tracking-[-0.4px] rounded-[30px] bg-[#D9D9D9] flex w-[365px] h-[50px] px-[40px] py-[12px] items-center"
+                        />
+                        <Roles
+                          selectedRole={selectedRole}
+                          onSelectedRoleChange={handleSelectedUserRoleChange}
+                        />
+                      </div>
+                      <div className="flex flex-col items-center gap-8">
+                        <article className="text-center">
+                          <img
+                            src="https://cdn.discordapp.com/attachments/1143714208404471908/1165447224805826601/Usuario.png?ex=6546e24f&is=65346d4f&hm=9d49d67482396f4d8b724cfc900d52b7a47382794abf63292d137ebafb7b0bc2&"
+                            alt="User preview"
+                            className="hidden"
+                          />
+                          <div className="bg-[#2C9CBF] aspect-square h-32 rounded-full relative mx-auto">
+                            <span className="text-white text-5xl text-center w-fit h-fit m-auto absolute inset-0 itim">
+                              {selectedRole.name[0]}
+                            </span>
+                          </div>
+                          <h4 className="text-xl font-bold mt-2">
+                            {usernameRef.current?.value}
+                          </h4>
+                          <span className="">{selectedRole.name}</span>
+                        </article>
+                        {loadingCreate ? (
+                          <Loader />
+                        ) : (
+                          <Button
+                            label={'GUARDAR'}
+                            onClick={createNewUser}
+                            active={hasValidUser()}
+                            type={1}
+                          />
+                        )}
+                        {!isEditing ? null : loadingCreate ? (
+                          <Loader />
+                        ) : (
+                          <Button
+                            onClick={handleDeleteUserClick}
+                            active={true}
+                            type={3}
+                            label="ELIMINAR"
+                          />
+                        )}
+                      </div>
+                    </form>
+                  </>
+                </Modal>
+              </div>
             </div>
-          </div>
-        )}
-      </div>
+          )}
+        </div>
+      ) : (
+        <MobileBody
+          dataJson={usersJSON}
+          tableColumns={tableColumnsMobile}
+          handleRowClick={handleRowClick}
+          isOpen={isOpen}
+          onCloseClick={closeModal}
+          openModal={handleOpenModal}
+          loading={loading}
+          title="Usuarios"
+          placeholder="Buscar usuarios..."
+        >
+          <FormMobile />
+        </MobileBody>
+      )}
     </>
   );
 }
