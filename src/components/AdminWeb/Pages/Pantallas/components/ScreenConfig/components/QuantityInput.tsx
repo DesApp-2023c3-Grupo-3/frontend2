@@ -10,8 +10,9 @@ export default function QuantityInput({
   const [count, setCount] = useState(15);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setCount(Math.max(Number(event.currentTarget.value), 1));
-    onChange(count);
+    const newValue = Math.max(Number(event.currentTarget.value), 1);
+    setCount(newValue);
+    onChange(newValue);
   };
 
   const handleClick = (result: number) => {
