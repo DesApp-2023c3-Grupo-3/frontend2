@@ -81,7 +81,7 @@ function FormCommission({
   };
 
   const downloadTemplate = () => {
-    commissionApi.download();
+    commissionApi.download(selectedSector[0].id);
   };
 
   const hasValidCommission = () => {

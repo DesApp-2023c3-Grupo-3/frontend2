@@ -3,9 +3,9 @@ import { ROUTES_RELATIVE } from '../routes/route.relatives';
 import { getTokens, handleCall } from './validationMiddleware';
 
 export const commissionApi = {
-  download: async function() {
+  download: async function(id: number) {
     try {
-      const response = await axios.get(ROUTES_RELATIVE.course.downloadCommission, { 
+      const response = await axios.get(`${ROUTES_RELATIVE.course.downloadCommission}/${id}`, { 
         responseType: 'blob',
         headers: {
           "Authorization": `${getTokens().accessToken}`
