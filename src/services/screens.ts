@@ -17,10 +17,10 @@ export const screenAPI = {
     getAll: () => {
         return handleCall(axios.get, [ROUTES_RELATIVE.screen.getAll]);
     },
-    edit: (screenData:ScreenData[]) => {
+    edit: (screenData: ScreenData[]) => {
         return handleCall(axios.patch, [ROUTES_RELATIVE.screen.update, screenData]);
     },
-    disconnect: (id:number) => {
-        return handleCall(axios.post, [`${ROUTES_RELATIVE.screen.disconnect}/${id}`]);
+    disconnect: (id: number) => {
+        return handleCall(axios.post, [`${ROUTES_RELATIVE.screen.disconnect}/${id}`, {}]);
     }
 }
