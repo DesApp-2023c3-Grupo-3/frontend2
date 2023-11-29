@@ -1,7 +1,7 @@
 const HOST = process.env.REACT_APP_API ;
 const PORT = process.env.REACT_APP_PORT ;
 export const API =
-  `http://186.12.145.198:4000`;
+  `http://${HOST}:${PORT}`;
 
 export const ROUTES_RELATIVE = {
     course: {
