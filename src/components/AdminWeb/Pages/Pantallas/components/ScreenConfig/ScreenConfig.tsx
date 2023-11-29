@@ -43,13 +43,6 @@ function ScreenConfig({ closeModal }: { closeModal: () => void }) {
       screen.typeScreen = String(cardSelected?.id);
     });
 
-    deselectAllTheScreens();
-    closeModal();
-    Toast.fire({
-      icon: 'success',
-      title: 'Se aplico correctamente',
-    });
-
     const mappedScreens = selectedScreens.map((screen) => {
       const { id, typeScreen, subscription, sector } = screen;
 
