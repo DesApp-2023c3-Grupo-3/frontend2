@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { imageAPI } from '../../../../../../../services/image';
 import { ROUTES_RELATIVE } from '../../../../../../../routes/route.relatives';
+import Loader from '../../../../../components/Loader';
+import { error } from 'console';
 
 interface ImageUpProps {
   image: string;
@@ -10,65 +12,81 @@ interface ImageUpProps {
 function ImageUp({ image, setImage }: ImageUpProps) {
   let urlImg = '';
 
+  const [loading, setLoading] = React.useState(false);
+
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
+    setLoading(true);
 
     if (file) {
       const formData = new FormData();
       formData.append('file', file);
 
-      try {
-        const response = await imageAPI.create(formData);
-        urlImg = `${ROUTES_RELATIVE.image.image}/${response.data.id}/view`;
-        setImage(urlImg);
-      } catch (error) {
-        console.error('Error al subir la imagen:', error);
-      }
+      imageAPI
+        .create(formData)
+        .then((r) => {
+          urlImg = `${ROUTES_RELATIVE.image.image}/${r.data.id}/view`;
+          setImage(urlImg);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error('Error al subir la imagen:', error);
+          alert('Error al subir la imagen');
+          setLoading(false);
+        });
     }
   };
 
   return (
-    <div className="w-[330px] h-[300px] relative">
-      <div className="absolute top-0 right-0">
-        {image ? (
-          <button
-            onClick={(e) => {
-              e.preventDefault();
-              setImage('');
-            }}
-          >
-            {deleteImg}
-          </button>
-        ) : (
-          ''
-        )}
-      </div>
-      <div className="absolute bottom-3 right-3">
-        <label>
-          {image ? updateImg : ''}
-          <input
-            className="relative"
-            type="file"
-            id="image-upload"
-            accept="image/*"
-            style={{ display: 'none' }}
-            onChange={handleImageUpload}
-          />
-        </label>
-      </div>
-      {image ? (
-        <div className="flex items-center justify-center w-[330px] h-[300px]">
-          <img
-            src={image}
-            alt="Imagen cargada"
-            width="330"
-            height="300"
-            className={`rounded-b-[20px] w-[330px] h-[300px] object-contain`}
-          />
+    <div className="w-[330px] h-[300px] relative flex justify-center">
+      {loading ? (
+        <div className="translate-y-[10%]">
+          <Loader />
         </div>
       ) : (
-        <div className="flex justify-center items-center w-[330px] h-[300px]">
-          {upImage(handleImageUpload)}
+        <div>
+          <div className="absolute top-0 right-0">
+            {image && (
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  setImage('');
+                }}
+              >
+                {deleteImg}
+              </button>
+            )}
+          </div>
+          <div className="absolute bottom-3 right-3">
+            <label>
+              {image && updateImg}
+              <input
+                className="relative"
+                type="file"
+                id="image-upload"
+                accept="image/*"
+                style={{ display: 'none' }}
+                onChange={handleImageUpload}
+              />
+            </label>
+          </div>
+          <div>
+            {image ? (
+              <div className="flex items-center justify-center w-[330px] h-[300px]">
+                <img
+                  src={image}
+                  alt="Imagen cargada"
+                  width="330"
+                  height="300"
+                  className={`rounded-b-[20px] w-[330px] h-[300px] object-contain`}
+                />
+              </div>
+            ) : (
+              <div className="flex justify-center items-center w-[330px] h-[300px]">
+                {upImage(handleImageUpload)}
+              </div>
+            )}
+          </div>
         </div>
       )}
     </div>
