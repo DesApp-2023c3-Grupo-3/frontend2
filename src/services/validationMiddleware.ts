@@ -36,9 +36,11 @@ export const setTokens = (accessToken: string, refreshToken: string) => {
 
 export const getHeaders = () => {
     const accessToken = getTokens().accessToken
-    return {headers: {
+    return {
+      headers: {
         'Authorization': accessToken
-    }}
+      }
+    }
 }
 
 export var handleCall = async (callBack: any, args: any[]) => {
@@ -48,7 +50,6 @@ export var handleCall = async (callBack: any, args: any[]) => {
     } catch (error) {
         try {
             const {data} = await tokenApi.refresh({"refreshToken": `${getTokens().refreshToken}`});
-            getHeaders().headers.Authorization = `Bearer ${data.accessToken}`;
             setTokens(data.accessToken, data.refreshToken);
             const serverResponse = await callBack(...args, getHeaders());
             return serverResponse
