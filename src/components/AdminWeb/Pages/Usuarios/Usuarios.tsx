@@ -307,7 +307,12 @@ function Usuarios() {
           title="Usuarios"
           placeholder="Buscar usuarios..."
         >
-          <FormMobile />
+          <FormMobile
+            setUserJSON={setUsersJSON}
+            user={editRow}
+            isEditing={isEditing}
+            closeModal={closeModal}
+          />
         </MobileBody>
       )}
     </>

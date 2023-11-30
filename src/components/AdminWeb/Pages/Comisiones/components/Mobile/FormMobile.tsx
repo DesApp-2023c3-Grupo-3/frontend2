@@ -189,7 +189,7 @@ export function FormMobile({
   );
 }
 
-const previous = (
+export const previous = (
   <svg
     className="flex justify-center items-center"
     xmlns="http://www.w3.org/2000/svg"
