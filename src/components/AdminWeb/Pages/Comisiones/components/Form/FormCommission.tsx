@@ -252,12 +252,21 @@ function FormCommission({
         </div>
       </form>
       <div className="flex justify-between mx-6 mt-6">
-        <Button
-          onClick={downloadTemplate}
-          active={hasDocument}
-          type={2}
-          label={'DESCARGAR TEMPLATE'}
-        />
+        {selectedSector.length !== 0 ? (
+          <Button
+            onClick={downloadTemplate}
+            active={hasDocument}
+            type={2}
+            label={'DESCARGAR TEMPLATE'}
+          />
+        ) : (
+          <Button
+            onClick={() => {}}
+            active={true}
+            type={5}
+            label={'DESCARGAR TEMPLATE'}
+          />
+        )}
         {loadingButton ? (
           <Loader
             type={2}
