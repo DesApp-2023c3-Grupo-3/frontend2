@@ -68,7 +68,7 @@ export function FormMobile({
 
   const downloadTemplate = () => {
     setLoadingDownload(true);
-    commissionApi.download().finally(() => {
+    commissionApi.download(selectedSector[0].id).finally(() => {
       setLoadingDownload(false);
     });
   };

@@ -7,17 +7,16 @@ import Loader from '../../../../components/Loader';
 import ErrorMessage from '../../../../components/ErrorMessage';
 import { validationDate } from '../../../../utils/validationDate';
 import DatePickerDays from '../../../../components/DatePickerDays';
-import { error } from 'console';
 
 interface FormCommissionProps {
   commissionsJSON: Commission[];
-  setCommissionsJSON: React.Dispatch<React.SetStateAction<Commission[]>>;
+  updateCommissionsTable: () => void;
   closeModal: () => void;
 }
 
 function FormCommission({
   commissionsJSON,
-  setCommissionsJSON,
+  updateCommissionsTable,
   closeModal,
 }: FormCommissionProps) {
   const [hasDocument, setHasDocument] = useState<boolean>(false);
@@ -70,17 +69,8 @@ function FormCommission({
     }
   };
 
-  const updateCommissionsTable = async () => {
-    try {
-      const updatedCommissions: any = await commissionApi.getAll();
-      setCommissionsJSON((updatedCommissions?.data as Commission[]) || []);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   const downloadTemplate = () => {
-    commissionApi.download();
+    commissionApi.download(selectedSector[0].id);
   };
 
   const hasValidCommission = () => {
@@ -262,12 +252,21 @@ function FormCommission({
         </div>
       </form>
       <div className="flex justify-between mx-6 mt-6">
-        <Button
-          onClick={downloadTemplate}
-          active={hasDocument}
-          type={2}
-          label={'DESCARGAR TEMPLATE'}
-        />
+        {selectedSector.length !== 0 ? (
+          <Button
+            onClick={downloadTemplate}
+            active={hasDocument}
+            type={2}
+            label={'DESCARGAR TEMPLATE'}
+          />
+        ) : (
+          <Button
+            onClick={() => {}}
+            active={true}
+            type={5}
+            label={'DESCARGAR TEMPLATE'}
+          />
+        )}
         {loadingButton ? (
           <Loader
             type={2}

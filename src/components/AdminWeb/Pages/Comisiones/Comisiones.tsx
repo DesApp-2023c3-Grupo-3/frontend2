@@ -118,7 +118,7 @@ function Comisiones() {
             placeholder="Buscar Comision"
           >
             <FormMobile
-              setCommissionsJSON={setCommissionsJSON}
+              setCommissionsJSON={updateCommissionsTable}
               closeModal={closeModal}
             />
           </MobileBody>
@@ -145,7 +145,7 @@ function Comisiones() {
                   >
                     <FormCommission
                       commissionsJSON={commissionsJSON}
-                      setCommissionsJSON={setCommissionsJSON}
+                      updateCommissionsTable={updateCommissionsTable}
                       closeModal={closeModal}
                     />
                   </Modal>
