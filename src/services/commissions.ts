@@ -3,9 +3,9 @@ import { ROUTES_RELATIVE } from '../routes/route.relatives';
 import { getTokens, handleCall } from './validationMiddleware';
 
 export const commissionApi = {
-  download: async function() {
+  download: async function(id: number) {
     try {
-      const response = await axios.get(ROUTES_RELATIVE.course.downloadCommission, { 
+      const response = await axios.get(`${ROUTES_RELATIVE.course.downloadCommission}/${id}`, { 
         responseType: 'blob',
         headers: {
           "Authorization": `${getTokens().accessToken}`
@@ -14,7 +14,10 @@ export const commissionApi = {
       const blob = new Blob([response.data], { type: response.headers['content-type'] });
       const link = document.createElement('a');
       link.href = window.URL.createObjectURL(blob);
-      link.click();
+    link.download = 'Comisiones.xlsx';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
       return true;
     } catch (error) {
       return false;
