@@ -14,7 +14,6 @@ function LoginScreen({
   setTokensOnLogin: Function;
 }) {
   const navigate = useNavigate();
-  const [state, updateState] = useState({});
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const screenIdRef = useRef<HTMLInputElement>(null);
@@ -26,12 +25,24 @@ function LoginScreen({
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     // TODO Validacion screen
-
+    if (invalidScreenId()) {
+      setInvalidNotice('El código de pantalla es invalido.');
+      return;
+    }
     if (screenIdRef.current?.value.trim() !== '') {
       navigateToScreen();
       return;
     }
 
+    // Validacion login
+    if (invalidUsername()) {
+      setInvalidNotice('No se ha encontrado el usuario.');
+      return;
+    }
+    if (invalidPassword()) {
+      setInvalidNotice('La contraseña es incorrecta.');
+      return;
+    }
     const routeNavigation: any = () => {
       const rolId: number = getPayload().tokenRoleId;
       return rolId == 3 ? '/comission' : '/advertising';
@@ -43,7 +54,7 @@ function LoginScreen({
         `${passwordRef.current?.value}`,
       );
     } catch (error) {
-      setInvalidNotice('El usuario o contraseña no son correctos.');
+      setInvalidNotice('Hubo un problema con la generación de tokens.');
       console.error(error);
       return;
     }
@@ -52,15 +63,15 @@ function LoginScreen({
   };
 
   const invalidUsername = () => {
-    return usernameRef.current?.value.trim() !== '';
+    return usernameRef.current?.value.trim() === '';
   };
 
   const invalidPassword = () => {
-    return (passwordRef.current?.value?.length || 0) < 6;
+    return passwordRef.current?.value.trim() === '';
   };
 
   const invalidScreenId = () => {
-    return isNaN(parseInt(screenIdRef.current?.value.trim() as string));
+    return passwordRef.current?.value.trim() === '1';
   };
 
   const generateTokens = async (dni: string, password: string) => {
@@ -74,11 +85,9 @@ function LoginScreen({
     );
   };
 
-  const isEmpty = (str: any) =>
-    !str.current || str.current?.value.trim() === '';
-
   const navigateToScreen = () => {
-    if (!/Mobi|Android/i.test(navigator.userAgent)) return;
+    // Intento de conexion ID pantalla
+    // TODO Vista de error
     setScreenId(screenIdRef.current?.value || 1);
     navigate('/screen');
   };
@@ -120,14 +129,12 @@ function LoginScreen({
               placeholder="Nombre de usuario"
               name="username"
               ref={usernameRef}
-              onChange={() => updateState({})}
             />
             <input
               type="password"
               placeholder="Contraseña"
               name="password"
               ref={passwordRef}
-              onChange={() => updateState({})}
             />
             <span
               className={
@@ -147,9 +154,7 @@ function LoginScreen({
             <button type="submit" className="mt-4 font-bold">
               Ingresar
             </button>
-            <span className="max-w-[12rem] text-center error">
-              {invalidNotice}
-            </span>
+            <span className="max-w-[12rem] text-center">{invalidNotice}</span>
           </form>
           <img
             src={unahurLogo}
