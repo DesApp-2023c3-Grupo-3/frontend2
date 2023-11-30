@@ -43,7 +43,7 @@ function LoginScreen({
         `${passwordRef.current?.value}`,
       );
     } catch (error) {
-      setInvalidNotice('El usuario o contraseña no son correctos.');
+      setInvalidNotice('El usuario o contraseña son incorrectos.');
       console.error(error);
       return;
     }
@@ -78,7 +78,7 @@ function LoginScreen({
     !str.current || str.current?.value.trim() === '';
 
   const navigateToScreen = () => {
-    if (!/Mobi|Android/i.test(navigator.userAgent)) return;
+    if (/Mobi|Android/i.test(navigator.userAgent)) return;
     setScreenId(screenIdRef.current?.value || 1);
     navigate('/screen');
   };
