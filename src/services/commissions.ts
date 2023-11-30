@@ -14,7 +14,10 @@ export const commissionApi = {
       const blob = new Blob([response.data], { type: response.headers['content-type'] });
       const link = document.createElement('a');
       link.href = window.URL.createObjectURL(blob);
-      link.click();
+    link.download = 'Comisiones.xlsx';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
       return true;
     } catch (error) {
       return false;
