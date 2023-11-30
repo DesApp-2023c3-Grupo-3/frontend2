@@ -1,11 +1,16 @@
 import axios from 'axios';
 import { ROUTES_RELATIVE } from '../routes/route.relatives';
-import { handleCall } from './validationMiddleware';
+import { getTokens, handleCall } from './validationMiddleware';
 
 export const commissionApi = {
   download: async function() {
     try {
-      const response = await handleCall(axios.get, [ROUTES_RELATIVE.course.downloadCommission, { responseType: 'blob' }]);
+      const response = await axios.get(ROUTES_RELATIVE.course.downloadCommission, { 
+        responseType: 'blob',
+        headers: {
+          "Authorization": `${getTokens().accessToken}`
+        }
+      });
       const blob = new Blob([response.data], { type: response.headers['content-type'] });
       const link = document.createElement('a');
       link.href = window.URL.createObjectURL(blob);
