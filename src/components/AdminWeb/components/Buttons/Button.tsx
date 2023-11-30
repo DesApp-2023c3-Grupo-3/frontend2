@@ -16,8 +16,8 @@ function Button({ onClick, active, type, label, className }: ButtonProps) {
 
   const deactivated =
     'bg-[#D9D9D9] text-[#B0B0B0] rounded-[30px] py-[16px] w-[300px] h-[40px] font-[600] text-[20px] hover:cursor-not-allowed';
-  
-    const createType =
+
+  const createType =
     'bg-[#2C9CBF] rounded-[15px] py-[16px] w-[300px] text-white font-[600] text-[20px] hover:bg-[#2c9dbfc5]';
 
   const deleteType =
@@ -43,7 +43,7 @@ function Button({ onClick, active, type, label, className }: ButtonProps) {
       break;
     case 4:
       style = createMobile;
-      break
+      break;
     case 5:
       style = deactivated;
   }
