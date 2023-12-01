@@ -37,7 +37,7 @@ function TableRow({ item, index, columns, onRowClick, rowRef }: TableRowProps) {
             <div
               className={`
             ${columnName === 'Rol' && isMobile && 'flex justify-center'}
-            overflow-hidden text-ellipsis w-[100px]
+            overflow-hidden text-ellipsis w-[100%]
             `}
             >
               {columns.get(columnName)?.call(item, item) || '-'}

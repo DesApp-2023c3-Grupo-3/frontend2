@@ -12,6 +12,7 @@ import Swal from 'sweetalert2';
 import { MobileBody } from '../../components/Mobile/MobileBody';
 import { FormMobile } from './components/Form/FormMobile';
 import { userDiv } from '../../utils/userDiv';
+import { useIsMobile } from '../../hooks/useIsMobile';
 
 function Usuarios() {
   const [usersJSON, setUsersJSON] = useState<User[]>([]);
@@ -109,7 +110,10 @@ function Usuarios() {
       name: '',
       dni: '',
       password: '',
-      role: selectedRole,
+      role: {
+        id: -1,
+        name: 'Rol del usuario',
+      },
     });
     updateState({});
     openModal();
@@ -175,7 +179,7 @@ function Usuarios() {
     updateUsersTable();
   }, []);
 
-  const isMobile = window.innerWidth <= 768;
+  const isMobile = useIsMobile();
 
   const tableColumnsMobile = new Map<string, (user: any) => void>();
   tableColumnsMobile.set('DNI', (user: User) => user.dni);
@@ -308,7 +312,7 @@ function Usuarios() {
           placeholder="Buscar usuarios..."
         >
           <FormMobile
-            setUserJSON={setUsersJSON}
+            setUserJSON={updateUsersTable}
             user={editRow}
             isEditing={isEditing}
             closeModal={closeModal}

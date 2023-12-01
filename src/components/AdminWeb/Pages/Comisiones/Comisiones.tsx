@@ -11,6 +11,7 @@ import Loader from '../../components/Loader';
 import React from 'react';
 import { MobileBody } from '../../components/Mobile/MobileBody';
 import { FormMobile } from './components/Mobile/FormMobile';
+import { useIsMobile } from '../../hooks/useIsMobile';
 
 function Comisiones() {
   const [commissionsJSON, setCommissionsJSON] = useState<any[]>([]);
@@ -82,23 +83,7 @@ function Comisiones() {
     ],
   ]);
 
-  const [isMobile, setIsMobile] = React.useState(
-    window.matchMedia('(max-width: 768px)').matches,
-  );
-
-  React.useEffect(() => {
-    const mediaQuery = window.matchMedia('(max-width: 768px)');
-
-    const handleResize = () => {
-      setIsMobile(mediaQuery.matches);
-    };
-
-    mediaQuery.addEventListener('change', handleResize);
-
-    return () => {
-      mediaQuery.removeEventListener('change', handleResize);
-    };
-  }, []);
+  const isMobile = useIsMobile();
 
   return (
     <>
