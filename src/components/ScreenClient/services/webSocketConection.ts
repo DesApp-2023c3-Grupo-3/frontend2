@@ -6,8 +6,9 @@ export const initializeSocketConnection = async (
   onMessageAction: any,
 ): Promise<WebSocket> => {
   try {
-    const wsUrl = `wss://${HOST}:${PORT}/messaging`;
+    const wsUrl = `${HOST}`;
     const ws = new WebSocket(wsUrl);
+    console.log(ws)
 
     ws.addEventListener('open', () => {
       console.info(`WebSocket Connected ${wsUrl}`);
