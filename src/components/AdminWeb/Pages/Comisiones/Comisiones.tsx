@@ -108,7 +108,7 @@ function Comisiones() {
             />
           </MobileBody>
         ) : (
-          <div>
+          <div className="w-full h-full">
             <h1 className="text-[4rem] font-[700] text-[#484848] tracking-[-1.28px] mt-[20px]">
               Comisiones
             </h1>
