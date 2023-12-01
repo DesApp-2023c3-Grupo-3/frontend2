@@ -32,7 +32,7 @@ export function FormMobile({
 
   const [currentStep, setCurrentStep] = React.useState(1);
   const [loadingSave, setLoadingSave] = React.useState(false);
-  const [_, updateState] = React.useState({});
+  const [loadingDelete, setLoadingDelete] = React.useState(false);
 
   const [selectedRole, setSelectedRole] = React.useState<UserRole>(
     user?.role || {
@@ -110,6 +110,7 @@ export function FormMobile({
       validateField('rol');
       return;
     }
+    setLoadingSave(true);
     if (isEditing) {
       userApi
         .update({
@@ -122,7 +123,8 @@ export function FormMobile({
         .then(() => {
           setUserJSON();
           closeModal();
-        });
+        })
+        .finally(() => setLoadingSave(false));
     } else {
       userApi
         .create({
@@ -134,7 +136,8 @@ export function FormMobile({
         .then(() => {
           setUserJSON();
           closeModal();
-        });
+        })
+        .finally(() => setLoadingSave(false));
     }
   };
 
@@ -149,7 +152,7 @@ export function FormMobile({
       cancelButtonColor: '#d33',
       confirmButtonText: 'Si, borrar.',
     }).then((result) => {
-      setLoadingSave(true);
+      setLoadingDelete(true);
       if (result.isConfirmed && user) {
         userApi
           .delete(user)
@@ -159,10 +162,10 @@ export function FormMobile({
               title: 'Se ha eliminado el usuario',
             });
             closeModal();
-            setLoadingSave(false);
           })
           .then(() => setUserJSON())
-          .catch((error) => console.error(error));
+          .catch((error) => console.error(error))
+          .finally(() => setLoadingDelete(false));
       }
       if (result.isDenied || result.isDismissed) {
         setLoadingSave(false);
@@ -218,7 +221,6 @@ export function FormMobile({
                 defaultValue={user?.name}
                 ref={usernameRef}
                 onChange={() => {
-                  updateState({});
                   validateField('username');
                 }}
                 value={username}
@@ -274,12 +276,16 @@ export function FormMobile({
             <div className="flex justify-center">
               {isEditing && (
                 <div>
-                  <button
-                    onClick={handleDeleteUserClick}
-                    className="bg-[red] w-[40px] h-[40px] rounded-full flex justify-center items-center mr-3"
-                  >
-                    {trash}
-                  </button>
+                  {!loadingDelete ? (
+                    <button
+                      onClick={handleDeleteUserClick}
+                      className="bg-[red] w-[40px] h-[40px] rounded-full flex justify-center items-center mr-3"
+                    >
+                      {trash}
+                    </button>
+                  ) : (
+                    <Loader type={1} color={'error'} className="mr-2" />
+                  )}
                 </div>
               )}
               <div className="flex justify-center">
@@ -309,7 +315,7 @@ export function FormMobile({
                       label={'GUARDAR'}
                     />
                   ) : (
-                    <Loader />
+                    <Loader type={2} className="w-[70vw]" />
                   )}
                 </div>
               </div>
