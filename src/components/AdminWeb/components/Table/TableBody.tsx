@@ -29,13 +29,18 @@ function TableBody({ dataJSON, columns, onRowClick, rowRef }: TableBodyProps) {
                       ? 'w-[3em] flex justify-center'
                       : 'w-[auto] min-w-[180px] px-4 py-4 '
                   } 
-                  ${columnName === 'Estado' ? 'w-[16px] ' : ''}
+                  ${columnName === 'Estado' ? 'w-[16px]' : ''}
                   ${
                     isMobile
                       ? 'min-w-[33vw] max-w-[33vw] w-[33vw] text-[20px]'
                       : ''
                   }
                   ${isMiniMobile ? ' text-[18px]' : ''}
+                  ${columnName === 'Rol' && isMobile && 'flex justify-center'}
+                  ${
+                    columnName === 'Estado' && isMobile && 'flex justify-center'
+                  }
+
                   `}
               >
                 {columnName}

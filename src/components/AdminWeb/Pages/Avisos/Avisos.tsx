@@ -8,6 +8,8 @@ import dayjs from 'dayjs';
 import { DesktopBody } from './components/Body/DesktopBody';
 import { MobileBody } from '../../components/Mobile/MobileBody';
 import { FormMobile } from './components/Form/Mobile/FormMobile';
+import { userDiv } from '../../utils/userDiv';
+import { useIsMobile } from '../../hooks/useIsMobile';
 
 function Avisos() {
   const [advertisingsJSON, setAdvertisingsJSON] = React.useState<Advertising[]>(
@@ -57,14 +59,6 @@ function Avisos() {
     GetData();
   }, []);
 
-  const user = (name: string) => {
-    return (
-      <div className="m-2 flex justify-center items-center text-white text-[32px] font-[500] bg-[#2C9CBF] rounded-full w-[60px] h-[60px] text-center">
-        {name}
-      </div>
-    );
-  };
-
   const sectores = (advertising: Advertising) =>
     advertising.advertisingSectors
       .map((sector) => sector.sector.name)
@@ -99,7 +93,7 @@ function Avisos() {
     [
       '',
       (advertising: Advertising) => {
-        return user(advertising.user.role.name.charAt(0));
+        return userDiv(advertising.user.role.name.charAt(0));
       },
     ],
     [
@@ -166,23 +160,7 @@ function Avisos() {
     today: 'bg-[#C2B222]',
   };
 
-  const [isMobile, setIsMobile] = React.useState(
-    window.matchMedia('(max-width: 768px)').matches,
-  );
-
-  React.useEffect(() => {
-    const mediaQuery = window.matchMedia('(max-width: 768px)');
-
-    const handleResize = () => {
-      setIsMobile(mediaQuery.matches);
-    };
-
-    mediaQuery.addEventListener('change', handleResize);
-
-    return () => {
-      mediaQuery.removeEventListener('change', handleResize);
-    };
-  }, []);
+  const isMobile = useIsMobile();
 
   return (
     <>
