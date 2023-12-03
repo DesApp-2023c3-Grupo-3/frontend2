@@ -1,4 +1,8 @@
-export const API = process.env.REACT_APP_API || `http://${window.location.hostname}:4000`|| "http://186.12.145.198:4000"
+const HOST = process.env.REACT_APP_API ;
+const PORT = process.env.REACT_APP_PORT ;
+export const API =
+  `${HOST}:${PORT}`;
+
 export const ROUTES_RELATIVE = {
     course: {
       commission: `${API}/course`,
@@ -18,5 +22,18 @@ export const ROUTES_RELATIVE = {
     screen: {
       getAll: '/screen',
       update: '/screen'
+    },
+    sector: {
+      getSectors: `${API}/sector`
+    },
+    user: {
+      users: `${API}/user`,
+      createUser: `${API}/auth/register`,
+      deleteUser: `${API}/user`,
+      updateUser: `${API}/user`
+    },
+    auth: {
+      login: `${API}/auth/login`,
+      refreshToken: `${API}/auth/refresh-token`
     }
 }

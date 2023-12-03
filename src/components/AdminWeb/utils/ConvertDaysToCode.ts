@@ -1,4 +1,4 @@
-import { Days, daysOfTheWeek } from "../Pages/Avisos/components/Modal/DayPicker";
+import { Days, daysOfTheWeek } from "../Pages/Avisos/components/Form/DayPicker";
 
 const dayCodesToNumbers : any = {
   DO: 0,

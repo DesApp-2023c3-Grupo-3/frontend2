@@ -1,12 +1,13 @@
-import Modal from '../../components/Modal';
-import FormAdvertising from './components/Modal/FormAdvertising';
 import { useModal } from '../../hooks/useModal';
 import { Advertising } from '../../types/customTypes';
 import React from 'react';
 import { advertisingsAPI } from '../../../../services/advertisings';
-import Table from '../../components/Table/Table';
+import { Helmet } from 'react-helmet';
 import { abbreviateSectorName } from '../../utils/AbbreviateSectorName';
 import dayjs from 'dayjs';
+import { DesktopBody } from './components/Body/DesktopBody';
+import { MobileBody } from '../../components/Mobile/MobileBody';
+import { FormMobile } from './components/Form/Mobile/FormMobile';
 
 function Avisos() {
   const [advertisingsJSON, setAdvertisingsJSON] = React.useState<Advertising[]>(
@@ -15,6 +16,8 @@ function Avisos() {
 
   const [editRow, setEditRow] = React.useState<Advertising>();
   const [isEditing, setIsEditing] = React.useState(false);
+
+  const [loading, setLoading] = React.useState(false);
 
   const handleRowClick = (advertising: any) => {
     setEditRow(advertising);
@@ -32,13 +35,18 @@ function Avisos() {
     }, 250);
   };
 
-  const idRolUser = 1; // TODO: id del rol del usuario logeado
-
   const GetData = () => {
+    setLoading(true);
     advertisingsAPI
-      .getAll(idRolUser)
+      .getAll()
       .then((r) => {
-        setAdvertisingsJSON(r.data);
+        const orderedData = r.data.sort((a: any, b: any) => {
+          const order = ['active', 'today', 'pending', 'deprecated'];
+          return order.indexOf(a.status) - order.indexOf(b.status);
+        });
+
+        setAdvertisingsJSON(orderedData);
+        setLoading(false);
       })
       .catch((e) => {
         console.error(e);
@@ -65,14 +73,19 @@ function Avisos() {
 
   const dayOrder = ['Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa', 'Do'];
 
-  const schedule = (advertising: Advertising) =>
-    advertising.advertisingSchedules
-      .map((schedule) => schedule.schedule.dayCode)
-      .map((d) => d.charAt(0).toUpperCase() + d.slice(1).toLowerCase())
-      .sort((a, b) => {
-        return dayOrder.indexOf(a) - dayOrder.indexOf(b);
-      })
-      .join('-');
+  const schedule = (advertising: Advertising) => {
+    if (advertising.advertisingSchedules.length === 7) {
+      return 'Todos los días';
+    } else {
+      return advertising.advertisingSchedules
+        .map((schedule) => schedule.schedule.dayCode)
+        .map((d) => d.charAt(0).toUpperCase() + d.slice(1).toLowerCase())
+        .sort((a, b) => {
+          return dayOrder.indexOf(a) - dayOrder.indexOf(b);
+        })
+        .join('-');
+    }
+  };
 
   const starthour = (advertising: Advertising) =>
     dayjs(advertising.advertisingSchedules[0].schedule.startHour).format(
@@ -82,7 +95,7 @@ function Avisos() {
   const endhour = (advertising: Advertising) =>
     dayjs(advertising.advertisingSchedules[0].schedule.endHour).format('HH:mm');
 
-  const tableColumns = new Map<string, (advertising: any) => void>([
+  const tableColumnsDesktop = new Map<string, (advertising: any) => void>([
     [
       '',
       (advertising: Advertising) => {
@@ -121,6 +134,21 @@ function Avisos() {
     ],
   ]);
 
+  const tableColumnsMobile = new Map<string, (user: any) => void>([
+    [
+      'Nombre',
+      (advertising: Advertising) => {
+        return advertising.name;
+      },
+    ],
+    [
+      'Estado',
+      (advertising: Advertising) => {
+        return status(advertising);
+      },
+    ],
+  ]);
+
   const status = (advertising: Advertising) => {
     return (
       <div
@@ -138,35 +166,63 @@ function Avisos() {
     today: 'bg-[#C2B222]',
   };
 
-  return (
-    <section className="mx-[3%]">
-      <h1 className="text-[4rem] font-[700] text-[#484848] tracking-[-1.28px] mt-[20px]">
-        Avisos
-      </h1>
+  const [isMobile, setIsMobile] = React.useState(
+    window.matchMedia('(max-width: 768px)').matches,
+  );
 
-      <div className="mt-[-70px] ">
-        <Table
-          dataJSON={advertisingsJSON}
-          columns={tableColumns}
-          onRowClick={handleRowClick}
-        />
-        <div className="flex justify-end">
-          <Modal
-            isOpen={isOpen}
+  React.useEffect(() => {
+    const mediaQuery = window.matchMedia('(max-width: 768px)');
+
+    const handleResize = () => {
+      setIsMobile(mediaQuery.matches);
+    };
+
+    mediaQuery.addEventListener('change', handleResize);
+
+    return () => {
+      mediaQuery.removeEventListener('change', handleResize);
+    };
+  }, []);
+
+  return (
+    <>
+      <Helmet>
+        <title>Administrador de cartelera | Avisos</title>
+      </Helmet>
+      {isMobile ? (
+        <MobileBody
+          dataJson={advertisingsJSON}
+          tableColumns={tableColumnsMobile}
+          handleRowClick={handleRowClick}
+          isOpen={isOpen}
+          onCloseClick={onCloseClick}
+          openModal={openModal}
+          loading={loading}
+          title="Avisos"
+          placeholder="Buscar Avisos"
+        >
+          <FormMobile
+            setAdvertisingsJSON={GetData}
             closeModal={onCloseClick}
-            openModal={openModal}
-            label="NUEVO AVISO"
-          >
-            <FormAdvertising
-              setAdvertisingsJSON={GetData}
-              closeModal={onCloseClick}
-              isCreate={!isEditing}
-              advertising={editRow}
-            />
-          </Modal>
-        </div>
-      </div>
-    </section>
+            isCreate={!isEditing}
+            advertising={editRow}
+          />
+        </MobileBody>
+      ) : (
+        <DesktopBody
+          advertisingsJSON={advertisingsJSON}
+          tableColumns={tableColumnsDesktop}
+          handleRowClick={handleRowClick}
+          isOpen={isOpen}
+          onCloseClick={onCloseClick}
+          openModal={openModal}
+          GetData={GetData}
+          isEditing={isEditing}
+          editRow={editRow}
+          loading={loading}
+        />
+      )}
+    </>
   );
 }
 

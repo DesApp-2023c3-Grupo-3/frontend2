@@ -1,20 +1,21 @@
 import axios from 'axios';
 import { ROUTES_RELATIVE } from '../routes/route.relatives';
+import { handleCall } from './validationMiddleware';
 
 export const advertisingsAPI = {
-    getAll: function(rolId: number){
-        return axios.get(`${ROUTES_RELATIVE.advertising.advertising}/role/${rolId}`)
+    getAll: function(){
+        return handleCall(axios.get, [`${ROUTES_RELATIVE.advertising.advertising}`])
     },
     getId: function(id : number) {
-        return axios.get(`${ROUTES_RELATIVE.advertising.advertising}/${id}`)
+        return handleCall(axios.get, [`${ROUTES_RELATIVE.advertising.advertising}/${id}`])
     },
     create: function(advertisingData : any) {
-        return axios.post(ROUTES_RELATIVE.advertising.advertising, advertisingData);
+        return handleCall(axios.post, [ROUTES_RELATIVE.advertising.advertising, advertisingData]);
     },
     edit: function(id : number, advertising : any) {
-        return axios.patch(`${ROUTES_RELATIVE.advertising.advertising}/${id}`, advertising)
+        return handleCall(axios.patch, [`${ROUTES_RELATIVE.advertising.advertising}/${id}`, advertising])
     },
     delete: function(id:number) {
-        return axios.delete(`${ROUTES_RELATIVE.advertising.advertising}/${id}`)
+        return handleCall(axios.delete, [`${ROUTES_RELATIVE.advertising.advertising}/${id}`])
     }
 }

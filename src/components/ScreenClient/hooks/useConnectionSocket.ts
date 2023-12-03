@@ -4,21 +4,33 @@ import { Message } from '../mocks/imagenes';
 import { useConnectionMessage } from '../store/useConnectionMessage';
 import { useAdvertisingMessages } from '../store/useAdvertisingMessages';
 import { useCourseMessages } from '../store/useCourseMessage';
+import { useNavigate } from 'react-router-dom'
 
 const ACTION_MESSAGE = {
-  CREATE_COURSE: 'CREATE_COURSES',
-  CREATE_ADVERTISING: 'CREATE_ADVERTISING',
   START_CONNECTION: 'START_CONNECTION',
-  UPDATE_SCREEN_CONFIGURATION: 'UPDATE_SCREEN_CONFIGURATION'
+  UPDATE_SCREEN_CONFIGURATION: 'UPDATE_SCREEN_CONFIGURATION',
+  SCREEN_REMOTE_DISCONNECT: 'SCREEN_REMOTE_DISCONNECT',
+  CREATE_ADVERTISING: 'CREATE_ADVERTISING',
+  UPDATE_ADVERTISING: 'UPDATE_ADVERTISING',
+  DELETE_ADVERTISING: 'DELETE_ADVERTISING',
+  CREATE_COURSE: 'CREATE_COURSES',
 }
 
 export function useConnectionSocket(screenId: number) {
   const [socketConnection, setSocketConnection] = useState<any>();
   const [error, setError] = useState<Error>();
+  const navigate = useNavigate()
   
   const setConnection = useConnectionMessage(state => state.setConnection)
-  const addAdvertisingMessage = useAdvertisingMessages(state => state.addAdvertisingMessage)
+
+  const [addAdvertisingMessage, updateAdvertising, deleteAdvertising] = useAdvertisingMessages(state => 
+    [state.addAdvertisingMessage, state.updateAdvertising, state.deleteAdvertising])
+
   const addCourseMessages = useCourseMessages(state => state.addCourseMessages)
+
+  const finishConnection = () => {
+    navigate('/')
+  }
 
   const handlerOnMessage = (message: Message) => {
     const newMessage = message.data
@@ -35,6 +47,15 @@ export function useConnectionSocket(screenId: number) {
         break
       case ACTION_MESSAGE.UPDATE_SCREEN_CONFIGURATION:
         setConnection(newMessage.data)
+        break
+      case ACTION_MESSAGE.UPDATE_ADVERTISING:
+        updateAdvertising(newMessage.data)
+        break
+      case ACTION_MESSAGE.DELETE_ADVERTISING:
+        deleteAdvertising(newMessage.data)
+        break
+      case ACTION_MESSAGE.SCREEN_REMOTE_DISCONNECT:
+        finishConnection()
         break
     }
   };

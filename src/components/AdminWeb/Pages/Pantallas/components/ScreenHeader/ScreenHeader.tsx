@@ -1,5 +1,5 @@
 import { useScreenFilters } from '../../store/useScreenFilters';
-import ButtonDisabled from '../ButtonDisabled';
+import ButtonDisabled from '../Button/ButtonDisabled';
 import SelectAllFilter from './components/SelectAllFilter';
 import SelectSectorFilter from './components/SelectSectorFilter';
 import React from 'react';
@@ -14,12 +14,12 @@ function ScreenHeader({ openConfig }: { openConfig: () => void }) {
   const isAnyScreenSelected = screens.some((screen) => screen.isSelected);
 
   return (
-    <header className="flex justify-between items-center w-full">
-      <h1 className="text-[4rem] font-[700] text-[#484848] tracking-[-1.28px]">
+    <header className="flex flex-col justify-between items-center w-full xl:flex-row">
+      <h1 className="text-[3rem] font-[700] text-[#484848] xl:text-[4rem]">
         Pantallas
       </h1>
       <form
-        className="flex justify-end gap-10 items-center w-full"
+        className="flex flex-col justify-end gap-3 mb-3 items-center w-full xl:mb-0 xl:flex-row xl:gap-10"
         onSubmit={handleSubmit}
       >
         <SelectAllFilter />

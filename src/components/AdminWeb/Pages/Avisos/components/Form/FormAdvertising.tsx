@@ -1,25 +1,24 @@
 import DatePickerDays from '../../../../components/DatePickerDays';
-import Sectores, { Sector } from '../../../../components/Sectores';
+import Sectores from '../../../../components/Sectores';
 import ImageTextVideo from './ImageTextVideo/ImageTextVideo';
-import DayPicker, { Days } from './DayPicker';
+import DayPicker from './DayPicker';
 import PickerTime from '../../../../components/PickerTime';
 import Swal from 'sweetalert2';
 import './form.sass';
-import dayjs, { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 import { Advertising } from '../../../../types/customTypes';
 import ErrorMessage from '../../../../components/ErrorMessage';
 import Button from '../../../../components/Buttons/Button';
 import * as React from 'react';
 import { advertisingsAPI } from '../../../../../../services/advertisings';
-import {
-  convertCodesToDays,
-  convertDaysToNumbers,
-} from '../../../../utils/ConvertDaysToCode';
-import { usePayload } from '../../../../hooks/usePayload';
+import { convertDaysToNumbers } from '../../../../utils/ConvertDaysToCode';
 import { validationDate } from '../../../../utils/validationDate';
-import { convertCodesToSectors } from '../../../../utils/AbbreviateSectorName';
+import { useAdvertisingData } from '../../../../hooks/useAdvertisingData';
+import { InputName } from './InputNameAdvertising';
+import { getPayload } from '../../../../../../services/validationMiddleware';
+import Loader from '../../../../components/Loader';
 
-function messageError(message: string) {
+export function messageError(message: string) {
   Swal.fire({
     icon: 'error',
     title: 'Oops...',
@@ -29,7 +28,7 @@ function messageError(message: string) {
 }
 
 //Alerts
-const Toast = Swal.mixin({
+export const Toast = Swal.mixin({
   toast: true,
   position: 'top-end',
   showConfirmButton: false,
@@ -54,60 +53,33 @@ function FormAdvertising({
   isCreate,
   advertising,
 }: FormAdvertisingProps) {
-  const [advertisingName, setAdvertisingName] = React.useState(
-    advertising ? advertising.name : '',
-  );
-
-  const [startHour, setStartHour] = React.useState<Dayjs | null>(
-    advertising
-      ? dayjs(advertising?.advertisingSchedules[0].schedule.startHour)
-      : null,
-  );
-  const [endHour, setEndHour] = React.useState<Dayjs | null>(
-    advertising
-      ? dayjs(advertising?.advertisingSchedules[0].schedule.endHour)
-      : null,
-  );
-
-  const [startDate, setStartDate] = React.useState<Dayjs | null>(
-    advertising
-      ? dayjs(advertising?.advertisingSchedules[0].schedule.startDate)
-      : null,
-  );
-  const [endDate, setEndDate] = React.useState<Dayjs | null>(
-    advertising
-      ? dayjs(advertising?.advertisingSchedules[0].schedule.endDate)
-      : null,
-  );
-
-  const codeDays = advertising?.advertisingSchedules.map(
-    (s) => s.schedule.dayCode,
-  );
-
-  const dayslist = codeDays ? convertCodesToDays(codeDays) : [];
-
-  const [selectedDays, setSelectedDays] = React.useState<Days[]>(
-    advertising ? dayslist : [],
-  );
-
-  const sectorIds = advertising?.advertisingSectors.map((s) => s.sector.id);
-
-  const sectors = sectorIds ? convertCodesToSectors(sectorIds) : [];
-
-  const [selectedSector, setSelectedSector] = React.useState<Sector[]>(
-    advertising ? sectors : [],
-  );
-
   const {
+    advertisingName,
+    startHour,
+    endHour,
+    startDate,
+    endDate,
+    selectedDays,
+    selectedSector,
     text,
     image,
     video,
     type,
+    setAdvertisingName,
+    setStartHour,
+    setEndHour,
+    setStartDate,
+    setEndDate,
+    setSelectedDays,
+    setSelectedSector,
     setTextPayload,
     setImagePayload,
     setVideoPayload,
     setType,
-  } = usePayload(advertising);
+  } = useAdvertisingData(advertising);
+
+  const [loading, setLoading] = React.useState(false);
+  const [loadingDelete, setLoadingDelete] = React.useState(false);
 
   const invalidName = () => {
     return advertisingName === '';
@@ -168,6 +140,7 @@ function FormAdvertising({
       cancelButtonColor: '#d33',
       confirmButtonText: 'Si, borrar.',
     }).then((result) => {
+      setLoadingDelete(true);
       if (result.isConfirmed) {
         if (advertising) {
           advertisingsAPI
@@ -179,6 +152,7 @@ function FormAdvertising({
               });
               setAdvertisingsJSON();
               closeModal();
+              setLoadingDelete(false);
             })
             .catch((error) => console.error(error));
         }
@@ -215,7 +189,7 @@ function FormAdvertising({
         id: type,
       },
       user: {
-        id: 1,
+        id: getPayload().userId,
       },
       sectors: sectores,
       schedules: schedules,
@@ -244,7 +218,7 @@ function FormAdvertising({
       messageError('Falta seleccionar los días de la semana.');
     } else if (validationDate(startHour, endHour)) {
       messageError('Falta completar el horario de los avisos.');
-    } else if (endDate !== null && startDate !== null && endDate <= startDate) {
+    } else if (endDate !== null && startDate !== null && endDate < startDate) {
       messageError('La fecha final no debe ser anterior a la de inicio.');
     } else if (payload === '') {
       messageError('Falta agregarle al aviso un texto, video o imagen.');
@@ -252,6 +226,7 @@ function FormAdvertising({
       messageError('URL YouTube incorrecta.');
     } else {
       if (isCreate) {
+        setLoading(true);
         advertisingsAPI
           .create(newAdvertising)
           .then((r) => {
@@ -261,10 +236,12 @@ function FormAdvertising({
               icon: 'success',
               title: 'Se ha creado el aviso',
             });
+            setLoading(false);
           })
           .catch((error) => console.error(error));
       } else {
         if (advertising) {
+          setLoading(true);
           advertisingsAPI
             .edit(advertising.id, newAdvertising)
             .then((r) => {
@@ -274,6 +251,7 @@ function FormAdvertising({
                 icon: 'success',
                 title: 'Se ha editado el aviso',
               });
+              setLoading(false);
             })
             .catch((error) => console.error(error));
         }
@@ -284,36 +262,27 @@ function FormAdvertising({
   return (
     <div>
       <form className="mx-10">
-        <div className=" flex h-[90px] justify-between items-center">
-          <div className="flex-col justify-center relative">
-            <input
-              id="advertisingName"
-              type="text"
-              placeholder="Nombre del aviso..."
-              className={`text-[20px] font-[400] tracking-[-0.4px] rounded-[30px] bg-[#D9D9D9] flex w-[365px] h-[50px] px-[40px] py-[12px] items-center ${
-                emptyFields.advertisingName && invalidName()
-                  ? 'invalid-field'
-                  : ''
-              }`}
-              value={advertisingName}
-              onChange={(e) => {
-                setAdvertisingName(e.target.value);
-              }}
-              defaultValue={advertisingName}
-              autoComplete="off"
-            ></input>
+        <div className=" flex my-5 justify-between items-center">
+          <div className="flex-col w-[365px] h-[50px]">
+            <InputName
+              emptyFields={emptyFields}
+              invalidName={invalidName}
+              advertisingName={advertisingName}
+              setAdvertisingName={setAdvertisingName}
+            />
             {ErrorMessage(
               '*Falta completar el nombre del aviso.',
               invalidName() && emptyFields.advertisingName,
             )}
           </div>
-          <div className="flex-col justify-center">
+          <div className="flex-col w-[365px] h-[50px]">
             <Sectores
               selectedSector={selectedSector}
               onSelectedSectorChange={setSelectedSector}
-              campos={emptyFields}
+              hasError={emptyFields.selectedSector && invalidSectors()}
+              canChooseMany={true}
             />
-            <div>
+            <div className="">
               {ErrorMessage(
                 '*Falta seleccionar los sectores.',
                 emptyFields.selectedSector && invalidSectors(),
@@ -359,7 +328,7 @@ function FormAdvertising({
               )}
             </div>
           </div>
-          <div className="pr-[1em] pt-[20px] z-[999]">
+          <div className="pr-[1em] pt-[20px]">
             <ImageTextVideo
               text={text}
               image={image}
@@ -379,24 +348,36 @@ function FormAdvertising({
       </form>
       <div className="flex justify-between mt-[2em] mx-[4.5em]">
         <div>
-          {!isCreate ? (
-            <Button
-              onClick={handleDeleteAdvertisingClick}
-              active={true}
-              type={3}
-              label="ELIMINAR"
-            />
-          ) : (
-            ''
+          {!isCreate && (
+            <div className="w-[300px]">
+              {loadingDelete ? (
+                <Loader
+                  type={2}
+                  color={'error'}
+                  className="w-[200px] translate-y-3 "
+                />
+              ) : (
+                <Button
+                  onClick={handleDeleteAdvertisingClick}
+                  active={true}
+                  type={3}
+                  label="ELIMINAR"
+                />
+              )}
+            </div>
           )}
         </div>
-        <div className="">
-          <Button
-            onClick={handleSendAdvertisingClick}
-            active={true}
-            type={1}
-            label="GUARDAR"
-          />
+        <div className="w-[300px] flex justify-center">
+          {loading ? (
+            <Loader type={2} className="w-[200px] translate-y-3" />
+          ) : (
+            <Button
+              onClick={handleSendAdvertisingClick}
+              active={true}
+              type={1}
+              label="GUARDAR"
+            />
+          )}
         </div>
       </div>
     </div>
