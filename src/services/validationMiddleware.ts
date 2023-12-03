@@ -37,17 +37,9 @@ export const setTokens = (accessToken: string, refreshToken: string) => {
 
 export const getHeaders = () => {
     const accessToken = getTokens().accessToken
-<<<<<<< HEAD
-    return {
-      headers: {
-        'Authorization': accessToken
-      }
-    }
-=======
     return {headers: {
         'Authorization': `Bearer ${accessToken}`
     }}
->>>>>>> 21d54de824f8f204e91e190f34a0793c9e1311c5
 }
 
 export function RedirectToLogin() {
@@ -65,14 +57,10 @@ export const handleCall = async (callBack: any, args: any[]) => {
     console.log("estoy dentro del handlecall. mandame al login boludo")
     try {
         try {
-<<<<<<< HEAD
-            const {data} = await tokenApi.refresh({"refreshToken": `${getTokens().refreshToken}`});
-=======
             const serverResponse = await callBack(...args, getHeaders());
             return serverResponse;
         } catch (error) {
             const { data } = await tokenApi.refresh({ "refreshToken": `${getTokens().refreshToken}` });
->>>>>>> 21d54de824f8f204e91e190f34a0793c9e1311c5
             setTokens(data.accessToken, data.refreshToken);
             const serverResponse = await callBack(...args, getHeaders());
             return serverResponse;
