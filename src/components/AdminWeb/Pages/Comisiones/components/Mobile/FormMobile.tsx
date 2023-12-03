@@ -68,7 +68,7 @@ export function FormMobile({
 
   const downloadTemplate = () => {
     setLoadingDownload(true);
-    commissionApi.download().finally(() => {
+    commissionApi.download(selectedSector[0].id).finally(() => {
       setLoadingDownload(false);
     });
   };
@@ -189,7 +189,7 @@ export function FormMobile({
   );
 }
 
-const previous = (
+export const previous = (
   <svg
     className="flex justify-center items-center"
     xmlns="http://www.w3.org/2000/svg"

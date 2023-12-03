@@ -14,6 +14,9 @@ function Button({ onClick, active, type, label, className }: ButtonProps) {
     ? 'border-solid border-2 border-lime-400 bg-[#ffffff] text-[#74C91E] rounded-[30px] py-[16px] w-[300px] h-[40px] font-[600] text-[20px] hover:text-lime-300 hover:border-lime-200 hover:bg-lime-400'
     : 'bg-[#74C91E] text-white rounded-[30px] py-[16px] w-[300px] h-[40px] font-[600] text-[20px] hover:bg-[#8EEB2F]';
 
+  const deactivated =
+    'bg-[#D9D9D9] text-[#B0B0B0] rounded-[30px] py-[16px] w-[300px] h-[40px] font-[600] text-[20px] hover:cursor-not-allowed';
+
   const createType =
     'bg-[#2C9CBF] rounded-[15px] py-[16px] w-[300px] text-white font-[600] text-[20px] hover:bg-[#2c9dbfc5]';
 
@@ -40,6 +43,9 @@ function Button({ onClick, active, type, label, className }: ButtonProps) {
       break;
     case 4:
       style = createMobile;
+      break;
+    case 5:
+      style = deactivated;
   }
 
   return (

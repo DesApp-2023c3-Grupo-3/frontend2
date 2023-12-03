@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import adminPicture from './assets/admin.png';
-import { getPayload } from '../../services/validationMiddleware';
+import { getPayload, setTokens } from '../../services/validationMiddleware';
 
 function Navbar() {
   const [navDeployed, setNavDeployed] = useState(
@@ -11,6 +11,10 @@ function Navbar() {
   const switchNavbar = () => {
     if (!/Mobi|Android/i.test(navigator.userAgent)) return;
     setNavDeployed(!navDeployed);
+  };
+
+  const clearTokens = () => {
+    setTokens('', '');
   };
 
   return (
@@ -66,7 +70,7 @@ function Navbar() {
           <NavLink to="/admin/user">Administrar usuarios</NavLink>
         ) : null}
       </div>
-      <NavLink to="/" className="sign-out mt-auto">
+      <NavLink to="/" onClick={clearTokens} className="sign-out mt-auto">
         Cerrar sesion
       </NavLink>
       <img

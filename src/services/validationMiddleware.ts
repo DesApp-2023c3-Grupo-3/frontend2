@@ -1,5 +1,6 @@
 // TODO: Persistir obtencion del token
 import { tokenApi } from "./auth"
+import { useNavigate } from "react-router-dom";
 
 export const getTokens = () => {
     let accessToken = localStorage.getItem("accessToken");
@@ -30,31 +31,54 @@ export const getPayload = () => {
 }
 
 export const setTokens = (accessToken: string, refreshToken: string) => {
-    localStorage.setItem("accessToken", `Bearer ${accessToken}`);
+    localStorage.setItem("accessToken", accessToken);
     localStorage.setItem("refreshToken", refreshToken);
 }
 
 export const getHeaders = () => {
     const accessToken = getTokens().accessToken
+<<<<<<< HEAD
     return {
       headers: {
         'Authorization': accessToken
       }
     }
+=======
+    return {headers: {
+        'Authorization': `Bearer ${accessToken}`
+    }}
+>>>>>>> 21d54de824f8f204e91e190f34a0793c9e1311c5
 }
 
-export var handleCall = async (callBack: any, args: any[]) => {
+export function RedirectToLogin() {
+    const navigate = useNavigate() 
+    navigate('/');
+}
+
+export function redirectToLogin() {
+    window.history.pushState({}, '', '/')
+    window.history.go(0)
+    setTokens('', '');
+}
+
+export const handleCall = async (callBack: any, args: any[]) => {
+    console.log("estoy dentro del handlecall. mandame al login boludo")
     try {
-        const serverResponse = await callBack(...args, getHeaders());
-        return serverResponse
-    } catch (error) {
         try {
+<<<<<<< HEAD
             const {data} = await tokenApi.refresh({"refreshToken": `${getTokens().refreshToken}`});
+=======
+            const serverResponse = await callBack(...args, getHeaders());
+            return serverResponse;
+        } catch (error) {
+            const { data } = await tokenApi.refresh({ "refreshToken": `${getTokens().refreshToken}` });
+>>>>>>> 21d54de824f8f204e91e190f34a0793c9e1311c5
             setTokens(data.accessToken, data.refreshToken);
             const serverResponse = await callBack(...args, getHeaders());
-            return serverResponse
-        } catch (error) {
-            console.error("Refresh Token Error:", error)
+            return serverResponse;
         }
+    } catch (error) {
+        console.error("Refresh Token Error:", error);
+        redirectToLogin()
     }
-};
+}

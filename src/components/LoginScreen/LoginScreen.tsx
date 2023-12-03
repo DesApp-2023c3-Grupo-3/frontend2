@@ -54,7 +54,7 @@ function LoginScreen({
         `${passwordRef.current?.value}`,
       );
     } catch (error) {
-      setInvalidNotice('Hubo un problema con la generación de tokens.');
+      setInvalidNotice('El usuario o contraseña son incorrectos.');
       console.error(error);
       return;
     }
@@ -86,8 +86,8 @@ function LoginScreen({
   };
 
   const navigateToScreen = () => {
-    // Intento de conexion ID pantalla
-    // TODO Vista de error
+    if (/Mobi|Android/i.test(navigator.userAgent)) return;
+
     setScreenId(screenIdRef.current?.value || 1);
     navigate('/screen');
   };
