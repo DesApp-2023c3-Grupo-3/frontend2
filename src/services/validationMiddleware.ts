@@ -54,7 +54,6 @@ export function redirectToLogin() {
 }
 
 export const handleCall = async (callBack: any, args: any[]) => {
-    console.log("estoy dentro del handlecall. mandame al login boludo")
     try {
         try {
             const serverResponse = await callBack(...args, getHeaders());
