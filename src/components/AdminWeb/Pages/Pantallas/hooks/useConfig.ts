@@ -6,13 +6,13 @@ export interface ConfigProps {
     courseIntervalTime: number
 }
 
-export function useConfig({ advertisingIntervalTime, courseIntervalTime }:ConfigProps) {
+export function useConfig() {
     const screens = useScreenFilters(state => state.screens)
     const [config, setConfig] = useState({
-        advertisingIntervalTime,
-        courseIntervalTime
+        advertisingIntervalTime:15,
+        courseIntervalTime:15
     })
-
+    
     useEffect(() => {
         const selectedScreens = screens.filter(screen => screen.isSelected)
         if(selectedScreens.length === 1) {

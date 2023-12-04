@@ -7,11 +7,7 @@ import ButtonSection from './components/ButtonSection';
 
 function ScreenConfig({ closeModal }: { closeModal: () => void }) {
   const { config, changeCourseIntervalTime, changeAdvertisingIntervalTime } =
-    useConfig({
-      advertisingIntervalTime: 15,
-      courseIntervalTime: 15,
-    });
-
+    useConfig();
   const { cards, selectCard, cardSelected, isAnyCardSelected } = useCard();
 
   return (

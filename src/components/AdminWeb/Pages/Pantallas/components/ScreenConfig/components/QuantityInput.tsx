@@ -9,7 +9,7 @@ export default function QuantityInput({
   title: string;
   onChange: (newConfig: number) => void;
 }) {
-  const [count, setCount] = useState(15);
+  const [count, setCount] = useState(intervalTime);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const newValue = Math.max(Number(event.currentTarget.value), 1);
