@@ -9,7 +9,7 @@ export default function useFetchScreens() {
         screenAPI.getAll()
           .then(screens => {
             const newScreens = screens.data.map((screen:any) => {
-              const { id, templeteId, subscription, sector } = screen
+              const { id, templeteId, subscription, sector, courseIntervalTime, advertisingIntervalTime } = screen
     
               return ({
                 id,
@@ -18,6 +18,8 @@ export default function useFetchScreens() {
                 typeScreen: templeteId,
                 subscription,
                 isSelected: false,
+                courseIntervalTime,
+                advertisingIntervalTime,
                 sector: {
                   id: sector.id,
                   name: sector.name,

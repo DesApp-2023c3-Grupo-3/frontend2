@@ -1,6 +1,8 @@
+import { ConfigProps } from '../../../hooks/useConfig';
 import QuantityInput from './QuantityInput';
 
 interface ConfigurationProps {
+  config: ConfigProps;
   isAnySelected: boolean;
   cardSelectedId: number | undefined;
   onChangeAdvertising: (advertisingIntervalTime: number) => void;
@@ -8,6 +10,7 @@ interface ConfigurationProps {
 }
 
 export default function QuantityConfiguration({
+  config,
   isAnySelected,
   cardSelectedId,
   onChangeAdvertising,
@@ -19,12 +22,14 @@ export default function QuantityConfiguration({
         <>
           {cardSelectedId !== 3 && (
             <QuantityInput
+              intervalTime={config.advertisingIntervalTime}
               title="Velocidad de los avisos"
               onChange={onChangeAdvertising}
             />
           )}
           {cardSelectedId === 1 && (
             <QuantityInput
+              intervalTime={config.courseIntervalTime}
               title="Velocidad de las comisiones"
               onChange={onChangeCourse}
             />

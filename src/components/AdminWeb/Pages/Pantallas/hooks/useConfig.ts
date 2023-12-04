@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useScreenFilters } from '../store/useScreenFilters';
 
 export interface ConfigProps {
     advertisingIntervalTime: number,
@@ -6,10 +7,19 @@ export interface ConfigProps {
 }
 
 export function useConfig({ advertisingIntervalTime, courseIntervalTime }:ConfigProps) {
+    const screens = useScreenFilters(state => state.screens)
     const [config, setConfig] = useState({
         advertisingIntervalTime,
         courseIntervalTime
     })
+
+    useEffect(() => {
+        const selectedScreens = screens.filter(screen => screen.isSelected)
+        if(selectedScreens.length === 1) {
+            changeAdvertisingIntervalTime(selectedScreens[0].advertisingIntervalTime)
+            changeCourseIntervalTime(selectedScreens[0].courseIntervalTime)
+        }
+    }, [])
 
     const changeCourseIntervalTime = (courseIntervalTime:number) => {
         setConfig(previousState => ({

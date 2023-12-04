@@ -7,6 +7,8 @@ export interface Screen {
     typeScreen: string,
     subscription: string,
     isSelected: boolean,
+    advertisingIntervalTime: number
+    courseIntervalTime: number
     sector: {
         id:number,
         topic:string,

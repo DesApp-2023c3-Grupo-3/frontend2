@@ -20,6 +20,7 @@ function ScreenConfig({ closeModal }: { closeModal: () => void }) {
       <ListOfCards cards={cards} onClick={selectCard} />
 
       <QuantityConfiguration
+        config={config}
         isAnySelected={isAnyCardSelected}
         cardSelectedId={cardSelected?.id}
         onChangeAdvertising={changeAdvertisingIntervalTime}
