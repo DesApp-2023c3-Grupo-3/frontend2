@@ -8,6 +8,7 @@ import { useScreenFilters } from '../../store/useScreenFilters';
 import ScreenSelectedInfo from './components/ScreenSelectedInfo';
 import { screenAPI } from '../../../../../../services/screens';
 import Button from '../Button/Button';
+import QuantityConfiguration from './components/QuantityConfiguration';
 
 const Toast = Swal.mixin({
   toast: true,
@@ -95,24 +96,13 @@ function ScreenConfig({ closeModal }: { closeModal: () => void }) {
         ))}
       </div>
 
-      <div className="flex flex-col md:gap-24 md:flex-row">
-        {isAnyCardSelected && (
-          <>
-            {cardSelected?.id !== 3 && (
-              <QuantityInput
-                title="Velocidad de los avisos"
-                onChange={changeAdvertisingIntervalTime}
-              />
-            )}
-            {cardSelected?.id === 1 && (
-              <QuantityInput
-                title="Velocidad de las comisiones"
-                onChange={changeCourseIntervalTime}
-              />
-            )}
-          </>
-        )}
-      </div>
+      <QuantityConfiguration
+        isAnySelected={isAnyCardSelected}
+        cardSelectedId={cardSelected?.id}
+        onChangeAdvertising={changeAdvertisingIntervalTime}
+        onChangeCourse={changeCourseIntervalTime}
+      />
+
       <div className="flex text-xl md:text-2xl gap-5 font-[500] text-white">
         {cardSelected || selectedScreens.length > 1 ? (
           <ButtonDisabled
