@@ -27,9 +27,11 @@ interface ButtonProps {
   cardSelected: Card | undefined;
   closeModal: () => void;
   isAnyCardSelected: boolean;
+  selectedSectorId: number;
 }
 
 export default function ButtonSection({
+  selectedSectorId,
   config,
   cardSelected,
   closeModal,
@@ -50,7 +52,7 @@ export default function ButtonSection({
     });
 
     const mappedScreens = selectedScreens.map((screen) => {
-      const { id, typeScreen, subscription, sector } = screen;
+      const { id, typeScreen, subscription } = screen;
 
       return {
         id,
@@ -58,7 +60,9 @@ export default function ButtonSection({
         subscription,
         courseIntervalTime: config.courseIntervalTime,
         advertisingIntervalTime: config.advertisingIntervalTime,
-        sector,
+        sector: {
+          id: selectedSectorId,
+        },
       };
     });
 
