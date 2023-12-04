@@ -35,7 +35,10 @@ export default function ButtonSection({
   closeModal,
   isAnyCardSelected,
 }: ButtonProps) {
-  const screens = useScreenFilters((state) => state.screens);
+  const [screens, addScreens] = useScreenFilters((state) => [
+    state.screens,
+    state.addScreens,
+  ]);
   const selectedScreens = screens.filter((screen) => screen.isSelected);
   const deselectAllTheScreens = useScreenFilters(
     (state) => state.deselectAllTheScreens,
@@ -78,6 +81,20 @@ export default function ButtonSection({
   };
 
   const handleUpdateClick = () => {
+    const filteredScreens = screens.filter(
+      (screen) =>
+        !selectedScreens.find((screenAux) => screen.id === screenAux.id),
+    );
+    const newScreens = selectedScreens.map((screen) => {
+      screen.advertisingIntervalTime = config.advertisingIntervalTime;
+      screen.courseIntervalTime = config.courseIntervalTime;
+
+      return screen;
+    });
+    newScreens.forEach((selectedScreens) =>
+      filteredScreens.push(selectedScreens),
+    );
+    addScreens(filteredScreens);
     handleSuccessfulMessage('Se aplico correctamente', updateScreens());
   };
 
