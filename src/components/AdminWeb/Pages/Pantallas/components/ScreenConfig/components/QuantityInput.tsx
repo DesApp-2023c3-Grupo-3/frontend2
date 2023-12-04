@@ -10,8 +10,9 @@ export default function QuantityInput({
   const [count, setCount] = useState(15);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setCount(Math.max(Number(event.currentTarget.value), 1));
-    onChange(count);
+    const newValue = Math.max(Number(event.currentTarget.value), 1);
+    setCount(newValue);
+    onChange(newValue);
   };
 
   const handleClick = (result: number) => {
@@ -20,7 +21,7 @@ export default function QuantityInput({
   };
 
   return (
-    <div className="flex flex-col text-lg md:text-2xl items-center">
+    <div className="flex flex-col text-sm md:text-2xl items-center">
       <span className="text-black">{title}</span>
       <label className="flex gap-4 items-center text-[#2C9CBF] font-semibold">
         {count < 2 ? (

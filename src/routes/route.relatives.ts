@@ -20,8 +20,9 @@ export const ROUTES_RELATIVE = {
       advertisingScreen: `${API}/advertising/screen`,
     },
     screen: {
-      getAll: '/screen',
-      update: '/screen'
+      getAll: `${API}/screen`,
+      update: `${API}/screen/multiple`,
+      disconnect: `${API}/screen/disconnect`
     },
     sector: {
       getSectors: `${API}/sector`
