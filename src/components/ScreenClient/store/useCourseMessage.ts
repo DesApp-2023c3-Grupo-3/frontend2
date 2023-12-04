@@ -31,6 +31,9 @@ export const useCourseMessages = create<StoreCourse>()((set, get) => ({
       set({
         courseMessages: []
       })
+      set({
+        avalaibleCourseMessages: []
+      })
     },
 
     addCourseMessages: (messages: DataCourse[]) => {
