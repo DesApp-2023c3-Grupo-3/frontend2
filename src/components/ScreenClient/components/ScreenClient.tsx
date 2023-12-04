@@ -32,7 +32,6 @@ function ScreenClient({ screenId }: { screenId: number }) {
       ) : (
         <Loader />
       )}
-      ;
     </>
   );
 }
