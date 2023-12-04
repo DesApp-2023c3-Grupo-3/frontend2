@@ -32,6 +32,9 @@ export const ROUTES_RELATIVE = {
       deleteUser: `${API}/user`,
       updateUser: `${API}/user`
     },
+    role: {
+      getAll: `${API}/role`
+    },
     auth: {
       login: `${API}/auth/login`,
       refreshToken: `${API}/auth/refresh-token`

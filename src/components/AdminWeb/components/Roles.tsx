@@ -1,12 +1,8 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useState, useEffect } from 'react';
 import { Listbox, Transition } from '@headlessui/react';
 import { abbreviateSectorName } from '../utils/AbbreviateSectorName';
-
-const sectors = [
-  { id: 1, name: 'Administrador' },
-  { id: 2, name: 'Comunicaciones' },
-  { id: 3, name: 'Gestión' },
-];
+import { roleApi } from '../../../services/roles';
+import Loader from './Loader';
 
 interface RolesProps {
   selectedRole: UserRole;
@@ -14,6 +10,28 @@ interface RolesProps {
 }
 
 function Sectores({ selectedRole, onSelectedRoleChange }: RolesProps) {
+  const [userRoleArray, setUserRoleArray] = useState<UserRole[]>();
+  const [loading, setLoading] = useState(false);
+
+  const updateUserRoleArray = async () => {
+    setLoading(true);
+    try {
+      const updatedRoles: UserRole[] = (await roleApi.getAll()) || [];
+      setUserRoleArray(updatedRoles);
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const isSelected = (sector: any) => {
+    return selectedRole.id === sector.id;
+  };
+
+  useEffect(() => {
+    updateUserRoleArray();
+  }, []);
+
   return (
     <div className="w-[365px] h-[50px] mt-[17px]">
       <Listbox value={selectedRole} onChange={onSelectedRoleChange}>
@@ -55,38 +73,48 @@ function Sectores({ selectedRole, onSelectedRoleChange }: RolesProps) {
             leaveTo="opacity-0"
           >
             <Listbox.Options className="bg-white w-[254px] mx-auto flex-row justify-center items-center shadow-lg rounded-t-[2px] rounded-b-[10px] py-4">
-              {sectors.map((sector, sextorIdx) => (
-                <div key={sextorIdx} className="flex justify-center">
-                  <Listbox.Option
-                    className={({ active, selected }) =>
-                      ` border-2 border-[#919191] flex justify-start items-center relative cursor-pointer mb-[3px] rounded-[20px] h-[30px] px-6
-                              ${
-                                active
-                                  ? 'bg-[#2C9CBF] text-white'
-                                  : 'text-[#919191]'
-                              }
-                              ${selected ? 'bg-[#2C9CBF] border-[#2C9CBF]' : ''}
-                              `
-                    }
-                    value={sector}
-                    onClick={() => {
-                      onSelectedRoleChange(sector);
-                    }}
-                  >
-                    {({ selected }) => (
-                      <div className="flex justify-start items-center">
-                        <span
-                          className={`truncate flex justify-start items-center${
-                            selected ? 'font-medium text-white ' : 'font-normal'
-                          }`}
-                        >
-                          {abbreviateSectorName(sector.name)}
-                        </span>
-                      </div>
-                    )}
-                  </Listbox.Option>
-                </div>
-              ))}
+              {loading ? (
+                <Loader />
+              ) : (
+                userRoleArray?.map((role) => (
+                  <div key={role.id} className="flex justify-center">
+                    <Listbox.Option
+                      className={({ active, selected }) =>
+                        ` border-2 border-[#919191] flex justify-start items-center relative cursor-pointer mb-[3px] rounded-[20px] h-[30px] px-6
+                                ${
+                                  active
+                                    ? 'bg-[#2C9CBF] text-white'
+                                    : 'text-[#919191]'
+                                }
+                                ${
+                                  selected
+                                    ? 'bg-[#2C9CBF] border-[#2C9CBF]'
+                                    : ''
+                                }
+                                `
+                      }
+                      value={role}
+                      onClick={() => {
+                        onSelectedRoleChange(role);
+                      }}
+                    >
+                      {({ selected }) => (
+                        <div className="flex justify-start items-center">
+                          <span
+                            className={`truncate flex justify-start items-center${
+                              selected
+                                ? 'font-medium text-white '
+                                : 'font-normal'
+                            }`}
+                          >
+                            {abbreviateSectorName(role.name)}
+                          </span>
+                        </div>
+                      )}
+                    </Listbox.Option>
+                  </div>
+                ))
+              )}
             </Listbox.Options>
           </Transition>
         </div>
@@ -96,8 +124,3 @@ function Sectores({ selectedRole, onSelectedRoleChange }: RolesProps) {
 }
 
 export default Sectores;
-
-interface Sector {
-  id: number;
-  name: string;
-}
