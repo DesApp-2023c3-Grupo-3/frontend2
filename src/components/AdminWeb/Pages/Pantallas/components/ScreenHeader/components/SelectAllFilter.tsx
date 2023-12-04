@@ -7,23 +7,23 @@ function SelectAllFilter() {
     state.isSelectedAll,
     state.setIsSelectedAll,
   ]);
-  const selectAllTheScreens = useScreenFilters(
-    (state) => state.selectAllTheScreens,
-  );
-  const deselectAllTheScreens = useScreenFilters(
-    (state) => state.deselectAllTheScreens,
-  );
+  const [screens, deselectAllTheScreens, selectAllTheScreens] =
+    useScreenFilters((state) => [
+      state.screens,
+      state.deselectAllTheScreens,
+      state.selectAllTheScreens,
+    ]);
 
   useEffect(() => {
-    if (isSelectedAll) {
-      selectAllTheScreens();
-    } else {
-      deselectAllTheScreens();
-    }
-  }, [isSelectedAll]);
+    setIsSelectedAll(screens.every((screen) => screen.isSelected));
+  }, [screens]);
 
   const handleChange = () => {
-    setIsSelectedAll(!isSelectedAll);
+    if (isSelectedAll) {
+      deselectAllTheScreens();
+    } else {
+      selectAllTheScreens();
+    }
   };
 
   return (

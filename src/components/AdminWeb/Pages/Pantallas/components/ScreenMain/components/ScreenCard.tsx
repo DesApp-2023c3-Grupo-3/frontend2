@@ -28,17 +28,14 @@ function ScreenCard({
   };
 
   return (
-    <section
+    <button
+      onClick={() => selectScreen(id)}
       className={`${
         isSelected
           ? 'border-8 border-[#2C9CBF]'
           : 'hover:border-8 hover:border-[#9F9F9F]'
       }  relative flex flex-col justify-center items-center bg-[#222222] w-48 h-48 rounded-3xl `}
     >
-      <button
-        onClick={() => selectScreen(id)}
-        className="absolute h-full w-full z-50"
-      ></button>
       <div className="flex flex-col justify-center items-center h-full w-full  text-white">
         <span className="text-3xl">{screenTitle}</span>
         <span className="text-lg">{sectorTitle}</span>
@@ -50,7 +47,7 @@ function ScreenCard({
           className="w-full h-full object-cover"
         />
       </div>
-    </section>
+    </button>
   );
 }
 

@@ -15,7 +15,7 @@ function Navbar() {
 
   const clearTokens = () => {
     setTokens('', '');
-  }
+  };
 
   return (
     <nav
