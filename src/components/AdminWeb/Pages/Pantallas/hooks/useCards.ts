@@ -4,6 +4,14 @@ import typeScreenThree from '../../../assets/typeScreen3.png';
 
 import { useState, useEffect } from 'react';
 
+export interface Card {
+  id: number,
+  title: string,
+  description: string,
+  image: string,
+  isSelected: boolean,
+}
+
 const initialCards = [
     {
       id: 1,

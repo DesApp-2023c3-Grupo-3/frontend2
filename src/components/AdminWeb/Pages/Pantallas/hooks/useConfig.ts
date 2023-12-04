@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-interface ConfigProps {
+export interface ConfigProps {
     advertisingIntervalTime: number,
     courseIntervalTime: number
 }
