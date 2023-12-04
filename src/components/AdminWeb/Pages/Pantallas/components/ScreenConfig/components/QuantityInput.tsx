@@ -1,13 +1,15 @@
 import { ChangeEvent, useState } from 'react';
 
 export default function QuantityInput({
+  intervalTime,
   title,
   onChange,
 }: {
+  intervalTime: number;
   title: string;
   onChange: (newConfig: number) => void;
 }) {
-  const [count, setCount] = useState(15);
+  const [count, setCount] = useState(intervalTime);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const newValue = Math.max(Number(event.currentTarget.value), 1);
@@ -32,7 +34,7 @@ export default function QuantityInput({
         <input
           type="text"
           placeholder="15"
-          value={count}
+          value={intervalTime}
           onChange={handleChange}
           className="text-center text-[#484848] w-10 border-2 rounded border-[#BFBFBF]"
         />
