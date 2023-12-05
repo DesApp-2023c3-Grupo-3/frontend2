@@ -154,7 +154,9 @@ function LoginScreen({
             <button type="submit" className="mt-4 font-bold">
               Ingresar
             </button>
-            <span className="max-w-[12rem] text-center">{invalidNotice}</span>
+            <span className="max-w-[12rem] text-center mx-auto">
+              {invalidNotice}
+            </span>
           </form>
           <img
             src={unahurLogo}

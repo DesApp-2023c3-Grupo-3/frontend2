@@ -9,11 +9,13 @@ import { useCourseMessages } from '../store/useCourseMessage';
 import OnlyVideoBillboard from '../pages/BillboardOnlyVideo/OnlyVideoBillboard';
 
 export default function Screen() {
-  const fetchAdvertisingsById = useAdvertisingMessages(
-    (state) => state.fetchAdvertisingsByScreenId,
-  );
-  const fetchCoursesBySectorId = useCourseMessages(
-    (state) => state.fetchAdvertisingsBySectorId,
+  const [fetchAdvertisingsById, emptyAdvertisingsMessages] =
+    useAdvertisingMessages((state) => [
+      state.fetchAdvertisingsByScreenId,
+      state.emptyAdvertisingsMessages,
+    ]);
+  const [fetchCoursesBySectorId, emptyCourseMessages] = useCourseMessages(
+    (state) => [state.fetchAdvertisingsBySectorId, state.emptyCourseMessages],
   );
 
   const typeScreen = useConnectionMessage((state) => state.connectionMessage);
@@ -23,6 +25,11 @@ export default function Screen() {
   useEffect(() => {
     fetchAdvertisingsById(screenId);
     fetchCoursesBySectorId(typeScreen.sector.id);
+
+    return () => {
+      emptyAdvertisingsMessages();
+      emptyCourseMessages();
+    };
   }, []);
 
   const billboards: Record<number, ReactJSXElement> = {

@@ -37,6 +37,9 @@ export const useAdvertisingMessages = create<StoreAdvertising>()((set, get) => (
       set({
         advertisingMessages: []
       })
+      set({
+        avalaibleAdvertisingMessages: []
+      })
     },
 
     addAdvertisingMessage: (message: DataAdvertising) => {
