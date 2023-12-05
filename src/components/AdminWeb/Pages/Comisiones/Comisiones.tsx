@@ -58,9 +58,9 @@ function Comisiones() {
     [
       'Horario',
       (commission: Commission) =>
-        `${dayjs(commission.schedule.startHour).format('hh:mm')} - ${dayjs(
+        `${dayjs(commission.schedule.startHour).format('HH:mm')} - ${dayjs(
           commission.schedule.endHour,
-        ).format('hh:mm')}`,
+        ).format('HH:mm')}`,
     ],
     [
       '',
