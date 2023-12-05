@@ -51,5 +51,8 @@ export const commissionApi = {
     } catch (error) {
         return error;
     }
-  }
+  },
+  delete: function(id:number) {
+    return handleCall(axios.delete, [`${ROUTES_RELATIVE.course.commission}/${id}`])
+}
 }
