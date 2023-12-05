@@ -46,7 +46,7 @@ function ScreenConfig({ closeModal }: { closeModal: () => void }) {
       />
 
       <ButtonSection
-        selectedSectorId={selectedSector[0].id}
+        selectedSector={selectedSector}
         isAnyCardSelected={isAnyCardSelected}
         cardSelected={cardSelected}
         config={config}

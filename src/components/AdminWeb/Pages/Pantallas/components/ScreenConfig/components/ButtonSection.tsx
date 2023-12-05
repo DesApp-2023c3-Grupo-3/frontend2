@@ -5,6 +5,7 @@ import ButtonDisabled from '../../Button/ButtonDisabled';
 import { useScreenFilters } from '../../../store/useScreenFilters';
 import { ConfigProps } from '../../../hooks/useConfig';
 import { Card } from '../../../hooks/useCards';
+import { useState } from 'react';
 
 const Toast = Swal.mixin({
   toast: true,
@@ -27,11 +28,11 @@ interface ButtonProps {
   cardSelected: Card | undefined;
   closeModal: () => void;
   isAnyCardSelected: boolean;
-  selectedSectorId: number;
+  selectedSector: any;
 }
 
 export default function ButtonSection({
-  selectedSectorId,
+  selectedSector,
   config,
   cardSelected,
   closeModal,
@@ -49,10 +50,11 @@ export default function ButtonSection({
   const updateScreens = () => {
     selectedScreens.forEach((screen) => {
       screen.typeScreen = String(cardSelected?.id);
+      screen.sector = selectedSector[0];
     });
 
     const mappedScreens = selectedScreens.map((screen) => {
-      const { id, typeScreen, subscription } = screen;
+      const { id, typeScreen, subscription, sector } = screen;
 
       return {
         id,
@@ -60,12 +62,9 @@ export default function ButtonSection({
         subscription,
         courseIntervalTime: config.courseIntervalTime,
         advertisingIntervalTime: config.advertisingIntervalTime,
-        sector: {
-          id: selectedSectorId,
-        },
+        sector,
       };
     });
-
     return screenAPI.edit(mappedScreens);
   };
 
@@ -92,12 +91,14 @@ export default function ButtonSection({
     const newScreens = selectedScreens.map((screen) => {
       screen.advertisingIntervalTime = config.advertisingIntervalTime;
       screen.courseIntervalTime = config.courseIntervalTime;
+      screen.sectorTitle = selectedSector[0].name;
 
       return screen;
     });
     newScreens.forEach((selectedScreens) =>
       filteredScreens.push(selectedScreens),
     );
+
     addScreens(filteredScreens);
     handleSuccessfulMessage('Se aplico correctamente', updateScreens());
   };
