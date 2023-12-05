@@ -39,6 +39,7 @@ function SearchBar({
             placeholder={placeholder}
             value={searchTerm}
             className="z-[-1]"
+            onChange={onSearchChange}
           />
           <div className="search"></div>
         </div>
