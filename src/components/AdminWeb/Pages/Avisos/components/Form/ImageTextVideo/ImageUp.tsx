@@ -25,7 +25,7 @@ function ImageUp({ image, setImage }: ImageUpProps) {
       imageAPI
         .create(formData)
         .then((r) => {
-          urlImg = `${ROUTES_RELATIVE.image.image}/${r.data.id}/view`;
+          urlImg = `${ROUTES_RELATIVE.image.image}/${r?.data.id}/view`;
           setImage(urlImg);
           setLoading(false);
         })

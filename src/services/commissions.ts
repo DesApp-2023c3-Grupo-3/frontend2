@@ -1,26 +1,45 @@
 import axios from 'axios';
 import { ROUTES_RELATIVE } from '../routes/route.relatives';
-import { getTokens, handleCall } from './validationMiddleware';
+import { getTokens, setTokens, handleCall, redirectToLogin } from './validationMiddleware';
+import { tokenApi } from './auth';
 
 export const commissionApi = {
   download: async function(id: number) {
     try {
-      const response = await axios.get(`${ROUTES_RELATIVE.course.downloadCommission}/${id}`, { 
+      try {
+        const response = await axios.get(`${ROUTES_RELATIVE.course.downloadCommission}/${id}`, { 
         responseType: 'blob',
         headers: {
-          "Authorization": `${getTokens().accessToken}`
-        }
-      });
+          "Authorization": `Bearer ${getTokens().accessToken}`
+        }});
       const blob = new Blob([response.data], { type: response.headers['content-type'] });
       const link = document.createElement('a');
       link.href = window.URL.createObjectURL(blob);
-    link.download = 'Comisiones.xlsx';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+      link.download = 'Comisiones.xlsx';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
       return true;
+      } catch {
+        const { data } = await tokenApi.refresh({ "refreshToken": `${getTokens().refreshToken}` });
+        setTokens(data.accessToken, data.refreshToken);
+        const response = await axios.get(`${ROUTES_RELATIVE.course.downloadCommission}/${id}`, { 
+          responseType: 'blob',
+          headers: {
+            "Authorization": `Bearer ${getTokens().accessToken}`
+          }});
+        const blob = new Blob([response.data], { type: response.headers['content-type'] });
+        const link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.download = 'Comisiones.xlsx';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        return true;
+      }
     } catch (error) {
-      return false;
+      console.error("Refresh Token Error:", error);
+      redirectToLogin()
     }
   },
   post: async function(data: any, endpoint: string) {

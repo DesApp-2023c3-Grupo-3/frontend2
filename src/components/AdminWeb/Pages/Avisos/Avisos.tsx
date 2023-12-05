@@ -93,7 +93,11 @@ function Avisos() {
     [
       '',
       (advertising: Advertising) => {
-        return userDiv(advertising.user.role.name.charAt(0));
+        try {
+          return userDiv(advertising.user.role.name.charAt(0))
+        } catch {
+          return userDiv('R')
+        }
       },
     ],
     [
@@ -105,19 +109,22 @@ function Avisos() {
     [
       'Sector/es',
       (advertising: Advertising) => {
-        return sectores(advertising);
+        try {return sectores(advertising)}
+        catch {return 'sin definir'}
       },
     ],
     [
       'Días',
       (advertising: Advertising) => {
-        return schedule(advertising);
+        try {return schedule(advertising)}
+        catch {return 'sin definir'}
       },
     ],
     [
       'Programación',
       (advertising: Advertising) => {
-        return starthour(advertising) + '-' + endhour(advertising);
+        try {return starthour(advertising) + '-' + endhour(advertising);}
+        catch {return 'sin definir'}
       },
     ],
     [
