@@ -95,7 +95,7 @@ function Comisiones() {
 
   const handleClickDelete = (id: number) => {
     Swal.fire({
-      title: '¿Estás seguro?',
+      title: '¿Estás seguro de eliminar esta comision?',
       text: 'No se podrá recuperar la comision.',
       icon: 'warning',
       showCancelButton: true,
@@ -139,6 +139,10 @@ function Comisiones() {
     );
   };
 
+  const onRowClick = (commission: Commission) => {
+    handleClickDelete(commission.id);
+  };
+
   return (
     <>
       <Helmet>
@@ -155,6 +159,7 @@ function Comisiones() {
             loading={loading}
             title="Comisiones"
             placeholder="Buscar Comision"
+            handleRowClick={(comision) => onRowClick(comision)}
           >
             <FormMobile
               setCommissionsJSON={updateCommissionsTable}
