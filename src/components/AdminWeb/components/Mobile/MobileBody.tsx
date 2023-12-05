@@ -34,7 +34,7 @@ export function MobileBody({
       <section className="mt-[3em] w-full h-full">
         <div className="flex items-center">
           <h1
-            className={` text-[3em] font-[700] text-[#484848] tracking-[-1.28px] ml-[25px] ${
+            className={` text-[3em] font-[700] text-[#484848] tracking-[-1.28px] translate-x-[40px] ${
               isMiniMobile && 'text-[24px]'
             }`}
           >
