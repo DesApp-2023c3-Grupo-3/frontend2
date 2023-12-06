@@ -109,22 +109,19 @@ function Avisos() {
     [
       'Sector/es',
       (advertising: Advertising) => {
-        try {return sectores(advertising)}
-        catch {return 'sin definir'}
+        return sectores(advertising)
       },
     ],
     [
       'Días',
       (advertising: Advertising) => {
-        try {return schedule(advertising)}
-        catch {return 'sin definir'}
+        return schedule(advertising)
       },
     ],
     [
       'Programación',
       (advertising: Advertising) => {
-        try {return starthour(advertising) + '-' + endhour(advertising);}
-        catch {return 'sin definir'}
+        return starthour(advertising) + '-' + endhour(advertising);
       },
     ],
     [
