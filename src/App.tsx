@@ -6,9 +6,11 @@ import AdminWeb from './components/AdminWeb/AdminWeb';
 import LoginScreen from './components/LoginScreen/LoginScreen';
 import { useState } from 'react';
 import { setTokens } from './services/validationMiddleware';
+import { useScreen } from './components/ScreenClient/store/useScreen';
 
 function App() {
-  const [currentScreenId, setCurrentScreenId] = useState(1);
+  const screenId = useScreen((state) => state.screenId);
+  const setScreenId = useScreen((state) => state.setScreenId);
 
   const setTokensOnLogin = (
     newAccessToken: string,
@@ -24,15 +26,12 @@ function App() {
           path="/"
           element={
             <LoginScreen
-              setScreenId={setCurrentScreenId}
+              setScreenId={setScreenId}
               setTokensOnLogin={setTokensOnLogin}
             />
           }
         />
-        <Route
-          path="/screen"
-          element={<ScreenClient screenId={currentScreenId} />}
-        />
+        <Route path="/screen" element={<ScreenClient screenId={screenId} />} />
         <Route path="/admin/*" element={<AdminWeb />} />
       </Routes>
     </BrowserRouter>
