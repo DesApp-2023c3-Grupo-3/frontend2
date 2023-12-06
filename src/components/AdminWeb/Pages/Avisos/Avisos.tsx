@@ -93,11 +93,7 @@ function Avisos() {
     [
       '',
       (advertising: Advertising) => {
-        try {
-          return userDiv(advertising.user.role.name.charAt(0))
-        } catch {
-          return userDiv('R')
-        }
+        return userDiv(advertising.user.role.name.charAt(0));
       },
     ],
     [
@@ -109,13 +105,13 @@ function Avisos() {
     [
       'Sector/es',
       (advertising: Advertising) => {
-        return sectores(advertising)
+        return sectores(advertising);
       },
     ],
     [
       'Días',
       (advertising: Advertising) => {
-        return schedule(advertising)
+        return schedule(advertising);
       },
     ],
     [
