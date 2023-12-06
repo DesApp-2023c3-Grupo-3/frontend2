@@ -9,6 +9,7 @@ interface TableProps {
   columns: Map<string, (data: any) => void>;
   searchableColumns?: string[];
   onRowClick?: (data: any) => void;
+  onRowPress?: (data: any) => void;
   placeholder?: string;
 }
 
@@ -17,6 +18,7 @@ function Table({
   columns,
   searchableColumns = [],
   onRowClick,
+  onRowPress,
   placeholder,
 }: TableProps) {
   const [itemsPerPage, setItemsPerPage] = useState(7);
@@ -105,6 +107,7 @@ function Table({
         columns={columns}
         onRowClick={onRowClick}
         rowRef={rowRef}
+        onRowPress={onRowPress}
       />
       <ThemeProvider theme={theme}>
         <Pagination

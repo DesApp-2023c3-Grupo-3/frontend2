@@ -6,6 +6,7 @@ interface MobileBodyProps {
   dataJson: any[];
   tableColumns: Map<string, (data: any) => void>;
   handleRowClick?: (data: any) => void;
+  handleRowPress?: (data: any) => void;
   isOpen: boolean;
   onCloseClick: () => void;
   openModal: () => void;
@@ -19,6 +20,7 @@ export function MobileBody({
   dataJson,
   tableColumns,
   handleRowClick,
+  handleRowPress,
   isOpen,
   onCloseClick,
   openModal,
@@ -50,6 +52,7 @@ export function MobileBody({
               dataJSON={dataJson}
               columns={tableColumns}
               onRowClick={handleRowClick}
+              onRowPress={handleRowPress}
               placeholder={placeholder}
             />
           </div>

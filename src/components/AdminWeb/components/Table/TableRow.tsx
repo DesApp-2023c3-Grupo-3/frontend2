@@ -1,12 +1,22 @@
+import * as React from 'react';
+
 interface TableRowProps {
   item: any;
   index: number;
   columns: Map<string, (data: any) => void>;
   onRowClick?: (data: any) => void;
+  onRowPress?: (data: any) => void;
   rowRef: React.MutableRefObject<HTMLTableRowElement | null>;
 }
 
-function TableRow({ item, index, columns, onRowClick, rowRef }: TableRowProps) {
+function TableRow({
+  item,
+  index,
+  columns,
+  onRowClick,
+  rowRef,
+  onRowPress,
+}: TableRowProps) {
   const handleRowClick = () => {
     if (onRowClick) {
       onRowClick(item);
@@ -14,6 +24,22 @@ function TableRow({ item, index, columns, onRowClick, rowRef }: TableRowProps) {
   };
 
   const isMobile = window.matchMedia('(max-width: 768px)').matches;
+
+  const [startTime, setStartTime] = React.useState(0);
+
+  const handleMouseDown = () => {
+    setStartTime(Date.now());
+  };
+
+  const handleMouseUp = () => {
+    const endTime = Date.now();
+    const timeHold = endTime - startTime;
+    if (timeHold >= 800) {
+      if (onRowPress) {
+        onRowPress(item);
+      }
+    }
+  };
 
   return (
     <tr
@@ -24,6 +50,8 @@ function TableRow({ item, index, columns, onRowClick, rowRef }: TableRowProps) {
             ${index % 2 === 0 ? 'bg-[#F1F1F1]' : 'bg-[#DFDFDF]'}
             relative
         `}
+      onTouchStart={handleMouseDown}
+      onTouchEnd={handleMouseUp}
     >
       {Array.from(columns.keys()).map((columnName) => {
         return (
@@ -32,7 +60,7 @@ function TableRow({ item, index, columns, onRowClick, rowRef }: TableRowProps) {
             id={columnName}
             className={`py-2 px-6 text-[20px]
             ${isMobile ? 'max-w-[100px] h-[50px]' : 'max-w-[220px] '}
-            relative `}
+            relative`}
           >
             <div
               className={`
