@@ -139,7 +139,7 @@ function Comisiones() {
     );
   };
 
-  const onRowClick = (commission: Commission) => {
+  const onRowPress = (commission: Commission) => {
     handleClickDelete(commission.id);
   };
 
@@ -159,7 +159,7 @@ function Comisiones() {
             loading={loading}
             title="Comisiones"
             placeholder="Buscar Comision"
-            handleRowClick={(comision) => onRowClick(comision)}
+            handleRowPress={(comision) => onRowPress(comision)}
           >
             <FormMobile
               setCommissionsJSON={updateCommissionsTable}

@@ -4,10 +4,17 @@ interface TableBodyProps {
   dataJSON: any[];
   columns: Map<string, (data: any) => void>;
   onRowClick?: (data: any) => void;
+  onRowPress?: (data: any) => void;
   rowRef: React.MutableRefObject<HTMLTableRowElement | null>;
 }
 
-function TableBody({ dataJSON, columns, onRowClick, rowRef }: TableBodyProps) {
+function TableBody({
+  dataJSON,
+  columns,
+  onRowClick,
+  rowRef,
+  onRowPress,
+}: TableBodyProps) {
   const isMobile = window.matchMedia('(max-width: 768px)').matches;
   const isMiniMobile = window.matchMedia('(max-width: 320px)').matches;
 
@@ -57,6 +64,7 @@ function TableBody({ dataJSON, columns, onRowClick, rowRef }: TableBodyProps) {
             index={index}
             columns={columns}
             onRowClick={onRowClick}
+            onRowPress={onRowPress}
             rowRef={rowRef}
           />
         ))}
