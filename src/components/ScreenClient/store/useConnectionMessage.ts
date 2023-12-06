@@ -70,11 +70,11 @@ interface SectorScreen {
 
 type StoreConnection = {
     connectionMessage: DataConnection
-    setConnection: (connection: DataConnection) => void
+    setConnection: (connection: DataConnection, socketConnection: () => void) => void
     emptyConnectionMessage: () => void
 };
 
-export const useConnectionMessage = create<StoreConnection>()(set => ({
+export const useConnectionMessage = create<StoreConnection>()((set, get) => ({
     connectionMessage: INITIAL_CONNECTION_STATE,
   
     emptyConnectionMessage: () => {
@@ -83,7 +83,11 @@ export const useConnectionMessage = create<StoreConnection>()(set => ({
       })
     },
 
-    setConnection: (connection: DataConnection) => {
+    setConnection: (connection: DataConnection, socketConnection: () => void) => {
+      if(get().connectionMessage.sector.id !== 0 && (connection.sector.id !== get().connectionMessage.sector.id)) {
+        socketConnection()
+        window.location.reload()
+      }
       set(({
         connectionMessage: connection
       }))
