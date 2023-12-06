@@ -43,6 +43,7 @@ function DatePickerDays({
           label="Fecha Final"
           minDate={selectedDateInit || null}
           defaultValue={dateStart}
+          disabled={!selectedDateInit}
         />
       </div>
     </div>
