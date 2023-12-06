@@ -12,6 +12,7 @@ import { advertisingsAPI } from '../../../../../../../services/advertisings';
 import { Toast } from '../FormAdvertising';
 import { convertDaysToNumbers } from '../../../../../utils/ConvertDaysToCode';
 import Loader from '../../../../../components/Loader';
+import { getPayload } from '../../../../../../../services/validationMiddleware';
 
 interface FormMobileProps {
   setAdvertisingsJSON: () => void;
@@ -229,7 +230,7 @@ export function FormMobile({
         id: type,
       },
       user: {
-        id: 1,
+        id: getPayload().userId,
       },
       sectors: sectores,
       schedules: schedules,
@@ -322,7 +323,7 @@ export function FormMobile({
           ''
         )}
       </div>
-      <div className="flex items-center justify-center">
+      <div className="flex items-center justify-center absolute left-0 bottom-[10vw] right-0 m-auto">
         {currentStep === 1 && !isCreate && (
           <div className="w-[40px] h-[40px] mr-3">
             {loadingDelete ? (

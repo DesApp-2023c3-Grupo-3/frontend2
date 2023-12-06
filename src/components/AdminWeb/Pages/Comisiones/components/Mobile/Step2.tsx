@@ -58,7 +58,7 @@ export function Step2({
   };
 
   return (
-    <div className="relative h-[100%] mx-2 bg-[#D9D9D9] flex justify-center items-center overflow-auto">
+    <div className="relative h-[100vw] mx-2 bg-[#D9D9D9] flex justify-center items-center overflow-auto">
       {loading ? (
         <Loader />
       ) : (

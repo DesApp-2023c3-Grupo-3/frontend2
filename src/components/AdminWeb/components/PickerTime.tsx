@@ -15,6 +15,7 @@ function PickerTime({
   selectedHourFinal,
 }: PickerTimeProps) {
   const handleStartHourChange = (newStartHour: Dayjs) => {
+    const newDate = dayjs(newStartHour);
     if (newStartHour) {
       const newDate = dayjs(newStartHour);
       onChangeStartHour(newDate);
@@ -32,24 +33,23 @@ function PickerTime({
     <div className="flex items-center justify-center">
       <div className="w-[40%] min-w-[160px] mr-3">
         <TimePicker
-          className=""
           label="Hora de Inicio"
           value={selectedHourInit}
-          onChange={(newTime: any) => {
+          defaultValue={selectedHourInit}
+          onAccept={(newTime: any) => {
             handleStartHourChange(newTime);
           }}
-          defaultValue={selectedHourInit}
         />
       </div>
       <div className="w-[40%] min-w-[160px]">
         <TimePicker
-          className=""
           label="Hora Final"
           value={selectedHourFinal}
-          onChange={(newTime: any) => {
+          onAccept={(newTime: any) => {
             handleEndHourChange(newTime);
           }}
           defaultValue={selectedHourFinal}
+          disabled={!selectedHourInit}
         />
       </div>
     </div>

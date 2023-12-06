@@ -97,93 +97,97 @@ export function FormMobile({
   };
 
   return (
-    <div className=" h-screen relative">
-      <h2 className="flex justify-center items-center font-bold text-[24px]">
-        COMISIONES
-      </h2>
-      {currentStep === 1 ? (
-        <div className="h-[70%]">
-          <h4 className="flex justify-center items-center font-semibold text-[16px]">
-            Sector y Fecha
-          </h4>
-          <Step1
-            selectedSector={selectedSector}
-            setSelectedSector={setSelectedSector}
-            startDate={startDate}
-            endDate={endDate}
-            setStartDate={setStartDate}
-            setEndDate={setEndDate}
-            emptyFields={emptyFieldsStep1}
-          />
-        </div>
-      ) : (
-        <div className="h-[100%] pb-[250px]">
-          <h4 className="flex justify-center items-center font-semibold text-[16px]">
-            Archivo de comisiones
-          </h4>
-          {
-            <Step2
-              setExcelData={setExcelData}
-              hasDocument={hasDocument}
-              setHasDocument={setHasDocument}
-              selectedFileName={selectedFileName}
-              setSelectedFileName={setSelectedFileName}
-              downloadTemplate={downloadTemplate}
-              isValidateStep2={isValidateStep2}
-            />
-          }
-        </div>
-      )}
-
-      <div
-        id="buttons"
-        className="absolute m-auto bottom-[3%] right-0 left-0 translate-y-[-60px]"
-      >
+    <div className={``}>
+      <div className="">
+        <h2 className="flex justify-center items-center font-bold text-[24px]">
+          COMISIONES
+        </h2>
         {currentStep === 1 ? (
-          <div className="flex justify-center">
-            <Button
-              onClick={handleNextStep}
-              active={true}
-              type={1}
-              label="SIGUIENTE"
-            ></Button>
-          </div>
-        ) : (
-          <div className="flex items-center justify-center">
-            <button
-              className="bg-[#D9D9D9] rounded-full mr-3 h-[40px] w-[40px] flex justify-center items-center"
-              onClick={handleNextStep}
-            >
-              {previous}
-            </button>
-            <div>
-              <div className="mb-3">
-                {!loadingDownload ? (
-                  <Button
-                    onClick={downloadTemplate}
-                    active={hasDocument}
-                    type={2}
-                    label={'DESCARGAR TEMPLATE'}
-                  />
-                ) : (
-                  <Loader />
-                )}
-              </div>
-              <div>
-                {!loadingSave ? (
-                  <Button
-                    onClick={uploadTemplate}
-                    active={hasValidCommission()}
-                    type={1}
-                    label={'GUARDAR'}
-                  />
-                ) : (
-                  <Loader />
-                )}
-              </div>
+          <div className="">
+            <h4 className="flex justify-center items-center font-semibold text-[16px]">
+              Sector y Fecha
+            </h4>
+            <div className="absolute m-auto inset-0 h-[80vw]">
+              <Step1
+                selectedSector={selectedSector}
+                setSelectedSector={setSelectedSector}
+                startDate={startDate}
+                endDate={endDate}
+                setStartDate={setStartDate}
+                setEndDate={setEndDate}
+                emptyFields={emptyFieldsStep1}
+              />
             </div>
           </div>
+        ) : (
+          <div className="h-[100%] pb-[250px]">
+            <h4 className="flex justify-center items-center font-semibold text-[16px]">
+              Archivo de comisiones
+            </h4>
+            {
+              <Step2
+                setExcelData={setExcelData}
+                hasDocument={hasDocument}
+                setHasDocument={setHasDocument}
+                selectedFileName={selectedFileName}
+                setSelectedFileName={setSelectedFileName}
+                downloadTemplate={downloadTemplate}
+                isValidateStep2={isValidateStep2}
+              />
+            }
+          </div>
         )}
+
+        <div
+          id="buttons"
+          className="absolute m-auto bottom-[15vw] left-0 right-0"
+        >
+          {currentStep === 1 ? (
+            <div className="flex justify-center ">
+              <Button
+                onClick={handleNextStep}
+                active={true}
+                type={1}
+                label="SIGUIENTE"
+              ></Button>
+            </div>
+          ) : (
+            <div className="flex items-center justify-center">
+              <button
+                className="bg-[#D9D9D9] rounded-full mr-3 h-[40px] w-[40px] flex justify-center items-center"
+                onClick={handleNextStep}
+              >
+                {previous}
+              </button>
+              <div>
+                <div className="mb-3">
+                  {!loadingDownload ? (
+                    <Button
+                      onClick={downloadTemplate}
+                      active={hasDocument}
+                      type={2}
+                      label={'DESCARGAR TEMPLATE'}
+                    />
+                  ) : (
+                    <Loader />
+                  )}
+                </div>
+                <div>
+                  {!loadingSave ? (
+                    <Button
+                      onClick={uploadTemplate}
+                      active={hasValidCommission()}
+                      type={1}
+                      label={'GUARDAR'}
+                    />
+                  ) : (
+                    <Loader />
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
