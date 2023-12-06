@@ -323,7 +323,7 @@ export function FormMobile({
           ''
         )}
       </div>
-      <div className="flex items-center justify-center">
+      <div className="flex items-center justify-center absolute left-0 bottom-[10vw] right-0 m-auto">
         {currentStep === 1 && !isCreate && (
           <div className="w-[40px] h-[40px] mr-3">
             {loadingDelete ? (

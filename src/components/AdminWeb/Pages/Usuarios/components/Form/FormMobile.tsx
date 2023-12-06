@@ -270,7 +270,7 @@ export function FormMobile({
 
         <div
           id="buttons"
-          className="absolute m-auto bottom-[3%] right-0 left-0 translate-y-[-60px]"
+          className="absolute m-auto bottom-[35vw] right-0 left-0"
         >
           {currentStep === 1 ? (
             <div className="flex justify-center">
