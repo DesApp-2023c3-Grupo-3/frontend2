@@ -20,8 +20,7 @@ export function useConnectionSocket(screenId: number) {
   const [socketConnection, setSocketConnection] = useState<any>();
   const [error, setError] = useState<Error>();
   const navigate = useNavigate()
-  
-  const setConnection = useConnectionMessage(state => state.setConnection)
+  const [setConnection, connection] = useConnectionMessage(state => [state.setConnection, state.connectionMessage])
 
   const [addAdvertisingMessage, updateAdvertising, deleteAdvertising] = useAdvertisingMessages(state => 
     [state.addAdvertisingMessage, state.updateAdvertising, state.deleteAdvertising])
@@ -32,12 +31,22 @@ export function useConnectionSocket(screenId: number) {
     navigate('/')
   }
 
+  const generateSocketConnection = () => {
+      initializeSocketConnection(screenId, handlerOnMessage)
+      .then((connection) => {
+          setSocketConnection(connection);
+      })
+      .catch((error) => {
+        setError(error);
+      });
+  }
+
   const handlerOnMessage = (message: Message) => {
     const newMessage = message.data
 
     switch(newMessage.action) {
       case ACTION_MESSAGE.START_CONNECTION:
-        setConnection(newMessage.data)
+        setConnection(newMessage.data, generateSocketConnection)
         break
       case ACTION_MESSAGE.CREATE_ADVERTISING: 
         addAdvertisingMessage(newMessage.data)
@@ -46,7 +55,7 @@ export function useConnectionSocket(screenId: number) {
         addCourseMessages(newMessage.data)
         break
       case ACTION_MESSAGE.UPDATE_SCREEN_CONFIGURATION:
-        setConnection(newMessage.data)
+        setConnection(newMessage.data, generateSocketConnection)
         break
       case ACTION_MESSAGE.UPDATE_ADVERTISING:
         updateAdvertising(newMessage.data)
@@ -61,14 +70,8 @@ export function useConnectionSocket(screenId: number) {
   };
 
   useEffect(() => {
-    initializeSocketConnection(screenId, handlerOnMessage)
-      .then((connection) => {
-        setSocketConnection(connection);
-      })
-      .catch((error) => {
-        setError(error);
-      });
+    generateSocketConnection()
   }, [screenId]);
 
-  return { socketConnection, error };
+  return { socketConnection, error, setSocketConnection };
 }
