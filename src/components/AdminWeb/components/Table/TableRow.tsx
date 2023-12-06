@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { setTimeout } from 'timers';
 
 interface TableRowProps {
   item: any;
@@ -51,8 +50,8 @@ function TableRow({
             ${index % 2 === 0 ? 'bg-[#F1F1F1]' : 'bg-[#DFDFDF]'}
             relative
         `}
-      onMouseDown={handleMouseDown}
-      onMouseUp={handleMouseUp}
+      onTouchStart={handleMouseDown}
+      onTouchEnd={handleMouseUp}
     >
       {Array.from(columns.keys()).map((columnName) => {
         return (
