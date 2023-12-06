@@ -1,5 +1,6 @@
 import { TimePicker } from '@mui/x-date-pickers';
 import dayjs, { Dayjs } from 'dayjs';
+import * as React from 'react';
 
 interface PickerTimeProps {
   onChangeStartHour: (newStartHour: Dayjs) => void;
@@ -14,19 +15,17 @@ function PickerTime({
   selectedHourInit,
   selectedHourFinal,
 }: PickerTimeProps) {
+  const [openInit, setOpenInit] = React.useState(false);
+  const [openFinal, setOpenFinal] = React.useState(false);
+
   const handleStartHourChange = (newStartHour: Dayjs) => {
-    const newDate = dayjs(newStartHour);
-    if (newStartHour) {
-      const newDate = dayjs(newStartHour);
-      onChangeStartHour(newDate);
-    }
+    onChangeStartHour(dayjs(newStartHour));
+    setOpenInit(false);
   };
 
   const handleEndHourChange = (newEndHour: Dayjs) => {
-    if (newEndHour) {
-      const newDate = dayjs(newEndHour);
-      onChangeEndHour(newDate);
-    }
+    onChangeEndHour(dayjs(newEndHour));
+    setOpenFinal(false);
   };
 
   return (
@@ -36,8 +35,16 @@ function PickerTime({
           label="Hora de Inicio"
           value={selectedHourInit}
           defaultValue={selectedHourInit}
+          onChange={(newTime: any) => {
+            onChangeStartHour(dayjs(newTime));
+          }}
           onAccept={(newTime: any) => {
-            handleStartHourChange(newTime);
+            handleStartHourChange(dayjs(newTime));
+          }}
+          open={openInit}
+          onOpen={() => {
+            setOpenFinal(false);
+            setOpenInit(true);
           }}
         />
       </div>
@@ -45,10 +52,18 @@ function PickerTime({
         <TimePicker
           label="Hora Final"
           value={selectedHourFinal}
+          onChange={(newTime: any) => {
+            onChangeEndHour(dayjs(newTime));
+          }}
           onAccept={(newTime: any) => {
-            handleEndHourChange(newTime);
+            handleEndHourChange(dayjs(newTime));
           }}
           defaultValue={selectedHourFinal}
+          open={openFinal}
+          onOpen={() => {
+            setOpenInit(false);
+            setOpenFinal(true);
+          }}
           disabled={!selectedHourInit}
         />
       </div>
