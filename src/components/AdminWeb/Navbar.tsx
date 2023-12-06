@@ -2,16 +2,19 @@ import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import adminPicture from './assets/admin.png';
 import { getPayload, setTokens } from '../../services/validationMiddleware';
+import { userDiv } from './utils/userDiv';
 
 function Navbar() {
   const [navDeployed, setNavDeployed] = useState(
     /Mobi|Android/i.test(navigator.userAgent),
   );
   const roleId = getPayload().tokenRoleId;
+  const user = getPayload().payload;
   const switchNavbar = () => {
     if (!/Mobi|Android/i.test(navigator.userAgent)) return;
     setNavDeployed(!navDeployed);
   };
+  const imagen = userDiv(user.role.name.charAt(0));
 
   const clearTokens = () => {
     setTokens('', '');
@@ -47,22 +50,23 @@ function Navbar() {
           />
         </svg>
       </button>
-      <div className="flex items-center gap-4 bg-white border-white rounded-[10rem] pr-12 mb-16">
-        <span className="aspect-square h-16 overflow-hidden rounded-[10rem] p-[0.25rem]">
-          <img src={adminPicture} alt="User avatar" />
-        </span>
-        <h3 className="font-semibold itim">Administrador</h3>
+      <div className="flex items-center gap-4 bg-white border-white rounded-[10rem] pr-12 mb-16 min-w-[15rem] justify-center">
+        {imagen}
+        <div className="font-semibold  flex flex-col items-center text-gray-500">
+          <h3 className="itim">{user.name.split(' ')[0]}</h3>
+          <span className="text-sm truncate">{user.role.name}</span>
+        </div>
       </div>
       <div
         onClick={switchNavbar}
         onKeyDown={switchNavbar}
-        className="relative flex flex-col"
+        className="relative flex flex-col gap-1"
         role="presentation"
       >
-        {roleId === 1 || roleId == 2 ? (
+        {roleId === 1 || roleId === 2 ? (
           <NavLink to="/admin/advertising">Avisos</NavLink>
         ) : null}
-        {roleId === 1 || roleId == 3 ? (
+        {roleId === 1 || roleId === 3 ? (
           <NavLink to="/admin/comission">Comisiones</NavLink>
         ) : null}
         {roleId === 1 ? <NavLink to="/admin/screen">Pantallas</NavLink> : null}
