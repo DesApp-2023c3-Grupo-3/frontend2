@@ -151,26 +151,28 @@ export function FormMobile({
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
       confirmButtonText: 'Si, borrar.',
-    }).then((result) => {
-      setLoadingDelete(true);
-      if (result.isConfirmed && user) {
-        userApi
-          .delete(user)
-          .then(() => {
-            Toast.fire({
-              icon: 'success',
-              title: 'Se ha eliminado el usuario',
-            });
-            closeModal();
-          })
-          .then(() => setUserJSON())
-          .catch((error) => console.error(error))
-          .finally(() => setLoadingDelete(false));
-      }
-      if (result.isDenied || result.isDismissed) {
-        setLoadingSave(false);
-      }
-    });
+    })
+      .then((result) => {
+        setLoadingDelete(true);
+        if (result.isConfirmed && user) {
+          userApi
+            .delete(user)
+            .then(() => {
+              Toast.fire({
+                icon: 'success',
+                title: 'Se ha eliminado el usuario',
+              });
+              closeModal();
+            })
+            .then(() => setUserJSON())
+            .catch((error) => console.error(error))
+            .finally(() => setLoadingDelete(false));
+        }
+        if (result.isDenied || result.isDismissed) {
+          setLoadingSave(false);
+        }
+      })
+      .finally(() => setLoadingDelete(false));
   };
 
   React.useEffect(() => {
