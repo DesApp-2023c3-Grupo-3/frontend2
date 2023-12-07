@@ -93,7 +93,9 @@ function Avisos() {
     [
       '',
       (advertising: Advertising) => {
-        return userDiv(advertising.user.role.name.charAt(0));
+        return userDiv(
+          advertising.user ? advertising.user?.role.name.charAt(0) : 'A',
+        );
       },
     ],
     [
