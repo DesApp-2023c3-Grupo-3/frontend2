@@ -33,8 +33,8 @@ export function MobileBody({
 
   return (
     <>
-      <section className="mt-[3em] w-full h-full">
-        <div className="flex items-center">
+      <section className="w-screen h-screen">
+        <div className="flex items-center translate-y-[3em]">
           <h1
             className={` text-[3em] font-[700] text-[#484848] tracking-[-1.28px] translate-x-[40px] ${
               isMiniMobile && 'text-[24px]'
@@ -47,7 +47,7 @@ export function MobileBody({
         {loading ? (
           <Loader />
         ) : (
-          <div className="mt-[-70px]">
+          <div className=" translate-y-[-1.5em]">
             <Table
               dataJSON={dataJson}
               columns={tableColumns}
@@ -58,10 +58,7 @@ export function MobileBody({
           </div>
         )}
         {!loading && (
-          <div
-            id="modal"
-            className="flex mt-[4em] mr-[1em] pb-[3em] items-center justify-end z-[4]"
-          >
+          <div id="modal" className="flex items-center justify-end z-[4]">
             <ModalMobile
               isOpen={isOpen}
               closeModal={onCloseClick}

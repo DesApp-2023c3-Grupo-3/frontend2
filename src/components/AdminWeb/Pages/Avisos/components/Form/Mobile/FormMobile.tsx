@@ -135,25 +135,27 @@ export function FormMobile({
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
       confirmButtonText: 'Si, borrar.',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        setLoadingDelete(true);
-        if (advertising) {
-          advertisingsAPI
-            .delete(advertising.id)
-            .then((r) => {
-              Toast.fire({
-                icon: 'success',
-                title: 'Se ha eliminado el aviso',
-              });
-              setAdvertisingsJSON();
-              closeModal();
-              setLoadingDelete(false);
-            })
-            .catch((error) => console.error(error));
+    })
+      .then((result) => {
+        if (result.isConfirmed) {
+          setLoadingDelete(true);
+          if (advertising) {
+            advertisingsAPI
+              .delete(advertising.id)
+              .then((r) => {
+                Toast.fire({
+                  icon: 'success',
+                  title: 'Se ha eliminado el aviso',
+                });
+                setAdvertisingsJSON();
+                closeModal();
+                setLoadingDelete(false);
+              })
+              .catch((error) => console.error(error));
+          }
         }
-      }
-    });
+      })
+      .finally(() => setLoadingDelete(false));
   };
 
   const validateStep1 = () => {
