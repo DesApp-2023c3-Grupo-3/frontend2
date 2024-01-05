@@ -89,7 +89,6 @@ function Sectores({
             }
             ${isMobile ? 'w-[90vw]' : ''}
             `}
-            placeholder="Sector/es"
           >
             <div className="mr-5 ml-[-15px]">
               <svg

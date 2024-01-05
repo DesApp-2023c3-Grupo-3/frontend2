@@ -13,6 +13,7 @@ ENV REACT_APP_WEBSOCKET_PORT=${REACT_APP_WEBSOCKET_PORT}
 WORKDIR /app
 
 COPY package*.json ./
+
 RUN npm install
 
 COPY . .
