@@ -11,9 +11,12 @@ ARG REACT_APP_WEBSOCKET_PORT
 ENV REACT_APP_WEBSOCKET_PORT=${REACT_APP_WEBSOCKET_PORT}
 
 WORKDIR /app
-COPY . .
+
 COPY package*.json ./
+
 RUN npm install
+
+COPY . .
 
 RUN npm run build
 
