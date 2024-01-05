@@ -3,8 +3,6 @@ import { Advertising } from '../types/customTypes';
 import dayjs, { Dayjs } from 'dayjs';
 import { convertCodesToDays } from '../utils/ConvertDaysToCode';
 import { Days } from '../Pages/Avisos/components/Form/DayPicker';
-import { convertCodesToSectors } from '../utils/AbbreviateSectorName';
-import { Sector } from '../components/Sectores';
 import { usePayload } from './usePayload';
 
 export function useAdvertisingData(advertising: Advertising | undefined) {

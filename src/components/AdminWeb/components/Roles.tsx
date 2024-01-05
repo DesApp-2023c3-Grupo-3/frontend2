@@ -43,7 +43,6 @@ function Sectores({ selectedRole, onSelectedRoleChange }: RolesProps) {
               ${isMobile ? 'w-[90vw]' : 'w-[365px]'}
               text-[20px] font-[400] tracking-[-0.4px] rounded-[30px] bg-[#D9D9D9] flex h-[50px] px-[40px] py-[12px] items-center
               `}
-            placeholder="Sector/es"
           >
             <div className="mr-5 ml-[-15px]">
               <svg
