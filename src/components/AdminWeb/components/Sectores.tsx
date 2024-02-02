@@ -114,7 +114,7 @@ function Sectores({
               {selectedSector.length === 0
                 ? 'Sector/es'
                 : `${selectedSector
-                    .map((sector) => abbreviateSectorName(sector.name))
+                    .map((sector) => sector.topic.toLocaleUpperCase())
                     .join(', ')}`}
             </span>
           </Listbox.Button>
@@ -161,7 +161,7 @@ function Sectores({
                                   : 'font-normal'
                               }`}
                             >
-                              {abbreviateSectorName(sector.name)}
+                              {sector.topic.toLocaleUpperCase()}
                             </span>
                           </div>
                         )}
@@ -198,4 +198,5 @@ const sortedSectors = (sectors: Sector[]): Sector[] => {
 export interface Sector {
   id: number;
   name: string;
+  topic?: any;
 }

@@ -61,8 +61,7 @@ function Avisos() {
 
   const sectores = (advertising: Advertising) =>
     advertising.advertisingSectors
-      .map((sector) => sector.sector.name)
-      .map((s) => abbreviateSectorName(s))
+      .map((sector) => sector.sector.topic.toLocaleUpperCase())
       .join('-');
 
   const dayOrder = ['Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa', 'Do'];
