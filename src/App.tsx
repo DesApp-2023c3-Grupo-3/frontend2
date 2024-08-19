@@ -7,6 +7,7 @@ import LoginScreen from './components/LoginScreen/LoginScreen';
 import { useState } from 'react';
 import { setTokens } from './services/validationMiddleware';
 import { useScreen } from './components/ScreenClient/store/useScreen';
+import { NextUIProvider } from '@nextui-org/react';
 
 function App() {
   const screenId = useScreen((state) => state.screenId);
@@ -20,21 +21,26 @@ function App() {
   };
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <LoginScreen
-              setScreenId={setScreenId}
-              setTokensOnLogin={setTokensOnLogin}
-            />
-          }
-        />
-        <Route path="/screen" element={<ScreenClient screenId={screenId} />} />
-        <Route path="/admin/*" element={<AdminWeb />} />
-      </Routes>
-    </BrowserRouter>
+    <NextUIProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <LoginScreen
+                setScreenId={setScreenId}
+                setTokensOnLogin={setTokensOnLogin}
+              />
+            }
+          />
+          <Route
+            path="/screen"
+            element={<ScreenClient screenId={screenId} />}
+          />
+          <Route path="/admin/*" element={<AdminWeb />} />
+        </Routes>
+      </BrowserRouter>
+    </NextUIProvider>
   );
 }
 
