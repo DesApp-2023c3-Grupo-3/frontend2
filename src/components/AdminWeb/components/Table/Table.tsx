@@ -1,7 +1,6 @@
+import { Pagination } from '@nextui-org/react';
 import React, { useEffect, useRef, useState } from 'react';
-import { Pagination, ThemeProvider } from '@mui/material';
 import SearchBar from './SearchBar';
-import theme from '../../config/createTheme';
 import TableBody from './TableBody';
 
 interface TableProps {
@@ -57,11 +56,8 @@ function Table({
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
 
-  const handlePageChange = (
-    event: React.ChangeEvent<unknown>,
-    newPage: number,
-  ) => {
-    setCurrentPage(newPage);
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
   };
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -96,7 +92,7 @@ function Table({
   const currentData = filteredData.slice(startIndex, endIndex);
 
   return (
-    <div className="">
+    <div>
       <SearchBar
         searchTerm={searchTerm}
         onSearchChange={handleSearchChange}
@@ -109,15 +105,14 @@ function Table({
         rowRef={rowRef}
         onRowPress={onRowPress}
       />
-      <ThemeProvider theme={theme}>
-        <Pagination
-          className="flex justify-center bg-white pt-10"
-          count={Math.ceil(filteredData.length / itemsPerPage)}
-          page={currentPage}
-          onChange={handlePageChange}
-          color="primary"
-        />
-      </ThemeProvider>
+      <Pagination
+        color="primary"
+        className="bg-white scrollbar-none mt-4 flex justify-center w-full "
+        showControls
+        total={Math.ceil(filteredData.length / itemsPerPage)}
+        page={currentPage}
+        onChange={handlePageChange}
+      ></Pagination>
     </div>
   );
 }
