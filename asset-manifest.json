@@ -1,0 +1,19 @@
+{
+  "files": {
+    "main.css": "/BulletinBoardClient/static/css/main.3fb3e630.css",
+    "main.js": "/BulletinBoardClient/static/js/main.6a0e389c.js",
+    "static/js/651.a75c34e7.chunk.js": "/BulletinBoardClient/static/js/651.a75c34e7.chunk.js",
+    "static/media/typeScreen2.png": "/BulletinBoardClient/static/media/typeScreen2.0a6394d3465f6e14e99c.png",
+    "static/media/typeScreen3.png": "/BulletinBoardClient/static/media/typeScreen3.7c4667b15079117a41f4.png",
+    "static/media/typeScreen1.png": "/BulletinBoardClient/static/media/typeScreen1.63cff8ac8a44a90cd527.png",
+    "static/media/unahur.png": "/BulletinBoardClient/static/media/unahur.fdab1e48934421f33a46.png",
+    "index.html": "/BulletinBoardClient/index.html",
+    "main.3fb3e630.css.map": "/BulletinBoardClient/static/css/main.3fb3e630.css.map",
+    "main.6a0e389c.js.map": "/BulletinBoardClient/static/js/main.6a0e389c.js.map",
+    "651.a75c34e7.chunk.js.map": "/BulletinBoardClient/static/js/651.a75c34e7.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.3fb3e630.css",
+    "static/js/main.6a0e389c.js"
+  ]
+}
