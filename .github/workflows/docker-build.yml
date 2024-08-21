@@ -40,12 +40,15 @@ jobs:
           context: .
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: valentinochiappanni07/frontend:${{ env.tag }}
+          tags: |
+            valentinochiappanni07/frontend:${{ env.tag }}
           build-args: |
             REACT_APP_WEBSOCKET_HOST=${{ secrets.REACT_APP_WEBSOCKET_HOST }}
             REACT_APP_WEBSOCKET_PORT=${{ secrets.REACT_APP_WEBSOCKET_PORT }}
             REACT_APP_API=${{ secrets.REACT_APP_API }}
             REACT_APP_PORT=${{ secrets.REACT_APP_PORT }}
+          cache-from: type=registry,ref=valentinochiappanni07/frontend:cache
+          cache-to: type=registry,ref=valentinochiappanni07/frontend:cache,mode=max
 
       - name: Logout de Docker Hub
         run: docker logout
