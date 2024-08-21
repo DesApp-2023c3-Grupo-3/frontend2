@@ -92,7 +92,7 @@ function Table({
   const currentData = filteredData.slice(startIndex, endIndex);
 
   return (
-    <div>
+    <div className='flex flex-col grow'>
       <SearchBar
         searchTerm={searchTerm}
         onSearchChange={handleSearchChange}
@@ -107,7 +107,7 @@ function Table({
       />
       <Pagination
         color="primary"
-        className="bg-white scrollbar-none mt-4 flex justify-center w-full "
+        className="bg-white scrollbar-none mt-4 flex justify-center w-full mt-auto"
         showControls
         total={Math.ceil(filteredData.length / itemsPerPage)}
         page={currentPage}
