@@ -16,13 +16,11 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '16'
+        node-version: '18'
+        package-manager: npm@9.0.0
 
     - name: Install dependencies
       run: npm install
 
-    - name: Build project
-      run: CI=false npm run build
-
     - name: Deploy project
-      run: npm run deploy
+      run: CI=false npm run deploy
