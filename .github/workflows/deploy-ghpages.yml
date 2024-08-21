@@ -22,5 +22,10 @@ jobs:
     - name: Install dependencies
       run: npm install
 
+    - name: Git
+      run: |
+        git config --global user.name 'ValentinoChiappanni'
+        git config --global user.email 'valentino.chiappanni@estudiantes.unahur.edu.ar'
+
     - name: Deploy project
       run: CI=false npm run deploy
