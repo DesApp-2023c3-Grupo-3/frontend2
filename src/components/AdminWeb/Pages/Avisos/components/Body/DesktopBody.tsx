@@ -15,6 +15,9 @@ interface DesktopBodyProps {
   isEditing: boolean;
   editRow?: Advertising;
   loading: boolean;
+  currentPages?: number;
+  totalItems?: number;
+  setCurrentPage?: any;
 }
 
 export function DesktopBody({
@@ -28,6 +31,9 @@ export function DesktopBody({
   isEditing,
   editRow,
   loading,
+  currentPages,
+  totalItems,
+  setCurrentPage,
 }: DesktopBodyProps) {
   return (
     <>
@@ -45,6 +51,9 @@ export function DesktopBody({
               columns={tableColumns}
               onRowClick={handleRowClick}
               placeholder="Buscar Aviso"
+              currentPage={currentPages}
+              totalItems={totalItems}
+              setCurrentPage={setCurrentPage}
             />
             <div className="flex justify-end">
               <Modal

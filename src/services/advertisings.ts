@@ -17,5 +17,10 @@ export const advertisingsAPI = {
     },
     delete: function(id:number) {
         return handleCall(axios.delete, [`${ROUTES_RELATIVE.advertising.advertising}/${id}`])
+    },
+    getPaginated: function(page: number, limit: number) {
+        return handleCall(axios.get, [
+            `${ROUTES_RELATIVE.advertising.advertising}/findPageAndLimit/{page}/{limit}?limit=${limit}&page=${page}`
+        ]);
     }
 }

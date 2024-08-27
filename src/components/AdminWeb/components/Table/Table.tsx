@@ -10,6 +10,9 @@ interface TableProps {
   onRowClick?: (data: any) => void;
   onRowPress?: (data: any) => void;
   placeholder?: string;
+  totalItems?: number;
+  currentPage?: number;
+  setCurrentPage?: any;
 }
 
 function Table({
@@ -19,12 +22,16 @@ function Table({
   onRowClick,
   onRowPress,
   placeholder,
+  totalItems = 0,
+  currentPage,
+  setCurrentPage,
 }: TableProps) {
-  const [itemsPerPage, setItemsPerPage] = useState(7);
   const [filteredData, setFilteredData] = useState(dataJSON);
   const rowRef = useRef<HTMLTableRowElement>(null);
 
-  const adjustItemsPerPage = () => {
+  //Ajustar la cantidad de filas a mostrar en función del tamaño de la ventana.
+
+  /*const adjustItemsPerPage = () => {
     const row = rowRef.current;
 
     if (row) {
@@ -48,13 +55,9 @@ function Table({
     return () => {
       window.removeEventListener('resize', adjustItemsPerPage);
     };
-  }, []);
+  }, []);*/
 
-  const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
-
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -89,8 +92,6 @@ function Table({
     setFilteredData(filteredResult);
   };
 
-  const currentData = filteredData.slice(startIndex, endIndex);
-
   return (
     <div className='flex flex-col grow'>
       <SearchBar
@@ -99,7 +100,7 @@ function Table({
         placeholder={placeholder}
       />
       <TableBody
-        dataJSON={currentData}
+        dataJSON={filteredData}
         columns={columns}
         onRowClick={onRowClick}
         rowRef={rowRef}
@@ -109,7 +110,7 @@ function Table({
         color="primary"
         className="bg-white scrollbar-none mt-4 flex justify-center w-full mt-auto"
         showControls
-        total={Math.ceil(filteredData.length / itemsPerPage)}
+        total={Math.ceil(totalItems / 10)}
         page={currentPage}
         onChange={handlePageChange}
       ></Pagination>

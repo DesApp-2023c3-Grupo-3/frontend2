@@ -3,7 +3,6 @@ import { Advertising } from '../../types/customTypes';
 import React from 'react';
 import { advertisingsAPI } from '../../../../services/advertisings';
 import { Helmet } from 'react-helmet';
-import { abbreviateSectorName } from '../../utils/AbbreviateSectorName';
 import dayjs from 'dayjs';
 import { DesktopBody } from './components/Body/DesktopBody';
 import { MobileBody } from '../../components/Mobile/MobileBody';
@@ -15,6 +14,9 @@ function Avisos() {
   const [advertisingsJSON, setAdvertisingsJSON] = React.useState<Advertising[]>(
     [],
   );
+
+  const [currentPages, setCurrentPages] = React.useState(1);
+  const [totalItems, setTotalItems] = React.useState(0);
 
   const [editRow, setEditRow] = React.useState<Advertising>();
   const [isEditing, setIsEditing] = React.useState(false);
@@ -40,14 +42,10 @@ function Avisos() {
   const GetData = () => {
     setLoading(true);
     advertisingsAPI
-      .getAll()
+      .getPaginated(currentPages, 10)
       .then((r) => {
-        const orderedData = r.data.sort((a: any, b: any) => {
-          const order = ['active', 'today', 'pending', 'deprecated'];
-          return order.indexOf(a.status) - order.indexOf(b.status);
-        });
-
-        setAdvertisingsJSON(orderedData);
+        setTotalItems(r.data.total);
+        setAdvertisingsJSON(r.data.data);
         setLoading(false);
       })
       .catch((e) => {
@@ -57,7 +55,7 @@ function Avisos() {
 
   React.useEffect(() => {
     GetData();
-  }, []);
+  }, [currentPages]);
 
   const sectores = (advertising: Advertising) =>
     advertising.advertisingSectors
@@ -179,6 +177,9 @@ function Avisos() {
           loading={loading}
           title="Avisos"
           placeholder="Buscar Avisos"
+          currentPages={currentPages}
+          totalItems={totalItems}
+          setCurrentPage={setCurrentPages}
         >
           <FormMobile
             setAdvertisingsJSON={GetData}
@@ -199,6 +200,9 @@ function Avisos() {
           isEditing={isEditing}
           editRow={editRow}
           loading={loading}
+          currentPages={currentPages}
+          totalItems={totalItems}
+          setCurrentPage={setCurrentPages}
         />
       )}
     </>

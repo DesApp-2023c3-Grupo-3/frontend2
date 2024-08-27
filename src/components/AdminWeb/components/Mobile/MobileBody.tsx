@@ -14,6 +14,9 @@ interface MobileBodyProps {
   children: React.ReactElement;
   title: string;
   placeholder: string;
+  currentPages?: number;
+  totalItems?: number;
+  setCurrentPage?: any;
 }
 
 export function MobileBody({
@@ -28,6 +31,9 @@ export function MobileBody({
   children,
   title,
   placeholder,
+  currentPages,
+  totalItems,
+  setCurrentPage,
 }: MobileBodyProps) {
   const isMiniMobile = window.matchMedia('(max-width: 320px)').matches;
 
@@ -54,6 +60,9 @@ export function MobileBody({
               onRowClick={handleRowClick}
               onRowPress={handleRowPress}
               placeholder={placeholder}
+              currentPage={currentPages}
+              totalItems={totalItems}
+              setCurrentPage={setCurrentPage}
             />
           </div>
         )}
