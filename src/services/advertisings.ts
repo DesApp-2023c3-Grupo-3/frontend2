@@ -20,7 +20,7 @@ export const advertisingsAPI = {
     },
     getPaginated: function(page: number, limit: number) {
         return handleCall(axios.get, [
-            `${ROUTES_RELATIVE.advertising.advertising}/findPageAndLimit/{page}/{limit}?limit=${limit}&page=${page}`
+            `${ROUTES_RELATIVE.advertising.advertising}/findPageAndLimit/${page}/${limit}`
         ]);
     }
 }

@@ -93,7 +93,7 @@ function Table({
   };
 
   return (
-    <div className='flex flex-col grow'>
+    <div className="flex flex-col grow">
       <SearchBar
         searchTerm={searchTerm}
         onSearchChange={handleSearchChange}
@@ -108,7 +108,7 @@ function Table({
       />
       <Pagination
         color="primary"
-        className="bg-white scrollbar-none mt-4 flex justify-center w-full mt-auto"
+        className="bg-white scrollbar-none flex justify-center w-full mt-auto"
         showControls
         total={Math.ceil(totalItems / 10)}
         page={currentPage}
