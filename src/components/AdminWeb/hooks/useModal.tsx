@@ -1,19 +1,11 @@
-import * as React from 'react';
+import { useDisclosure } from '@nextui-org/react';
 
 export function useModal() {
-  const [isOpen, setIsOpen] = React.useState(false);
-
-  function closeModal() {
-    setIsOpen(false);
-  }
-
-  function openModal() {
-    setIsOpen(true);
-  }
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   return {
     isOpen,
-    openModal,
-    closeModal,
+    openModal: onOpen,
+    closeModal: onClose,
   };
 }

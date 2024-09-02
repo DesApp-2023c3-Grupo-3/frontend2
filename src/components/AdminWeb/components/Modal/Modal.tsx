@@ -1,7 +1,6 @@
 import React from 'react';
-import { Dialog, Transition } from '@headlessui/react';
-import { Fragment } from 'react';
 import Button from '../Buttons/Button';
+import { ModalContent, Modal as ModalUI } from '@nextui-org/react';
 
 //El modal se usa con el hook useModal
 interface ModalProps {
@@ -12,29 +11,45 @@ interface ModalProps {
   label?: string;
 }
 
-function Modal({ isOpen, closeModal, openModal, children, label }: ModalProps) {
+function Modal({ isOpen, openModal, closeModal, children, label }: ModalProps) {
   return (
     <>
-      {label ? (
+      {label && (
         <Button onClick={openModal} active={true} label={label} type={0} />
-      ) : (
-        ''
       )}
-      <Transition appear show={isOpen} as={Fragment}>
-        <Dialog as="div" className="" onClose={closeModal}>
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <div className="fixed inset-0 bg-black bg-opacity-25" />
-          </Transition.Child>
-          <Dialog.Panel className="top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] absolute max-w-[62.5em] w-[100%] max-h-[37.5em] h-[100%] bg-white rounded-[30px] z-50">
-            <div className="bg-[#484848] rounded-tr-[30px] rounded-tl-[30px] h-[67px] flex justify-end items-center">
+      <ModalUI
+        backdrop="opaque"
+        isOpen={isOpen}
+        onClose={closeModal}
+        size="4xl"
+        motionProps={{
+          variants: {
+            enter: {
+              y: 0,
+              opacity: 1,
+              transition: {
+                duration: 0.3,
+                ease: 'easeOut',
+              },
+            },
+            exit: {
+              y: -30,
+              opacity: 0,
+              transition: {
+                duration: 0.3,
+                ease: 'easeIn',
+              },
+            },
+          },
+        }}
+        classNames={{
+          backdrop: 'bg-[#292f46]/70 backdrop-opacity-40',
+          base: 'bg-white rounded-[30px]',
+        }}
+      >
+        <ModalContent>
+          <>
+            <div className="bg-[#484848] h-[67px] flex justify-end items-center">
               <button onClick={closeModal}>
                 <svg
                   className="mr-[15px]"
@@ -53,9 +68,9 @@ function Modal({ isOpen, closeModal, openModal, children, label }: ModalProps) {
               </button>
             </div>
             <div>{children}</div>
-          </Dialog.Panel>
-        </Dialog>
-      </Transition>
+          </>
+        </ModalContent>
+      </ModalUI>
     </>
   );
 }
