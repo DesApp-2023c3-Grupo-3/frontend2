@@ -25,7 +25,7 @@ function DatePickerDays({
           disablePast={isCreate}
           className=""
           value={selectedDateInit}
-          onChange={(newDate: any) => {
+          onChange={(newDate: any, event: any) => {
             onChangeStartDate(newDate);
           }}
           label="Fecha de Inicio"
