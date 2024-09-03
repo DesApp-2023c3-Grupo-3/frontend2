@@ -7,6 +7,7 @@ function ListOfComissionCards({
   dataJson: any[];
   handleCardClick: (comision: any) => void;
 }) {
+  console.log(dataJson);
   return (
     <section className="mt-[2rem] p-8 flex flex-col gap-2">
       {dataJson.map((comision) => {
