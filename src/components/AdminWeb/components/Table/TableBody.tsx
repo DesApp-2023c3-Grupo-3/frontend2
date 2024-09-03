@@ -1,5 +1,3 @@
-import { useIsMobile } from '../../hooks/useIsMobile';
-import CardMobileInfo from '../Mobile/CardMobileInfo';
 import TableRow from './TableRow';
 
 interface TableBodyProps {
@@ -17,9 +15,7 @@ function TableBody({
   rowRef,
   onRowPress,
 }: TableBodyProps) {
-  const isMobile = useIsMobile();
-  console.log({ dataJSON, columns });
-  return !isMobile ? (
+  return (
     <table
       className={`table-auto border-collapse overflow-hidden mt-10 font-[500] w-full rounded-tl-[20px] rounded-tr-[20px]`}
     >
@@ -58,20 +54,6 @@ function TableBody({
         ))}
       </tbody>
     </table>
-  ) : (
-    <>
-      {Array.from(columns).map((column, index) => {
-        console.log(column);
-        return (
-          <CardMobileInfo key={index}>
-            <CardMobileInfo.Name>a</CardMobileInfo.Name>
-            <CardMobileInfo.Text>a</CardMobileInfo.Text>
-            <CardMobileInfo.State state={'data.status'} />
-            <CardMobileInfo.Picture rol="admin" />
-          </CardMobileInfo>
-        );
-      })}
-    </>
   );
 }
 

@@ -1,19 +1,12 @@
-import {
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
-  Divider,
-  Image,
-  Link,
-} from '@nextui-org/react';
+import { Card } from '@nextui-org/react';
 
 function CardMobileInfo({ children }: { children: React.ReactNode }) {
   return (
-    <Card>
-      <CardBody className="flex flex-col justify-center items-center">
-        {children}
-      </CardBody>
+    <Card
+      isPressable
+      className="bg-slate-100/50 p-2 w-full border-[1px] rounded-3xl flex flex-col justify-center items-center"
+    >
+      {children}
     </Card>
   );
 }
@@ -23,11 +16,15 @@ CardMobileInfo.Name = function Name({
 }: {
   children: React.ReactNode;
 }) {
-  return <p className="text-pretty">{children}</p>;
+  return <p className="text-xl font-semibold">{children}</p>;
 };
 
 CardMobileInfo.Picture = function Picture({ rol }: { rol: string }) {
-  return <Image src={rol} />;
+  return (
+    <div className="bg-[#2C9CBF] p-2 w-10 h-10 rounded-full flex items-center justify-center">
+      <p className="text-white text-2xl">{rol[0]}</p>
+    </div>
+  );
 };
 
 CardMobileInfo.Text = function Text({
@@ -35,12 +32,32 @@ CardMobileInfo.Text = function Text({
 }: {
   children: React.ReactNode;
 }) {
-  return <p className="text-pretty">{children}</p>;
+  return <p>{children}</p>;
 };
 
-/* Logica */
-CardMobileInfo.State = function State({ state }: { state: string }) {
-  return <p className="text-pretty">{state}</p>;
+CardMobileInfo.Date = function Date({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return <p>{children}</p>;
+};
+
+const statusClasses = {
+  active: 'bg-[#74C91E]',
+  deprecated: 'bg-[#727272]',
+  pending: 'bg-[#C2B222]',
+  today: 'bg-[#C2B222]',
+};
+
+type Status = 'active' | 'deprecated' | 'pending' | 'today';
+
+CardMobileInfo.State = function State({ state }: { state: Status }) {
+  return (
+    <div
+      className={`${statusClasses[state]} justify-self-end rounded-2xl w-[2rem] h-[0.8rem]`}
+    />
+  );
 };
 
 /*
