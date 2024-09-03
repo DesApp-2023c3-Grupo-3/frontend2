@@ -1,12 +1,8 @@
-import { Card, CardBody, CardFooter, Divider, Image } from '@nextui-org/react';
-import { createEndHour } from '../../utils/createEndHour';
-import { createSchedule } from '../../utils/createSchedule';
-import { createSectors } from '../../utils/createSectors';
-import { createStarthour } from '../../utils/createStartHour';
 import Loader from '../Loader';
 import ModalMobile from '../Modal/ModalMobile';
 import Table from '../Table/Table';
 import CardMobileInfo from './CardMobileInfo';
+import ListOfCards from './ListOfCards';
 
 interface MobileBodyProps {
   dataJson: any[];
@@ -51,34 +47,7 @@ export function MobileBody({
           </h1>
         </div>
 
-        {loading ? (
-          <Loader />
-        ) : (
-          <div className="mt-[3rem] p-5 flex flex-col gap-2">
-            {dataJson.map((advertising) => {
-              return (
-                <CardMobileInfo key={advertising.id}>
-                  <div className="flex gap-4 justify-between items-center w-full px-2">
-                    <CardMobileInfo.Picture rol={advertising.user.role.name} />
-                    <CardMobileInfo.Name>
-                      {advertising.name}
-                    </CardMobileInfo.Name>
-                    <CardMobileInfo.State state={advertising.status} />
-                  </div>
-                  <CardMobileInfo.Text>{`${createStarthour(
-                    advertising,
-                  )} - ${createEndHour(advertising)}`}</CardMobileInfo.Text>
-                  <CardMobileInfo.Text>
-                    {createSchedule(advertising)}
-                  </CardMobileInfo.Text>
-                  <CardMobileInfo.Text>
-                    {createSectors(advertising)}
-                  </CardMobileInfo.Text>
-                </CardMobileInfo>
-              );
-            })}
-          </div>
-        )}
+        {loading ? <Loader /> : <ListOfCards dataJson={dataJson} />}
         {!loading && (
           <div id="modal" className="flex items-center justify-end z-[4]">
             <ModalMobile
