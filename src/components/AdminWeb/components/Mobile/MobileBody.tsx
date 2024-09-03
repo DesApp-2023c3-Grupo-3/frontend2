@@ -1,31 +1,24 @@
 import Loader from '../Loader';
 import ModalMobile from '../Modal/ModalMobile';
-import ListOfAdvertisingCards from './ListOfAdvertisingCards';
 
 interface MobileBodyProps {
-  dataJson: any[];
-  handleRowClick?: (data: any) => void;
-  handleRowPress?: (data: any) => void;
   isOpen: boolean;
   onCloseClick: () => void;
   openModal: () => void;
   loading: boolean;
   children: React.ReactElement;
   title: string;
-  placeholder: string;
+  ListOfData: React.ReactElement;
 }
 
 export function MobileBody({
-  dataJson,
-  handleRowClick,
-  handleRowPress,
+  ListOfData,
   isOpen,
   onCloseClick,
   openModal,
   loading,
   children,
   title,
-  placeholder,
 }: MobileBodyProps) {
   const isMiniMobile = window.matchMedia('(max-width: 320px)').matches;
 
@@ -42,14 +35,7 @@ export function MobileBody({
           </h1>
         </div>
 
-        {loading ? (
-          <Loader />
-        ) : (
-          <ListOfAdvertisingCards
-            handleCardClick={handleRowClick}
-            dataJson={dataJson}
-          />
-        )}
+        {loading ? <Loader /> : ListOfData}
         {!loading && (
           <div id="modal" className="flex items-center justify-end z-[4]">
             <ModalMobile

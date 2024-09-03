@@ -12,7 +12,7 @@ function ListOfAdvertisingCards({
   handleCardClick: ((data: any) => void) | undefined;
 }) {
   return (
-    <section className="mt-[2rem] p-5 flex flex-col gap-2">
+    <section className="mt-[2rem] p-8 flex flex-col gap-2">
       {dataJson.map((advertising) => {
         return (
           <CardMobileInfo

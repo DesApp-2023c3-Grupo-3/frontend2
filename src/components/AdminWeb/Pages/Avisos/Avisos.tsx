@@ -12,6 +12,7 @@ import { createEndHour } from '../../utils/createEndHour';
 import { createSectors } from '../../utils/createSectors';
 import { createSchedule } from '../../utils/createSchedule';
 import { createStarthour } from '../../utils/createStartHour';
+import ListOfAdvertisingCards from '../../components/Mobile/ListOfAdvertisingCards';
 
 function Avisos() {
   const [advertisingsJSON, setAdvertisingsJSON] = React.useState<Advertising[]>(
@@ -128,14 +129,17 @@ function Avisos() {
       </Helmet>
       {isMobile ? (
         <MobileBody
-          dataJson={advertisingsJSON}
-          handleRowClick={handleRowClick}
           isOpen={isOpen}
           onCloseClick={onCloseClick}
           openModal={openModal}
+          ListOfData={
+            <ListOfAdvertisingCards
+              dataJson={advertisingsJSON}
+              handleCardClick={handleRowClick}
+            />
+          }
           loading={loading}
           title="Avisos"
-          placeholder="Buscar Avisos"
         >
           <FormMobile
             setAdvertisingsJSON={GetData}

@@ -14,6 +14,7 @@ import { FormMobile } from './components/Mobile/FormMobile';
 import { useIsMobile } from '../../hooks/useIsMobile';
 import { Toast } from '../Avisos/components/Form/FormAdvertising';
 import Swal from 'sweetalert2';
+import ListOfComissionCards from '../../components/Mobile/ListOfComissionCards';
 
 function Comisiones() {
   const [commissionsJSON, setCommissionsJSON] = useState<any[]>([]);
@@ -130,14 +131,17 @@ function Comisiones() {
       <div className={`w-full h-full ${!isMobile && 'mx-[3%]'}`}>
         {isMobile ? (
           <MobileBody
-            dataJson={commissionsJSON}
             isOpen={isOpen}
             onCloseClick={closeModal}
             openModal={openModal}
             loading={loading}
             title="Comisiones"
-            placeholder="Buscar Comision"
-            handleRowPress={(comision) => onRowPress(comision)}
+            ListOfData={
+              <ListOfComissionCards
+                dataJson={commissionsJSON}
+                handleCardClick={(comision) => onRowPress(comision)}
+              />
+            }
           >
             <FormMobile
               setCommissionsJSON={updateCommissionsTable}
