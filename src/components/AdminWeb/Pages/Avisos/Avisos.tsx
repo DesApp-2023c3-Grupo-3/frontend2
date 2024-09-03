@@ -10,6 +10,10 @@ import { MobileBody } from '../../components/Mobile/MobileBody';
 import { FormMobile } from './components/Form/Mobile/FormMobile';
 import { userDiv } from '../../utils/userDiv';
 import { useIsMobile } from '../../hooks/useIsMobile';
+import { createEndHour } from '../../utils/createEndHour';
+import { createSectors } from '../../utils/createSectors';
+import { createSchedule } from '../../utils/createSchedule';
+import { createStarthour } from '../../utils/createStartHour';
 
 function Avisos() {
   const [advertisingsJSON, setAdvertisingsJSON] = React.useState<Advertising[]>(
@@ -59,35 +63,6 @@ function Avisos() {
     GetData();
   }, []);
 
-  const sectores = (advertising: Advertising) =>
-    advertising.advertisingSectors
-      .map((sector) => sector.sector.topic.toLocaleUpperCase())
-      .join('-');
-
-  const dayOrder = ['Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa', 'Do'];
-
-  const schedule = (advertising: Advertising) => {
-    if (advertising.advertisingSchedules.length === 7) {
-      return 'Todos los días';
-    } else {
-      return advertising.advertisingSchedules
-        .map((schedule) => schedule.schedule.dayCode)
-        .map((d) => d.charAt(0).toUpperCase() + d.slice(1).toLowerCase())
-        .sort((a, b) => {
-          return dayOrder.indexOf(a) - dayOrder.indexOf(b);
-        })
-        .join('-');
-    }
-  };
-
-  const starthour = (advertising: Advertising) =>
-    dayjs(advertising.advertisingSchedules[0].schedule.startHour).format(
-      'HH:mm',
-    );
-
-  const endhour = (advertising: Advertising) =>
-    dayjs(advertising.advertisingSchedules[0].schedule.endHour).format('HH:mm');
-
   const tableColumnsDesktop = new Map<string, (advertising: any) => void>([
     [
       '',
@@ -106,19 +81,19 @@ function Avisos() {
     [
       'Sector/es',
       (advertising: Advertising) => {
-        return sectores(advertising);
+        return createSectors(advertising);
       },
     ],
     [
       'Días',
       (advertising: Advertising) => {
-        return schedule(advertising);
+        return createSchedule(advertising);
       },
     ],
     [
       'Programación',
       (advertising: Advertising) => {
-        return starthour(advertising) + '-' + endhour(advertising);
+        return createStarthour(advertising) + '-' + createEndHour(advertising);
       },
     ],
     [

@@ -23,8 +23,6 @@ function TableRow({
     }
   };
 
-  const isMobile = window.matchMedia('(max-width: 768px)').matches;
-
   const [startTime, setStartTime] = React.useState(0);
 
   const handleMouseDown = () => {
@@ -58,17 +56,15 @@ function TableRow({
           <td
             key={columnName}
             id={columnName}
-            className={`py-2 px-6 text-[20px]
-            ${isMobile ? 'max-w-[100px] h-[50px]' : 'max-w-[220px] '}
-            relative`}
+            className="py-2 px-6 text-[20px]
+            'max-w-[220px] relative"
           >
             <div
               className={`
-            ${columnName === 'Rol' && isMobile && 'flex justify-center'}
             overflow-hidden text-ellipsis w-[100%]
             `}
             >
-              {columns.get(columnName)?.call(item, item) || '-'}
+              {columns.get(columnName)?.call(item, item) || 'aaa'}
             </div>
           </td>
         );
