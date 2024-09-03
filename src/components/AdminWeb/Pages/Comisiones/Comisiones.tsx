@@ -14,7 +14,7 @@ import { FormMobile } from './components/Mobile/FormMobile';
 import { useIsMobile } from '../../hooks/useIsMobile';
 import { Toast } from '../Avisos/components/Form/FormAdvertising';
 import Swal from 'sweetalert2';
-import ListOfComissionCards from '../../components/Mobile/ListOfComissionCards';
+import ListOfCommissionCards from '../../components/Mobile/ListOfComissionCards';
 
 function Comisiones() {
   const [commissionsJSON, setCommissionsJSON] = useState<any[]>([]);
@@ -137,7 +137,7 @@ function Comisiones() {
             loading={loading}
             title="Comisiones"
             ListOfData={
-              <ListOfComissionCards
+              <ListOfCommissionCards
                 dataJson={commissionsJSON}
                 handleCardClick={(comision) => onRowPress(comision)}
               />

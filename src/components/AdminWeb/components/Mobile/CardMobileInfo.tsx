@@ -28,10 +28,10 @@ CardMobileInfo.Name = function Name({
   return <p className="text-xl font-semibold">{children}</p>;
 };
 
-CardMobileInfo.Picture = function Picture({ rol }: { rol: string }) {
+CardMobileInfo.Picture = function Picture({ text }: { text: string }) {
   return (
     <div className="bg-[#2C9CBF] p-2 w-10 h-10 rounded-full flex items-center justify-center">
-      <p className="text-white text-2xl">{rol[0]}</p>
+      <p className="text-white text-2xl">{text}</p>
     </div>
   );
 };

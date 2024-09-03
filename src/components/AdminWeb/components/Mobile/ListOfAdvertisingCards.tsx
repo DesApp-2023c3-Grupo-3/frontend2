@@ -20,7 +20,7 @@ function ListOfAdvertisingCards({
             onClick={() => handleCardClick && handleCardClick(advertising)}
           >
             <div className="flex gap-4 justify-between items-center w-full px-2">
-              <CardMobileInfo.Picture rol={advertising.user.role.name} />
+              <CardMobileInfo.Picture text={advertising.user.role.name[0]} />
               <CardMobileInfo.Name>{advertising.name}</CardMobileInfo.Name>
               <CardMobileInfo.State state={advertising.status} />
             </div>

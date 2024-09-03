@@ -1,6 +1,7 @@
+import dayjs from 'dayjs';
 import CardMobileInfo from './CardMobileInfo';
 
-function ListOfComissionCards({
+function ListOfCommissionCards({
   dataJson,
   handleCardClick,
 }: {
@@ -10,13 +11,22 @@ function ListOfComissionCards({
   console.log(dataJson);
   return (
     <section className="mt-[2rem] p-8 flex flex-col gap-2">
-      {dataJson.map((comision) => {
+      {dataJson.map((commission) => {
         return (
           <CardMobileInfo
-            key={comision.id}
-            onClick={() => handleCardClick && handleCardClick(comision)}
+            key={commission.id}
+            onClick={() => handleCardClick && handleCardClick(commission)}
           >
-            a
+            <CardMobileInfo.Picture text={commission.name} />
+            <CardMobileInfo.Name>{commission.subject.name}</CardMobileInfo.Name>
+            <CardMobileInfo.Text>
+              Aula: {commission.classroom.name}
+            </CardMobileInfo.Text>
+            <CardMobileInfo.Text>{`${dayjs(
+              commission.schedule.startHour,
+            ).format('HH:mm')} - ${dayjs(commission.schedule.endHour).format(
+              'HH:mm',
+            )}`}</CardMobileInfo.Text>
           </CardMobileInfo>
         );
       })}
@@ -24,4 +34,4 @@ function ListOfComissionCards({
   );
 }
 
-export default ListOfComissionCards;
+export default ListOfCommissionCards;
