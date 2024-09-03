@@ -13,6 +13,7 @@ import { MobileBody } from '../../components/Mobile/MobileBody';
 import { FormMobile } from './components/Form/FormMobile';
 import { userDiv } from '../../utils/userDiv';
 import { useIsMobile } from '../../hooks/useIsMobile';
+import ListOfUsersCards from '../../components/Mobile/ListOfUsersCards';
 
 function Usuarios() {
   const [usersJSON, setUsersJSON] = useState<User[]>([]);
@@ -301,14 +302,17 @@ function Usuarios() {
         </div>
       ) : (
         <MobileBody
-          dataJson={usersJSON}
-          handleRowClick={handleRowClick}
+          ListOfData={
+            <ListOfUsersCards
+              dataJson={usersJSON}
+              handleCardClick={handleRowClick}
+            />
+          }
           isOpen={isOpen}
           onCloseClick={closeModal}
           openModal={handleOpenModal}
           loading={loading}
           title="Usuarios"
-          placeholder="Buscar usuarios..."
         >
           <FormMobile
             setUserJSON={updateUsersTable}
