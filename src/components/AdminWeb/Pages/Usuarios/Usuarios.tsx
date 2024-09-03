@@ -302,7 +302,6 @@ function Usuarios() {
       ) : (
         <MobileBody
           dataJson={usersJSON}
-          tableColumns={tableColumnsMobile}
           handleRowClick={handleRowClick}
           isOpen={isOpen}
           onCloseClick={closeModal}

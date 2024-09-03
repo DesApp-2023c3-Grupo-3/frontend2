@@ -1,12 +1,9 @@
 import Loader from '../Loader';
 import ModalMobile from '../Modal/ModalMobile';
-import Table from '../Table/Table';
-import CardMobileInfo from './CardMobileInfo';
-import ListOfCards from './ListOfCards';
+import ListOfAdvertisingCards from './ListOfAdvertisingCards';
 
 interface MobileBodyProps {
   dataJson: any[];
-  tableColumns: Map<string, (data: any) => void>;
   handleRowClick?: (data: any) => void;
   handleRowPress?: (data: any) => void;
   isOpen: boolean;
@@ -20,7 +17,6 @@ interface MobileBodyProps {
 
 export function MobileBody({
   dataJson,
-  tableColumns,
   handleRowClick,
   handleRowPress,
   isOpen,
@@ -32,7 +28,6 @@ export function MobileBody({
   placeholder,
 }: MobileBodyProps) {
   const isMiniMobile = window.matchMedia('(max-width: 320px)').matches;
-  console.log(dataJson);
 
   return (
     <>
@@ -47,7 +42,14 @@ export function MobileBody({
           </h1>
         </div>
 
-        {loading ? <Loader /> : <ListOfCards dataJson={dataJson} />}
+        {loading ? (
+          <Loader />
+        ) : (
+          <ListOfAdvertisingCards
+            handleCardClick={handleRowClick}
+            dataJson={dataJson}
+          />
+        )}
         {!loading && (
           <div id="modal" className="flex items-center justify-end z-[4]">
             <ModalMobile

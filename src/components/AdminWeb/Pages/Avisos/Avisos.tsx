@@ -3,8 +3,6 @@ import { Advertising } from '../../types/customTypes';
 import React from 'react';
 import { advertisingsAPI } from '../../../../services/advertisings';
 import { Helmet } from 'react-helmet';
-import { abbreviateSectorName } from '../../utils/AbbreviateSectorName';
-import dayjs from 'dayjs';
 import { DesktopBody } from './components/Body/DesktopBody';
 import { MobileBody } from '../../components/Mobile/MobileBody';
 import { FormMobile } from './components/Form/Mobile/FormMobile';
@@ -104,21 +102,6 @@ function Avisos() {
     ],
   ]);
 
-  const tableColumnsMobile = new Map<string, (user: any) => void>([
-    [
-      'Nombre',
-      (advertising: Advertising) => {
-        return advertising.name;
-      },
-    ],
-    [
-      'Estado',
-      (advertising: Advertising) => {
-        return status(advertising);
-      },
-    ],
-  ]);
-
   const status = (advertising: Advertising) => {
     return (
       <div
@@ -146,7 +129,6 @@ function Avisos() {
       {isMobile ? (
         <MobileBody
           dataJson={advertisingsJSON}
-          tableColumns={tableColumnsMobile}
           handleRowClick={handleRowClick}
           isOpen={isOpen}
           onCloseClick={onCloseClick}

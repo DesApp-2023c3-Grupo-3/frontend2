@@ -2,9 +2,16 @@ import { Card } from '@nextui-org/react';
 
 type Status = 'active' | 'deprecated' | 'pending' | 'today';
 
-function CardMobileInfo({ children }: { children: React.ReactNode }) {
+function CardMobileInfo({
+  children,
+  onClick,
+}: {
+  children: React.ReactNode;
+  onClick: () => void;
+}) {
   return (
     <Card
+      onClick={onClick}
       isPressable
       className="bg-slate-100/50 p-2 w-full border-[1px] rounded-3xl flex flex-col justify-center items-center"
     >

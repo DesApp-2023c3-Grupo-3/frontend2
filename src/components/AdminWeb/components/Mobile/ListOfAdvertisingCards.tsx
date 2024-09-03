@@ -4,12 +4,21 @@ import { createSectors } from '../../utils/createSectors';
 import { createStarthour } from '../../utils/createStartHour';
 import CardMobileInfo from './CardMobileInfo';
 
-function ListOfCards({ dataJson }: { dataJson: any[] }) {
+function ListOfAdvertisingCards({
+  dataJson,
+  handleCardClick,
+}: {
+  dataJson: any[];
+  handleCardClick: ((data: any) => void) | undefined;
+}) {
   return (
     <section className="mt-[2rem] p-5 flex flex-col gap-2">
       {dataJson.map((advertising) => {
         return (
-          <CardMobileInfo key={advertising.id}>
+          <CardMobileInfo
+            key={advertising.id}
+            onClick={() => handleCardClick && handleCardClick(advertising)}
+          >
             <div className="flex gap-4 justify-between items-center w-full px-2">
               <CardMobileInfo.Picture rol={advertising.user.role.name} />
               <CardMobileInfo.Name>{advertising.name}</CardMobileInfo.Name>
@@ -31,4 +40,4 @@ function ListOfCards({ dataJson }: { dataJson: any[] }) {
   );
 }
 
-export default ListOfCards;
+export default ListOfAdvertisingCards;

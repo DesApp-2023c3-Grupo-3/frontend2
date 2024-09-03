@@ -70,27 +70,6 @@ function Comisiones() {
     ],
   ]);
 
-  const tableColumnsMobile = new Map<string, (advertising: any) => void>([
-    [
-      'Materia',
-      (commission: Commission) => {
-        return commission.subject.name;
-      },
-    ],
-    [
-      'Comisión',
-      (commission: Commission) => {
-        return commission.name;
-      },
-    ],
-    [
-      'Aula',
-      (commission: Commission) => {
-        return commission.classroom.name;
-      },
-    ],
-  ]);
-
   const isMobile = useIsMobile();
 
   const handleClickDelete = (id: number) => {
@@ -152,7 +131,6 @@ function Comisiones() {
         {isMobile ? (
           <MobileBody
             dataJson={commissionsJSON}
-            tableColumns={tableColumnsMobile}
             isOpen={isOpen}
             onCloseClick={closeModal}
             openModal={openModal}
