@@ -1,4 +1,5 @@
 import CardMobileInfo from './CardMobileInfo';
+import ListOfCardsLayout from './ListOfCardsLayout';
 
 function ListOfUsersCards({
   dataJson,
@@ -7,9 +8,8 @@ function ListOfUsersCards({
   dataJson: any[];
   handleCardClick: (user: any) => void;
 }) {
-  console.log(dataJson);
   return (
-    <section className="mt-[2rem] p-8 flex flex-col gap-2">
+    <ListOfCardsLayout>
       {dataJson.map((user) => {
         return (
           <CardMobileInfo key={user.id} onClick={() => handleCardClick(user)}>
@@ -20,7 +20,7 @@ function ListOfUsersCards({
           </CardMobileInfo>
         );
       })}
-    </section>
+    </ListOfCardsLayout>
   );
 }
 

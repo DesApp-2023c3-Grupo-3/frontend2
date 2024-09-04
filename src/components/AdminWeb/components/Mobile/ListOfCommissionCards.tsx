@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 import CardMobileInfo from './CardMobileInfo';
+import ListOfCardsLayout from './ListOfCardsLayout';
 
 function ListOfCommissionCards({
   dataJson,
@@ -8,9 +9,8 @@ function ListOfCommissionCards({
   dataJson: any[];
   handleCardClick: (comision: any) => void;
 }) {
-  console.log(dataJson);
   return (
-    <section className="mt-[2rem] p-8 flex flex-col gap-2">
+    <ListOfCardsLayout>
       {dataJson.map((commission) => {
         return (
           <CardMobileInfo
@@ -30,7 +30,7 @@ function ListOfCommissionCards({
           </CardMobileInfo>
         );
       })}
-    </section>
+    </ListOfCardsLayout>
   );
 }
 

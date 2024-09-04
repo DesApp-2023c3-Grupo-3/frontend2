@@ -1,7 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Pagination, ThemeProvider } from '@mui/material';
+import { Pagination } from '@nextui-org/react';
+import React, { useRef, useState } from 'react';
 import SearchBar from './SearchBar';
-import theme from '../../config/createTheme';
 import TableBody from './TableBody';
 
 interface TableProps {
@@ -11,6 +10,9 @@ interface TableProps {
   onRowClick?: (data: any) => void;
   onRowPress?: (data: any) => void;
   placeholder?: string;
+  totalItems?: number;
+  currentPage?: number;
+  setCurrentPage?: any;
 }
 
 function Table({
@@ -20,12 +22,16 @@ function Table({
   onRowClick,
   onRowPress,
   placeholder,
+  totalItems = 0,
+  currentPage,
+  setCurrentPage,
 }: TableProps) {
-  const [itemsPerPage, setItemsPerPage] = useState(7);
   const [filteredData, setFilteredData] = useState(dataJSON);
   const rowRef = useRef<HTMLTableRowElement>(null);
 
-  const adjustItemsPerPage = () => {
+  //Ajustar la cantidad de filas a mostrar en función del tamaño de la ventana.
+
+  /*const adjustItemsPerPage = () => {
     const row = rowRef.current;
 
     if (row) {
@@ -49,19 +55,12 @@ function Table({
     return () => {
       window.removeEventListener('resize', adjustItemsPerPage);
     };
-  }, []);
+  }, []);*/
 
-  const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
 
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-
-  const handlePageChange = (
-    event: React.ChangeEvent<unknown>,
-    newPage: number,
-  ) => {
-    setCurrentPage(newPage);
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
   };
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -93,31 +92,28 @@ function Table({
     setFilteredData(filteredResult);
   };
 
-  const currentData = filteredData.slice(startIndex, endIndex);
-
   return (
-    <div className="">
+    <div className="flex flex-col grow">
       <SearchBar
         searchTerm={searchTerm}
         onSearchChange={handleSearchChange}
         placeholder={placeholder}
       />
       <TableBody
-        dataJSON={currentData}
+        dataJSON={filteredData}
         columns={columns}
         onRowClick={onRowClick}
         rowRef={rowRef}
         onRowPress={onRowPress}
       />
-      <ThemeProvider theme={theme}>
-        <Pagination
-          className="flex justify-center bg-white pt-10"
-          count={Math.ceil(filteredData.length / itemsPerPage)}
-          page={currentPage}
-          onChange={handlePageChange}
-          color="primary"
-        />
-      </ThemeProvider>
+      <Pagination
+        color="primary"
+        className="bg-white scrollbar-none flex justify-center w-full mt-auto"
+        showControls
+        total={Math.ceil(totalItems / 10)}
+        page={currentPage}
+        onChange={handlePageChange}
+      ></Pagination>
     </div>
   );
 }

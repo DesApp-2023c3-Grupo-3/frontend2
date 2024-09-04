@@ -14,7 +14,7 @@ import { FormMobile } from './components/Mobile/FormMobile';
 import { useIsMobile } from '../../hooks/useIsMobile';
 import { Toast } from '../Avisos/components/Form/FormAdvertising';
 import Swal from 'sweetalert2';
-import ListOfCommissionCards from '../../components/Mobile/ListOfComissionCards';
+import ListOfCommissionCards from '../../components/Mobile/ListOfCommissionCards';
 
 function Comisiones() {
   const [commissionsJSON, setCommissionsJSON] = useState<any[]>([]);

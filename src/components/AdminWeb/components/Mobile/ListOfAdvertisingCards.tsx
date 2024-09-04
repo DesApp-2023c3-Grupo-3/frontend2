@@ -3,6 +3,7 @@ import { createSchedule } from '../../utils/createSchedule';
 import { createSectors } from '../../utils/createSectors';
 import { createStarthour } from '../../utils/createStartHour';
 import CardMobileInfo from './CardMobileInfo';
+import ListOfCardsLayout from './ListOfCardsLayout';
 
 function ListOfAdvertisingCards({
   dataJson,
@@ -12,7 +13,7 @@ function ListOfAdvertisingCards({
   handleCardClick: ((data: any) => void) | undefined;
 }) {
   return (
-    <section className="mt-[2rem] p-8 flex flex-col gap-2">
+    <ListOfCardsLayout>
       {dataJson.map((advertising) => {
         return (
           <CardMobileInfo
@@ -36,7 +37,7 @@ function ListOfAdvertisingCards({
           </CardMobileInfo>
         );
       })}
-    </section>
+    </ListOfCardsLayout>
   );
 }
 

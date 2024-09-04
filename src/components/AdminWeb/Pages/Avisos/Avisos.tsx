@@ -19,6 +19,9 @@ function Avisos() {
     [],
   );
 
+  const [currentPages, setCurrentPages] = React.useState(1);
+  const [totalItems, setTotalItems] = React.useState(0);
+
   const [editRow, setEditRow] = React.useState<Advertising>();
   const [isEditing, setIsEditing] = React.useState(false);
 
@@ -43,14 +46,10 @@ function Avisos() {
   const GetData = () => {
     setLoading(true);
     advertisingsAPI
-      .getAll()
+      .getPaginated(currentPages, 10)
       .then((r) => {
-        const orderedData = r.data.sort((a: any, b: any) => {
-          const order = ['active', 'today', 'pending', 'deprecated'];
-          return order.indexOf(a.status) - order.indexOf(b.status);
-        });
-
-        setAdvertisingsJSON(orderedData);
+        setTotalItems(r.data.total);
+        setAdvertisingsJSON(r.data.data);
         setLoading(false);
       })
       .catch((e) => {
@@ -60,7 +59,7 @@ function Avisos() {
 
   React.useEffect(() => {
     GetData();
-  }, []);
+  }, [currentPages]);
 
   const tableColumnsDesktop = new Map<string, (advertising: any) => void>([
     [
@@ -140,6 +139,9 @@ function Avisos() {
           }
           loading={loading}
           title="Avisos"
+          currentPage={currentPages}
+          totalItems={totalItems}
+          setCurrentPage={setCurrentPages}
         >
           <FormMobile
             setAdvertisingsJSON={GetData}
@@ -160,6 +162,9 @@ function Avisos() {
           isEditing={isEditing}
           editRow={editRow}
           loading={loading}
+          currentPages={currentPages}
+          totalItems={totalItems}
+          setCurrentPage={setCurrentPages}
         />
       )}
     </>

@@ -1,3 +1,4 @@
+import { Pagination } from '@nextui-org/react';
 import Loader from '../Loader';
 import ModalMobile from '../Modal/ModalMobile';
 
@@ -9,6 +10,9 @@ interface MobileBodyProps {
   children: React.ReactElement;
   title: string;
   ListOfData: React.ReactElement;
+  currentPage?: number;
+  totalItems?: number;
+  setCurrentPage?: any;
 }
 
 export function MobileBody({
@@ -19,8 +23,15 @@ export function MobileBody({
   loading,
   children,
   title,
+  currentPage,
+  totalItems,
+  setCurrentPage,
 }: MobileBodyProps) {
   const isMiniMobile = window.matchMedia('(max-width: 320px)').matches;
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
 
   return (
     <>
@@ -35,7 +46,21 @@ export function MobileBody({
           </h1>
         </div>
 
-        {loading ? <Loader /> : ListOfData}
+        {loading ? (
+          <Loader />
+        ) : (
+          <>
+            {ListOfData}
+            <Pagination
+              color="primary"
+              className="bg-white scrollbar-none flex justify-center w-full"
+              showControls
+              total={totalItems ? Math.ceil(totalItems / 10) : 0}
+              page={currentPage}
+              onChange={handlePageChange}
+            />
+          </>
+        )}
         {!loading && (
           <div id="modal" className="flex items-center justify-end z-[4]">
             <ModalMobile
