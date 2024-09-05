@@ -110,7 +110,7 @@ function Table({
         color="primary"
         className="bg-white scrollbar-none flex justify-center w-full mt-auto"
         showControls
-        total={Math.ceil(totalItems / 10)}
+        total={Math.ceil(totalItems / 6)}
         page={currentPage}
         onChange={handlePageChange}
       ></Pagination>

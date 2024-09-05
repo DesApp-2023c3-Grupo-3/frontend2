@@ -46,7 +46,7 @@ function Avisos() {
   const GetData = () => {
     setLoading(true);
     advertisingsAPI
-      .getPaginated(currentPages, 10)
+      .getPaginated(currentPages, 6)
       .then((r) => {
         setTotalItems(r.data.total);
         setAdvertisingsJSON(r.data.data);
