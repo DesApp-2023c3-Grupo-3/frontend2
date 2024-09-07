@@ -12,7 +12,7 @@ interface MobileBodyProps {
   ListOfData: React.ReactElement;
   currentPage?: number;
   totalItems?: number;
-  setCurrentPage?: any;
+  setCurrentPage?: (page: number) => void;
 }
 
 export function MobileBody({
@@ -30,7 +30,9 @@ export function MobileBody({
   const isMiniMobile = window.matchMedia('(max-width: 320px)').matches;
 
   const handlePageChange = (page: number) => {
-    setCurrentPage(page);
+    /* TODO: Cuando se integren los demás endpoints a setCurrentPage hay
+    que sacarle el opcional y después sacar el && */
+    setCurrentPage && setCurrentPage(page);
   };
 
   return (

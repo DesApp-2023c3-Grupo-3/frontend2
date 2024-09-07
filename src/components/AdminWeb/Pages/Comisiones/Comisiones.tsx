@@ -17,14 +17,15 @@ import Swal from 'sweetalert2';
 import ListOfCommissionCards from '../../components/Mobile/ListOfCommissionCards';
 
 function Comisiones() {
-  const [commissionsJSON, setCommissionsJSON] = useState<any[]>([]);
+  const [commissionsJSON, setCommissionsJSON] = useState<Commission[]>([]);
   const [loading, setLoading] = useState(false);
 
   const updateCommissionsTable = async () => {
     setLoading(true);
     try {
-      const updatedCommissions: any = await commissionApi.getAll();
-      setCommissionsJSON((updatedCommissions?.data as Commission[]) || []);
+      const updatedCommissions: { data: Commission[] } =
+        await commissionApi.getAll();
+      setCommissionsJSON(updatedCommissions.data || []);
       setLoading(false);
     } catch (error) {
       console.error(error);

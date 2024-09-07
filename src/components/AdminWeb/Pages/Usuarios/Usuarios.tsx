@@ -35,7 +35,7 @@ function Usuarios() {
 
   const handleRowClick = (user: User) => {
     setEditRow(user);
-    setSelectedRole(user.role as UserRole);
+    setSelectedRole(user.role || selectedRole);
     setIsEditing(true);
     openModal();
     setTimeout(() => {
@@ -168,8 +168,8 @@ function Usuarios() {
   const updateUsersTable = async () => {
     setLoading(true);
     try {
-      const updatedUsers: any = await userApi.getAll();
-      setUsersJSON((updatedUsers?.data as User[]) || []);
+      const updatedUsers: { data: User[] } = await userApi.getAll();
+      setUsersJSON(updatedUsers.data || []);
       setLoading(false);
     } catch (error) {
       console.error(error);
@@ -248,7 +248,7 @@ function Usuarios() {
                           type="text"
                           placeholder="Rol del usuario"
                           ref={roleRef}
-                          className="hidden text-[20px] font-[400] tracking-[-0.4px] rounded-[30px] bg-[#D9D9D9] flex w-[365px] h-[50px] px-[40px] py-[12px] items-center"
+                          className="text-[20px] font-[400] tracking-[-0.4px] rounded-[30px] bg-[#D9D9D9] flex w-[365px] h-[50px] px-[40px] py-[12px] items-center"
                         />
                         <Roles
                           selectedRole={selectedRole}

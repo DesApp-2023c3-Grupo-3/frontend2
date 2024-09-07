@@ -27,7 +27,7 @@ function Avisos() {
 
   const [loading, setLoading] = React.useState(false);
 
-  const handleRowClick = (advertising: any) => {
+  const handleRowClick = (advertising: Advertising) => {
     setEditRow(advertising);
     setIsEditing(true);
     openModal();

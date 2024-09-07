@@ -1,6 +1,6 @@
 import { Card } from '@nextui-org/react';
 
-type Status = 'active' | 'deprecated' | 'pending' | 'today';
+export type Status = 'active' | 'deprecated' | 'pending' | 'today';
 
 function CardMobileInfo({
   children,

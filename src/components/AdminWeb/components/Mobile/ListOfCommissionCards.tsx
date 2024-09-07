@@ -1,13 +1,14 @@
 import dayjs from 'dayjs';
 import CardMobileInfo from './CardMobileInfo';
 import ListOfCardsLayout from './ListOfCardsLayout';
+import { Commission } from '../../types/customTypes';
 
 function ListOfCommissionCards({
   dataJson,
   handleCardClick,
 }: {
-  dataJson: any[];
-  handleCardClick: (comision: any) => void;
+  dataJson: Commission[];
+  handleCardClick: (comision: Commission) => void;
 }) {
   return (
     <ListOfCardsLayout>
