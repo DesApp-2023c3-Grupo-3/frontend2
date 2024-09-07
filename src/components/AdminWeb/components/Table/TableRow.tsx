@@ -64,7 +64,7 @@ function TableRow({
             overflow-hidden text-ellipsis w-[100%]
             `}
             >
-              {columns.get(columnName)?.call(item, item) || 'aaa'}
+              {columns.get(columnName)?.call(item, item) || '-'}
             </div>
           </td>
         );
