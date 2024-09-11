@@ -1,5 +1,5 @@
 # Etapa de compilación
-FROM node:14 AS builder
+FROM node:18 AS builder
 
 ARG REACT_APP_WEBSOCKET_HOST
 ENV REACT_APP_WEBSOCKET_HOST=${REACT_APP_WEBSOCKET_HOST}

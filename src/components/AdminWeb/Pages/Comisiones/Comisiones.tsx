@@ -14,16 +14,18 @@ import { FormMobile } from './components/Mobile/FormMobile';
 import { useIsMobile } from '../../hooks/useIsMobile';
 import { Toast } from '../Avisos/components/Form/FormAdvertising';
 import Swal from 'sweetalert2';
+import ListOfCommissionCards from '../../components/Mobile/ListOfCommissionCards';
 
 function Comisiones() {
-  const [commissionsJSON, setCommissionsJSON] = useState<any[]>([]);
+  const [commissionsJSON, setCommissionsJSON] = useState<Commission[]>([]);
   const [loading, setLoading] = useState(false);
 
   const updateCommissionsTable = async () => {
     setLoading(true);
     try {
-      const updatedCommissions: any = await commissionApi.getAll();
-      setCommissionsJSON((updatedCommissions?.data as Commission[]) || []);
+      const updatedCommissions: { data: Commission[] } =
+        await commissionApi.getAll();
+      setCommissionsJSON(updatedCommissions.data || []);
       setLoading(false);
     } catch (error) {
       console.error(error);
@@ -66,27 +68,6 @@ function Comisiones() {
       '',
       (commission: Commission) => {
         return trash(commission.id);
-      },
-    ],
-  ]);
-
-  const tableColumnsMobile = new Map<string, (advertising: any) => void>([
-    [
-      'Materia',
-      (commission: Commission) => {
-        return commission.subject.name;
-      },
-    ],
-    [
-      'Comisión',
-      (commission: Commission) => {
-        return commission.name;
-      },
-    ],
-    [
-      'Aula',
-      (commission: Commission) => {
-        return commission.classroom.name;
       },
     ],
   ]);
@@ -151,15 +132,17 @@ function Comisiones() {
       <div className={`w-full h-full ${!isMobile && 'mx-[3%]'}`}>
         {isMobile ? (
           <MobileBody
-            dataJson={commissionsJSON}
-            tableColumns={tableColumnsMobile}
             isOpen={isOpen}
             onCloseClick={closeModal}
             openModal={openModal}
             loading={loading}
             title="Comisiones"
-            placeholder="Buscar Comision"
-            handleRowPress={(comision) => onRowPress(comision)}
+            ListOfData={
+              <ListOfCommissionCards
+                dataJson={commissionsJSON}
+                handleCardClick={(comision) => onRowPress(comision)}
+              />
+            }
           >
             <FormMobile
               setCommissionsJSON={updateCommissionsTable}

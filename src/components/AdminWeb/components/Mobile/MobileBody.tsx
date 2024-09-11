@@ -1,35 +1,39 @@
+import { Pagination } from '@nextui-org/react';
 import Loader from '../Loader';
 import ModalMobile from '../Modal/ModalMobile';
-import Table from '../Table/Table';
 
 interface MobileBodyProps {
-  dataJson: any[];
-  tableColumns: Map<string, (data: any) => void>;
-  handleRowClick?: (data: any) => void;
-  handleRowPress?: (data: any) => void;
   isOpen: boolean;
   onCloseClick: () => void;
   openModal: () => void;
   loading: boolean;
   children: React.ReactElement;
   title: string;
-  placeholder: string;
+  ListOfData: React.ReactElement;
+  currentPage?: number;
+  totalItems?: number;
+  setCurrentPage?: (page: number) => void;
 }
 
 export function MobileBody({
-  dataJson,
-  tableColumns,
-  handleRowClick,
-  handleRowPress,
+  ListOfData,
   isOpen,
   onCloseClick,
   openModal,
   loading,
   children,
   title,
-  placeholder,
+  currentPage,
+  totalItems,
+  setCurrentPage,
 }: MobileBodyProps) {
   const isMiniMobile = window.matchMedia('(max-width: 320px)').matches;
+
+  const handlePageChange = (page: number) => {
+    /* TODO: Cuando se integren los demás endpoints a setCurrentPage hay
+    que sacarle el opcional y después sacar el && */
+    setCurrentPage && setCurrentPage(page);
+  };
 
   return (
     <>
@@ -47,15 +51,17 @@ export function MobileBody({
         {loading ? (
           <Loader />
         ) : (
-          <div className=" translate-y-[-1.5em]">
-            <Table
-              dataJSON={dataJson}
-              columns={tableColumns}
-              onRowClick={handleRowClick}
-              onRowPress={handleRowPress}
-              placeholder={placeholder}
+          <>
+            {ListOfData}
+            <Pagination
+              color="primary"
+              className="bg-white scrollbar-none flex justify-center w-full"
+              showControls
+              total={totalItems ? Math.ceil(totalItems / 10) : 0}
+              page={currentPage}
+              onChange={handlePageChange}
             />
-          </div>
+          </>
         )}
         {!loading && (
           <div id="modal" className="flex items-center justify-end z-[4]">

@@ -13,6 +13,7 @@ import { MobileBody } from '../../components/Mobile/MobileBody';
 import { FormMobile } from './components/Form/FormMobile';
 import { userDiv } from '../../utils/userDiv';
 import { useIsMobile } from '../../hooks/useIsMobile';
+import ListOfUsersCards from '../../components/Mobile/ListOfUsersCards';
 
 function Usuarios() {
   const [usersJSON, setUsersJSON] = useState<User[]>([]);
@@ -34,7 +35,7 @@ function Usuarios() {
 
   const handleRowClick = (user: User) => {
     setEditRow(user);
-    setSelectedRole(user.role as UserRole);
+    setSelectedRole(user.role || selectedRole);
     setIsEditing(true);
     openModal();
     setTimeout(() => {
@@ -167,8 +168,8 @@ function Usuarios() {
   const updateUsersTable = async () => {
     setLoading(true);
     try {
-      const updatedUsers: any = await userApi.getAll();
-      setUsersJSON((updatedUsers?.data as User[]) || []);
+      const updatedUsers: { data: User[] } = await userApi.getAll();
+      setUsersJSON(updatedUsers.data || []);
       setLoading(false);
     } catch (error) {
       console.error(error);
@@ -247,7 +248,7 @@ function Usuarios() {
                           type="text"
                           placeholder="Rol del usuario"
                           ref={roleRef}
-                          className="hidden text-[20px] font-[400] tracking-[-0.4px] rounded-[30px] bg-[#D9D9D9] flex w-[365px] h-[50px] px-[40px] py-[12px] items-center"
+                          className="text-[20px] font-[400] tracking-[-0.4px] rounded-[30px] bg-[#D9D9D9] flex w-[365px] h-[50px] px-[40px] py-[12px] items-center"
                         />
                         <Roles
                           selectedRole={selectedRole}
@@ -301,15 +302,17 @@ function Usuarios() {
         </div>
       ) : (
         <MobileBody
-          dataJson={usersJSON}
-          tableColumns={tableColumnsMobile}
-          handleRowClick={handleRowClick}
+          ListOfData={
+            <ListOfUsersCards
+              dataJson={usersJSON}
+              handleCardClick={handleRowClick}
+            />
+          }
           isOpen={isOpen}
           onCloseClick={closeModal}
           openModal={handleOpenModal}
           loading={loading}
           title="Usuarios"
-          placeholder="Buscar usuarios..."
         >
           <FormMobile
             setUserJSON={updateUsersTable}

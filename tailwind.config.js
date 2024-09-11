@@ -1,3 +1,5 @@
+const { nextui } = require('@nextui-org/react');
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -15,5 +17,20 @@ module.exports = {
     },
   },
   darkMode: 'class',
-  plugins: [require('tailwind-scrollbar'), require('@nextui-org/theme')],
+  plugins: [
+    require('tailwind-scrollbar'),
+    nextui({
+      themes: {
+        ligth: {
+          colors: {
+            primary: {
+              DEFAULT: '#BEF264',
+              foreground: '#000000',
+            },
+            focus: '#BEF264',
+          },
+        },
+      },
+    }),
+  ],
 };
