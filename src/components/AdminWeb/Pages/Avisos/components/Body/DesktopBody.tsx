@@ -1,5 +1,6 @@
 import Loader from '../../../../components/Loader';
 import Modal from '../../../../components/Modal/Modal';
+import TablaNextUi from '../../../../components/Table/TablaNextUI';
 import Table from '../../../../components/Table/Table';
 import { Advertising } from '../../../../types/customTypes';
 import FormAdvertising from '../Form/FormAdvertising';
@@ -45,31 +46,11 @@ export function DesktopBody({
         {loading ? (
           <Loader />
         ) : (
-          <div className="mt-[-70px] flex flex-col h-full">
-            <Table
+          <div className="lex flex-col h-full mt-[100px]">
+            <TablaNextUi
               dataJSON={advertisingsJSON}
               columns={tableColumns}
-              onRowClick={handleRowClick}
-              placeholder="Buscar Aviso"
-              currentPage={currentPages}
-              totalItems={totalItems}
-              setCurrentPage={setCurrentPage}
-            />
-            <div className="flex justify-end">
-              <Modal
-                isOpen={isOpen}
-                closeModal={onCloseClick}
-                openModal={openModal}
-                label="NUEVO AVISO"
-              >
-                <FormAdvertising
-                  setAdvertisingsJSON={GetData}
-                  closeModal={onCloseClick}
-                  isCreate={!isEditing}
-                  advertising={editRow}
-                />
-              </Modal>
-            </div>
+            ></TablaNextUi>
           </div>
         )}
       </section>

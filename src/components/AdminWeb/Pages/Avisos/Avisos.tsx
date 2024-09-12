@@ -27,7 +27,7 @@ function Avisos() {
 
   const [loading, setLoading] = React.useState(false);
 
-  const handleRowClick = (advertising: Advertising) => {
+  const handleRowClick = (advertising: any) => {
     setEditRow(advertising);
     setIsEditing(true);
     openModal();
@@ -105,7 +105,7 @@ function Avisos() {
   const status = (advertising: Advertising) => {
     return (
       <div
-        className={`w-[40px] h-[12px] ml-5 rounded-[8px] ${
+        className={`w-[40px] h-[12px] rounded-[8px] ${
           statusClasses[advertising.status] || 'bg-[#727272]'
         }`}
       ></div>
