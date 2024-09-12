@@ -262,9 +262,9 @@ function FormAdvertising({
   };
 
   return (
-    <div>
-      <form className="mx-10">
-        <div className=" flex my-5 justify-between items-center">
+    <div className="p-5 flex flex-col gap-3">
+      <form className="flex flex-col justify-center gap-3">
+        <div className="flex gap-10 justify-center items-center">
           <div className="flex-col w-[365px] h-[50px]">
             <InputName
               emptyFields={emptyFields}
@@ -292,8 +292,8 @@ function FormAdvertising({
             </div>
           </div>
         </div>
-        <div className="flex justify-between h-[348px]">
-          <div className="flex-col justify-center items-center m-5 ">
+        <div className="flex items-center">
+          <div className="flex-col items-center">
             <div className="flex-col justify-center">
               <DatePickerDays
                 onChangeStartDate={setStartDate}
@@ -348,7 +348,7 @@ function FormAdvertising({
           </div>
         </div>
       </form>
-      <div className="flex justify-between mt-[2em] mx-[4.5em]">
+      <div className="flex justify-center gap-10">
         <div>
           {!isCreate && (
             <div className="w-[300px]">

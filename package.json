@@ -8,6 +8,7 @@
     "@emotion/styled": "^11.11.0",
     "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^2.0.18",
+    "@internationalized/date": "^3.5.5",
     "@mui/material": "^5.14.10",
     "@mui/styled-engine-sc": "^5.14.10",
     "@mui/x-date-pickers": "^6.15.0",

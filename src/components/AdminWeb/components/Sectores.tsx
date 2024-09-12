@@ -1,6 +1,5 @@
 import { Fragment, useState, useEffect } from 'react';
 import { Listbox, Transition } from '@headlessui/react';
-import { abbreviateSectorName } from '../utils/AbbreviateSectorName';
 import { Checkbox } from '@mui/material';
 import { sectorApi } from '../../../services/sectores';
 import Loader from './Loader';
