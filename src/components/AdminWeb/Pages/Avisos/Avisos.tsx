@@ -43,14 +43,18 @@ function Avisos() {
     }, 250);
   };
 
+  const [pages, setPages] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(7);
+
   const GetData = () => {
     setLoading(true);
     advertisingsAPI
-      .getPaginated(currentPages, 6)
+      .getPaginated(currentPages, rowsPerPage)
       .then((r) => {
         setTotalItems(r.data.total);
         setAdvertisingsJSON(r.data.data);
         setLoading(false);
+        setPages(r.data.totalPages);
       })
       .catch((e) => {
         console.error(e);
@@ -59,7 +63,7 @@ function Avisos() {
 
   React.useEffect(() => {
     GetData();
-  }, [currentPages]);
+  }, [currentPages, rowsPerPage]);
 
   const tableColumnsDesktop = new Map<string, (advertising: any) => void>([
     [
@@ -165,6 +169,9 @@ function Avisos() {
           currentPages={currentPages}
           totalItems={totalItems}
           setCurrentPage={setCurrentPages}
+          pages={pages}
+          setRowsPerPage={setRowsPerPage}
+          rowsPerPage={rowsPerPage}
         />
       )}
     </>

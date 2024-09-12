@@ -1,7 +1,6 @@
 import Loader from '../../../../components/Loader';
 import Modal from '../../../../components/Modal/Modal';
 import TablaNextUi from '../../../../components/Table/TablaNextUI';
-import Table from '../../../../components/Table/Table';
 import { Advertising } from '../../../../types/customTypes';
 import FormAdvertising from '../Form/FormAdvertising';
 
@@ -19,6 +18,9 @@ interface DesktopBodyProps {
   currentPages?: number;
   totalItems?: number;
   setCurrentPage?: any;
+  pages: number;
+  setRowsPerPage: any;
+  rowsPerPage: number;
 }
 
 export function DesktopBody({
@@ -35,6 +37,9 @@ export function DesktopBody({
   currentPages,
   totalItems,
   setCurrentPage,
+  pages,
+  setRowsPerPage,
+  rowsPerPage,
 }: DesktopBodyProps) {
   return (
     <>
@@ -46,11 +51,34 @@ export function DesktopBody({
         {loading ? (
           <Loader />
         ) : (
-          <div className="lex flex-col h-full mt-[100px]">
+          <div className="lex flex-col h-full">
             <TablaNextUi
               dataJSON={advertisingsJSON}
               columns={tableColumns}
+              onRowClick={handleRowClick}
+              placeholder="Buscar"
+              totalItems={totalItems}
+              currentPage={currentPages}
+              setCurrentPage={setCurrentPage}
+              pages={pages}
+              setRowsPerPage={setRowsPerPage}
+              rowsPerPage={rowsPerPage}
             ></TablaNextUi>
+            <div className="flex justify-end">
+              <Modal
+                isOpen={isOpen}
+                closeModal={onCloseClick}
+                openModal={openModal}
+                label="NUEVO AVISO"
+              >
+                <FormAdvertising
+                  setAdvertisingsJSON={GetData}
+                  closeModal={onCloseClick}
+                  isCreate={!isEditing}
+                  advertising={editRow}
+                />
+              </Modal>
+            </div>
           </div>
         )}
       </section>
