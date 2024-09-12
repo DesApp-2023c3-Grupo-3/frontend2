@@ -13,6 +13,7 @@ import { createSectors } from '../../utils/createSectors';
 import { createSchedule } from '../../utils/createSchedule';
 import { createStarthour } from '../../utils/createStartHour';
 import ListOfAdvertisingCards from '../../components/Mobile/ListOfAdvertisingCards';
+import { Chip } from '@nextui-org/react';
 
 function Avisos() {
   const [advertisingsJSON, setAdvertisingsJSON] = React.useState<Advertising[]>(
@@ -108,19 +109,29 @@ function Avisos() {
 
   const status = (advertising: Advertising) => {
     return (
-      <div
-        className={`w-[40px] h-[12px] rounded-[8px] ${
-          statusClasses[advertising.status] || 'bg-[#727272]'
-        }`}
-      ></div>
+      <Chip
+        className="capitalize"
+        color={statusClasses[advertising.status]}
+        size="sm"
+        variant="flat"
+      >
+        {statusNames[advertising.status]}
+      </Chip>
     );
   };
 
   const statusClasses: any = {
-    active: 'bg-[#74C91E]',
-    deprecated: 'bg-[#727272]',
-    pending: 'bg-[#C2B222]',
-    today: 'bg-[#C2B222]',
+    active: 'success',
+    deprecated: 'default',
+    pending: 'warning',
+    today: 'warning',
+  };
+
+  const statusNames: any = {
+    active: 'Activo',
+    deprecated: 'Desactivado',
+    pending: 'Pendiente',
+    today: 'Hoy',
   };
 
   const isMobile = useIsMobile();
