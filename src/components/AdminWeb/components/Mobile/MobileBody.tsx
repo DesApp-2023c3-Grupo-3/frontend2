@@ -42,7 +42,7 @@ export function MobileBody({
   return (
     <>
       <section className="w-screen h-screen">
-        <div className="flex items-center translate-y-[3em]">
+        <div className="flex items-center justify-between translate-y-[3em]">
           <h1
             className={` text-[3em] font-[700] text-[#484848] tracking-[-1.28px] translate-x-[40px] ${
               isMiniMobile && 'text-[24px]'
@@ -50,12 +50,12 @@ export function MobileBody({
           >
             {title}
           </h1>
-          <SearchBar
-            searchTerm={searchTerm}
-            onSearchChange={setSearchTerm}
-            placeholder="Buscar avisos"
-          />
         </div>
+        <SearchBar
+          searchTerm={searchTerm}
+          onSearchChange={setSearchTerm}
+          placeholder="Buscar avisos"
+        />
         {loading ? (
           <Loader />
         ) : (
