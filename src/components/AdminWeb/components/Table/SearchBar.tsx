@@ -33,7 +33,7 @@ function SearchBar({
       {!isMobile ? (
         desktopSearch(searchTerm, onSearchChange, placeholder)
       ) : (
-        <div id="searchmobile" className="container py-[20px] relative w-[90%]">
+        <div id="searchmobile" className="container py-[3px] relative w-[90%]">
           <input
             type="text"
             placeholder={placeholder}
