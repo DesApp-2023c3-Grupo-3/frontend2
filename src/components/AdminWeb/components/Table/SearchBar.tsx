@@ -7,7 +7,7 @@ function SearchBar({
   placeholder = 'Buscar',
 }: {
   searchTerm: string;
-  onSearchChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onSearchChange: (newTerm: string) => void;
   placeholder?: string;
 }) {
   const [isMobile, setIsMobile] = React.useState(
@@ -39,7 +39,7 @@ function SearchBar({
             placeholder={placeholder}
             value={searchTerm}
             className="z-[-1]"
-            onChange={onSearchChange}
+            onChange={(e) => onSearchChange(e.target.value)}
           />
           <div className="search"></div>
         </div>
@@ -52,7 +52,7 @@ export default SearchBar;
 
 function desktopSearch(
   searchTerm: string,
-  onSearchChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
+  onSearchChange: (newTerm: string) => void,
   placeholder: string,
 ) {
   return (
@@ -66,7 +66,7 @@ function desktopSearch(
         type="text"
         placeholder={placeholder}
         value={searchTerm}
-        onChange={onSearchChange}
+        onChange={(e) => onSearchChange(e.target.value)}
       />
     </div>
   );

@@ -13,6 +13,7 @@ import { createSectors } from '../../utils/createSectors';
 import { createSchedule } from '../../utils/createSchedule';
 import { createStarthour } from '../../utils/createStartHour';
 import ListOfAdvertisingCards from '../../components/Mobile/ListOfAdvertisingCards';
+import useSearchTerm from '../../hooks/useSearchTermAdvertising';
 
 function Avisos() {
   const [advertisingsJSON, setAdvertisingsJSON] = React.useState<Advertising[]>(
@@ -26,6 +27,8 @@ function Avisos() {
   const [isEditing, setIsEditing] = React.useState(false);
 
   const [loading, setLoading] = React.useState(false);
+
+  const { setSearchTerm } = useSearchTerm();
 
   const handleRowClick = (advertising: Advertising) => {
     setEditRow(advertising);
@@ -59,6 +62,10 @@ function Avisos() {
 
   React.useEffect(() => {
     GetData();
+
+    return () => {
+      setSearchTerm('');
+    };
   }, [currentPages]);
 
   const tableColumnsDesktop = new Map<string, (advertising: any) => void>([

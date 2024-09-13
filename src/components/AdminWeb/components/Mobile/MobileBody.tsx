@@ -1,6 +1,8 @@
 import { Pagination } from '@nextui-org/react';
 import Loader from '../Loader';
 import ModalMobile from '../Modal/ModalMobile';
+import SearchBar from '../Table/SearchBar';
+import useSearchTerm from '../../hooks/useSearchTermAdvertising';
 
 interface MobileBodyProps {
   isOpen: boolean;
@@ -27,6 +29,8 @@ export function MobileBody({
   totalItems,
   setCurrentPage,
 }: MobileBodyProps) {
+  const { searchTerm, setSearchTerm } = useSearchTerm();
+
   const isMiniMobile = window.matchMedia('(max-width: 320px)').matches;
 
   const handlePageChange = (page: number) => {
@@ -46,8 +50,12 @@ export function MobileBody({
           >
             {title}
           </h1>
+          <SearchBar
+            searchTerm={searchTerm}
+            onSearchChange={setSearchTerm}
+            placeholder="Buscar avisos"
+          />
         </div>
-
         {loading ? (
           <Loader />
         ) : (

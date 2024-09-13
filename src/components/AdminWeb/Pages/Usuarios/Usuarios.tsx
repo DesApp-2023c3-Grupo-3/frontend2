@@ -14,6 +14,7 @@ import { FormMobile } from './components/Form/FormMobile';
 import { userDiv } from '../../utils/userDiv';
 import { useIsMobile } from '../../hooks/useIsMobile';
 import ListOfUsersCards from '../../components/Mobile/ListOfUsersCards';
+import useSearchTerm from '../../hooks/useSearchTermAdvertising';
 
 function Usuarios() {
   const [usersJSON, setUsersJSON] = useState<User[]>([]);
@@ -32,6 +33,8 @@ function Usuarios() {
     id: -1,
     name: 'Rol del usuario',
   });
+
+  const { setSearchTerm } = useSearchTerm();
 
   const handleRowClick = (user: User) => {
     setEditRow(user);
@@ -178,6 +181,10 @@ function Usuarios() {
 
   useEffect(() => {
     updateUsersTable();
+
+    return () => {
+      setSearchTerm('');
+    };
   }, []);
 
   const isMobile = useIsMobile();
