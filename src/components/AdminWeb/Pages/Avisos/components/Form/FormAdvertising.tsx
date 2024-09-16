@@ -292,7 +292,7 @@ function FormAdvertising({
             </div>
           </div>
         </div>
-        <div className="flex items-center">
+        <div className="flex items-center justify-around">
           <div className="flex-col items-center">
             <div className="flex-col justify-center">
               <DatePickerDays

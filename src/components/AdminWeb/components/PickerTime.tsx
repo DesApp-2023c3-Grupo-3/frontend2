@@ -1,4 +1,6 @@
-import { TimePicker } from '@mui/x-date-pickers';
+import { parseTime, Time } from '@internationalized/date';
+import { TimeInput } from '@nextui-org/react';
+import { I18nProvider } from '@react-aria/i18n';
 import dayjs, { Dayjs } from 'dayjs';
 import * as React from 'react';
 
@@ -15,59 +17,39 @@ function PickerTime({
   selectedHourInit,
   selectedHourFinal,
 }: PickerTimeProps) {
-  const [openInit, setOpenInit] = React.useState(false);
-  const [openFinal, setOpenFinal] = React.useState(false);
-
-  const handleStartHourChange = (newStartHour: Dayjs) => {
-    onChangeStartHour(dayjs(newStartHour));
-    setOpenInit(false);
+  const dayjsToTimeValue = (time: Dayjs | null) => {
+    return time ? parseTime(time.format('HH:mm')) : null;
   };
 
-  const handleEndHourChange = (newEndHour: Dayjs) => {
-    onChangeEndHour(dayjs(newEndHour));
-    setOpenFinal(false);
+  const timeValueToDayjs = (time: Time) => {
+    return dayjs(`${time.hour}:${time.minute}`, 'HH:mm');
+  };
+
+  const handleStartHourChange = (newStartHour: Time) => {
+    onChangeStartHour(timeValueToDayjs(newStartHour));
+  };
+
+  const handleEndHourChange = (newEndHour: Time) => {
+    onChangeEndHour(timeValueToDayjs(newEndHour));
   };
 
   return (
-    <div className="flex items-center justify-center">
-      <div className="w-[40%] min-w-[160px] mr-3">
-        <TimePicker
+    <I18nProvider>
+      <div className="flex gap-2">
+        <TimeInput
+          defaultValue={new Time()}
           label="Hora de Inicio"
-          value={selectedHourInit}
-          defaultValue={selectedHourInit}
-          onChange={(newTime: any) => {
-            onChangeStartHour(dayjs(newTime));
-          }}
-          onAccept={(newTime: any) => {
-            handleStartHourChange(dayjs(newTime));
-          }}
-          open={openInit}
-          onOpen={() => {
-            setOpenFinal(false);
-            setOpenInit(true);
-          }}
+          value={dayjsToTimeValue(selectedHourInit ?? null)}
+          onChange={handleStartHourChange}
+        />
+        <TimeInput
+          label="Hora de Inicio"
+          value={dayjsToTimeValue(selectedHourFinal ?? null)}
+          onChange={handleEndHourChange}
+          isDisabled={!selectedHourInit}
         />
       </div>
-      <div className="w-[40%] min-w-[160px]">
-        <TimePicker
-          label="Hora Final"
-          value={selectedHourFinal}
-          onChange={(newTime: any) => {
-            onChangeEndHour(dayjs(newTime));
-          }}
-          onAccept={(newTime: any) => {
-            handleEndHourChange(dayjs(newTime));
-          }}
-          defaultValue={selectedHourFinal}
-          open={openFinal}
-          onOpen={() => {
-            setOpenInit(false);
-            setOpenFinal(true);
-          }}
-          disabled={!selectedHourInit}
-        />
-      </div>
-    </div>
+    </I18nProvider>
   );
 }
 

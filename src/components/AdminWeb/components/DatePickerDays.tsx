@@ -1,6 +1,7 @@
 import { DatePicker } from '@nextui-org/react';
 import dayjs, { Dayjs } from 'dayjs';
 import { CalendarDate, parseDate } from '@internationalized/date';
+import { I18nProvider } from '@react-aria/i18n';
 
 interface DatePickerDaysProps {
   onChangeStartDate: (newStartDate: Dayjs) => void;
@@ -24,10 +25,9 @@ function DatePickerDays({
   };
 
   return (
-    <div className="flex items-center justify-center">
-      <div className="w-[40%] min-w-[120px] mr-3">
+    <I18nProvider>
+      <div className="flex gap-2 items-center">
         <DatePicker
-          className=""
           value={dayjsToDateValue(selectedDateInit)}
           onChange={(newDate: CalendarDate) => {
             onChangeStartDate(
@@ -37,10 +37,7 @@ function DatePickerDays({
           label="Fecha de Inicio"
           defaultValue={dayjsToDateValue(dateStart)}
         />
-      </div>
-      <div className="w-[40%] min-w-[120px]">
         <DatePicker
-          className=""
           value={dayjsToDateValue(selectedDateFinal)}
           onChange={(newDate: CalendarDate) => {
             onChangeEndDate(
@@ -51,7 +48,7 @@ function DatePickerDays({
           defaultValue={dayjsToDateValue(dateStart)}
         />
       </div>
-    </div>
+    </I18nProvider>
   );
 }
 

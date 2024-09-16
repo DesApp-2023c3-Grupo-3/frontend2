@@ -57,8 +57,8 @@ function VideoUp({ youtubeUrl, setYoutubeUrl }: VideoUpProps) {
   };
 
   return (
-    <div>
-      <h3 className="text-black ml-3 mt-3 select-none">URL YouTube:</h3>
+    <div className="bg-[#D9D9D9] rounded-2xl w-[330px] h-[300px] ">
+      <h3 className="text-black ml-3 pt-3 select-none">URL YouTube:</h3>
       <div className="flex-col ml-[10px] h-[30px]">
         <div
           className={`bg-[#fff] rounded-[20px] w-[300px] h-[34px] flex items-center ${
