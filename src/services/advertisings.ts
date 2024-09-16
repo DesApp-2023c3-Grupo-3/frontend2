@@ -18,9 +18,9 @@ export const advertisingsAPI = {
     delete: function(id:number) {
         return handleCall(axios.delete, [`${ROUTES_RELATIVE.advertising.advertising}/${id}`])
     },
-    getPaginated: function(page: number, limit: number) {
+    getPaginated: function(page: number, limit: number, find = "") {
         return handleCall(axios.get, [
-            `${ROUTES_RELATIVE.advertising.advertising}/findPageAndLimit/${page}/${limit}`
+            `${ROUTES_RELATIVE.advertising.advertising}/all?page=${page}&limit=${limit}&search=${find}`
         ]);
     }
 }
