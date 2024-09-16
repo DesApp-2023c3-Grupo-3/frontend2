@@ -14,6 +14,7 @@ import { createSchedule } from '../../utils/createSchedule';
 import { createStarthour } from '../../utils/createStartHour';
 import ListOfAdvertisingCards from '../../components/Mobile/ListOfAdvertisingCards';
 import { Chip } from '@nextui-org/react';
+import useSearchTerm from '../../hooks/useSearchTermAdvertising';
 
 function Avisos() {
   const [advertisingsJSON, setAdvertisingsJSON] = React.useState<Advertising[]>(
@@ -28,7 +29,9 @@ function Avisos() {
 
   const [loading, setLoading] = React.useState(false);
 
-  const handleRowClick = (advertising: any) => {
+  const { setSearchTerm } = useSearchTerm();
+
+  const handleRowClick = (advertising: Advertising) => {
     setEditRow(advertising);
     setIsEditing(true);
     openModal();
@@ -64,7 +67,11 @@ function Avisos() {
 
   React.useEffect(() => {
     GetData();
-  }, [currentPages, rowsPerPage]);
+
+    return () => {
+      setSearchTerm('');
+    };
+  }, [currentPages, rowsPerPage, setSearchTerm]);
 
   const tableColumnsDesktop = new Map<string, (advertising: any) => void>([
     [

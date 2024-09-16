@@ -15,10 +15,13 @@ import { useIsMobile } from '../../hooks/useIsMobile';
 import { Toast } from '../Avisos/components/Form/FormAdvertising';
 import Swal from 'sweetalert2';
 import ListOfCommissionCards from '../../components/Mobile/ListOfCommissionCards';
+import useSearchTerm from '../../hooks/useSearchTermAdvertising';
 
 function Comisiones() {
   const [commissionsJSON, setCommissionsJSON] = useState<Commission[]>([]);
   const [loading, setLoading] = useState(false);
+
+  const { setSearchTerm } = useSearchTerm();
 
   const updateCommissionsTable = async () => {
     setLoading(true);
@@ -34,6 +37,10 @@ function Comisiones() {
 
   useEffect(() => {
     updateCommissionsTable();
+
+    return () => {
+      setSearchTerm('');
+    };
   }, []);
 
   const { isOpen, openModal, closeModal } = useModal();

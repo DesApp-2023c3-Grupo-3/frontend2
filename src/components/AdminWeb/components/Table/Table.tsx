@@ -2,6 +2,7 @@ import { Pagination } from '@nextui-org/react';
 import React, { useRef, useState } from 'react';
 import SearchBar from './SearchBar';
 import TableBody from './TableBody';
+import useSearchTerm from '../../hooks/useSearchTermAdvertising';
 
 interface TableProps {
   dataJSON: any[];
@@ -27,6 +28,7 @@ function Table({
   setCurrentPage,
 }: TableProps) {
   const [filteredData, setFilteredData] = useState(dataJSON);
+  const { searchTerm, setSearchTerm } = useSearchTerm();
   const rowRef = useRef<HTMLTableRowElement>(null);
 
   //Ajustar la cantidad de filas a mostrar en función del tamaño de la ventana.
@@ -57,16 +59,14 @@ function Table({
     };
   }, []);*/
 
-  const [searchTerm, setSearchTerm] = useState('');
-
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
 
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value);
+  const handleSearchChange = (newTerm: string) => {
+    setSearchTerm(newTerm);
     setCurrentPage(1);
-    updateFilteredData(event.target.value);
+    updateFilteredData(newTerm);
   };
 
   const updateFilteredData: any = (searchTerm: string) => {
