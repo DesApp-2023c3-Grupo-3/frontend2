@@ -1,8 +1,7 @@
-import { Tab } from '@headlessui/react';
 import TextEditor from './TextEditor';
 import ImageUp from './ImageUp';
 import VideoUp from './VideoUp';
-import { Tabs, Tab as TabUI } from '@nextui-org/react';
+import { Tabs, Tab } from '@nextui-org/react';
 
 interface ImageTextVideoProps {
   text: string;
@@ -41,16 +40,17 @@ function ImageTextVideo({
         aria-label="Options"
         color="default"
         defaultSelectedKey={String(type)}
+        onSelectionChange={(key) => setType(Number(key.toString()))}
       >
-        <TabUI onClick={() => setType(1)} key="1" title="Imagen">
+        <Tab key="1" title="Imagen">
           <ImageUp image={image} setImage={setImagePayload} />
-        </TabUI>
-        <TabUI onClick={() => setType(2)} key="2" title="Video">
+        </Tab>
+        <Tab key="2" title="Video">
           <VideoUp youtubeUrl={video} setYoutubeUrl={setVideoPayload} />
-        </TabUI>
-        <TabUI onClick={() => setType(3)} key="3" title="Texto">
+        </Tab>
+        <Tab key="3" title="Texto">
           <TextEditor editorHtml={text} setEditorHtml={setTextPayload} />
-        </TabUI>
+        </Tab>
       </Tabs>
     </div>
   );

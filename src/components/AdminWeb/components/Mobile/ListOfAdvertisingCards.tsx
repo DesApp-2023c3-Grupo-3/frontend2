@@ -27,7 +27,9 @@ function ListOfAdvertisingCards({
             <CardMobileInfo.Name>{advertising.name}</CardMobileInfo.Name>
             <CardMobileInfo.State state={advertising.status as Status} />
           </div>
-          <CardMobileInfo.Text>a</CardMobileInfo.Text>
+          <CardMobileInfo.Text>{`${createStarthour(
+            advertising,
+          )} - ${createEndHour(advertising)}`}</CardMobileInfo.Text>
           <CardMobileInfo.Text>
             {createSchedule(advertising)}
           </CardMobileInfo.Text>
@@ -39,7 +41,5 @@ function ListOfAdvertisingCards({
     </ListOfCardsLayout>
   );
 }
-// {`${createStarthour(
-//   advertising,
-// )} - ${createEndHour(advertising)}`}
+
 export default ListOfAdvertisingCards;

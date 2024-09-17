@@ -165,8 +165,6 @@ function FormAdvertising({
   const handleSendAdvertisingClick = () => {
     const daysCode = convertDaysToNumbers(selectedDays);
 
-    console.log({ daysCode });
-
     const hstart = dayjs(startHour).format('YYYY-MM-DD HH:mm:ss.SSS ZZ');
     const hend = dayjs(endHour).format('YYYY-MM-DD HH:mm:ss.SSS ZZ');
 
@@ -180,8 +178,6 @@ function FormAdvertising({
       ...DatesHours,
       dayCode,
     }));
-
-    console.log({ schedules });
 
     const sectores = selectedSector.map((sectors) => {
       const { name, ...rest } = sectors;

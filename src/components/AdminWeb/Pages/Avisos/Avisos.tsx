@@ -98,7 +98,7 @@ function Avisos() {
     [
       'Programación',
       (advertising: Advertising) => {
-        return '1'; // createStarthour(advertising) + '-' + createEndHour(advertising);
+        return createStarthour(advertising) + '-' + createEndHour(advertising);
       },
     ],
     [
