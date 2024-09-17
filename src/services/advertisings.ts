@@ -19,8 +19,15 @@ export const advertisingsAPI = {
         return handleCall(axios.delete, [`${ROUTES_RELATIVE.advertising.advertising}/${id}`])
     },
     getPaginated: function(page: number, limit: number, find = "") {
-        return handleCall(axios.get, [
-            `${ROUTES_RELATIVE.advertising.advertising}/all?page=${page}&limit=${limit}&search=${find}`
-        ]);
+        if (find === "") {
+            return handleCall(axios.get, [
+                `${ROUTES_RELATIVE.advertising.advertising}/all?page=${page}&limit=${limit}`
+            ]);
+        } else {
+            return handleCall(axios.get, [
+                `${ROUTES_RELATIVE.advertising.advertising}/all?page=${page}&limit=${limit}&search=${find}`
+            ]);
+        }
+        
     }
 }

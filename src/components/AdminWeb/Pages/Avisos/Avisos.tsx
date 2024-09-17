@@ -15,6 +15,7 @@ import { createStarthour } from '../../utils/createStartHour';
 import ListOfAdvertisingCards from '../../components/Mobile/ListOfAdvertisingCards';
 import { Chip } from '@nextui-org/react';
 import useSearchTerm from '../../hooks/useSearchTermAdvertising';
+import useDebounce from '../../hooks/useDebounce';
 
 function Avisos() {
   const [advertisingsJSON, setAdvertisingsJSON] = React.useState<Advertising[]>(
@@ -29,7 +30,8 @@ function Avisos() {
 
   const [loading, setLoading] = React.useState(false);
 
-  const { setSearchTerm } = useSearchTerm();
+  const { searchTerm } = useSearchTerm();
+  const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
   const handleRowClick = (advertising: Advertising) => {
     setEditRow(advertising);
@@ -53,7 +55,7 @@ function Avisos() {
   const GetData = () => {
     setLoading(true);
     advertisingsAPI
-      .getPaginated(currentPages, rowsPerPage)
+      .getPaginated(currentPages, rowsPerPage, searchTerm)
       .then((r) => {
         setTotalItems(r.data.total);
         setAdvertisingsJSON(r.data.data);
@@ -67,11 +69,7 @@ function Avisos() {
 
   React.useEffect(() => {
     GetData();
-
-    return () => {
-      setSearchTerm('');
-    };
-  }, [currentPages, rowsPerPage, setSearchTerm]);
+  }, [currentPages, rowsPerPage, debouncedSearchTerm]);
 
   const tableColumnsDesktop = new Map<string, (advertising: any) => void>([
     [
@@ -195,5 +193,4 @@ function Avisos() {
     </>
   );
 }
-
 export default Avisos;

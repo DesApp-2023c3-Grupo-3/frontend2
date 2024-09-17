@@ -9,6 +9,7 @@ import {
   Pagination,
   Input,
 } from '@nextui-org/react';
+import useSearchTerm from '../../hooks/useSearchTermAdvertising';
 
 interface TablaNextUiProps {
   dataJSON: any[];
@@ -68,38 +69,12 @@ export default function TablaNextUi({
     );
   }, [totalItems, currentPage]);
 
-  const [searchTerm, setSearchTerm] = useState('');
+  const { searchTerm, setSearchTerm } = useSearchTerm();
   const [filterValue, setFilterValue] = useState('');
-
-  const [filteredData, setFilteredData] = useState(dataJSON);
-
-  const updateFilteredData: any = (searchTerm: string) => {
-    let filteredResult: any[] = [];
-
-    const columnsToMatch =
-      searchableColumns.length > 0
-        ? searchableColumns
-        : Array.from(columns.keys());
-
-    columnsToMatch.forEach((columnName: string) => {
-      const output = dataJSON.filter((data) => {
-        const columnValue = (columns.get(columnName)?.call(data, data) || '-')
-          .toString()
-          .toLowerCase();
-
-        return columnValue.includes(searchTerm.toLowerCase());
-      });
-
-      filteredResult = Array.from(new Set<any>([...filteredResult, ...output]));
-    });
-
-    setFilteredData(filteredResult);
-  };
 
   const onSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
     setCurrentPage(1);
-    updateFilteredData(event.target.value);
   };
 
   const onRowsPerPageChange = React.useCallback(
@@ -147,7 +122,7 @@ export default function TablaNextUi({
         </div>
       </div>
     );
-  }, [filterValue, onSearchChange, onRowsPerPageChange]);
+  }, [filterValue, onSearchChange, onRowsPerPageChange, searchTerm]);
 
   return (
     <div>
@@ -165,7 +140,7 @@ export default function TablaNextUi({
           {(column) => <TableColumn key={column.key}>{column.key}</TableColumn>}
         </TableHeader>
         <TableBody>
-          {filteredData.map((data, index) => (
+          {dataJSON.map((data, index) => (
             <TableRow key={index}>
               {columnsArray.map((columnName) => {
                 return (
