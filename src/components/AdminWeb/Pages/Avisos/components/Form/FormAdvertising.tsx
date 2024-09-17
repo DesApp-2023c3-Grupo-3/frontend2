@@ -165,6 +165,8 @@ function FormAdvertising({
   const handleSendAdvertisingClick = () => {
     const daysCode = convertDaysToNumbers(selectedDays);
 
+    console.log({ daysCode });
+
     const hstart = dayjs(startHour).format('YYYY-MM-DD HH:mm:ss.SSS ZZ');
     const hend = dayjs(endHour).format('YYYY-MM-DD HH:mm:ss.SSS ZZ');
 
@@ -178,6 +180,8 @@ function FormAdvertising({
       ...DatesHours,
       dayCode,
     }));
+
+    console.log({ schedules });
 
     const sectores = selectedSector.map((sectors) => {
       const { name, ...rest } = sectors;
@@ -210,7 +214,8 @@ function FormAdvertising({
     if (Object.values(emptyFieldsUpdate).filter((value) => value).length > 1) {
       //TODO: Faltaría agregar una lista de los campos que estan incompletos y ponerlo en el mensaje de error.
       messageError('Hay campos incompletos.');
-    } else if (!advertisingName) {
+    }
+    if (!advertisingName) {
       messageError('Falta completar el nombre del aviso.');
     } else if (selectedSector.length === 0) {
       messageError('Falta completar los sectores.');

@@ -172,7 +172,7 @@ function Sectores({
               {canChooseMany && (
                 <div className="flex justify-center items-center">
                   <Checkbox
-                    checked={selectAll}
+                    isSelected={selectAll}
                     onChange={
                       sectorArray.length > 0 ? handleSelectAllChange : () => {}
                     }
