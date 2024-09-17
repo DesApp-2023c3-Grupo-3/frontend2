@@ -1,6 +1,11 @@
 import { DatePicker, DateValue } from '@nextui-org/react';
 import dayjs, { Dayjs } from 'dayjs';
-import { CalendarDate, parseDate } from '@internationalized/date';
+import {
+  CalendarDate,
+  getLocalTimeZone,
+  parseDate,
+  today,
+} from '@internationalized/date';
 import { I18nProvider } from '@react-aria/i18n';
 
 interface DatePickerDaysProps {
@@ -48,6 +53,8 @@ function DatePickerDays({
           label="Fecha de Inicio"
           defaultValue={dayjsToDateValue(dateStart)}
           isDateUnavailable={dateValueToDayjs}
+          minValue={today(getLocalTimeZone())}
+          errorMessage="Fecha no disponible"
         />
         <DatePicker
           value={dayjsToDateValue(selectedDateFinal)}
@@ -59,7 +66,8 @@ function DatePickerDays({
           label="Fecha Final"
           defaultValue={dayjsToDateValue(dateStart)}
           isDisabled={!selectedDateInit}
-          isDateUnavailable={dateValueToDayjs}
+          minValue={today(getLocalTimeZone())}
+          errorMessage="Fecha no disponible"
         />
       </div>
     </I18nProvider>
