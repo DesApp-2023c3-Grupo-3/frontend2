@@ -1,4 +1,4 @@
-import { DatePicker } from '@nextui-org/react';
+import { DatePicker, DateValue } from '@nextui-org/react';
 import dayjs, { Dayjs } from 'dayjs';
 import { CalendarDate, parseDate } from '@internationalized/date';
 import { I18nProvider } from '@react-aria/i18n';
@@ -24,6 +24,17 @@ function DatePickerDays({
     return date ? parseDate(date.format('YYYY-MM-DD')) : null;
   };
 
+  const dateValueToDayjs = (dateValue: DateValue | null) => {
+    if (dateValue) {
+      const { year, month, day } = dateValue;
+      const dateValueDayjs = dayjs(new Date(year, month - 1, day));
+      const today = dayjs().startOf('day');
+
+      return dateValueDayjs.isBefore(today, 'day');
+    }
+    return false;
+  };
+
   return (
     <I18nProvider>
       <div className="flex gap-2 items-center">
@@ -36,6 +47,7 @@ function DatePickerDays({
           }}
           label="Fecha de Inicio"
           defaultValue={dayjsToDateValue(dateStart)}
+          isDateUnavailable={dateValueToDayjs}
         />
         <DatePicker
           value={dayjsToDateValue(selectedDateFinal)}
@@ -46,6 +58,8 @@ function DatePickerDays({
           }}
           label="Fecha Final"
           defaultValue={dayjsToDateValue(dateStart)}
+          isDisabled={!selectedDateInit}
+          isDateUnavailable={dateValueToDayjs}
         />
       </div>
     </I18nProvider>

@@ -37,7 +37,6 @@ function PickerTime({
     <I18nProvider>
       <div className="flex gap-2">
         <TimeInput
-          defaultValue={new Time()}
           label="Hora de Inicio"
           value={dayjsToTimeValue(selectedHourInit ?? null)}
           onChange={handleStartHourChange}
