@@ -1,8 +1,8 @@
 import { Fragment, useState, useEffect } from 'react';
 import { Listbox, Transition } from '@headlessui/react';
-import { Checkbox } from '@mui/material';
 import { sectorApi } from '../../../services/sectores';
 import Loader from './Loader';
+import { Checkbox } from '@nextui-org/react';
 
 interface SectoresProps {
   selectedSector: any[];
@@ -83,7 +83,7 @@ function Sectores({
         <div className=" flex-row justify-center relative z-[20]">
           <Listbox.Button
             id="sectors"
-            className={`text-[20px] font-[400] tracking-[-0.4px] rounded-[30px] bg-[#D9D9D9] flex w-[365px] max-h-[365px]: h-[50px] px-[40px] py-[12px] items-center ${
+            className={`bg-default-100 transition-all hover:bg-default-200 rounded-medium text-[20px] font-[400] tracking-[-0.4px] flex w-[365px] max-h-[365px]: h-[50px] px-[40px] py-[12px] items-center ${
               selectedSector.length === 0 && hasError ? 'invalid-field' : ''
             }
             ${isMobile ? 'w-[90vw]' : ''}
@@ -176,8 +176,9 @@ function Sectores({
                     onChange={
                       sectorArray.length > 0 ? handleSelectAllChange : () => {}
                     }
-                  />
-                  <span>Seleccionar todo</span>
+                  >
+                    Seleccionar todo
+                  </Checkbox>
                 </div>
               )}
             </Listbox.Options>

@@ -22,6 +22,7 @@ function Modal({ isOpen, openModal, closeModal, children, label }: ModalProps) {
         isOpen={isOpen}
         onClose={closeModal}
         size="4xl"
+        hideCloseButton
         motionProps={{
           variants: {
             enter: {

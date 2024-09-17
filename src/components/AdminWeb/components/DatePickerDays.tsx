@@ -51,7 +51,6 @@ function DatePickerDays({
             );
           }}
           label="Fecha de Inicio"
-          defaultValue={dayjsToDateValue(dateStart)}
           isDateUnavailable={dateValueToDayjs}
           minValue={today(getLocalTimeZone())}
           errorMessage="Fecha no disponible"
@@ -64,7 +63,6 @@ function DatePickerDays({
             );
           }}
           label="Fecha Final"
-          defaultValue={dayjsToDateValue(dateStart)}
           isDisabled={!selectedDateInit}
           minValue={today(getLocalTimeZone())}
           errorMessage="Fecha no disponible"
