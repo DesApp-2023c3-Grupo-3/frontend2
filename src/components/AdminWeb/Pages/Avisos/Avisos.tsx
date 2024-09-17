@@ -15,15 +15,19 @@ import { createStarthour } from '../../utils/createStartHour';
 import ListOfAdvertisingCards from '../../components/Mobile/ListOfAdvertisingCards';
 import { Chip } from '@nextui-org/react';
 import useSearchTerm from '../../hooks/useSearchTermAdvertising';
-import useDebounce from '../../hooks/useDebounce';
+import { useTabla } from '../../hooks/useTable';
 
 function Avisos() {
-  const [advertisingsJSON, setAdvertisingsJSON] = React.useState<Advertising[]>(
-    [],
-  );
-
-  const [currentPages, setCurrentPages] = React.useState(1);
-  const [totalItems, setTotalItems] = React.useState(0);
+  const {
+    datasJSON,
+    setDatasJSON,
+    currentPages,
+    setCurrentPage,
+    rowsPerPage,
+    totalItems,
+    setTotalItems,
+    setPages,
+  } = useTabla();
 
   const [editRow, setEditRow] = React.useState<Advertising>();
   const [isEditing, setIsEditing] = React.useState(false);
@@ -31,7 +35,6 @@ function Avisos() {
   const [loading, setLoading] = React.useState(false);
 
   const { searchTerm } = useSearchTerm();
-  const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
   const handleRowClick = (advertising: Advertising) => {
     setEditRow(advertising);
@@ -49,27 +52,26 @@ function Avisos() {
     }, 250);
   };
 
-  const [pages, setPages] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(7);
-
   const GetData = () => {
     setLoading(true);
     advertisingsAPI
       .getPaginated(currentPages, rowsPerPage, searchTerm)
       .then((r) => {
+        setDatasJSON(r.data.data);
         setTotalItems(r.data.total);
-        setAdvertisingsJSON(r.data.data);
-        setLoading(false);
         setPages(r.data.totalPages);
       })
       .catch((e) => {
         console.error(e);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
   React.useEffect(() => {
     GetData();
-  }, [currentPages, rowsPerPage, debouncedSearchTerm]);
+  }, [currentPages, rowsPerPage]);
 
   const tableColumnsDesktop = new Map<string, (advertising: any) => void>([
     [
@@ -153,7 +155,7 @@ function Avisos() {
           openModal={openModal}
           ListOfData={
             <ListOfAdvertisingCards
-              dataJson={advertisingsJSON}
+              dataJson={datasJSON}
               handleCardClick={handleRowClick}
             />
           }
@@ -161,7 +163,7 @@ function Avisos() {
           title="Avisos"
           currentPage={currentPages}
           totalItems={totalItems}
-          setCurrentPage={setCurrentPages}
+          setCurrentPage={setCurrentPage}
         >
           <FormMobile
             setAdvertisingsJSON={GetData}
@@ -172,7 +174,6 @@ function Avisos() {
         </MobileBody>
       ) : (
         <DesktopBody
-          advertisingsJSON={advertisingsJSON}
           tableColumns={tableColumnsDesktop}
           handleRowClick={handleRowClick}
           isOpen={isOpen}
@@ -182,12 +183,6 @@ function Avisos() {
           isEditing={isEditing}
           editRow={editRow}
           loading={loading}
-          currentPages={currentPages}
-          totalItems={totalItems}
-          setCurrentPage={setCurrentPages}
-          pages={pages}
-          setRowsPerPage={setRowsPerPage}
-          rowsPerPage={rowsPerPage}
         />
       )}
     </>

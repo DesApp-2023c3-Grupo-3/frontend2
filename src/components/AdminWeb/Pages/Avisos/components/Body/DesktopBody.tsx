@@ -5,7 +5,6 @@ import { Advertising } from '../../../../types/customTypes';
 import FormAdvertising from '../Form/FormAdvertising';
 
 interface DesktopBodyProps {
-  advertisingsJSON: any[];
   tableColumns: Map<string, (data: any) => void>;
   handleRowClick: (data: any) => void;
   isOpen: boolean;
@@ -15,16 +14,9 @@ interface DesktopBodyProps {
   isEditing: boolean;
   editRow?: Advertising;
   loading: boolean;
-  currentPages?: number;
-  totalItems?: number;
-  setCurrentPage?: any;
-  pages: number;
-  setRowsPerPage: any;
-  rowsPerPage: number;
 }
 
 export function DesktopBody({
-  advertisingsJSON,
   tableColumns,
   handleRowClick,
   isOpen,
@@ -34,12 +26,6 @@ export function DesktopBody({
   isEditing,
   editRow,
   loading,
-  currentPages,
-  totalItems,
-  setCurrentPage,
-  pages,
-  setRowsPerPage,
-  rowsPerPage,
 }: DesktopBodyProps) {
   return (
     <>
@@ -53,16 +39,9 @@ export function DesktopBody({
         ) : (
           <div className="lex flex-col h-full">
             <TablaNextUi
-              dataJSON={advertisingsJSON}
               columns={tableColumns}
               onRowClick={handleRowClick}
-              placeholder="Buscar"
-              totalItems={totalItems}
-              currentPage={currentPages}
-              setCurrentPage={setCurrentPage}
-              pages={pages}
-              setRowsPerPage={setRowsPerPage}
-              rowsPerPage={rowsPerPage}
+              placeholder="Buscar Aviso"
             ></TablaNextUi>
             <div className="flex justify-end">
               <Modal

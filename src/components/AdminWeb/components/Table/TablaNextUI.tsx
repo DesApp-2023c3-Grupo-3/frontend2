@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Table,
   TableHeader,
@@ -10,36 +10,34 @@ import {
   Input,
 } from '@nextui-org/react';
 import useSearchTerm from '../../hooks/useSearchTermAdvertising';
+import { useTabla } from '../../hooks/useTable';
+import { advertisingsAPI } from '../../../../services/advertisings';
+import useDebounce from '../../hooks/useDebounce';
 
 interface TablaNextUiProps {
-  dataJSON: any[];
   columns: Map<string, (data: any) => void>;
-  searchableColumns?: string[];
   onRowClick?: (data: any) => void;
-  onRowPress?: (data: any) => void;
   placeholder?: string;
-  totalItems?: number;
-  currentPage?: number;
-  setCurrentPage?: any;
-  pages: number;
-  setRowsPerPage: any;
-  rowsPerPage: number;
 }
 
 export default function TablaNextUi({
-  dataJSON,
   columns,
-  searchableColumns = [],
   onRowClick,
-  onRowPress,
   placeholder,
-  totalItems = 0,
-  currentPage,
-  setCurrentPage,
-  pages,
-  setRowsPerPage,
-  rowsPerPage,
 }: TablaNextUiProps) {
+  const {
+    datasJSON,
+    setDatasJSON,
+    currentPages,
+    totalItems,
+    pages,
+    setRowsPerPage,
+    rowsPerPage,
+    setCurrentPage,
+    setTotalItems,
+    setPages,
+  } = useTabla();
+
   const columnsArray = Array.from(columns, ([key, handler]) => ({
     key,
     handler,
@@ -62,12 +60,12 @@ export default function TablaNextUi({
         className="bg-white scrollbar-none flex justify-center w-full mt-[20px]"
         showControls
         total={pages}
-        page={currentPage}
+        page={currentPages}
         onChange={handlePageChange}
         variant="light"
       ></Pagination>
     );
-  }, [totalItems, currentPage]);
+  }, [totalItems, currentPages]);
 
   const { searchTerm, setSearchTerm } = useSearchTerm();
   const [filterValue, setFilterValue] = useState('');
@@ -124,6 +122,21 @@ export default function TablaNextUi({
     );
   }, [filterValue, onSearchChange, onRowsPerPageChange, searchTerm]);
 
+  const debouncedSearchTerm = useDebounce(searchTerm, 300);
+
+  useEffect(() => {
+    advertisingsAPI
+      .getPaginated(currentPages, rowsPerPage, searchTerm)
+      .then((r) => {
+        setDatasJSON(r.data.data);
+        setTotalItems(r.data.total);
+        setPages(r.data.totalPages);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  }, [debouncedSearchTerm]);
+
   return (
     <div>
       <Table
@@ -140,7 +153,7 @@ export default function TablaNextUi({
           {(column) => <TableColumn key={column.key}>{column.key}</TableColumn>}
         </TableHeader>
         <TableBody>
-          {dataJSON.map((data, index) => (
+          {datasJSON.map((data, index) => (
             <TableRow key={index}>
               {columnsArray.map((columnName) => {
                 return (
