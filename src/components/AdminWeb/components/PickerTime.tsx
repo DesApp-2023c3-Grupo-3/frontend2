@@ -35,7 +35,10 @@ function PickerTime({
 
   return (
     <I18nProvider>
-      <div className="flex gap-2">
+      <div className="flex md:flex-row gap-2 flex-col md:p-0 px-3">
+        <span className="md:hidden block text-xl font-semibold text-center">
+          Hora
+        </span>
         <TimeInput
           label="Hora de Inicio"
           value={dayjsToTimeValue(selectedHourInit ?? null)}
@@ -43,6 +46,7 @@ function PickerTime({
         />
         <TimeInput
           label="Hora Final"
+          className="md:m-0 mt-2"
           value={dayjsToTimeValue(selectedHourFinal ?? null)}
           onChange={handleEndHourChange}
           isDisabled={!selectedHourInit}

@@ -40,7 +40,10 @@ function DatePickerDays({
 
   return (
     <I18nProvider>
-      <div className="flex gap-2 items-center">
+      <div className="flex md:flex-row gap-2 flex-col md:p-0 p-3 items-center">
+        <span className="md:hidden block text-center text-xl font-semibold">
+          Fecha
+        </span>
         <DatePicker
           value={dayjsToDateValue(selectedDateInit)}
           onChange={(newDate: CalendarDate) => {

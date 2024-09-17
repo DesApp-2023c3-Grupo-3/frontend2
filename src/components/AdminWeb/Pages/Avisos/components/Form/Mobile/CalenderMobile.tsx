@@ -51,7 +51,7 @@ export function CalenderMobile({
       <div className="ml-[20px] text-[24px] font-bold mt-[-50px]">
         <h1>FECHA Y HORA</h1>
       </div>
-      <div className="mt-[3em]">
+      <div>
         <DatePickerDays
           onChangeStartDate={setStartDate}
           onChangeEndDate={setEndDate}
@@ -64,7 +64,7 @@ export function CalenderMobile({
           emptyFields.date && invalidDate(),
         )}
       </div>
-      <div className="mt-[2em]">
+      <div>
         <PickerTime
           onChangeStartHour={setStartHour}
           onChangeEndHour={setEndHour}
@@ -76,7 +76,7 @@ export function CalenderMobile({
           emptyFields.hour && invalidHours(),
         )}
       </div>
-      <div className="my-[5em]">
+      <div className="my-[3em]">
         <DayPicker
           onSelectedDaysChange={setSelectedDays}
           selectedDays={selectedDays}
