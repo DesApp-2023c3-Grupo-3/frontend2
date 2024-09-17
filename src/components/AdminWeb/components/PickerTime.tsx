@@ -42,7 +42,7 @@ function PickerTime({
           onChange={handleStartHourChange}
         />
         <TimeInput
-          label="Hora de Inicio"
+          label="Hora Final"
           value={dayjsToTimeValue(selectedHourFinal ?? null)}
           onChange={handleEndHourChange}
           isDisabled={!selectedHourInit}

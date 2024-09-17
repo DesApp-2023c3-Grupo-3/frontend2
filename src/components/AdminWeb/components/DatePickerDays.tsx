@@ -23,8 +23,6 @@ function DatePickerDays({
   selectedDateFinal,
   isCreate,
 }: DatePickerDaysProps) {
-  const dateStart = selectedDateInit ? dayjs(selectedDateInit) : null;
-
   const dayjsToDateValue = (date: Dayjs | null) => {
     return date ? parseDate(date.format('YYYY-MM-DD')) : null;
   };
