@@ -23,7 +23,7 @@ function ScreenConfig({ closeModal }: { closeModal: () => void }) {
   };
 
   return (
-    <section className="relative z-50 flex items-center justify-center flex-col md:px-10 md:py-1 gap-2 md:gap-2">
+    <section className="relative z-50 flex items-center  flex-col md:py-3 gap-2 md:gap-2">
       <div className="flex flex-col items-center md:gap-24 justify-between w-full md:px-14 md:flex-row">
         <ScreenSelectedInfo />
         {selectedScreens.length === 1 && (

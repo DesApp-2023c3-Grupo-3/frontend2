@@ -9,7 +9,7 @@ export default function ListOfCards({
   onClick: (id: number) => void;
 }) {
   return (
-    <div className="flex flex-col gap-2 md:gap-10 md:flex-row">
+    <div className="flex flex-col gap-2 p-4 md:flex-row">
       {cards.map((card, index) => (
         <CardModal key={index} onClick={onClick} card={card} />
       ))}

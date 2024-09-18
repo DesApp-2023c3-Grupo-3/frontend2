@@ -1,4 +1,7 @@
-interface Card {
+import { Card, CardHeader, Image } from '@nextui-org/react';
+import PopoverInfo from './PopoverInfo';
+
+interface CardProps {
   title: string;
   description: string;
   image: string;
@@ -10,38 +13,38 @@ export default function CardModal({
   card,
   onClick,
 }: {
-  card: Card;
+  card: CardProps;
   onClick: (id: number) => void;
 }) {
   const { id, title, description, image, isSelected } = card;
 
   return (
-    <section
-      className={`border-4 overflow-hidden box-border relative rounded-3xl ${
-        isSelected ? 'border-[#2C9CBF]' : 'border-slate-200'
-      }`}
-    >
-      <button
-        className="absolute w-full h-full z-40"
-        onClick={() => onClick(id)}
-      ></button>
-      <div className="flex md:flex-col">
-        <header className="relative flex flex-col justify-center items-center bg-[#222222] h-28 w-40 md:w-60 md:h-44">
-          <div className="text-center flex flex-col justify-center items-center relative h-full w-full z-20 text-white">
-            <span className="text-2xl md:text-3xl font-semibold">{title}</span>
-          </div>
-          <div className="absolute opacity-[15%] h-full w-full z-10">
-            <img
-              src={image}
-              alt="pantalla"
-              className="w-full h-full object-cover"
-            />
-          </div>
-        </header>
-        <main className="p-2 text-center text-sm md:text-xl flex place-items-center h-28 w-40 md:w-60 md:h-44 bg-white">
-          {description}
-        </main>
-      </div>
-    </section>
+    <div className="relative">
+      <PopoverInfo>{description}</PopoverInfo>
+      <Card
+        className={`border-2 pt-1 ${
+          isSelected ? 'border-[#2C9CBF]' : 'border-slate-200'
+        }`}
+        fullWidth
+        isPressable
+        isHoverable
+        onPress={() => onClick(id)}
+        shadow="sm"
+      >
+        <div className="md:block flex w-full">
+          <CardHeader className="md:w-auto w-2/4 md:pt-2 flex flex-col justify-center md:justify-start text-left items-start">
+            <p className="uppercase text-sm font-bold">Tipo {id}</p>
+            <h4 className="font-bold text-xl">{title}</h4>
+          </CardHeader>
+
+          <Image
+            alt="Card background"
+            className="md:w-[270px] h-full object-cover border-slate-300"
+            src={image}
+            radius="sm"
+          />
+        </div>
+      </Card>
+    </div>
   );
 }
