@@ -16,9 +16,12 @@ import { Toast } from '../Avisos/components/Form/FormAdvertising';
 import Swal from 'sweetalert2';
 import ListOfCommissionCards from '../../components/Mobile/ListOfCommissionCards';
 import useSearchTerm from '../../hooks/useSearchTermAdvertising';
+import TablaNextUi from '../../components/Table/TablaNextUI';
+import { useTabla } from '../../hooks/useTable';
 
 function Comisiones() {
-  const [commissionsJSON, setCommissionsJSON] = useState<Commission[]>([]);
+  const { datasJSON, setDatasJSON } = useTabla();
+
   const [loading, setLoading] = useState(false);
 
   const { setSearchTerm } = useSearchTerm();
@@ -28,20 +31,12 @@ function Comisiones() {
     try {
       const updatedCommissions: { data: Commission[] } =
         await commissionApi.getAll();
-      setCommissionsJSON(updatedCommissions.data || []);
+      setDatasJSON(updatedCommissions.data || []);
       setLoading(false);
     } catch (error) {
       console.error(error);
     }
   };
-
-  useEffect(() => {
-    updateCommissionsTable();
-
-    return () => {
-      setSearchTerm('');
-    };
-  }, []);
 
   const { isOpen, openModal, closeModal } = useModal();
 
@@ -146,7 +141,7 @@ function Comisiones() {
             title="Comisiones"
             ListOfData={
               <ListOfCommissionCards
-                dataJson={commissionsJSON}
+                dataJson={datasJSON}
                 handleCardClick={(comision) => onRowPress(comision)}
               />
             }
@@ -164,11 +159,11 @@ function Comisiones() {
             {loading ? (
               <Loader />
             ) : (
-              <div className="mt-[-70px]">
-                <Table
-                  dataJSON={commissionsJSON}
+              <div className="">
+                <TablaNextUi
                   columns={tableColumns}
                   placeholder="Buscar Comision"
+                  type={2}
                 />
                 <div className="flex justify-end">
                   <Modal
@@ -178,7 +173,7 @@ function Comisiones() {
                     label="AGREGAR COMISIONES"
                   >
                     <FormCommission
-                      commissionsJSON={commissionsJSON}
+                      commissionsJSON={datasJSON}
                       updateCommissionsTable={updateCommissionsTable}
                       closeModal={closeModal}
                     />

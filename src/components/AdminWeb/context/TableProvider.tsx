@@ -1,9 +1,8 @@
 import { createContext, ReactNode, useState } from 'react';
-import { Advertising } from '../types/customTypes';
 
 interface TablaContextType {
-  datasJSON: Advertising[];
-  setDatasJSON: React.Dispatch<React.SetStateAction<Advertising[]>>;
+  datasJSON: any[];
+  setDatasJSON: React.Dispatch<React.SetStateAction<any[]>>;
   currentPages: number;
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
   rowsPerPage: number;
@@ -28,7 +27,7 @@ export const TablaContext = createContext<TablaContextType>({
 });
 
 function TablaProvider({ children }: { children: ReactNode }) {
-  const [datasJSON, setDatasJSON] = useState<Advertising[]>([]);
+  const [datasJSON, setDatasJSON] = useState<any[]>([]);
   const [currentPages, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(7);
   const [totalItems, setTotalItems] = useState(0);

@@ -39,6 +39,7 @@ export function DesktopBody({
         ) : (
           <div className="lex flex-col h-full">
             <TablaNextUi
+              type={1}
               columns={tableColumns}
               onRowClick={handleRowClick}
               placeholder="Buscar Aviso"

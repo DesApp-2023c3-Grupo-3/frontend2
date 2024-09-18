@@ -13,21 +13,24 @@ import useSearchTerm from '../../hooks/useSearchTermAdvertising';
 import { useTabla } from '../../hooks/useTable';
 import { advertisingsAPI } from '../../../../services/advertisings';
 import useDebounce from '../../hooks/useDebounce';
+import { commissionApi } from '../../../../services/commissions';
 
 interface TablaNextUiProps {
   columns: Map<string, (data: any) => void>;
   onRowClick?: (data: any) => void;
   placeholder?: string;
+  type: number;
 }
 
 export default function TablaNextUi({
   columns,
   onRowClick,
   placeholder,
+  type,
 }: TablaNextUiProps) {
+  const [isLoading, setIsLoading] = useState(false);
+
   const {
-    datasJSON,
-    setDatasJSON,
     currentPages,
     totalItems,
     pages,
@@ -57,7 +60,7 @@ export default function TablaNextUi({
     return (
       <Pagination
         color="primary"
-        className="bg-white scrollbar-none flex justify-center w-full mt-[20px] dark:bg-[#18181b]"
+        className="scrollbar-none flex justify-center w-full mt-[20px]"
         showControls
         total={pages}
         page={currentPages}
@@ -65,7 +68,7 @@ export default function TablaNextUi({
         variant="light"
       ></Pagination>
     );
-  }, [totalItems, currentPages]);
+  }, [pages, currentPages]);
 
   const { searchTerm, setSearchTerm } = useSearchTerm();
   const [filterValue, setFilterValue] = useState('');
@@ -80,7 +83,7 @@ export default function TablaNextUi({
       setRowsPerPage(Number(e.target.value));
       setCurrentPage(1);
     },
-    [],
+    [setRowsPerPage, setCurrentPage],
   );
 
   const topContent = React.useMemo(() => {
@@ -101,7 +104,8 @@ export default function TablaNextUi({
         </div>
         <div className="flex justify-between items-center">
           <span className="text-default-400 text-small">
-            {'Avisos'} totales: {totalItems}{' '}
+            {type === 1 ? 'Avisos' : type === 2 ? 'Comisiones' : 'Usuarios'}{' '}
+            totales: {totalItems}{' '}
           </span>
           <label className="flex items-center text-default-400 text-small">
             Filas por página:
@@ -120,22 +124,54 @@ export default function TablaNextUi({
         </div>
       </div>
     );
-  }, [filterValue, onSearchChange, onRowsPerPageChange, searchTerm]);
+  }, [
+    filterValue,
+    onSearchChange,
+    onRowsPerPageChange,
+    searchTerm,
+    rowsPerPage,
+    totalItems,
+  ]);
 
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
 
-  useEffect(() => {
+  const getAdvertising = () => {
     advertisingsAPI
       .getPaginated(currentPages, rowsPerPage, searchTerm)
       .then((r) => {
-        setDatasJSON(r.data.data);
         setTotalItems(r.data.total);
         setPages(r.data.totalPages);
+        setDatasJSON(r.data.data);
       })
       .catch((e) => {
         console.error(e);
       });
-  }, [debouncedSearchTerm]);
+  };
+
+  const getCommisions = async () => {
+    try {
+      const updatedCommissions: { data: Commission[] } =
+        await commissionApi.getAll();
+      setDatasJSON(updatedCommissions.data);
+      setTotalItems(updatedCommissions.data.length);
+      setPages(Math.ceil(updatedCommissions.data.length / rowsPerPage));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    switch (type) {
+      case 1:
+        getAdvertising();
+        break;
+      case 2:
+        getCommisions();
+        break;
+    }
+  }, [debouncedSearchTerm, currentPages, rowsPerPage]);
+
+  const [datasJSON, setDatasJSON] = useState<any[]>([]);
 
   return (
     <div>
@@ -152,7 +188,7 @@ export default function TablaNextUi({
         <TableHeader columns={columnsArray}>
           {(column) => <TableColumn key={column.key}>{column.key}</TableColumn>}
         </TableHeader>
-        <TableBody>
+        <TableBody isLoading={isLoading}>
           {datasJSON.map((data, index) => (
             <TableRow key={index}>
               {columnsArray.map((columnName) => {

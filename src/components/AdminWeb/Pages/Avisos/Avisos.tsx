@@ -1,6 +1,6 @@
 import { useModal } from '../../hooks/useModal';
 import { Advertising } from '../../types/customTypes';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { advertisingsAPI } from '../../../../services/advertisings';
 import { Helmet } from 'react-helmet';
 import { DesktopBody } from './components/Body/DesktopBody';
@@ -68,10 +68,6 @@ function Avisos() {
         setLoading(false);
       });
   };
-
-  React.useEffect(() => {
-    GetData();
-  }, [currentPages, rowsPerPage]);
 
   const tableColumnsDesktop = new Map<string, (advertising: any) => void>([
     [
@@ -142,6 +138,8 @@ function Avisos() {
   };
 
   const isMobile = useIsMobile();
+
+  useEffect(() => {}, []);
 
   return (
     <>
