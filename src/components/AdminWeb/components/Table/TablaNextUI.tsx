@@ -57,7 +57,7 @@ export default function TablaNextUi({
     return (
       <Pagination
         color="primary"
-        className="bg-white scrollbar-none flex justify-center w-full mt-[20px]"
+        className="bg-white scrollbar-none flex justify-center w-full mt-[20px] dark:bg-[#18181b]"
         showControls
         total={pages}
         page={currentPages}

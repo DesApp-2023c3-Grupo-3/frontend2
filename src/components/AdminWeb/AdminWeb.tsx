@@ -10,7 +10,7 @@ import TableProvider from './context/TableProvider';
 
 function AdminWeb() {
   return (
-    <section className="h-screen flex flex-row">
+    <section className="h-screen flex flex-row dark text-foreground bg-background">
       <Navbar />
       <TableProvider>
         <SearchTermProvider>
