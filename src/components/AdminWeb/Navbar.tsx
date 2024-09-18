@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import adminPicture from './assets/admin.png';
 import { getPayload, setTokens } from '../../services/validationMiddleware';
 import { userDiv } from './utils/userDiv';
-
+import {
+  NavbarMenuToggle,
+  NavbarContent,
+  Navbar as NavbarUI,
+} from '@nextui-org/react';
 function Navbar() {
   const [navDeployed, setNavDeployed] = useState(
     /Mobi|Android/i.test(navigator.userAgent),
@@ -23,7 +26,7 @@ function Navbar() {
   return (
     <nav
       className={
-        'fixed md:relative h-screen px-12 py-8 flex flex-col gap-2 w-screen md:w-auto ' +
+        'fixed md:relative z-50 h-screen px-12 py-8 flex flex-col gap-2 w-screen md:w-auto ' +
         (navDeployed ? 'translate-x-[-100%]' : 'translate-x-[0%] z-[10]')
       }
     >

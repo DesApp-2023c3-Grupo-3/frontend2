@@ -1,40 +1,48 @@
+import { Pagination } from '@nextui-org/react';
 import Loader from '../Loader';
 import ModalMobile from '../Modal/ModalMobile';
-import Table from '../Table/Table';
+import SearchBar from '../Table/SearchBar';
+import useSearchTerm from '../../hooks/useSearchTermAdvertising';
 
 interface MobileBodyProps {
-  dataJson: any[];
-  tableColumns: Map<string, (data: any) => void>;
-  handleRowClick?: (data: any) => void;
-  handleRowPress?: (data: any) => void;
   isOpen: boolean;
   onCloseClick: () => void;
   openModal: () => void;
   loading: boolean;
   children: React.ReactElement;
   title: string;
-  placeholder: string;
+  ListOfData: React.ReactElement;
+  currentPage?: number;
+  totalItems?: number;
+  setCurrentPage?: (page: number) => void;
 }
 
 export function MobileBody({
-  dataJson,
-  tableColumns,
-  handleRowClick,
-  handleRowPress,
+  ListOfData,
   isOpen,
   onCloseClick,
   openModal,
   loading,
   children,
   title,
-  placeholder,
+  currentPage,
+  totalItems,
+  setCurrentPage,
 }: MobileBodyProps) {
+  const { searchTerm, setSearchTerm } = useSearchTerm();
+
   const isMiniMobile = window.matchMedia('(max-width: 320px)').matches;
+
+  const handlePageChange = (page: number) => {
+    /* TODO: Cuando se integren los demás endpoints a setCurrentPage hay
+    que sacarle el opcional y después sacar el && */
+    setCurrentPage && setCurrentPage(page);
+  };
 
   return (
     <>
       <section className="w-screen h-screen">
-        <div className="flex items-center translate-y-[3em]">
+        <div className="flex items-center justify-between translate-y-[3em]">
           <h1
             className={` text-[3em] font-[700] text-[#484848] tracking-[-1.28px] translate-x-[40px] ${
               isMiniMobile && 'text-[24px]'
@@ -43,19 +51,25 @@ export function MobileBody({
             {title}
           </h1>
         </div>
-
+        <SearchBar
+          searchTerm={searchTerm}
+          onSearchChange={setSearchTerm}
+          placeholder="Buscar avisos"
+        />
         {loading ? (
           <Loader />
         ) : (
-          <div className=" translate-y-[-1.5em]">
-            <Table
-              dataJSON={dataJson}
-              columns={tableColumns}
-              onRowClick={handleRowClick}
-              onRowPress={handleRowPress}
-              placeholder={placeholder}
+          <>
+            {ListOfData}
+            <Pagination
+              color="primary"
+              className="bg-white scrollbar-none flex justify-center w-full"
+              showControls
+              total={totalItems ? Math.ceil(totalItems / 10) : 0}
+              page={currentPage}
+              onChange={handlePageChange}
             />
-          </div>
+          </>
         )}
         {!loading && (
           <div id="modal" className="flex items-center justify-end z-[4]">

@@ -15,6 +15,9 @@ interface DesktopBodyProps {
   isEditing: boolean;
   editRow?: Advertising;
   loading: boolean;
+  currentPages?: number;
+  totalItems?: number;
+  setCurrentPage?: any;
 }
 
 export function DesktopBody({
@@ -28,10 +31,13 @@ export function DesktopBody({
   isEditing,
   editRow,
   loading,
+  currentPages,
+  totalItems,
+  setCurrentPage,
 }: DesktopBodyProps) {
   return (
     <>
-      <section className="mx-[3%] w-full">
+      <section className="mx-[3%] w-full flex flex-col pb-12">
         <h1 className="text-[4rem] font-[700] text-[#484848] tracking-[-1.28px] mt-[20px]">
           Avisos
         </h1>
@@ -39,12 +45,15 @@ export function DesktopBody({
         {loading ? (
           <Loader />
         ) : (
-          <div className="mt-[-70px] ">
+          <div className="mt-[-70px] flex flex-col h-full">
             <Table
               dataJSON={advertisingsJSON}
               columns={tableColumns}
               onRowClick={handleRowClick}
               placeholder="Buscar Aviso"
+              currentPage={currentPages}
+              totalItems={totalItems}
+              setCurrentPage={setCurrentPage}
             />
             <div className="flex justify-end">
               <Modal

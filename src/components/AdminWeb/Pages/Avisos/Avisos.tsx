@@ -3,25 +3,34 @@ import { Advertising } from '../../types/customTypes';
 import React from 'react';
 import { advertisingsAPI } from '../../../../services/advertisings';
 import { Helmet } from 'react-helmet';
-import { abbreviateSectorName } from '../../utils/AbbreviateSectorName';
-import dayjs from 'dayjs';
 import { DesktopBody } from './components/Body/DesktopBody';
 import { MobileBody } from '../../components/Mobile/MobileBody';
 import { FormMobile } from './components/Form/Mobile/FormMobile';
 import { userDiv } from '../../utils/userDiv';
 import { useIsMobile } from '../../hooks/useIsMobile';
+import { createEndHour } from '../../utils/createEndHour';
+import { createSectors } from '../../utils/createSectors';
+import { createSchedule } from '../../utils/createSchedule';
+import { createStarthour } from '../../utils/createStartHour';
+import ListOfAdvertisingCards from '../../components/Mobile/ListOfAdvertisingCards';
+import useSearchTerm from '../../hooks/useSearchTermAdvertising';
 
 function Avisos() {
   const [advertisingsJSON, setAdvertisingsJSON] = React.useState<Advertising[]>(
     [],
   );
 
+  const [currentPages, setCurrentPages] = React.useState(1);
+  const [totalItems, setTotalItems] = React.useState(0);
+
   const [editRow, setEditRow] = React.useState<Advertising>();
   const [isEditing, setIsEditing] = React.useState(false);
 
   const [loading, setLoading] = React.useState(false);
 
-  const handleRowClick = (advertising: any) => {
+  const { setSearchTerm } = useSearchTerm();
+
+  const handleRowClick = (advertising: Advertising) => {
     setEditRow(advertising);
     setIsEditing(true);
     openModal();
@@ -40,14 +49,10 @@ function Avisos() {
   const GetData = () => {
     setLoading(true);
     advertisingsAPI
-      .getAll()
+      .getPaginated(currentPages, 6)
       .then((r) => {
-        const orderedData = r.data.sort((a: any, b: any) => {
-          const order = ['active', 'today', 'pending', 'deprecated'];
-          return order.indexOf(a.status) - order.indexOf(b.status);
-        });
-
-        setAdvertisingsJSON(orderedData);
+        setTotalItems(r.data.total);
+        setAdvertisingsJSON(r.data.data);
         setLoading(false);
       })
       .catch((e) => {
@@ -57,36 +62,11 @@ function Avisos() {
 
   React.useEffect(() => {
     GetData();
-  }, []);
 
-  const sectores = (advertising: Advertising) =>
-    advertising.advertisingSectors
-      .map((sector) => sector.sector.topic.toLocaleUpperCase())
-      .join('-');
-
-  const dayOrder = ['Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa', 'Do'];
-
-  const schedule = (advertising: Advertising) => {
-    if (advertising.advertisingSchedules.length === 7) {
-      return 'Todos los días';
-    } else {
-      return advertising.advertisingSchedules
-        .map((schedule) => schedule.schedule.dayCode)
-        .map((d) => d.charAt(0).toUpperCase() + d.slice(1).toLowerCase())
-        .sort((a, b) => {
-          return dayOrder.indexOf(a) - dayOrder.indexOf(b);
-        })
-        .join('-');
-    }
-  };
-
-  const starthour = (advertising: Advertising) =>
-    dayjs(advertising.advertisingSchedules[0].schedule.startHour).format(
-      'HH:mm',
-    );
-
-  const endhour = (advertising: Advertising) =>
-    dayjs(advertising.advertisingSchedules[0].schedule.endHour).format('HH:mm');
+    return () => {
+      setSearchTerm('');
+    };
+  }, [currentPages]);
 
   const tableColumnsDesktop = new Map<string, (advertising: any) => void>([
     [
@@ -106,34 +86,19 @@ function Avisos() {
     [
       'Sector/es',
       (advertising: Advertising) => {
-        return sectores(advertising);
+        return createSectors(advertising);
       },
     ],
     [
       'Días',
       (advertising: Advertising) => {
-        return schedule(advertising);
+        return createSchedule(advertising);
       },
     ],
     [
       'Programación',
       (advertising: Advertising) => {
-        return starthour(advertising) + '-' + endhour(advertising);
-      },
-    ],
-    [
-      'Estado',
-      (advertising: Advertising) => {
-        return status(advertising);
-      },
-    ],
-  ]);
-
-  const tableColumnsMobile = new Map<string, (user: any) => void>([
-    [
-      'Nombre',
-      (advertising: Advertising) => {
-        return advertising.name;
+        return createStarthour(advertising) + '-' + createEndHour(advertising);
       },
     ],
     [
@@ -170,15 +135,20 @@ function Avisos() {
       </Helmet>
       {isMobile ? (
         <MobileBody
-          dataJson={advertisingsJSON}
-          tableColumns={tableColumnsMobile}
-          handleRowClick={handleRowClick}
           isOpen={isOpen}
           onCloseClick={onCloseClick}
           openModal={openModal}
+          ListOfData={
+            <ListOfAdvertisingCards
+              dataJson={advertisingsJSON}
+              handleCardClick={handleRowClick}
+            />
+          }
           loading={loading}
           title="Avisos"
-          placeholder="Buscar Avisos"
+          currentPage={currentPages}
+          totalItems={totalItems}
+          setCurrentPage={setCurrentPages}
         >
           <FormMobile
             setAdvertisingsJSON={GetData}
@@ -199,6 +169,9 @@ function Avisos() {
           isEditing={isEditing}
           editRow={editRow}
           loading={loading}
+          currentPages={currentPages}
+          totalItems={totalItems}
+          setCurrentPage={setCurrentPages}
         />
       )}
     </>
