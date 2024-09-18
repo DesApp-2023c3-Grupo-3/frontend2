@@ -81,6 +81,16 @@ function FormAdvertising({
   const [loading, setLoading] = React.useState(false);
   const [loadingDelete, setLoadingDelete] = React.useState(false);
 
+  const canSubmit =
+    advertisingName &&
+    startHour?.isValid() &&
+    endHour?.isValid() &&
+    startDate?.isValid() &&
+    endDate?.isValid() &&
+    selectedDays.length > 0 &&
+    selectedSector.length > 0 &&
+    (text || image || video);
+
   const invalidName = () => {
     return advertisingName === '';
   };
@@ -207,27 +217,7 @@ function FormAdvertising({
     };
     setEmptyFields(emptyFieldsUpdate);
 
-    if (Object.values(emptyFieldsUpdate).filter((value) => value).length > 1) {
-      //TODO: Faltaría agregar una lista de los campos que estan incompletos y ponerlo en el mensaje de error.
-      messageError('Hay campos incompletos.');
-    }
-    if (!advertisingName) {
-      messageError('Falta completar el nombre del aviso.');
-    } else if (selectedSector.length === 0) {
-      messageError('Falta completar los sectores.');
-    } else if (validationDate(startDate, endDate)) {
-      messageError('Falta completar las fechas del aviso.');
-    } else if (selectedDays.length === 0) {
-      messageError('Falta seleccionar los días de la semana.');
-    } else if (validationDate(startHour, endHour)) {
-      messageError('Falta completar el horario de los avisos.');
-    } else if (endDate !== null && startDate !== null && endDate < startDate) {
-      messageError('La fecha final no debe ser anterior a la de inicio.');
-    } else if (payload === '') {
-      messageError('Falta agregarle al aviso un texto, video o imagen.');
-    } else if (type === 2 && !payload) {
-      messageError('URL YouTube incorrecta.');
-    } else {
+    if (canSubmit) {
       if (isCreate) {
         setLoading(true);
         advertisingsAPI
@@ -376,7 +366,7 @@ function FormAdvertising({
           ) : (
             <Button
               onClick={handleSendAdvertisingClick}
-              active={true}
+              active={canSubmit}
               type={1}
               label="GUARDAR"
             />
