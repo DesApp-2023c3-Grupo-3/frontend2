@@ -76,7 +76,7 @@ export function CalenderMobile({
           emptyFields.hour && invalidHours(),
         )}
       </div>
-      <div className="my-[3em]">
+      <div className="md:my-[3em] my-[1.1em]">
         <DayPicker
           onSelectedDaysChange={setSelectedDays}
           selectedDays={selectedDays}
