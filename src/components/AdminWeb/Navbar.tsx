@@ -28,13 +28,17 @@ function Navbar() {
     return window.matchMedia('(prefers-color-scheme: dark)').matches;
   });
 
+  const root = document.documentElement;
+
   useEffect(() => {
     const sectionWeb = document.getElementById('SectionWeb');
     if (sectionWeb) {
       if (isDarkMode) {
         sectionWeb.classList.add('dark');
+        root.classList.add('dark');
       } else {
         sectionWeb.classList.remove('dark');
+        root.classList.remove('dark');
       }
     }
   }, [isDarkMode]);
@@ -46,7 +50,7 @@ function Navbar() {
   return (
     <nav
       className={
-        'fixed md:relative z-50 h-screen px-12 py-8 flex flex-col gap-2 w-screen md:w-auto bg-[#E0F7D9] dark:bg-[#00ff220a] ' +
+        'fixed md:relative z-50 h-screen px-12 py-8 flex flex-col gap-2 w-screen md:w-auto bg-[#E0F7D9] dark:bg-[#050e06] ' +
         (navDeployed ? 'translate-x-[-100%]' : 'translate-x-[0%] z-[10]')
       }
       id="navbar"
@@ -77,7 +81,7 @@ function Navbar() {
       <div className="w-full mb-4 flex justify-center">
         <Switch
           onChange={handleSwitchChange}
-          defaultSelected
+          defaultSelected={!isDarkMode}
           size="lg"
           color="primary"
           thumbIcon={({ isSelected }) =>

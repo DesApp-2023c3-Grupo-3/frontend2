@@ -139,7 +139,9 @@ function Avisos() {
 
   const isMobile = useIsMobile();
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    GetData();
+  }, []);
 
   return (
     <>
