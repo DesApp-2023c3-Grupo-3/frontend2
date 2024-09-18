@@ -114,23 +114,23 @@ function FormCommission({
 
   return (
     <div className="formCommission">
-      <form className="mx-10">
-        <div className="flex h-[90px] mt-[10px] justify-between items-center">
-          <div className="">
+      <form>
+        <div className="px-6 py-3 flex justify-between items-center">
+          <div>
             <Sectores
               selectedSector={selectedSector}
               onSelectedSectorChange={handleSelectedSectorChange}
               hasError={emptyFields.selectedSector}
               canChooseMany={false}
             />
-            <div className="">
+            <div>
               {ErrorMessage(
                 '*Falta seleccionar los sectores.',
                 emptyFields.selectedSector && selectedSector.length === 0,
               )}
             </div>
           </div>
-          <div className="">
+          <div>
             <DatePickerDays
               onChangeStartDate={setStartDate}
               onChangeEndDate={setEndDate}
@@ -146,14 +146,14 @@ function FormCommission({
             </div>
           </div>
         </div>
-        <div className="mr-[2em] mt-[20px] rounded-[20px] flex justify-center items-center bg-[#D9D9D9] w-[700px] h-[328px] ml-[110px] relative">
+        <div className="rounded-[20px] flex justify-center items-center bg-[#D9D9D9] w-[700px] h-[328px] ml-[110px] relative">
           {loading ? (
             <Loader />
           ) : (
-            <div className="">
+            <div>
               {hasDocument ? (
                 <div>
-                  <div className="flex">
+                  <div>
                     <table className="absolute inset-0 border-collapse overflow-hidden rounded-[20px] ">
                       <thead className="relative bg-[#484848] text-[#BABABA] ">
                         <tr className="flex justify-between py-3 ">
@@ -251,7 +251,7 @@ function FormCommission({
           )}
         </div>
       </form>
-      <div className="flex justify-between mx-6 mt-6">
+      <div className="flex justify-center gap-10 p-4">
         {selectedSector.length !== 0 ? (
           <Button
             onClick={downloadTemplate}
