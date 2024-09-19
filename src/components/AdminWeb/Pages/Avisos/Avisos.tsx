@@ -52,21 +52,6 @@ function Avisos() {
     }, 250);
   };
 
-  const GetData = () => {
-    setLoading(true);
-    advertisingsAPI
-      .getPaginated(currentPages, rowsPerPage, searchTerm)
-      .then((r) => {
-        setAdvertisingJSON(r.data.data);
-        setTotalItems(r.data.total);
-        setPages(r.data.totalPages);
-        setLoading(false);
-      })
-      .catch((e) => {
-        console.error(e);
-      });
-  };
-
   const tableColumnsDesktop = new Map<string, (advertising: any) => void>([
     [
       '',
@@ -137,6 +122,21 @@ function Avisos() {
 
   const isMobile = useIsMobile();
 
+  const GetData = () => {
+    setLoading(true);
+    advertisingsAPI
+      .getPaginated(currentPages, rowsPerPage, searchTerm)
+      .then((r) => {
+        setAdvertisingJSON(r.data.data);
+        setTotalItems(r.data.total);
+        setPages(r.data.totalPages);
+        setLoading(false);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  };
+
   useEffect(() => {
     GetData();
   }, []);
@@ -172,6 +172,7 @@ function Avisos() {
         </MobileBody>
       ) : (
         <DesktopBody
+          datasJSON={advertisingJSON}
           tableColumns={tableColumnsDesktop}
           handleRowClick={handleRowClick}
           isOpen={isOpen}

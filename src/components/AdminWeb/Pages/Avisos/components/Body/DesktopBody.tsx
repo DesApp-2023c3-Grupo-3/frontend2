@@ -14,6 +14,7 @@ interface DesktopBodyProps {
   isEditing: boolean;
   editRow?: Advertising;
   loading: boolean;
+  datasJSON: Advertising[];
 }
 
 export function DesktopBody({
@@ -26,6 +27,7 @@ export function DesktopBody({
   isEditing,
   editRow,
   loading,
+  datasJSON,
 }: DesktopBodyProps) {
   return (
     <>
@@ -39,6 +41,7 @@ export function DesktopBody({
         ) : (
           <div className="lex flex-col h-full">
             <TablaNextUi
+              datasJSON={datasJSON}
               type={1}
               columns={tableColumns}
               onRowClick={handleRowClick}

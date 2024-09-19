@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import {
   Table,
   TableHeader,
@@ -11,25 +11,23 @@ import {
 } from '@nextui-org/react';
 import useSearchTerm from '../../hooks/useSearchTermAdvertising';
 import { useTabla } from '../../hooks/useTable';
-import { advertisingsAPI } from '../../../../services/advertisings';
 import useDebounce from '../../hooks/useDebounce';
-import { commissionApi } from '../../../../services/commissions';
 
 interface TablaNextUiProps {
+  datasJSON: any[];
   columns: Map<string, (data: any) => void>;
   onRowClick?: (data: any) => void;
   placeholder?: string;
   type: number;
 }
 
-export default function TablaNextUi({
+function TablaNextUi({
+  datasJSON,
   columns,
   onRowClick,
   placeholder,
   type,
 }: TablaNextUiProps) {
-  const [isLoading, setIsLoading] = useState(false);
-
   const {
     currentPages,
     totalItems,
@@ -37,8 +35,6 @@ export default function TablaNextUi({
     setRowsPerPage,
     rowsPerPage,
     setCurrentPage,
-    setTotalItems,
-    setPages,
   } = useTabla();
 
   const columnsArray = Array.from(columns, ([key, handler]) => ({
@@ -52,9 +48,9 @@ export default function TablaNextUi({
     }
   };
 
-  const handlePageChange = (page: number) => {
+  const handlePageChange = useCallback((page: number) => {
     setCurrentPage(page);
-  };
+  }, []);
 
   const bottomContent = React.useMemo(() => {
     return (
@@ -72,12 +68,15 @@ export default function TablaNextUi({
 
   const { searchTerm, setSearchTerm } = useSearchTerm();
 
-  const onSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value);
-    setCurrentPage(1);
-  };
+  const onSearchChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setSearchTerm(event.target.value);
+      setCurrentPage(1);
+    },
+    [],
+  );
 
-  const onRowsPerPageChange = React.useCallback(
+  const onRowsPerPageChange = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
       setRowsPerPage(Number(e.target.value));
       setCurrentPage(1);
@@ -132,48 +131,14 @@ export default function TablaNextUi({
 
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
 
-  const getAdvertising = () => {
-    setIsLoading(true);
-    advertisingsAPI
-      .getPaginated(currentPages, rowsPerPage, searchTerm)
-      .then((r) => {
-        setTotalItems(r.data.total);
-        setPages(r.data.totalPages);
-        setDatasJSON(r.data.data);
-        setIsLoading(false);
-      })
-      .catch((e) => {
-        console.error(e);
-      });
-  };
-
-  const getCommisions = async () => {
-    setIsLoading(true);
-    commissionApi
-      .getAll()
-      .then((r) => {
-        setDatasJSON(r.data);
-        setTotalItems(r.data.length);
-        setPages(Math.ceil(r.data.length / rowsPerPage));
-        setIsLoading(false);
-      })
-      .catch((e) => {
-        console.error(e);
-      });
-  };
-
   useEffect(() => {
     switch (type) {
       case 1:
-        getAdvertising();
         break;
       case 2:
-        getCommisions();
         break;
     }
   }, [debouncedSearchTerm, currentPages, rowsPerPage]);
-
-  const [datasJSON, setDatasJSON] = useState<any[]>([]);
 
   return (
     <div>
@@ -190,7 +155,7 @@ export default function TablaNextUi({
         <TableHeader columns={columnsArray}>
           {(column) => <TableColumn key={column.key}>{column.key}</TableColumn>}
         </TableHeader>
-        <TableBody isLoading={isLoading}>
+        <TableBody>
           {datasJSON.map((data, index) => (
             <TableRow key={index}>
               {columnsArray.map((columnName) => {
@@ -210,6 +175,8 @@ export default function TablaNextUi({
     </div>
   );
 }
+
+export default React.memo(TablaNextUi);
 
 const lupa = (
   <svg

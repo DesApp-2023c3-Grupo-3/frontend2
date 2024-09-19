@@ -160,6 +160,7 @@ function Comisiones() {
             ) : (
               <div className="">
                 <TablaNextUi
+                  datasJSON={commissionsJSON}
                   columns={tableColumns}
                   placeholder="Buscar Comision"
                   type={2}
