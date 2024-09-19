@@ -1,8 +1,11 @@
 import { createContext, ReactNode, useState } from 'react';
+import { Commission } from '../types/customTypes';
 
 interface TablaContextType {
-  datasJSON: any[];
-  setDatasJSON: React.Dispatch<React.SetStateAction<any[]>>;
+  advertisingJSON: any[];
+  setAdvertisingJSON: React.Dispatch<React.SetStateAction<any[]>>;
+  commissionsJSON: Commission[];
+  setCommissionsJSON: React.Dispatch<React.SetStateAction<Commission[]>>;
   currentPages: number;
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
   rowsPerPage: number;
@@ -14,8 +17,10 @@ interface TablaContextType {
 }
 
 export const TablaContext = createContext<TablaContextType>({
-  datasJSON: [],
-  setDatasJSON: () => {},
+  advertisingJSON: [],
+  setAdvertisingJSON: () => {},
+  commissionsJSON: [],
+  setCommissionsJSON: () => {},
   currentPages: 1,
   setCurrentPage: () => {},
   rowsPerPage: 7,
@@ -27,7 +32,8 @@ export const TablaContext = createContext<TablaContextType>({
 });
 
 function TablaProvider({ children }: { children: ReactNode }) {
-  const [datasJSON, setDatasJSON] = useState<any[]>([]);
+  const [advertisingJSON, setAdvertisingJSON] = useState<any[]>([]);
+  const [commissionsJSON, setCommissionsJSON] = useState<Commission[]>([]);
   const [currentPages, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(7);
   const [totalItems, setTotalItems] = useState(0);
@@ -36,8 +42,10 @@ function TablaProvider({ children }: { children: ReactNode }) {
   return (
     <TablaContext.Provider
       value={{
-        datasJSON,
-        setDatasJSON,
+        advertisingJSON,
+        setAdvertisingJSON,
+        commissionsJSON,
+        setCommissionsJSON,
         currentPages,
         setCurrentPage,
         rowsPerPage,

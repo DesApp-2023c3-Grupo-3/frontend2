@@ -19,8 +19,8 @@ import { useTabla } from '../../hooks/useTable';
 
 function Avisos() {
   const {
-    datasJSON,
-    setDatasJSON,
+    advertisingJSON,
+    setAdvertisingJSON,
     currentPages,
     setCurrentPage,
     rowsPerPage,
@@ -57,15 +57,13 @@ function Avisos() {
     advertisingsAPI
       .getPaginated(currentPages, rowsPerPage, searchTerm)
       .then((r) => {
-        setDatasJSON(r.data.data);
+        setAdvertisingJSON(r.data.data);
         setTotalItems(r.data.total);
         setPages(r.data.totalPages);
+        setLoading(false);
       })
       .catch((e) => {
         console.error(e);
-      })
-      .finally(() => {
-        setLoading(false);
       });
   };
 
@@ -155,7 +153,7 @@ function Avisos() {
           openModal={openModal}
           ListOfData={
             <ListOfAdvertisingCards
-              dataJson={datasJSON}
+              dataJson={advertisingJSON}
               handleCardClick={handleRowClick}
             />
           }

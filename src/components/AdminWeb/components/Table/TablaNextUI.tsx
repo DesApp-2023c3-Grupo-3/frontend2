@@ -71,7 +71,6 @@ export default function TablaNextUi({
   }, [pages, currentPages]);
 
   const { searchTerm, setSearchTerm } = useSearchTerm();
-  const [filterValue, setFilterValue] = useState('');
 
   const onSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
@@ -98,7 +97,6 @@ export default function TablaNextUi({
             startContent={lupa}
             value={searchTerm}
             variant="bordered"
-            onClear={() => setFilterValue('')}
             onChange={onSearchChange}
           />
         </div>
@@ -125,7 +123,6 @@ export default function TablaNextUi({
       </div>
     );
   }, [
-    filterValue,
     onSearchChange,
     onRowsPerPageChange,
     searchTerm,
@@ -136,12 +133,14 @@ export default function TablaNextUi({
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
 
   const getAdvertising = () => {
+    setIsLoading(true);
     advertisingsAPI
       .getPaginated(currentPages, rowsPerPage, searchTerm)
       .then((r) => {
         setTotalItems(r.data.total);
         setPages(r.data.totalPages);
         setDatasJSON(r.data.data);
+        setIsLoading(false);
       })
       .catch((e) => {
         console.error(e);
@@ -149,15 +148,18 @@ export default function TablaNextUi({
   };
 
   const getCommisions = async () => {
-    try {
-      const updatedCommissions: { data: Commission[] } =
-        await commissionApi.getAll();
-      setDatasJSON(updatedCommissions.data);
-      setTotalItems(updatedCommissions.data.length);
-      setPages(Math.ceil(updatedCommissions.data.length / rowsPerPage));
-    } catch (error) {
-      console.error(error);
-    }
+    setIsLoading(true);
+    commissionApi
+      .getAll()
+      .then((r) => {
+        setDatasJSON(r.data);
+        setTotalItems(r.data.length);
+        setPages(Math.ceil(r.data.length / rowsPerPage));
+        setIsLoading(false);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
   };
 
   useEffect(() => {

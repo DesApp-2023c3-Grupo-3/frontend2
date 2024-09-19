@@ -5,33 +5,28 @@ import { Helmet } from 'react-helmet';
 import Modal from '../../components/Modal/Modal';
 import { useModal } from '../../hooks/useModal';
 import FormCommission from './components/Form/FormCommission';
-import Table from '../../components/Table/Table';
 import dayjs from 'dayjs';
 import Loader from '../../components/Loader';
-import React from 'react';
 import { MobileBody } from '../../components/Mobile/MobileBody';
 import { FormMobile } from './components/Mobile/FormMobile';
 import { useIsMobile } from '../../hooks/useIsMobile';
 import { Toast } from '../Avisos/components/Form/FormAdvertising';
 import Swal from 'sweetalert2';
 import ListOfCommissionCards from '../../components/Mobile/ListOfCommissionCards';
-import useSearchTerm from '../../hooks/useSearchTermAdvertising';
 import TablaNextUi from '../../components/Table/TablaNextUI';
 import { useTabla } from '../../hooks/useTable';
 
 function Comisiones() {
-  const { datasJSON, setDatasJSON } = useTabla();
+  const { commissionsJSON, setCommissionsJSON } = useTabla();
 
   const [loading, setLoading] = useState(false);
-
-  const { setSearchTerm } = useSearchTerm();
 
   const updateCommissionsTable = async () => {
     setLoading(true);
     try {
       const updatedCommissions: { data: Commission[] } =
         await commissionApi.getAll();
-      setDatasJSON(updatedCommissions.data || []);
+      setCommissionsJSON(updatedCommissions.data || []);
       setLoading(false);
     } catch (error) {
       console.error(error);
@@ -40,7 +35,7 @@ function Comisiones() {
 
   const { isOpen, openModal, closeModal } = useModal();
 
-  const tableColumns = new Map<string, (advertising: any) => void>([
+  const tableColumns = new Map<string, (commission: any) => void>([
     [
       'Materia',
       (commission: Commission) => {
@@ -126,6 +121,10 @@ function Comisiones() {
     handleClickDelete(commission.id);
   };
 
+  useEffect(() => {
+    updateCommissionsTable();
+  }, []);
+
   return (
     <>
       <Helmet>
@@ -141,7 +140,7 @@ function Comisiones() {
             title="Comisiones"
             ListOfData={
               <ListOfCommissionCards
-                dataJson={datasJSON}
+                dataJson={commissionsJSON}
                 handleCardClick={(comision) => onRowPress(comision)}
               />
             }
@@ -173,7 +172,7 @@ function Comisiones() {
                     label="AGREGAR COMISIONES"
                   >
                     <FormCommission
-                      commissionsJSON={datasJSON}
+                      commissionsJSON={commissionsJSON}
                       updateCommissionsTable={updateCommissionsTable}
                       closeModal={closeModal}
                     />
