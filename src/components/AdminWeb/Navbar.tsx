@@ -71,7 +71,7 @@ function Navbar() {
         >
           <path
             d="M2 2H20M2 8H20M2 14H20"
-            stroke="black"
+            stroke={!isDarkMode ? 'black' : 'white'}
             strokeWidth="2.5"
             strokeLinecap="round"
             strokeLinejoin="round"

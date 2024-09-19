@@ -35,6 +35,8 @@ function TablaNextUi({
     setRowsPerPage,
     rowsPerPage,
     setCurrentPage,
+    setTotalItems,
+    setPages,
   } = useTabla();
 
   const columnsArray = Array.from(columns, ([key, handler]) => ({
@@ -136,6 +138,8 @@ function TablaNextUi({
       case 1:
         break;
       case 2:
+        setPages(Math.ceil(datasJSON.length / rowsPerPage));
+        setTotalItems(datasJSON.length);
         break;
     }
   }, [debouncedSearchTerm, currentPages, rowsPerPage]);
