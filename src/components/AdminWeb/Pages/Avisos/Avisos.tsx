@@ -173,6 +173,7 @@ function Avisos() {
       ) : (
         <DesktopBody
           datasJSON={advertisingJSON}
+          setAdvertisingJSON={setAdvertisingJSON}
           tableColumns={tableColumnsDesktop}
           handleRowClick={handleRowClick}
           isOpen={isOpen}

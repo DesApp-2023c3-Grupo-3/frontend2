@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { Dispatch, SetStateAction, useCallback, useEffect } from 'react';
 import {
   Table,
   TableHeader,
@@ -12,6 +12,7 @@ import {
 import useSearchTerm from '../../hooks/useSearchTermAdvertising';
 import { useTabla } from '../../hooks/useTable';
 import useDebounce from '../../hooks/useDebounce';
+import { advertisingsAPI } from '../../../../services/advertisings';
 
 interface TablaNextUiProps {
   datasJSON: any[];
@@ -19,6 +20,7 @@ interface TablaNextUiProps {
   onRowClick?: (data: any) => void;
   placeholder?: string;
   type: number;
+  setDatasJSON: Dispatch<SetStateAction<any[]>>;
 }
 
 function TablaNextUi({
@@ -27,6 +29,7 @@ function TablaNextUi({
   onRowClick,
   placeholder,
   type,
+  setDatasJSON,
 }: TablaNextUiProps) {
   const {
     currentPages,
@@ -129,20 +132,39 @@ function TablaNextUi({
     searchTerm,
     rowsPerPage,
     totalItems,
+    placeholder,
   ]);
 
-  const debouncedSearchTerm = useDebounce(searchTerm, 300);
+  const getAdvertising = () => {
+    advertisingsAPI
+      .getPaginated(currentPages, rowsPerPage, searchTerm)
+      .then((r) => {
+        setDatasJSON(r.data.data);
+        setTotalItems(r.data.total);
+        setPages(r.data.totalPages);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  };
+
+  const debouncedSearchTerm = useDebounce(searchTerm, 500);
+
+  const [firstRender, setFirstRender] = React.useState(true);
 
   useEffect(() => {
     switch (type) {
       case 1:
+        if (!firstRender) {
+          getAdvertising();
+        } else {
+          setFirstRender(false);
+        }
         break;
       case 2:
-        setPages(Math.ceil(datasJSON.length / rowsPerPage));
-        setTotalItems(datasJSON.length);
         break;
     }
-  }, [debouncedSearchTerm, currentPages, rowsPerPage]);
+  }, [currentPages, rowsPerPage, setDatasJSON, debouncedSearchTerm]);
 
   return (
     <div>

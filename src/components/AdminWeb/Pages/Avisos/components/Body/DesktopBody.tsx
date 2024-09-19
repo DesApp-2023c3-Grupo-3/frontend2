@@ -15,6 +15,7 @@ interface DesktopBodyProps {
   editRow?: Advertising;
   loading: boolean;
   datasJSON: Advertising[];
+  setAdvertisingJSON: React.Dispatch<React.SetStateAction<Advertising[]>>;
 }
 
 export function DesktopBody({
@@ -28,6 +29,7 @@ export function DesktopBody({
   editRow,
   loading,
   datasJSON,
+  setAdvertisingJSON,
 }: DesktopBodyProps) {
   return (
     <>
@@ -46,6 +48,7 @@ export function DesktopBody({
               columns={tableColumns}
               onRowClick={handleRowClick}
               placeholder="Buscar Aviso"
+              setDatasJSON={setAdvertisingJSON}
             ></TablaNextUi>
             <div className="flex justify-end">
               <Modal

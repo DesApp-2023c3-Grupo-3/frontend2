@@ -17,7 +17,13 @@ import TablaNextUi from '../../components/Table/TablaNextUI';
 import { useTabla } from '../../hooks/useTable';
 
 function Comisiones() {
-  const { commissionsJSON, setCommissionsJSON } = useTabla();
+  const {
+    commissionsJSON,
+    setCommissionsJSON,
+    setPages,
+    setTotalItems,
+    rowsPerPage,
+  } = useTabla();
 
   const [loading, setLoading] = useState(false);
 
@@ -27,6 +33,8 @@ function Comisiones() {
       const updatedCommissions: { data: Commission[] } =
         await commissionApi.getAll();
       setCommissionsJSON(updatedCommissions.data || []);
+      setTotalItems(updatedCommissions.data.length);
+      setPages(Math.ceil(updatedCommissions.data.length / rowsPerPage));
       setLoading(false);
     } catch (error) {
       console.error(error);
@@ -164,6 +172,7 @@ function Comisiones() {
                   columns={tableColumns}
                   placeholder="Buscar Comision"
                   type={2}
+                  setDatasJSON={setCommissionsJSON}
                 />
                 <div className="flex justify-end">
                   <Modal
