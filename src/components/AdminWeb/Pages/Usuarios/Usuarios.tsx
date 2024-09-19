@@ -15,6 +15,9 @@ import { userDiv } from '../../utils/userDiv';
 import { useIsMobile } from '../../hooks/useIsMobile';
 import ListOfUsersCards from '../../components/Mobile/ListOfUsersCards';
 import useSearchTerm from '../../hooks/useSearchTermAdvertising';
+import { Input } from '@nextui-org/react';
+import { EyeSlashFilledIcon } from './components/Icons/EyeSlashFilledIcon';
+import { EyeFilledIcon } from './components/Icons/EyeFilledIcon';
 
 function Usuarios() {
   const [usersJSON, setUsersJSON] = useState<User[]>([]);
@@ -33,7 +36,7 @@ function Usuarios() {
     id: -1,
     name: 'Rol del usuario',
   });
-
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const { setSearchTerm } = useSearchTerm();
 
   const handleRowClick = (user: User) => {
@@ -224,39 +227,59 @@ function Usuarios() {
                   closeModal={closeModal}
                   label={'NUEVO USUARIO'}
                 >
-                  <>
-                    <h1 className="text-7xl font-bold px-12 mt-8 mb-4">
+                  <div className="p-5">
+                    <h1 className="text-3xl font-bold p-2">
                       {!isEditing ? 'Crear' : 'Editar'} nuevo usuario
                     </h1>
                     <form className="grid grid-cols-2 px-12">
                       <div className="flex flex-col gap-4">
-                        <input
+                        <Input
                           type="text"
-                          placeholder="DNI"
+                          label="DNI"
+                          placeholder="Ingrese el DNI"
                           defaultValue={editRow?.dni}
                           ref={dniRef}
-                          className="text-[20px] font-[400] tracking-[-0.4px] rounded-[30px] bg-[#D9D9D9] flex w-[365px] h-[50px] px-[40px] py-[12px] items-center"
+                          radius="full"
                         />
-                        <input
-                          type="password"
-                          placeholder="Contraseña"
+                        <Input
+                          label="Password"
+                          placeholder="Ingrese la contraseña"
+                          radius="full"
+                          fullWidth
+                          endContent={
+                            <button
+                              className="focus:outline-none"
+                              type="button"
+                              onClick={() =>
+                                setIsPasswordVisible(!isPasswordVisible)
+                              }
+                              aria-label="toggle password visibility"
+                            >
+                              {isPasswordVisible ? (
+                                <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                              ) : (
+                                <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                              )}
+                            </button>
+                          }
                           ref={passwordRef}
-                          className="text-[20px] font-[400] tracking-[-0.4px] rounded-[30px] bg-[#D9D9D9] flex w-[365px] h-[50px] px-[40px] py-[12px] items-center"
+                          type={isPasswordVisible ? 'text' : 'password'}
                         />
-                        <input
+                        <Input
                           type="text"
-                          placeholder="Nombre"
+                          label="Nombre"
+                          placeholder="Ingrese su nombre"
                           defaultValue={editRow?.name}
                           ref={usernameRef}
                           onChange={() => updateState({})}
-                          className="text-[20px] font-[400] tracking-[-0.4px] rounded-[30px] bg-[#D9D9D9] flex w-[365px] h-[50px] px-[40px] py-[12px] items-center"
+                          radius="full"
                         />
-                        <input
+                        {/* <input
                           type="text"
                           placeholder="Rol del usuario"
                           ref={roleRef}
                           className="text-[20px] font-[400] tracking-[-0.4px] rounded-[30px] bg-[#D9D9D9] flex w-[365px] h-[50px] px-[40px] py-[12px] items-center"
-                        />
+                        /> */}
                         <Roles
                           selectedRole={selectedRole}
                           onSelectedRoleChange={handleSelectedUserRoleChange}
@@ -301,7 +324,7 @@ function Usuarios() {
                         )}
                       </div>
                     </form>
-                  </>
+                  </div>
                 </Modal>
               </div>
             </div>
