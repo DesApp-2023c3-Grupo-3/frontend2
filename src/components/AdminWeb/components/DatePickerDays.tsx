@@ -45,7 +45,11 @@ function DatePickerDays({
           Fecha
         </span>
         <DatePicker
-          value={dayjsToDateValue(selectedDateInit)}
+          value={
+            !isCreate
+              ? today(getLocalTimeZone())
+              : dayjsToDateValue(selectedDateInit)
+          }
           onChange={(newDate: CalendarDate) => {
             onChangeStartDate(
               dayjs(new Date(newDate.year, newDate.month - 1, newDate.day)),
