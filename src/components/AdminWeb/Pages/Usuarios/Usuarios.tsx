@@ -205,7 +205,7 @@ function Usuarios() {
         <title>Administrador de cartelera | Usuarios</title>
       </Helmet>
       {!isMobile ? (
-        <div className="flex flex-col w-full pl-12">
+        <div className="flex flex-col justify-start w-full pl-12">
           <h1 className="text-[4rem] font-[700] text-[#484848] tracking-[-1.28px] mt-[20px]">
             Usuarios
           </h1>
@@ -220,7 +220,7 @@ function Usuarios() {
                 onRowClick={handleRowClick}
                 placeholder="Buscar usuarios..."
               />
-              <div className="flex justify-end">
+              <div className="flex justify-center">
                 <Modal
                   isOpen={isOpen}
                   openModal={handleOpenModal}
@@ -228,11 +228,8 @@ function Usuarios() {
                   label={'NUEVO USUARIO'}
                 >
                   <div className="p-5">
-                    <h1 className="text-3xl font-bold p-2">
-                      {!isEditing ? 'Crear' : 'Editar'} nuevo usuario
-                    </h1>
-                    <form className="grid grid-cols-2 px-12">
-                      <div className="flex flex-col gap-4">
+                    <form className="flex justify-evenly items-center">
+                      <div className="flex flex-col gap-4 w-2/4">
                         <Input
                           type="text"
                           label="DNI"
@@ -285,7 +282,7 @@ function Usuarios() {
                           onSelectedRoleChange={handleSelectedUserRoleChange}
                         />
                       </div>
-                      <div className="flex flex-col items-center gap-8">
+                      <div className="flex flex-col justify-center items-center gap-4 w-2/4">
                         <article className="text-center">
                           <img
                             src="https://cdn.discordapp.com/attachments/1143714208404471908/1165447224805826601/Usuario.png?ex=6546e24f&is=65346d4f&hm=9d49d67482396f4d8b724cfc900d52b7a47382794abf63292d137ebafb7b0bc2&"

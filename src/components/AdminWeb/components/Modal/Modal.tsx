@@ -20,6 +20,7 @@ function Modal({ isOpen, openModal, closeModal, children, label }: ModalProps) {
       <ModalUI
         backdrop="opaque"
         isOpen={isOpen}
+        className="overflow-visible"
         onClose={closeModal}
         size="4xl"
         hideCloseButton
@@ -51,10 +52,13 @@ function Modal({ isOpen, openModal, closeModal, children, label }: ModalProps) {
         <ModalContent>
           {(onClose) => (
             <>
-              <div className="bg-[#484848] h-[67px] flex justify-end items-center">
-                <button onClick={onClose}>
+              <div className="bg-[#484848] h-[67px] flex justify-end items-center rounded-t-[30px]">
+                <button
+                  className="mr-[15px] p-2 bg-gray-500/40 transition-all hover:bg-red-500 rounded-full"
+                  onClick={onClose}
+                >
                   <svg
-                    className="mr-[15px]"
+                    className=""
                     xmlns="http://www.w3.org/2000/svg"
                     width="35"
                     height="35"
