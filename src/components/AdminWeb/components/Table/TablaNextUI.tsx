@@ -102,6 +102,7 @@ function TablaNextUi({
             value={searchTerm}
             variant="bordered"
             onChange={onSearchChange}
+            onClear={() => setSearchTerm('')}
           />
         </div>
         <div className="flex justify-between items-center">
