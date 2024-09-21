@@ -220,7 +220,7 @@ function Usuarios() {
                 onRowClick={handleRowClick}
                 placeholder="Buscar usuarios..."
               />
-              <div className="flex justify-center">
+              <div className="flex justify-end">
                 <Modal
                   isOpen={isOpen}
                   openModal={handleOpenModal}
