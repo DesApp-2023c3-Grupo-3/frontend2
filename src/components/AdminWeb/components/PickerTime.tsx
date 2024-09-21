@@ -9,6 +9,7 @@ interface PickerTimeProps {
   onChangeEndHour: (newEndHour: Dayjs) => void;
   selectedHourInit?: Dayjs | null;
   selectedHourFinal?: Dayjs | null;
+  hasError: boolean;
 }
 
 function PickerTime({
@@ -16,6 +17,7 @@ function PickerTime({
   onChangeEndHour,
   selectedHourInit,
   selectedHourFinal,
+  hasError,
 }: PickerTimeProps) {
   const dayjsToTimeValue = (time: Dayjs | null) => {
     return time ? parseTime(time.format('HH:mm')) : null;
@@ -43,6 +45,7 @@ function PickerTime({
           label="Hora de Inicio"
           value={dayjsToTimeValue(selectedHourInit ?? null)}
           onChange={handleStartHourChange}
+          isInvalid={hasError}
         />
         <TimeInput
           label="Hora Final"
@@ -50,6 +53,7 @@ function PickerTime({
           value={dayjsToTimeValue(selectedHourFinal ?? null)}
           onChange={handleEndHourChange}
           isDisabled={!selectedHourInit}
+          isInvalid={hasError}
         />
       </div>
     </I18nProvider>

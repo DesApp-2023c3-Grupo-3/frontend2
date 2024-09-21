@@ -53,6 +53,7 @@ export function CalenderMobile({
       </div>
       <div>
         <DatePickerDays
+          hasError={emptyFields.date && invalidDate()}
           onChangeStartDate={setStartDate}
           onChangeEndDate={setEndDate}
           selectedDateInit={startDate}
@@ -60,19 +61,20 @@ export function CalenderMobile({
           isCreate={isCreate}
         />
         {ErrorMessage(
-          '*Falta completar las fechas.',
+          'Falta completar las fechas.',
           emptyFields.date && invalidDate(),
         )}
       </div>
       <div>
         <PickerTime
+          hasError={emptyFields.hour && invalidHours()}
           onChangeStartHour={setStartHour}
           onChangeEndHour={setEndHour}
           selectedHourInit={startHour}
           selectedHourFinal={endHour}
         />
         {ErrorMessage(
-          '*Falta completar los horarios',
+          'Falta completar los horarios',
           emptyFields.hour && invalidHours(),
         )}
       </div>
@@ -80,9 +82,10 @@ export function CalenderMobile({
         <DayPicker
           onSelectedDaysChange={setSelectedDays}
           selectedDays={selectedDays}
+          hasError={emptyFields.selectedDays && invalidselectedDays()}
         />
         {ErrorMessage(
-          '*Falta elegir los días.',
+          'Falta elegir los días.',
           emptyFields.selectedDays && invalidselectedDays(),
         )}
       </div>

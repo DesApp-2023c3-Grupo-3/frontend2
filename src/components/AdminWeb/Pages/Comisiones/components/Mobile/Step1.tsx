@@ -47,6 +47,7 @@ export function Step1({
         </div>
         <div className="block shrink-1 grow-0 basis-auto self-center order-0 mt-10 w-[90vw]">
           <DatePickerDays
+            hasError={invalidDate() && emptyFields.date}
             onChangeStartDate={setStartDate}
             onChangeEndDate={setEndDate}
             selectedDateInit={startDate}
@@ -54,7 +55,7 @@ export function Step1({
             isCreate={true}
           />
           {ErrorMessage(
-            '*Falta seleccionar las fechas.',
+            'Falta seleccionar las fechas.',
             invalidDate() && emptyFields.date,
           )}
         </div>

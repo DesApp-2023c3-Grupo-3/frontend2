@@ -14,6 +14,7 @@ interface DatePickerDaysProps {
   selectedDateInit: null | Dayjs;
   selectedDateFinal: null | Dayjs;
   isCreate: boolean;
+  hasError: boolean;
 }
 
 function DatePickerDays({
@@ -21,6 +22,7 @@ function DatePickerDays({
   onChangeEndDate,
   selectedDateInit,
   selectedDateFinal,
+  hasError,
   isCreate,
 }: DatePickerDaysProps) {
   const dayjsToDateValue = (date: Dayjs | null) => {
@@ -55,10 +57,10 @@ function DatePickerDays({
               dayjs(new Date(newDate.year, newDate.month - 1, newDate.day)),
             );
           }}
+          isInvalid={hasError}
           label="Fecha de Inicio"
           isDateUnavailable={dateValueToDayjs}
           minValue={today(getLocalTimeZone())}
-          errorMessage="Fecha no disponible"
         />
         <DatePicker
           value={dayjsToDateValue(selectedDateFinal)}
@@ -67,10 +69,10 @@ function DatePickerDays({
               dayjs(new Date(newDate.year, newDate.month - 1, newDate.day)),
             );
           }}
+          isInvalid={hasError}
           label="Fecha Final"
           isDisabled={!selectedDateInit}
           minValue={today(getLocalTimeZone())}
-          errorMessage="Fecha no disponible"
         />
       </div>
     </I18nProvider>

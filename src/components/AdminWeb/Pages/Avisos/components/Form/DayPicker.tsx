@@ -13,9 +13,14 @@ export const daysOfTheWeek: Days[] = [
 interface DayPickerProps {
   selectedDays: Days[];
   onSelectedDaysChange: React.Dispatch<React.SetStateAction<Days[]>>;
+  hasError: boolean;
 }
 
-function DayPicker({ onSelectedDaysChange, selectedDays }: DayPickerProps) {
+function DayPicker({
+  onSelectedDaysChange,
+  selectedDays,
+  hasError,
+}: DayPickerProps) {
   const [selectAllDays, setSelectAllDays] = React.useState(false);
 
   const handleSelectAllDaysChange = () => {
@@ -60,7 +65,9 @@ function DayPicker({ onSelectedDaysChange, selectedDays }: DayPickerProps) {
                 selectedDays.includes(day)
                   ? 'bg-[#2C9CBF] hover:bg-[#2387a5] text-white'
                   : 'bg-[#D9D9D9] hover:bg-[#b8b7b7] text-black'
-              }`}
+              }
+              ${hasError && 'bg-danger/50 text-white'}
+              `}
             >
               {day.name.slice(0, 2)}
             </button>

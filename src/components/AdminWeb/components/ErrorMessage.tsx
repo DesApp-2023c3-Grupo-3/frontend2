@@ -3,9 +3,7 @@ function ErrorMessage(message: string, condition: boolean) {
     return null;
   }
 
-  return (
-    <span className="text-[red] text-[12px] ml-3 relative">{message}</span>
-  );
+  return <span className="text-danger text-[12px] ml-3 ">{message}</span>;
 }
 
 export default ErrorMessage;

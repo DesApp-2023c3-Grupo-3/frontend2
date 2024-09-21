@@ -7,6 +7,8 @@ import ErrorMessage from '../../../../components/ErrorMessage';
 import Swal from 'sweetalert2';
 import { userApi } from '../../../../../../services/users';
 import { Toast } from '../../../Avisos/components/Form/FormAdvertising';
+import { Input } from '@nextui-org/react';
+import EyeIcon from '../Icons/EyeIcon';
 
 interface FormMobileProps {
   setUserJSON: () => void;
@@ -33,6 +35,8 @@ export function FormMobile({
   const [currentStep, setCurrentStep] = React.useState(1);
   const [loadingSave, setLoadingSave] = React.useState(false);
   const [loadingDelete, setLoadingDelete] = React.useState(false);
+
+  const [isPasswordVisible, setIsPasswordVisible] = React.useState(false);
 
   const [selectedRole, setSelectedRole] = React.useState<UserRole>(
     user?.role || {
@@ -180,60 +184,60 @@ export function FormMobile({
   }, [selectedRole]);
 
   return (
-    <div className=" h-screen relative w-screen">
+    <div>
       <h2 className="flex justify-center items-center font-bold text-[24px]">
         USUARIO
       </h2>
       <form>
         {currentStep === 1 ? (
-          <div className="h-[70%]">
-            <h4 className="flex justify-center items-center font-semibold text-[16px]">
+          <div className="flex flex-col gap-2 h-full w-full">
+            <h4 className="text-center font-semibold text-[16px]">
               Datos del Usuario
             </h4>
-            <div
-              id="step1"
-              className="flex flex-col gap-4 items-center absolute inset-0 m-auto top-[25%]"
-            >
-              <input
+            <div id="step1" className="flex flex-col gap-4 items-center px-2">
+              <Input
                 type="text"
-                placeholder="DNI"
+                label="DNI"
+                placeholder="Ingrese el DNI"
                 defaultValue={user?.dni}
                 ref={dniRef}
                 value={dni}
                 onChange={() => validateField('dni')}
-                className="text-[20px] font-[400] tracking-[-0.4px] rounded-[30px] bg-[#D9D9D9] flex w-[90%] h-[50px] px-[40px] py-[12px] items-center"
+                isInvalid={emptyFields.dni}
+                errorMessage="Debe ingresar un DNI"
+                radius="full"
               />
-              {ErrorMessage('*Debe ingresar un DNI', emptyFields.dni)}
-              <input
-                type="password"
-                placeholder="Contraseña"
+              <Input
+                label="Password"
+                placeholder="Ingrese la contraseña"
+                radius="full"
+                fullWidth
+                endContent={
+                  <EyeIcon
+                    isVisible={isPasswordVisible}
+                    onClick={() => setIsPasswordVisible(!isPasswordVisible)}
+                  />
+                }
+                isInvalid={emptyFields.dni}
+                errorMessage="Debe ingresar una contraseña"
                 ref={passwordRef}
-                value={password}
+                type={isPasswordVisible ? 'text' : 'password'}
                 onChange={() => validateField('password')}
-                className="text-[20px] font-[400] tracking-[-0.4px] rounded-[30px] bg-[#D9D9D9] flex w-[90%] h-[50px] px-[40px] py-[12px] items-center"
+                value={password}
               />
-              {ErrorMessage(
-                '*Debe ingresar una contraseña',
-                emptyFields.password && !isEditing,
-              )}
-
-              <input
+              <Input
                 type="text"
-                placeholder="Nombre"
+                label="Nombre"
+                placeholder="Ingrese su nombre"
                 defaultValue={user?.name}
                 ref={usernameRef}
+                value={username}
+                isInvalid={emptyFields.username}
+                errorMessage="Debe ingresar un nombre"
                 onChange={() => {
                   validateField('username');
                 }}
-                value={username}
-                className="text-[20px] font-[400] tracking-[-0.4px] rounded-[30px] bg-[#D9D9D9] flex w-[90%] h-[50px] px-[40px] py-[12px] items-center"
-              />
-              {ErrorMessage('*Debe ingresar un nombre', emptyFields.username)}
-              <input
-                type="text"
-                placeholder="Rol del usuario"
-                ref={roleRef}
-                className="hidden text-[20px] font-[400] tracking-[-0.4px] rounded-[30px] bg-[#D9D9D9] w-[90%] h-[50px] px-[40px] py-[12px] items-center"
+                radius="full"
               />
             </div>
           </div>
@@ -243,13 +247,8 @@ export function FormMobile({
               Rol
             </h4>
             {
-              <div className="flex flex-col gap-4 items-center absolute inset-0 m-auto top-[20%]">
-                <Roles
-                  selectedRole={selectedRole}
-                  onSelectedRoleChange={handleSelectedUserRoleChange}
-                />
-                {ErrorMessage('*Debe seleccionar un rol', emptyFields.rol)}
-                <article className="text-center mt-[30px]">
+              <article className="text-center gap-2 mt-[20px] flex flex-col items-center p-2">
+                <div>
                   <img
                     src="https://cdn.discordapp.com/attachments/1143714208404471908/1165447224805826601/Usuario.png?ex=6546e24f&is=65346d4f&hm=9d49d67482396f4d8b724cfc900d52b7a47382794abf63292d137ebafb7b0bc2&"
                     alt="User preview"
@@ -264,16 +263,18 @@ export function FormMobile({
                     {username ? username : user?.name}
                   </h4>
                   <span className="">{selectedRole.name}</span>
-                </article>
-              </div>
+                </div>
+
+                <Roles
+                  selectedRole={selectedRole}
+                  onSelectedRoleChange={handleSelectedUserRoleChange}
+                />
+              </article>
             }
           </div>
         )}
 
-        <div
-          id="buttons"
-          className="absolute m-auto bottom-[35vw] right-0 left-0"
-        >
+        <div id="buttons" className="absolute m-auto bottom-4 right-0 left-0">
           {currentStep === 1 ? (
             <div className="flex justify-center">
               {isEditing && (
@@ -300,9 +301,9 @@ export function FormMobile({
               </div>
             </div>
           ) : (
-            <div className="flex items-center justify-center">
+            <div className="flex items-center justify-center gap-2">
               <button
-                className="bg-[#D9D9D9] rounded-full mr-3 h-[40px] w-[40px] flex justify-center items-center"
+                className="bg-[#D9D9D9] rounded-full h-[40px] w-[40px] flex justify-center items-center"
                 onClick={handleNextStep}
               >
                 {previous}

@@ -16,8 +16,7 @@ import { useIsMobile } from '../../hooks/useIsMobile';
 import ListOfUsersCards from '../../components/Mobile/ListOfUsersCards';
 import useSearchTerm from '../../hooks/useSearchTermAdvertising';
 import { Input } from '@nextui-org/react';
-import { EyeSlashFilledIcon } from './components/Icons/EyeSlashFilledIcon';
-import { EyeFilledIcon } from './components/Icons/EyeFilledIcon';
+import EyeIcon from './components/Icons/EyeIcon';
 
 function Usuarios() {
   const [usersJSON, setUsersJSON] = useState<User[]>([]);
@@ -61,16 +60,16 @@ function Usuarios() {
 
   const hasValidUser = () => {
     return (
-      !invalidUsername() &&
-      !invalidPassword() &&
-      !invalidDNI() &&
+      !invalidUsername &&
+      !invalidPassword &&
+      !invalidDNI &&
       selectedRole.id !== -1
     );
   };
 
-  const invalidUsername = () => usernameRef.current?.value.trim() === '';
-  const invalidPassword = () => passwordRef.current?.value.trim() === '';
-  const invalidDNI = () => dniRef.current?.value.trim() === '';
+  const invalidUsername = usernameRef.current?.value.trim() === '';
+  const invalidPassword = passwordRef.current?.value.trim() === '';
+  const invalidDNI = dniRef.current?.value.trim() === '';
 
   const createdUserDate = (user: User) =>
     dayjs(user.createdAt).format('D/MM/YY - hh:mm');
@@ -238,26 +237,22 @@ function Usuarios() {
                           ref={dniRef}
                           radius="full"
                         />
+                        <Roles
+                          selectedRole={selectedRole}
+                          onSelectedRoleChange={handleSelectedUserRoleChange}
+                        />
                         <Input
                           label="Password"
                           placeholder="Ingrese la contraseña"
                           radius="full"
                           fullWidth
                           endContent={
-                            <button
-                              className="focus:outline-none"
-                              type="button"
+                            <EyeIcon
+                              isVisible={isPasswordVisible}
                               onClick={() =>
                                 setIsPasswordVisible(!isPasswordVisible)
                               }
-                              aria-label="toggle password visibility"
-                            >
-                              {isPasswordVisible ? (
-                                <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
-                              ) : (
-                                <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
-                              )}
-                            </button>
+                            />
                           }
                           ref={passwordRef}
                           type={isPasswordVisible ? 'text' : 'password'}
@@ -270,16 +265,6 @@ function Usuarios() {
                           ref={usernameRef}
                           onChange={() => updateState({})}
                           radius="full"
-                        />
-                        {/* <input
-                          type="text"
-                          placeholder="Rol del usuario"
-                          ref={roleRef}
-                          className="text-[20px] font-[400] tracking-[-0.4px] rounded-[30px] bg-[#D9D9D9] flex w-[365px] h-[50px] px-[40px] py-[12px] items-center"
-                        /> */}
-                        <Roles
-                          selectedRole={selectedRole}
-                          onSelectedRoleChange={handleSelectedUserRoleChange}
                         />
                       </div>
                       <div className="flex flex-col justify-center items-center gap-4 w-2/4">

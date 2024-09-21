@@ -116,22 +116,25 @@ function FormCommission({
     <div className="formCommission">
       <form>
         <div className="px-6 py-3 flex justify-between items-center">
-          <div>
+          <div className="w-[350px]">
             <Sectores
               selectedSector={selectedSector}
               onSelectedSectorChange={handleSelectedSectorChange}
-              hasError={emptyFields.selectedSector}
+              hasError={
+                emptyFields.selectedSector && selectedSector.length === 0
+              }
               canChooseMany={false}
             />
             <div>
               {ErrorMessage(
-                '*Falta seleccionar los sectores.',
+                'Falta seleccionar los sectores.',
                 emptyFields.selectedSector && selectedSector.length === 0,
               )}
             </div>
           </div>
-          <div>
+          <div className="w-[400px]">
             <DatePickerDays
+              hasError={invalidDate() && emptyFields.date}
               onChangeStartDate={setStartDate}
               onChangeEndDate={setEndDate}
               isCreate={true}
@@ -140,7 +143,7 @@ function FormCommission({
             />
             <div className="absoltue translate-x-[40px]">
               {ErrorMessage(
-                '*Falta seleccionar las fechas.',
+                'Falta seleccionar las fechas.',
                 invalidDate() && emptyFields.date,
               )}
             </div>
@@ -242,7 +245,7 @@ function FormCommission({
                     />
                   </label>
                   {ErrorMessage(
-                    '*Falta agregar un archivo con las comisiones.',
+                    'Falta agregar un archivo con las comisiones.',
                     emptyFields.file,
                   )}
                 </>

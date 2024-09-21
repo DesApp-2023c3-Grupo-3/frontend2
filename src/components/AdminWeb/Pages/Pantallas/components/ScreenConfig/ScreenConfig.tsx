@@ -27,12 +27,14 @@ function ScreenConfig({ closeModal }: { closeModal: () => void }) {
       <div className="flex flex-col items-center md:gap-24 justify-between w-full md:px-14 md:flex-row">
         <ScreenSelectedInfo />
         {selectedScreens.length === 1 && (
-          <Sectores
-            selectedSector={selectedSector}
-            onSelectedSectorChange={handleSectorChange}
-            hasError={false}
-            canChooseMany={false}
-          />
+          <div className="md:w-[400px] w-full">
+            <Sectores
+              selectedSector={selectedSector}
+              onSelectedSectorChange={handleSectorChange}
+              hasError={!selectedSector}
+              canChooseMany={false}
+            />
+          </div>
         )}
       </div>
 
