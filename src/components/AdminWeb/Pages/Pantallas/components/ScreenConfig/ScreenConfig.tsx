@@ -24,10 +24,10 @@ function ScreenConfig({ closeModal }: { closeModal: () => void }) {
 
   return (
     <section className="relative z-50 flex items-center  flex-col md:py-3 gap-2 md:gap-2">
-      <div className="flex flex-col items-center md:gap-24 justify-between w-full md:px-14 md:flex-row">
+      <div className="flex flex-col items-center md:gap-24 justify-between w-full md:px-10 md:flex-row">
         <ScreenSelectedInfo />
-        {selectedScreens.length === 1 && (
-          <div className="md:w-[400px] w-full">
+        {selectedScreens.length === 1 && isAnyCardSelected && (
+          <div className="md:w-[400px] md:p-0 px-4 w-full">
             <Sectores
               selectedSector={selectedSector}
               onSelectedSectorChange={handleSectorChange}
@@ -49,9 +49,10 @@ function ScreenConfig({ closeModal }: { closeModal: () => void }) {
 
       <ButtonSection
         selectedSector={selectedSector}
-        isAnyCardSelected={isAnyCardSelected}
         cardSelected={cardSelected}
         config={config}
+        isAnyCardSelected={isAnyCardSelected}
+        isAnySectorSelected={selectedSector.length > 0}
         closeModal={closeModal}
       />
     </section>

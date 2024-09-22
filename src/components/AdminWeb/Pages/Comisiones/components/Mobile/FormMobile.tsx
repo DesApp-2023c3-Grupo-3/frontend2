@@ -107,7 +107,7 @@ export function FormMobile({
             <h4 className="flex justify-center items-center font-semibold text-[16px]">
               Sector y Fecha
             </h4>
-            <div className="absolute m-auto inset-0 h-[80vw]">
+            <div className="absolute m-auto inset-0">
               <Step1
                 selectedSector={selectedSector}
                 setSelectedSector={setSelectedSector}

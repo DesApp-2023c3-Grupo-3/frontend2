@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { sectorApi } from '../../../services/sectores';
 import Loader from './Loader';
 import { Select, SelectItem } from '@nextui-org/react';
+import ErrorMessage from './ErrorMessage';
 
 interface SectoresProps {
   selectedSector: any[];
@@ -18,10 +19,8 @@ function Sectores({
   hasError,
   canChooseMany,
 }: SectoresProps) {
-  // const [selectAll, setSelectAll] = useState(false);
   const [sectorArray, setSectorArray] = useState<Sector[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedSectors, setSelectedSectors] = useState<Sector[]>([]);
 
   const updateSectorArray = async () => {
     try {
@@ -33,57 +32,35 @@ function Sectores({
     }
   };
 
-  // const handleSelectAllChange = (event: {
-  //   target: { checked: boolean | ((prevState: boolean) => boolean) };
-  // }) => {
-  //   setSelectAll(event.target.checked);
-
-  //   if (!selectAll) {
-  //     onSelectedSectorChange(sectorArray);
-  //   } else {
-  //     onSelectedSectorChange([]);
-  //   }
-  // };
-
-  const handlerOnSelect = (selected: string | undefined) => {
-    const findedSector = sectorArray.find(
-      (sector) => sector.topic === selected,
+  const handlerOnSelect = (selectedSectors: string) => {
+    const newSelectedSectors = sectorArray.filter((sector) =>
+      selectedSectors?.includes(sector.topic),
     );
-    if (findedSector) {
-      const newSelectedSectors = [...selectedSectors, findedSector];
-      setSelectedSectors(newSelectedSectors);
-      onSelectedSectorChange(newSelectedSectors);
-    }
+    onSelectedSectorChange(newSelectedSectors);
   };
 
   useEffect(() => {
     updateSectorArray();
   }, []);
 
-  // useEffect(() => {
-  //   if (selectedSector.length === sectorArray.length) {
-  //     setSelectAll(true);
-  //   } else {
-  //     setSelectAll(false);
-  //   }
-  // }, [handlerOnSelect]);
-
   return loading ? (
     <Loader />
   ) : (
-    <Select
-      label="Sectores"
-      placeholder="Selecciona un sector"
-      selectionMode={canChooseMany ? 'multiple' : 'single'}
-      onSelectionChange={(key) => handlerOnSelect(key.currentKey)}
-      isInvalid={hasError}
-      defaultSelectedKeys={selectedSector.map((sector) => sector.topic)}
-      startContent={<PlaceIcon />}
-    >
-      {sectorArray.map((sector) => (
-        <SelectItem key={sector.topic}>{sector.name}</SelectItem>
-      ))}
-    </Select>
+    <div>
+      <Select
+        label="Sectores"
+        placeholder="Selecciona un sector"
+        selectionMode={canChooseMany ? 'multiple' : 'single'}
+        onChange={(e) => handlerOnSelect(e.target.value)}
+        isInvalid={hasError}
+        defaultSelectedKeys={selectedSector.map((sector) => sector.topic)}
+        startContent={<PlaceIcon />}
+      >
+        {sectorArray.map((sector) => (
+          <SelectItem key={sector.topic}>{sector.name}</SelectItem>
+        ))}
+      </Select>
+    </div>
   );
 }
 

@@ -31,34 +31,35 @@ export function Step1({
   };
 
   return (
-    <div className="flex justify-center items-center h-[100%]">
-      <div className="flex flex-col justify-around flex-nowrap items-stretch content-normal">
-        <div className="block shrink-1 grow-0 basis-auto self-center order-0 mb-10">
-          <Sectores
-            selectedSector={selectedSector}
-            onSelectedSectorChange={handleSelectedSectorChange}
-            hasError={false}
-            canChooseMany={false}
-          />
-          {ErrorMessage(
-            '*Falta seleccionar los sectores.',
-            selectedSector.length === 0 && emptyFields.selectedSector,
-          )}
-        </div>
-        <div className="block shrink-1 grow-0 basis-auto self-center order-0 mt-10 w-[90vw]">
-          <DatePickerDays
-            hasError={invalidDate() && emptyFields.date}
-            onChangeStartDate={setStartDate}
-            onChangeEndDate={setEndDate}
-            selectedDateInit={startDate}
-            selectedDateFinal={endDate}
-            isCreate={true}
-          />
-          {ErrorMessage(
-            'Falta seleccionar las fechas.',
-            invalidDate() && emptyFields.date,
-          )}
-        </div>
+    <div className="flex flex-col justify-center items-center h-[100%] w-full">
+      <div className="w-full px-3">
+        <span className="md:hidden block text-center text-xl font-semibold mb-2">
+          Sector
+        </span>
+        <Sectores
+          selectedSector={selectedSector}
+          onSelectedSectorChange={handleSelectedSectorChange}
+          hasError={selectedSector.length === 0 && emptyFields.selectedSector}
+          canChooseMany={false}
+        />
+        {ErrorMessage(
+          'Falta seleccionar los sectores.',
+          selectedSector.length === 0 && emptyFields.selectedSector,
+        )}
+      </div>
+      <div className="w-full">
+        <DatePickerDays
+          hasError={invalidDate() && emptyFields.date}
+          onChangeStartDate={setStartDate}
+          onChangeEndDate={setEndDate}
+          selectedDateInit={startDate}
+          selectedDateFinal={endDate}
+          isCreate={true}
+        />
+        {ErrorMessage(
+          'Falta seleccionar las fechas.',
+          invalidDate() && emptyFields.date,
+        )}
       </div>
     </div>
   );

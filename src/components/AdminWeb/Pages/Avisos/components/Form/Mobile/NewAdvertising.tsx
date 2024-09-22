@@ -35,9 +35,9 @@ export function NewAdvertising({
           <h1>NUEVO AVISO</h1>
         </div>
       </div>
-      <div className="flex-col">
-        <div className="w-full">
-          <div className="py-8">
+      <div>
+        <div className="px-4">
+          <div className="py-6">
             <InputName
               emptyFields={emptyFields}
               invalidName={invalidName}
@@ -46,12 +46,12 @@ export function NewAdvertising({
             />
             <div className="absolute">
               {ErrorMessage(
-                '*Falta completar el nombre del aviso.',
+                'Falta completar el nombre del aviso.',
                 invalidName() && emptyFields.advertisingName,
               )}
             </div>
           </div>
-          <div className="">
+          <div>
             <Sectores
               selectedSector={selectedSector}
               onSelectedSectorChange={setSelectedSector}
@@ -60,7 +60,7 @@ export function NewAdvertising({
             />
             <div className="absolute">
               {ErrorMessage(
-                '*Falta seleccionar los sectores.',
+                'Falta seleccionar los sectores.',
                 emptyFields.selectedSector && invalidSectors(),
               )}
             </div>
@@ -70,7 +70,7 @@ export function NewAdvertising({
           <TypeGroup type={type} setType={setType} />
           <div className="absolute">
             {ErrorMessage(
-              '*Falta completar el tipo del aviso',
+              'Falta completar el tipo del aviso',
               emptyFields.type && invalidType(),
             )}
           </div>
