@@ -203,7 +203,7 @@ function Usuarios() {
       </Helmet>
       {!isMobile ? (
         <div className="flex flex-col w-full pl-12">
-          <h1 className="text-[4rem] font-[700] text-[#484848] tracking-[-1.28px] mt-[20px]">
+          <h1 className="text-[4rem] font-[700] text-[#484848] tracking-[-1.28px] mt-[20px] dark:text-[white]">
             Usuarios
           </h1>
           {loading ? (
