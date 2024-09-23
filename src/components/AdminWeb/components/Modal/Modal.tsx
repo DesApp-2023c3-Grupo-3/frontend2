@@ -1,6 +1,7 @@
 import React from 'react';
-import Button from '../Buttons/Button';
 import { ModalContent, Modal as ModalUI } from '@nextui-org/react';
+import { Fragment } from 'react';
+import { Button } from '@nextui-org/react';
 
 //El modal se usa con el hook useModal
 interface ModalProps {
@@ -14,8 +15,18 @@ interface ModalProps {
 function Modal({ isOpen, openModal, closeModal, children, label }: ModalProps) {
   return (
     <>
-      {label && (
-        <Button onClick={openModal} active={true} label={label} type={0} />
+      {label ? (
+        <Button
+          className=""
+          onClick={openModal}
+          color="primary"
+          size="lg"
+          variant="shadow"
+        >
+          {label}
+        </Button>
+      ) : (
+        ''
       )}
       <ModalUI
         backdrop="opaque"

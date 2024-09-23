@@ -1,6 +1,6 @@
 import { useModal } from '../../hooks/useModal';
 import { Advertising } from '../../types/customTypes';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { advertisingsAPI } from '../../../../services/advertisings';
 import { Helmet } from 'react-helmet';
 import { DesktopBody } from './components/Body/DesktopBody';
@@ -14,21 +14,27 @@ import { createSchedule } from '../../utils/createSchedule';
 import { createStarthour } from '../../utils/createStartHour';
 import ListOfAdvertisingCards from '../../components/Mobile/ListOfAdvertisingCards';
 import useSearchTerm from '../../hooks/useSearchTermAdvertising';
+import { Chip } from '@nextui-org/react';
+import { useTabla } from '../../hooks/useTable';
 
 function Avisos() {
-  const [advertisingsJSON, setAdvertisingsJSON] = React.useState<Advertising[]>(
-    [],
-  );
-
-  const [currentPages, setCurrentPages] = React.useState(1);
-  const [totalItems, setTotalItems] = React.useState(0);
+  const {
+    advertisingJSON,
+    setAdvertisingJSON,
+    currentPages,
+    setCurrentPage,
+    rowsPerPage,
+    totalItems,
+    setTotalItems,
+    setPages,
+  } = useTabla();
 
   const [editRow, setEditRow] = React.useState<Advertising>();
   const [isEditing, setIsEditing] = React.useState(false);
 
   const [loading, setLoading] = React.useState(false);
 
-  const { setSearchTerm } = useSearchTerm();
+  const { setSearchTerm, searchTerm } = useSearchTerm();
 
   const handleRowClick = (advertising: Advertising) => {
     setEditRow(advertising);
@@ -45,28 +51,6 @@ function Avisos() {
       setIsEditing(false);
     }, 250);
   };
-
-  const GetData = () => {
-    setLoading(true);
-    advertisingsAPI
-      .getPaginated(currentPages, 6)
-      .then((r) => {
-        setTotalItems(r.data.total);
-        setAdvertisingsJSON(r.data.data);
-        setLoading(false);
-      })
-      .catch((e) => {
-        console.error(e);
-      });
-  };
-
-  React.useEffect(() => {
-    GetData();
-
-    return () => {
-      setSearchTerm('');
-    };
-  }, [currentPages]);
 
   const tableColumnsDesktop = new Map<string, (advertising: any) => void>([
     [
@@ -111,22 +95,51 @@ function Avisos() {
 
   const status = (advertising: Advertising) => {
     return (
-      <div
-        className={`w-[40px] h-[12px] ml-5 rounded-[8px] ${
-          statusClasses[advertising.status] || 'bg-[#727272]'
-        }`}
-      ></div>
+      <Chip
+        className="capitalize"
+        color={statusClasses[advertising.status]}
+        size="sm"
+        variant="flat"
+      >
+        {statusNames[advertising.status]}
+      </Chip>
     );
   };
 
   const statusClasses: any = {
-    active: 'bg-[#74C91E]',
-    deprecated: 'bg-[#727272]',
-    pending: 'bg-[#C2B222]',
-    today: 'bg-[#C2B222]',
+    active: 'success',
+    deprecated: 'default',
+    pending: 'warning',
+    today: 'warning',
+  };
+
+  const statusNames: any = {
+    active: 'Activo',
+    deprecated: 'Desactivado',
+    pending: 'Pendiente',
+    today: 'Hoy',
   };
 
   const isMobile = useIsMobile();
+
+  const GetData = () => {
+    setLoading(true);
+    advertisingsAPI
+      .getPaginated(currentPages, rowsPerPage, searchTerm)
+      .then((r) => {
+        setAdvertisingJSON(r.data.data);
+        setTotalItems(r.data.total);
+        setPages(r.data.totalPages);
+        setLoading(false);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  };
+
+  useEffect(() => {
+    GetData();
+  }, []);
 
   return (
     <>
@@ -140,7 +153,7 @@ function Avisos() {
           openModal={openModal}
           ListOfData={
             <ListOfAdvertisingCards
-              dataJson={advertisingsJSON}
+              dataJson={advertisingJSON}
               handleCardClick={handleRowClick}
             />
           }
@@ -148,7 +161,7 @@ function Avisos() {
           title="Avisos"
           currentPage={currentPages}
           totalItems={totalItems}
-          setCurrentPage={setCurrentPages}
+          setCurrentPage={setCurrentPage}
         >
           <FormMobile
             setAdvertisingsJSON={GetData}
@@ -159,7 +172,8 @@ function Avisos() {
         </MobileBody>
       ) : (
         <DesktopBody
-          advertisingsJSON={advertisingsJSON}
+          datasJSON={advertisingJSON}
+          setAdvertisingJSON={setAdvertisingJSON}
           tableColumns={tableColumnsDesktop}
           handleRowClick={handleRowClick}
           isOpen={isOpen}
@@ -169,13 +183,9 @@ function Avisos() {
           isEditing={isEditing}
           editRow={editRow}
           loading={loading}
-          currentPages={currentPages}
-          totalItems={totalItems}
-          setCurrentPage={setCurrentPages}
         />
       )}
     </>
   );
 }
-
 export default Avisos;
