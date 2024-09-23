@@ -149,61 +149,59 @@ function Comisiones() {
       <Helmet>
         <title>Administrador de cartelera | Comisiones</title>
       </Helmet>
-      <div className={`w-full h-full ${!isMobile && 'mx-[3%]'}`}>
-        {isMobile ? (
-          <MobileBody
-            isOpen={isOpen}
-            onCloseClick={closeModal}
-            openModal={openModal}
-            loading={loading}
-            title="Comisiones"
-            ListOfData={
-              <ListOfCommissionCards
-                dataJson={commissionsJSON}
-                handleCardClick={(comision) => onRowPress(comision)}
-              />
-            }
-          >
-            <FormMobile
-              setCommissionsJSON={updateCommissionsTable}
-              closeModal={closeModal}
+      {isMobile ? (
+        <MobileBody
+          isOpen={isOpen}
+          onCloseClick={closeModal}
+          openModal={openModal}
+          loading={loading}
+          title="Comisiones"
+          ListOfData={
+            <ListOfCommissionCards
+              dataJson={commissionsJSON}
+              handleCardClick={(comision) => onRowPress(comision)}
             />
-          </MobileBody>
-        ) : (
-          <div className="w-full h-full">
-            <h1 className="text-[4rem] font-[700] text-[#484848] tracking-[-1.28px] mt-[20px] dark:text-[white]">
-              Comisiones
-            </h1>
-            {loading ? (
-              <Loader />
-            ) : (
-              <div className="">
-                <TablaNextUi
-                  datasJSON={commissionsJSON}
-                  columns={tableColumns}
-                  placeholder="Buscar Comision"
-                  type={2}
-                  setDatasJSON={setCommissionsJSON}
-                />
-                <div className="flex justify-end">
-                  <Modal
-                    isOpen={isOpen}
+          }
+        >
+          <FormMobile
+            setCommissionsJSON={updateCommissionsTable}
+            closeModal={closeModal}
+          />
+        </MobileBody>
+      ) : (
+        <div className="w-full h-full">
+          <h1 className="text-[4rem] font-[700] text-[#484848] tracking-[-1.28px] mt-[20px] dark:text-[white]">
+            Comisiones
+          </h1>
+          {loading ? (
+            <Loader />
+          ) : (
+            <div className="">
+              <TablaNextUi
+                datasJSON={commissionsJSON}
+                columns={tableColumns}
+                placeholder="Buscar Comision"
+                type={2}
+                setDatasJSON={setCommissionsJSON}
+              />
+              <div className="flex justify-end">
+                <Modal
+                  isOpen={isOpen}
+                  closeModal={closeModal}
+                  openModal={openModal}
+                  label="AGREGAR COMISIONES"
+                >
+                  <FormCommission
+                    commissionsJSON={commissionsJSON}
+                    updateCommissionsTable={updateCommissionsTable}
                     closeModal={closeModal}
-                    openModal={openModal}
-                    label="AGREGAR COMISIONES"
-                  >
-                    <FormCommission
-                      commissionsJSON={commissionsJSON}
-                      updateCommissionsTable={updateCommissionsTable}
-                      closeModal={closeModal}
-                    />
-                  </Modal>
-                </div>
+                  />
+                </Modal>
               </div>
-            )}
-          </div>
-        )}
-      </div>
+            </div>
+          )}
+        </div>
+      )}
     </>
   );
 }

@@ -57,13 +57,13 @@ function Modal({ isOpen, openModal, closeModal, children, label }: ModalProps) {
         }}
         classNames={{
           backdrop: 'bg-[#292f46]/70 backdrop-opacity-40',
-          base: 'bg-white rounded-[30px]',
+          base: 'bg-white dark:bg-zinc-700 rounded-[30px]',
         }}
       >
         <ModalContent>
           {(onClose) => (
             <>
-              <div className="bg-[#484848] h-[67px] flex justify-end items-center rounded-t-[30px]">
+              <div className="bg-[#484848] dark:bg-zinc-800 h-[67px] flex justify-end items-center rounded-t-[30px]">
                 <button
                   className="mr-[15px] p-2 bg-gray-500/40 transition-all hover:bg-red-500 rounded-full"
                   onClick={onClose}
