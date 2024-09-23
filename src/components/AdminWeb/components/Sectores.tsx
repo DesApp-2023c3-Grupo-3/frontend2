@@ -55,6 +55,10 @@ function Sectores({
         isInvalid={hasError}
         defaultSelectedKeys={selectedSector.map((sector) => sector.topic)}
         startContent={<PlaceIcon />}
+        classNames={{
+          base: 'dark:text-white',
+          popoverContent: 'dark:text-white',
+        }}
       >
         {sectorArray.map((sector) => (
           <SelectItem key={sector.topic}>{sector.name}</SelectItem>

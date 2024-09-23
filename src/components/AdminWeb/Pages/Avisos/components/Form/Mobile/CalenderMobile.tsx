@@ -48,7 +48,7 @@ export function CalenderMobile({
 
   return (
     <>
-      <div className="ml-[20px] text-[24px] font-bold mt-[-50px]">
+      <div className="ml-[20px] text-[24px] font-bold mt-[-50px] dark:text-white">
         <h1>FECHA Y HORA</h1>
       </div>
       <div>

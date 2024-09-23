@@ -89,7 +89,7 @@ function FormAdvertising({
     endDate?.isValid() &&
     selectedDays.length > 0 &&
     selectedSector.length > 0 &&
-    (text || image || video);
+    ((!!text && text !== '<p><br></p>') || !!image || !!video);
 
   const invalidName = () => {
     return advertisingName === '';
@@ -337,7 +337,7 @@ function FormAdvertising({
             />
             {ErrorMessage(
               'Falta completar el tipo del aviso',
-              emptyFields.type && invalidadType(),
+              (emptyFields.type && invalidadType()) || text === '<p><br></p>',
             )}
           </div>
         </div>

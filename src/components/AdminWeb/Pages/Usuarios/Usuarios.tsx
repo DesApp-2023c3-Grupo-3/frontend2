@@ -279,10 +279,12 @@ function Usuarios() {
                               {selectedRole.name[0]}
                             </span>
                           </div>
-                          <h4 className="text-xl font-bold mt-2">
+                          <h4 className="text-xl dark:text-white font-bold mt-2">
                             {usernameRef.current?.value}
                           </h4>
-                          <span className="">{selectedRole.name}</span>
+                          <span className="dark:text-white">
+                            {selectedRole.name}
+                          </span>
                         </article>
                         {loadingCreate ? (
                           <Loader />

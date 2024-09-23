@@ -7,11 +7,11 @@ export default function ScreenSelectedInfo() {
   const screenNames = selectedScreens.map((screen) => screen.screenTitle);
 
   return (
-    <div className="text-sm md:text-xl font-medium text-center">
+    <div className="text-sm md:text-xl font-medium text-center dark:text-white">
       {selectedScreens.length > 3 ? (
         <div className="relative">
           {screenNames[0]}, {screenNames[1]}, {screenNames[2]} y
-          <span className="text-primary underline decoration-primary pl-1">
+          <span className="text-primary underline decoration-primary dark:decoration-blue-300 dark:text-blue-300 pl-1">
             <Tooltip
               showArrow={true}
               content={screenNames.splice(3, screenNames.length - 1).join(', ')}

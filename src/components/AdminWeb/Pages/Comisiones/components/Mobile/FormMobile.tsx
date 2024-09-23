@@ -98,8 +98,8 @@ export function FormMobile({
 
   return (
     <div className={``}>
-      <div className="">
-        <h2 className="flex justify-center items-center font-bold text-[24px] mt-2">
+      <div className="dark:text-white">
+        <h2 className="flex justify-center items-center font-bold text-[24px] mt-2 ">
           COMISIONES
         </h2>
         {currentStep === 1 ? (

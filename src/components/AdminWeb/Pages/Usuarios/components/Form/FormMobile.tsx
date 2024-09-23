@@ -182,7 +182,7 @@ export function FormMobile({
   }, [selectedRole]);
 
   return (
-    <div>
+    <div className="dark:text-white">
       <h2 className="flex justify-center items-center font-bold text-[24px]">
         USUARIO
       </h2>
@@ -302,7 +302,7 @@ export function FormMobile({
           ) : (
             <div className="flex items-center justify-center gap-2">
               <button
-                className="bg-[#D9D9D9] rounded-full h-[40px] w-[40px] flex justify-center items-center"
+                className="bg-[#D9D9D9] dark:bg-white text-zinc-500  rounded-full h-[40px] w-[40px] flex justify-center items-center"
                 onClick={handleNextStep}
               >
                 {previous}

@@ -57,7 +57,7 @@ function Modal({ isOpen, openModal, closeModal, children, label }: ModalProps) {
         }}
         classNames={{
           backdrop: 'bg-[#292f46]/70 backdrop-opacity-40',
-          base: 'bg-white dark:bg-zinc-700 rounded-[30px]',
+          base: 'bg-white dark:bg-zinc-600 rounded-[30px]',
         }}
       >
         <ModalContent>

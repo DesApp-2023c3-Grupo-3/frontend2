@@ -31,7 +31,7 @@ function ImageTextVideo({
           panel: 'm-0',
           tab: 'm-0',
           base: 'm-0',
-          tabList: 'm-0 bg-[#484848] gap-6',
+          tabList: 'm-0 bg-[#484848] dark:bg-zinc-900 gap-6',
           cursor: 'w-full bg-white/15',
           tabContent:
             'm-0 group-data-[selected=true]:text-white group-data-[selected=true]:font-semibold text-base',

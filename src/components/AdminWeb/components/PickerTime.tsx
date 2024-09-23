@@ -38,7 +38,7 @@ function PickerTime({
   return (
     <I18nProvider>
       <div className="flex md:flex-row gap-2 flex-col md:p-0 px-3">
-        <span className="md:hidden block text-xl font-semibold text-center">
+        <span className="md:hidden block text-xl font-semibold text-center dark:text-white">
           Hora
         </span>
         <TimeInput

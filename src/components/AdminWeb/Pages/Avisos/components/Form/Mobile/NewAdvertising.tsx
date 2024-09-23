@@ -31,7 +31,7 @@ export function NewAdvertising({
   return (
     <div className="">
       <div>
-        <div className="ml-[20px] text-[24px] font-bold mt-[-50px]">
+        <div className="ml-[20px] dark:text-white text-[24px] font-bold mt-[-50px]">
           <h1>NUEVO AVISO</h1>
         </div>
       </div>

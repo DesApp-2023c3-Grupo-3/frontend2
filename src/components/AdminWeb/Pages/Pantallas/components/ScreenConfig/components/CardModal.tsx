@@ -23,7 +23,9 @@ export default function CardModal({
       <PopoverInfo>{description}</PopoverInfo>
       <Card
         className={`border-2 pt-1 ${
-          isSelected ? 'border-[#2C9CBF]' : 'border-slate-200'
+          isSelected
+            ? 'border-[#2C9CBF] dark:border-blue-500'
+            : 'border-slate-200 dark:border-slate-100'
         }`}
         fullWidth
         isPressable

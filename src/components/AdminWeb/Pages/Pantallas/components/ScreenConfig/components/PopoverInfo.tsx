@@ -33,8 +33,8 @@ function PopoverInfo({ children }: { children: React.ReactNode }) {
           </svg>
         </Button>
       </PopoverTrigger>
-      <PopoverContent>
-        <p className="text-lg w-40">{children}</p>
+      <PopoverContent className="dark:bg-zinc-700">
+        <p className="text-lg dark:text-white w-40">{children}</p>
       </PopoverContent>
     </Popover>
   );

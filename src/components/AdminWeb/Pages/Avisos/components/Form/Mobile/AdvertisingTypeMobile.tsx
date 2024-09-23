@@ -51,12 +51,12 @@ export function AdvertisingTypeMobile({
 
   return (
     <>
-      <div className="ml-[20px] text-[24px] font-bold mt-[-50px]">
+      <div className="ml-[20px] text-[24px] font-bold mt-[-50px] dark:text-white">
         <h1>{label}</h1>
       </div>
-      <div className="flex flex-col items-center justify-center mt-5">
+      <div className="flex flex-col items-center justify-center mt-5 ">
         <div>
-          <span className="flex justify-center text-[20px] font-bold text-[#484848]">
+          <span className="flex justify-center text-[20px] font-bold text-[#484848] dark:text-white">
             {advertisingName}
           </span>
         </div>

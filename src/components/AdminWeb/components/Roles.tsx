@@ -61,6 +61,9 @@ function Sectores({
           errorMessage="Elegí un rol"
           isInvalid={hasError}
           onChange={(e) => onChangeRole(e.target.value)}
+          classNames={{
+            popoverContent: 'dark:text-white ',
+          }}
         >
           {userRoleArray.map((role) => (
             <SelectItem key={role.name}>{role.name}</SelectItem>

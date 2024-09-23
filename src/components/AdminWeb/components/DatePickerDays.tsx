@@ -42,8 +42,8 @@ function DatePickerDays({
 
   return (
     <I18nProvider>
-      <div className="flex md:flex-row gap-2 flex-col md:p-0 p-3 items-center">
-        <span className="md:hidden block text-center text-xl font-semibold">
+      <div className="flex md:flex-row gap-2 flex-col md:p-0 p-3 items-center ">
+        <span className="md:hidden block text-center text-xl font-semibold dark:text-white">
           Fecha
         </span>
         <DatePicker
