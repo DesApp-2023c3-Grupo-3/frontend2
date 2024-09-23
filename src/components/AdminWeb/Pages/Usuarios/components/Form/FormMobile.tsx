@@ -204,6 +204,9 @@ export function FormMobile({
                 isInvalid={emptyFields.dni}
                 errorMessage="Debe ingresar un DNI"
                 radius="full"
+                classNames={{
+                  errorMessage: 'dark:text-red-300',
+                }}
               />
               <Input
                 label="Password"
@@ -222,6 +225,9 @@ export function FormMobile({
                 type={isPasswordVisible ? 'text' : 'password'}
                 onChange={() => validateField('password')}
                 value={password}
+                classNames={{
+                  errorMessage: 'dark:text-red-300',
+                }}
               />
               <Input
                 type="text"
@@ -236,6 +242,9 @@ export function FormMobile({
                   validateField('username');
                 }}
                 radius="full"
+                classNames={{
+                  errorMessage: 'dark:text-red-300',
+                }}
               />
             </div>
           </div>

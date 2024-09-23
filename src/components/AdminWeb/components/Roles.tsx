@@ -63,6 +63,7 @@ function Sectores({
           onChange={(e) => onChangeRole(e.target.value)}
           classNames={{
             popoverContent: 'dark:text-white ',
+            errorMessage: 'dark:text-red-300',
           }}
         >
           {userRoleArray.map((role) => (

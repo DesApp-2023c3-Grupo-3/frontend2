@@ -44,7 +44,7 @@ export function MobileBody({
       <section className="w-screen h-screen">
         <div className="flex items-center justify-between translate-y-[3em]">
           <h1
-            className={` text-[3em] font-[700] text-[#484848] tracking-[-1.28px] translate-x-[40px] ${
+            className={`dark:text-white  text-[3em] font-[700] text-[#484848] tracking-[-1.28px] translate-x-[40px] ${
               isMiniMobile && 'text-[24px]'
             }`}
           >
@@ -63,7 +63,7 @@ export function MobileBody({
             {ListOfData}
             <Pagination
               color="primary"
-              className="bg-white scrollbar-none flex justify-center w-full"
+              className="scrollbar-none flex justify-center w-full"
               showControls
               total={totalItems ? Math.ceil(totalItems / 10) : 0}
               page={currentPage}
