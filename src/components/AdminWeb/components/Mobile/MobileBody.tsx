@@ -36,7 +36,13 @@ export function MobileBody({
   const handlePageChange = (page: number) => {
     /* TODO: Cuando se integren los demás endpoints a setCurrentPage hay
     que sacarle el opcional y después sacar el && */
+    console.log(page);
     setCurrentPage && setCurrentPage(page);
+  };
+
+  const handleSearchTerm = (newTerm: string) => {
+    setCurrentPage && setCurrentPage(1);
+    setSearchTerm(newTerm);
   };
 
   return (
@@ -53,7 +59,7 @@ export function MobileBody({
         </div>
         <SearchBar
           searchTerm={searchTerm}
-          onSearchChange={setSearchTerm}
+          onSearchChange={handleSearchTerm}
           placeholder="Buscar avisos"
         />
         {loading ? (

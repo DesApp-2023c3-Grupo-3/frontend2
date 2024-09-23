@@ -16,6 +16,7 @@ import ListOfAdvertisingCards from '../../components/Mobile/ListOfAdvertisingCar
 import useSearchTerm from '../../hooks/useSearchTermAdvertising';
 import { Chip } from '@nextui-org/react';
 import { useTabla } from '../../hooks/useTable';
+import useDebounce from '../../hooks/useDebounce';
 
 function Avisos() {
   const {
@@ -34,7 +35,7 @@ function Avisos() {
 
   const [loading, setLoading] = React.useState(false);
 
-  const { setSearchTerm, searchTerm } = useSearchTerm();
+  const { searchTerm } = useSearchTerm();
 
   const handleRowClick = (advertising: Advertising) => {
     setEditRow(advertising);
@@ -137,9 +138,11 @@ function Avisos() {
       });
   };
 
+  const debounceSearch = useDebounce(searchTerm, 500);
+
   useEffect(() => {
     GetData();
-  }, []);
+  }, [debounceSearch, currentPages]);
 
   return (
     <>

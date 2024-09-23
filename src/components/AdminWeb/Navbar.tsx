@@ -50,7 +50,7 @@ function Navbar() {
   return (
     <nav
       className={
-        'fixed md:relative z-50 h-screen px-12 py-8 flex flex-col gap-2 w-screen md:w-auto bg-[#E0F7D9] dark:bg-[#050e06] ' +
+        'fixed md:relative z-[50] h-screen px-12 py-8 flex flex-col gap-2 w-screen md:w-auto bg-[#E0F7D9] dark:bg-[#050e06] ' +
         (navDeployed ? 'translate-x-[-100%]' : 'translate-x-[0%] z-[10]')
       }
       id="navbar"
