@@ -28,7 +28,6 @@ function Usuarios() {
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const dniRef = useRef<HTMLInputElement>(null);
-  const roleRef = useRef<HTMLInputElement>(null);
   const [editRow, setEditRow] = useState<User>();
   const [isEditing, setIsEditing] = useState(false);
   const [selectedRole, setSelectedRole] = useState<UserRole>({
@@ -55,6 +54,7 @@ function Usuarios() {
   tableColumns.set('Creación', (user: User) => createdUserDate(user));
 
   const handleSelectedUserRoleChange = (newSelectedRole: any) => {
+    console.log(newSelectedRole);
     setSelectedRole(newSelectedRole);
   };
 

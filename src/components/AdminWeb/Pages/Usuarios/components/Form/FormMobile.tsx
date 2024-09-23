@@ -3,7 +3,6 @@ import Button from '../../../../components/Buttons/Button';
 import { previous } from '../../../Comisiones/components/Mobile/FormMobile';
 import Loader from '../../../../components/Loader';
 import Roles from '../../../../components/Roles';
-import ErrorMessage from '../../../../components/ErrorMessage';
 import Swal from 'sweetalert2';
 import { userApi } from '../../../../../../services/users';
 import { Toast } from '../../../Avisos/components/Form/FormAdvertising';
@@ -26,7 +25,6 @@ export function FormMobile({
   const usernameRef = React.useRef<HTMLInputElement>(null);
   const passwordRef = React.useRef<HTMLInputElement>(null);
   const dniRef = React.useRef<HTMLInputElement>(null);
-  const roleRef = React.useRef<HTMLInputElement>(null);
 
   const [username, setUsername] = React.useState(user?.name || '');
   const [password, setPassword] = React.useState('');
@@ -268,6 +266,7 @@ export function FormMobile({
                 <Roles
                   selectedRole={selectedRole}
                   onSelectedRoleChange={handleSelectedUserRoleChange}
+                  hasError={!!emptyFields.rol}
                 />
               </article>
             }
@@ -313,7 +312,7 @@ export function FormMobile({
                   {!loadingSave ? (
                     <Button
                       onClick={createNewUser}
-                      active={true}
+                      active={!emptyFields.rol}
                       type={1}
                       label={'GUARDAR'}
                     />

@@ -1,14 +1,18 @@
 import { useState, useEffect } from 'react';
 import { roleApi } from '../../../services/roles';
-import Loader from './Loader';
 import { Select, SelectItem } from '@nextui-org/react';
 
 interface RolesProps {
   selectedRole: UserRole;
   onSelectedRoleChange: (newSelectedRole: UserRole) => void;
+  hasError?: boolean;
 }
 
-function Sectores({ selectedRole, onSelectedRoleChange }: RolesProps) {
+function Sectores({
+  selectedRole,
+  onSelectedRoleChange,
+  hasError,
+}: RolesProps) {
   const [userRoleArray, setUserRoleArray] = useState<UserRole[]>();
   const [loading, setLoading] = useState(false);
 
@@ -28,6 +32,20 @@ function Sectores({ selectedRole, onSelectedRoleChange }: RolesProps) {
     }
   };
 
+  const onChangeRole = (role: string) => {
+    const roleFinded = userRoleArray?.find(
+      (roleArray) => roleArray.name === role,
+    );
+    if (roleFinded) {
+      onSelectedRoleChange(roleFinded);
+    } else {
+      onSelectedRoleChange({
+        id: -1,
+        name: 'Rol del usuario',
+      });
+    }
+  };
+
   useEffect(() => {
     updateUserRoleArray();
   }, []);
@@ -41,14 +59,11 @@ function Sectores({ selectedRole, onSelectedRoleChange }: RolesProps) {
           radius="full"
           defaultSelectedKeys={defaultSelectKeys}
           errorMessage="Elegí un rol"
+          isInvalid={hasError}
+          onChange={(e) => onChangeRole(e.target.value)}
         >
           {userRoleArray.map((role) => (
-            <SelectItem
-              onClick={() => onSelectedRoleChange(role)}
-              key={role.name}
-            >
-              {role.name}
-            </SelectItem>
+            <SelectItem key={role.name}>{role.name}</SelectItem>
           ))}
         </Select>
       )}
