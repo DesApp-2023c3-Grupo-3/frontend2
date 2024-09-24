@@ -142,6 +142,10 @@ function Comisiones() {
 
   useEffect(() => {
     updateCommissionsTable();
+
+    return () => {
+      setSearchTerm('');
+    };
   }, []);
 
   return (

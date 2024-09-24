@@ -34,7 +34,7 @@ function Avisos() {
 
   const [loading, setLoading] = React.useState(false);
 
-  const { searchTerm } = useSearchTerm();
+  const { searchTerm, setSearchTerm } = useSearchTerm();
 
   const handleRowClick = (advertising: Advertising) => {
     setEditRow(advertising);
@@ -139,6 +139,10 @@ function Avisos() {
 
   useEffect(() => {
     GetData();
+
+    return () => {
+      setSearchTerm('');
+    };
   }, []);
 
   return (
