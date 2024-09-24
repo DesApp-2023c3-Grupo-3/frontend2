@@ -1,6 +1,5 @@
 import { Helmet } from 'react-helmet';
-import { FormEvent, useEffect, useRef, useState } from 'react';
-import TableMain from '../../components/Table/Table';
+import { FormEvent, useEffect, useState } from 'react';
 import Button from '../../components/Buttons/Button';
 import { userApi } from '../../../../services/users';
 import { useModal } from '../../hooks/useModal';
@@ -17,17 +16,30 @@ import ListOfUsersCards from '../../components/Mobile/ListOfUsersCards';
 import useSearchTerm from '../../hooks/useSearchTermAdvertising';
 import { Input } from '@nextui-org/react';
 import EyeIcon from './components/Icons/EyeIcon';
+import TablaNextUI from '../../components/Table/TablaNextUI';
 
 function Usuarios() {
   const [usersJSON, setUsersJSON] = useState<User[]>([]);
   const [loading, setLoading] = useState(false);
   const [loadingCreate, setLoadingCreate] = useState(false);
 
-  const [_, updateState] = useState({});
   const { isOpen, openModal, closeModal } = useModal();
-  const usernameRef = useRef<HTMLInputElement>(null);
-  const passwordRef = useRef<HTMLInputElement>(null);
-  const dniRef = useRef<HTMLInputElement>(null);
+
+  const onCloseModal = () => {
+    closeModal();
+    setUsername('');
+    setDni('');
+    setPassword('');
+    setSelectedRole({
+      id: -1,
+      name: 'Rol del usuario',
+    });
+  };
+
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [dni, setDni] = useState('');
+
   const [editRow, setEditRow] = useState<User>();
   const [isEditing, setIsEditing] = useState(false);
   const [selectedRole, setSelectedRole] = useState<UserRole>({
@@ -39,12 +51,12 @@ function Usuarios() {
 
   const handleRowClick = (user: User) => {
     setEditRow(user);
+    setUsername(user.name);
+    setPassword(user.password);
+    setDni(user.dni);
     setSelectedRole(user.role || selectedRole);
     setIsEditing(true);
     openModal();
-    setTimeout(() => {
-      updateState({});
-    }, 60);
   };
 
   const tableColumns = new Map<string, (user: any) => void>();
@@ -54,7 +66,6 @@ function Usuarios() {
   tableColumns.set('Creación', (user: User) => createdUserDate(user));
 
   const handleSelectedUserRoleChange = (newSelectedRole: any) => {
-    console.log(newSelectedRole);
     setSelectedRole(newSelectedRole);
   };
 
@@ -67,9 +78,9 @@ function Usuarios() {
     );
   };
 
-  const invalidUsername = usernameRef.current?.value.trim() === '';
-  const invalidPassword = passwordRef.current?.value.trim() === '';
-  const invalidDNI = dniRef.current?.value.trim() === '';
+  const invalidUsername = username.trim() === '';
+  const invalidPassword = password.trim() === '';
+  const invalidDNI = dni.trim() === '';
 
   const createdUserDate = (user: User) =>
     dayjs(user.createdAt).format('D/MM/YY - hh:mm');
@@ -84,9 +95,9 @@ function Usuarios() {
       userApi
         .update({
           id: editRow?.id,
-          name: usernameRef.current?.value + '',
-          dni: dniRef.current?.value + '',
-          password: passwordRef.current?.value + '',
+          name: username,
+          dni: dni,
+          password: password,
           role: selectedRole,
         })
         .then(() => {
@@ -97,9 +108,9 @@ function Usuarios() {
     } else {
       userApi
         .create({
-          name: usernameRef.current?.value + '',
-          dni: dniRef.current?.value + '',
-          password: passwordRef.current?.value + '',
+          name: username,
+          dni: dni,
+          password: password,
           role: selectedRole,
         })
         .then(() => {
@@ -121,7 +132,6 @@ function Usuarios() {
         name: 'Rol del usuario',
       },
     });
-    updateState({});
     openModal();
   };
 
@@ -211,19 +221,20 @@ function Usuarios() {
           {loading ? (
             <Loader />
           ) : (
-            <div className="mt-[-70px] mr-[3.1%]">
-              <TableMain
-                dataJSON={usersJSON}
+            <div className=" mr-[3.1%]">
+              <TablaNextUI
+                datasJSON={usersJSON}
                 columns={tableColumns}
-                searchableColumns={['DNI', 'Nombre', 'Rol']}
+                type={1}
                 onRowClick={handleRowClick}
                 placeholder="Buscar usuarios..."
+                setDatasJSON={setUsersJSON}
               />
               <div className="flex justify-end">
                 <Modal
                   isOpen={isOpen}
                   openModal={handleOpenModal}
-                  closeModal={closeModal}
+                  closeModal={onCloseModal}
                   label={'NUEVO USUARIO'}
                 >
                   <div className="p-5">
@@ -233,9 +244,9 @@ function Usuarios() {
                           type="text"
                           label="DNI"
                           placeholder="Ingrese el DNI"
-                          defaultValue={editRow?.dni}
-                          ref={dniRef}
+                          value={dni}
                           radius="full"
+                          onChange={(e) => setDni(e.target.value)}
                         />
                         <Roles
                           selectedRole={selectedRole}
@@ -254,17 +265,16 @@ function Usuarios() {
                               }
                             />
                           }
-                          ref={passwordRef}
+                          onChange={(e) => setPassword(e.target.value)}
                           type={isPasswordVisible ? 'text' : 'password'}
                         />
                         <Input
                           type="text"
                           label="Nombre"
                           placeholder="Ingrese su nombre"
-                          defaultValue={editRow?.name}
-                          ref={usernameRef}
-                          onChange={() => updateState({})}
+                          onChange={(e) => setUsername(e.target.value)}
                           radius="full"
+                          value={username}
                         />
                       </div>
                       <div className="flex flex-col justify-center items-center gap-4 w-2/4">
@@ -280,7 +290,7 @@ function Usuarios() {
                             </span>
                           </div>
                           <h4 className="text-xl dark:text-white font-bold mt-2">
-                            {usernameRef.current?.value}
+                            {username || 'Nombre del usuario'}
                           </h4>
                           <span className="dark:text-white">
                             {selectedRole.name}
