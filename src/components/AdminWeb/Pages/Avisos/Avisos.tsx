@@ -16,7 +16,6 @@ import ListOfAdvertisingCards from '../../components/Mobile/ListOfAdvertisingCar
 import useSearchTerm from '../../hooks/useSearchTermAdvertising';
 import { Chip } from '@nextui-org/react';
 import { useTabla } from '../../hooks/useTable';
-import useDebounce from '../../hooks/useDebounce';
 
 function Avisos() {
   const {
@@ -138,11 +137,9 @@ function Avisos() {
       });
   };
 
-  const debounceSearch = useDebounce(searchTerm, 500);
-
   useEffect(() => {
     GetData();
-  }, [debounceSearch, currentPages]);
+  }, []);
 
   return (
     <>
@@ -164,6 +161,7 @@ function Avisos() {
           title="Avisos"
           currentPage={currentPages}
           totalItems={totalItems}
+          getData={GetData}
           setCurrentPage={setCurrentPage}
         >
           <FormMobile

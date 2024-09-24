@@ -1,8 +1,9 @@
 import { Pagination } from '@nextui-org/react';
-import Loader from '../Loader';
 import ModalMobile from '../Modal/ModalMobile';
 import SearchBar from '../Table/SearchBar';
 import useSearchTerm from '../../hooks/useSearchTermAdvertising';
+import { useEffect } from 'react';
+import useDebounce from '../../hooks/useDebounce';
 
 interface MobileBodyProps {
   isOpen: boolean;
@@ -15,6 +16,7 @@ interface MobileBodyProps {
   currentPage?: number;
   totalItems?: number;
   setCurrentPage?: (page: number) => void;
+  getData?: () => void;
 }
 
 export function MobileBody({
@@ -27,16 +29,22 @@ export function MobileBody({
   title,
   currentPage,
   totalItems,
+  getData,
   setCurrentPage,
 }: MobileBodyProps) {
   const { searchTerm, setSearchTerm } = useSearchTerm();
 
   const isMiniMobile = window.matchMedia('(max-width: 320px)').matches;
 
+  const debounceSearch = useDebounce(searchTerm, 500);
+
+  useEffect(() => {
+    getData && getData();
+  }, [debounceSearch, currentPage]);
+
   const handlePageChange = (page: number) => {
     /* TODO: Cuando se integren los demás endpoints a setCurrentPage hay
     que sacarle el opcional y después sacar el && */
-    console.log(page);
     setCurrentPage && setCurrentPage(page);
   };
 
@@ -62,41 +70,34 @@ export function MobileBody({
           onSearchChange={handleSearchTerm}
           placeholder="Buscar avisos"
         />
-        {loading ? (
-          <Loader />
-        ) : (
-          <>
-            {ListOfData}
-            <Pagination
-              color="primary"
-              className="scrollbar-none flex justify-center w-full"
-              showControls
-              total={totalItems ? Math.ceil(totalItems / 10) : 0}
-              page={currentPage}
-              onChange={handlePageChange}
-            />
-          </>
-        )}
-        {!loading && (
-          <ModalMobile
-            isOpen={isOpen}
-            closeModal={onCloseClick}
-            openModal={openModal}
-            label={
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                className="z-[10]"
-              >
-                <path fill="white" d="M19 12.998h-6v6h-2v-6H5v-2h6v-6h2v6h6z" />
-              </svg>
-            }
-          >
-            {children}
-          </ModalMobile>
-        )}
+        {ListOfData}
+        <Pagination
+          color="primary"
+          className="scrollbar-none flex justify-center w-full"
+          showControls
+          total={totalItems ? Math.ceil(totalItems / 10) : 0}
+          page={currentPage}
+          onChange={handlePageChange}
+        />
+        <ModalMobile
+          isOpen={isOpen}
+          closeModal={onCloseClick}
+          openModal={openModal}
+          isLoading={loading}
+          label={
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              className="z-[10]"
+            >
+              <path fill="white" d="M19 12.998h-6v6h-2v-6H5v-2h6v-6h2v6h6z" />
+            </svg>
+          }
+        >
+          {children}
+        </ModalMobile>
       </section>
     </>
   );

@@ -9,14 +9,27 @@ interface ModalProps {
   openModal: () => void;
   children: React.ReactElement;
   label?: any;
+  isLoading?: boolean;
 }
 
-function Modal({ isOpen, closeModal, openModal, children, label }: ModalProps) {
+function Modal({
+  isOpen,
+  closeModal,
+  openModal,
+  children,
+  label,
+  isLoading,
+}: ModalProps) {
   return (
     <>
       {label && (
         <div className="fixed bottom-[5%] right-[10%]">
-          <Button onClick={openModal} active={true} label={label} type={4} />
+          <Button
+            onClick={openModal}
+            active={isLoading}
+            label={label}
+            type={4}
+          />
         </div>
       )}
       <ModalUI
