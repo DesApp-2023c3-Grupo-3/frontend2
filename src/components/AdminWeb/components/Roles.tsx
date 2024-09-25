@@ -53,7 +53,7 @@ function Sectores({
           fullWidth
           radius="full"
           defaultSelectedKeys={[selectedRole.name]}
-          errorMessage="Elegí un rol"
+          errorMessage="Ingrese un rol"
           isInvalid={hasError}
           onChange={(e) => onChangeRole(e.target.value)}
           classNames={{

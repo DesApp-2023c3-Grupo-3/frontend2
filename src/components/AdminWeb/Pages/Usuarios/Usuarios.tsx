@@ -25,36 +25,49 @@ function Usuarios() {
 
   const { isOpen, openModal, closeModal } = useModal();
 
+  const [error, setError] = useState(false);
+
   const onCloseModal = () => {
     closeModal();
-    setUsername('');
-    setDni('');
-    setPassword('');
-    setSelectedRole({
-      id: -1,
-      name: 'Rol del usuario',
+    setError(false);
+    setFields({
+      username: '',
+      password: '',
+      dni: '',
+      role: {
+        id: -1,
+        name: 'Rol del usuario',
+      },
     });
   };
 
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [dni, setDni] = useState('');
-
   const [editRow, setEditRow] = useState<User>();
   const [isEditing, setIsEditing] = useState(false);
-  const [selectedRole, setSelectedRole] = useState<UserRole>({
-    id: -1,
-    name: 'Rol del usuario',
-  });
+
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const { setSearchTerm } = useSearchTerm();
 
+  const [fields, setFields] = useState({
+    username: '',
+    password: '',
+    dni: '',
+    role: {
+      id: -1,
+      name: 'Rol del usuario',
+    },
+  });
+
   const handleRowClick = (user: User) => {
+    const { name, password, role, dni } = user;
+
+    setFields({
+      username: name,
+      password: password,
+      dni: dni,
+      role: role || fields.role,
+    });
+
     setEditRow(user);
-    setUsername(user.name);
-    setPassword(user.password);
-    setDni(user.dni);
-    setSelectedRole(user.role || selectedRole);
     setIsEditing(true);
     openModal();
   };
@@ -66,7 +79,10 @@ function Usuarios() {
   tableColumns.set('Creación', (user: User) => createdUserDate(user));
 
   const handleSelectedUserRoleChange = (newSelectedRole: any) => {
-    setSelectedRole(newSelectedRole);
+    setFields({
+      ...fields,
+      role: newSelectedRole,
+    });
   };
 
   const hasValidUser = () => {
@@ -74,19 +90,22 @@ function Usuarios() {
       !invalidUsername &&
       !invalidPassword &&
       !invalidDNI &&
-      selectedRole.id !== -1
+      fields.role.id !== -1
     );
   };
 
-  const invalidUsername = username.trim() === '';
-  const invalidPassword = password.trim() === '';
-  const invalidDNI = dni.trim() === '';
+  const invalidUsername = fields.username.trim() === '';
+  const invalidPassword = fields.password.trim() === '';
+  const invalidDNI = fields.dni.trim() === '';
 
   const createdUserDate = (user: User) =>
     dayjs(user.createdAt).format('D/MM/YY - hh:mm');
 
   const createNewUser = (e: FormEvent) => {
     e.preventDefault();
+
+    setError(!hasValidUser());
+
     if (!hasValidUser()) return;
 
     setLoadingCreate(true);
@@ -95,10 +114,10 @@ function Usuarios() {
       userApi
         .update({
           id: editRow?.id,
-          name: username,
-          dni: dni,
-          password: password,
-          role: selectedRole,
+          name: fields.username,
+          dni: fields.dni,
+          password: fields.password,
+          role: fields.role,
         })
         .then(() => {
           updateUsersTable();
@@ -108,10 +127,10 @@ function Usuarios() {
     } else {
       userApi
         .create({
-          name: username,
-          dni: dni,
-          password: password,
-          role: selectedRole,
+          name: fields.username,
+          dni: fields.dni,
+          password: fields.password,
+          role: fields.role,
         })
         .then(() => {
           updateUsersTable();
@@ -244,13 +263,21 @@ function Usuarios() {
                           type="text"
                           label="DNI"
                           placeholder="Ingrese el DNI"
-                          value={dni}
+                          value={fields.dni}
                           radius="full"
-                          onChange={(e) => setDni(e.target.value)}
+                          onChange={(e) => {
+                            setFields({
+                              ...fields,
+                              dni: e.target.value,
+                            });
+                          }}
+                          isInvalid={!fields.dni && error}
+                          errorMessage="Ingrese un DNI"
                         />
                         <Roles
-                          selectedRole={selectedRole}
+                          selectedRole={fields.role}
                           onSelectedRoleChange={handleSelectedUserRoleChange}
+                          hasError={fields.role.id === -1 && error}
                         />
                         <Input
                           label="Password"
@@ -265,16 +292,30 @@ function Usuarios() {
                               }
                             />
                           }
-                          onChange={(e) => setPassword(e.target.value)}
+                          errorMessage="Ingrese una contraseña"
+                          isInvalid={!fields.password && error}
+                          onChange={(e) => {
+                            setFields({
+                              ...fields,
+                              password: e.target.value,
+                            });
+                          }}
                           type={isPasswordVisible ? 'text' : 'password'}
                         />
                         <Input
                           type="text"
                           label="Nombre"
                           placeholder="Ingrese su nombre"
-                          onChange={(e) => setUsername(e.target.value)}
+                          onChange={(e) => {
+                            setFields({
+                              ...fields,
+                              username: e.target.value,
+                            });
+                          }}
+                          errorMessage="Ingrese un nombre de usuario"
                           radius="full"
-                          value={username}
+                          isInvalid={!fields.username && error}
+                          value={fields.username}
                         />
                       </div>
                       <div className="flex flex-col justify-center items-center gap-4 w-2/4">
@@ -286,14 +327,14 @@ function Usuarios() {
                           />
                           <div className="bg-[#2C9CBF] aspect-square h-32 rounded-full relative mx-auto">
                             <span className="text-white text-5xl text-center w-fit h-fit m-auto absolute inset-0 itim">
-                              {selectedRole.name[0]}
+                              {fields.role.name[0]}
                             </span>
                           </div>
                           <h4 className="text-xl dark:text-white font-bold mt-2">
-                            {username || 'Nombre del usuario'}
+                            {fields.username || 'Nombre del usuario'}
                           </h4>
                           <span className="dark:text-white">
-                            {selectedRole.name}
+                            {fields.role.name}
                           </span>
                         </article>
                         {loadingCreate ? (
