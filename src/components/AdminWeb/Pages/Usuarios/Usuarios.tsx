@@ -244,7 +244,7 @@ function Usuarios() {
               <TablaNextUI
                 datasJSON={usersJSON}
                 columns={tableColumns}
-                type={1}
+                type={3}
                 onRowClick={handleRowClick}
                 placeholder="Buscar usuarios..."
                 setDatasJSON={setUsersJSON}
