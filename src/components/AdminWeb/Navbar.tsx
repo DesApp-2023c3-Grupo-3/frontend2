@@ -1,23 +1,20 @@
 import { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { getPayload } from '../../services/validationMiddleware';
 import { userDiv } from './utils/userDiv';
 import { Switch } from '@nextui-org/react';
 import keycloak from '../../services/keycloak/keycloack';
+import { useUser } from './hooks/useUser';
 function Navbar() {
   const [navDeployed, setNavDeployed] = useState(
     /Mobi|Android/i.test(navigator.userAgent),
   );
-
-  const roleId = getPayload().tokenRoleId;
-  const user = getPayload().name;
-  console.log(getPayload());
+  const { username, rol, roleId } = useUser();
 
   const switchNavbar = () => {
     if (!/Mobi|Android/i.test(navigator.userAgent)) return;
     setNavDeployed(!navDeployed);
   };
-  const imagen = userDiv(user.charAt(0));
+  const imagen = userDiv(rol.charAt(0));
 
   const clearTokens = () => {
     keycloak.logout();
@@ -91,8 +88,8 @@ function Navbar() {
       <div className="flex items-center gap-4 bg-white border-white rounded-[10rem] pr-12 mb-16 min-w-[15rem] justify-center">
         {imagen}
         <div className="font-semibold  flex flex-col items-center text-gray-500">
-          <h3 className="itim">{user.split(' ')[0]}</h3>
-          <span className="text-sm truncate">{user}</span>
+          <h3 className="itim">{username.split(' ')[0]}</h3>
+          <span className="text-sm truncate">{rol}</span>
         </div>
       </div>
       <div

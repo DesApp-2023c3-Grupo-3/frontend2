@@ -3,13 +3,17 @@ import { userApi } from '../../../services/users';
 import keycloak from '../../../services/keycloak/keycloack';
 
 interface UserContextType {
-  user: any[];
-  setUser: React.Dispatch<any[]>;
+  username: string;
+  iduser: number;
+  rol: string;
+  roleId: number;
 }
 
 export const UserContext = createContext<UserContextType>({
-  user: [],
-  setUser: () => {},
+  username: '',
+  iduser: 0,
+  rol: '',
+  roleId: 0,
 });
 
 function UserProvider({ children }: { children: ReactNode }) {
@@ -20,19 +24,29 @@ function UserProvider({ children }: { children: ReactNode }) {
 
     userApi
       .getBySub(sub)
-      .then((response) => {
-        setUser(response.data[0]);
+      .then((r) => {
+        setUser(r.data[0]);
       })
       .catch((error) => {
         console.error(error);
+      })
+      .finally(() => {
+        console.log(user);
       });
   }, []);
+
+  const username = user?.name || 'Usuario';
+  const iduser = user?.id || 0;
+  const rol = user?.role?.name || '';
+  const roleId = user?.role?.id || 0;
 
   return (
     <UserContext.Provider
       value={{
-        user,
-        setUser,
+        username,
+        iduser,
+        rol,
+        roleId,
       }}
     >
       {children}
