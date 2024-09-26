@@ -1,27 +1,26 @@
 import { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { getPayload, setTokens } from '../../services/validationMiddleware';
+import { getPayload } from '../../services/validationMiddleware';
 import { userDiv } from './utils/userDiv';
-import {
-  NavbarMenuToggle,
-  NavbarContent,
-  Navbar as NavbarUI,
-  Switch,
-} from '@nextui-org/react';
+import { Switch } from '@nextui-org/react';
+import keycloak from '../../services/keycloak/keycloack';
 function Navbar() {
   const [navDeployed, setNavDeployed] = useState(
     /Mobi|Android/i.test(navigator.userAgent),
   );
+
   const roleId = getPayload().tokenRoleId;
-  const user = getPayload().payload;
+  const user = getPayload().name;
+  console.log(getPayload());
+
   const switchNavbar = () => {
     if (!/Mobi|Android/i.test(navigator.userAgent)) return;
     setNavDeployed(!navDeployed);
   };
-  const imagen = userDiv(user.role.name.charAt(0));
+  const imagen = userDiv(user.charAt(0));
 
   const clearTokens = () => {
-    setTokens('', '');
+    keycloak.logout();
   };
 
   const [isDarkMode, setIsDarkMode] = useState(() => {
@@ -92,8 +91,8 @@ function Navbar() {
       <div className="flex items-center gap-4 bg-white border-white rounded-[10rem] pr-12 mb-16 min-w-[15rem] justify-center">
         {imagen}
         <div className="font-semibold  flex flex-col items-center text-gray-500">
-          <h3 className="itim">{user.name.split(' ')[0]}</h3>
-          <span className="text-sm truncate">{user.role.name}</span>
+          <h3 className="itim">{user.split(' ')[0]}</h3>
+          <span className="text-sm truncate">{user}</span>
         </div>
       </div>
       <div
@@ -103,14 +102,20 @@ function Navbar() {
         role="presentation"
       >
         {roleId === 1 || roleId === 2 ? (
-          <NavLink to="/admin/advertising">Avisos</NavLink>
+          <NavLink to="/BulletinBoardClient/admin/advertising">Avisos</NavLink>
         ) : null}
         {roleId === 1 || roleId === 3 ? (
-          <NavLink to="/admin/comission">Comisiones</NavLink>
+          <NavLink to="/BulletinBoardClient/admin/comission">
+            Comisiones
+          </NavLink>
         ) : null}
-        {roleId === 1 ? <NavLink to="/admin/screen">Pantallas</NavLink> : null}
         {roleId === 1 ? (
-          <NavLink to="/admin/user">Administrar usuarios</NavLink>
+          <NavLink to="/BulletinBoardClient/admin/screen">Pantallas</NavLink>
+        ) : null}
+        {roleId === 1 ? (
+          <NavLink to="/BulletinBoardClient/admin/user">
+            Administrar usuarios
+          </NavLink>
         ) : null}
       </div>
       <NavLink to="/" onClick={clearTokens} className="sign-out mt-auto">

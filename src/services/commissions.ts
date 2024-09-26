@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { ROUTES_RELATIVE } from '../routes/route.relatives';
-import { getTokens, setTokens, handleCall, redirectToLogin } from './validationMiddleware';
-import { tokenApi } from './auth';
+import { handleCall } from './validationMiddleware';
+import keycloak from './keycloak/keycloack';
 
 export const commissionApi = {
   download: async function(id: number) {
@@ -10,7 +10,7 @@ export const commissionApi = {
         const response = await axios.get(`${ROUTES_RELATIVE.course.downloadCommission}/${id}`, { 
         responseType: 'blob',
         headers: {
-          "Authorization": `Bearer ${getTokens().accessToken}`
+          "Authorization": `Bearer ${keycloak.token}`
         }});
       const blob = new Blob([response.data], { type: response.headers['content-type'] });
       const link = document.createElement('a');
@@ -21,12 +21,10 @@ export const commissionApi = {
       document.body.removeChild(link);
       return true;
       } catch {
-        const { data } = await tokenApi.refresh({ "refreshToken": `${getTokens().refreshToken}` });
-        setTokens(data.accessToken, data.refreshToken);
         const response = await axios.get(`${ROUTES_RELATIVE.course.downloadCommission}/${id}`, { 
           responseType: 'blob',
           headers: {
-            "Authorization": `Bearer ${getTokens().accessToken}`
+            "Authorization": `Bearer ${keycloak.token}`
           }});
         const blob = new Blob([response.data], { type: response.headers['content-type'] });
         const link = document.createElement('a');
@@ -39,7 +37,6 @@ export const commissionApi = {
       }
     } catch (error) {
       console.error("Refresh Token Error:", error);
-      redirectToLogin()
     }
   },
   post: async function(data: any, endpoint: string) {
