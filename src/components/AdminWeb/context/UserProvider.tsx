@@ -29,9 +29,6 @@ function UserProvider({ children }: { children: ReactNode }) {
       })
       .catch((error) => {
         console.error(error);
-      })
-      .finally(() => {
-        console.log(user);
       });
   }, []);
 

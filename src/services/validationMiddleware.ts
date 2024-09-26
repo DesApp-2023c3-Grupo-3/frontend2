@@ -12,7 +12,7 @@ export const handleCall = async (callBack: any, args: any[]) => {
             const serverResponse = await callBack(...args, getHeaders());
             return serverResponse;
         } catch (error) {
-            await keycloak.updateToken()
+            await keycloak.updateToken(30)
             const serverResponse = await callBack(...args, getHeaders());
             return serverResponse;
         }
