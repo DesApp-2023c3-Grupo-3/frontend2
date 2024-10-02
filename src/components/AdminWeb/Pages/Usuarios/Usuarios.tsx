@@ -18,6 +18,16 @@ import { Input } from '@nextui-org/react';
 import EyeIcon from './components/Icons/EyeIcon';
 import TablaNextUI from '../../components/Table/TablaNextUI';
 
+const initialStateFields = {
+  username: '',
+  password: '',
+  dni: '',
+  role: {
+    id: -1,
+    name: 'Rol del usuario',
+  },
+};
+
 function Usuarios() {
   const [usersJSON, setUsersJSON] = useState<User[]>([]);
   const [loading, setLoading] = useState(false);
@@ -47,15 +57,7 @@ function Usuarios() {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const { setSearchTerm } = useSearchTerm();
 
-  const [fields, setFields] = useState({
-    username: '',
-    password: '',
-    dni: '',
-    role: {
-      id: -1,
-      name: 'Rol del usuario',
-    },
-  });
+  const [fields, setFields] = useState(initialStateFields);
 
   const handleRowClick = (user: User) => {
     const { name, password, role, dni } = user;
@@ -122,6 +124,7 @@ function Usuarios() {
         .then(() => {
           updateUsersTable();
           closeModal();
+          setFields(initialStateFields);
           setLoadingCreate(false);
         });
     } else {
@@ -135,6 +138,7 @@ function Usuarios() {
         .then(() => {
           updateUsersTable();
           closeModal();
+          setFields(initialStateFields);
           setLoadingCreate(false);
         });
     }
@@ -260,7 +264,7 @@ function Usuarios() {
                     <form className="flex justify-evenly items-center">
                       <div className="flex flex-col gap-4 w-2/4">
                         <Input
-                          type="text"
+                          type="number"
                           label="DNI"
                           placeholder="Ingrese el DNI"
                           value={fields.dni}
@@ -270,6 +274,9 @@ function Usuarios() {
                               ...fields,
                               dni: e.target.value,
                             });
+                          }}
+                          classNames={{
+                            errorMessage: 'dark:text-red-300',
                           }}
                           isInvalid={!fields.dni && error}
                           errorMessage="Ingrese un DNI"
@@ -284,6 +291,9 @@ function Usuarios() {
                           placeholder="Ingrese la contraseña"
                           radius="full"
                           fullWidth
+                          classNames={{
+                            errorMessage: 'dark:text-red-300',
+                          }}
                           endContent={
                             <EyeIcon
                               isVisible={isPasswordVisible}
@@ -306,6 +316,9 @@ function Usuarios() {
                           type="text"
                           label="Nombre"
                           placeholder="Ingrese su nombre"
+                          classNames={{
+                            errorMessage: 'dark:text-red-300',
+                          }}
                           onChange={(e) => {
                             setFields({
                               ...fields,
