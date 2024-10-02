@@ -192,7 +192,7 @@ function Usuarios() {
     return () => {
       setSearchTerm('');
     };
-  }, []);
+  }, [user]);
 
   const isMobile = useIsMobile();
 
