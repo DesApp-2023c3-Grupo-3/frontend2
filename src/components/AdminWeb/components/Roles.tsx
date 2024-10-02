@@ -16,11 +16,6 @@ function Sectores({
   const [userRoleArray, setUserRoleArray] = useState<UserRole[]>();
   const [loading, setLoading] = useState(false);
 
-  const defaultSelectKeys =
-    selectedRole.name !== 'Rol del usuario'
-      ? [selectedRole.name]
-      : ['Administrador'];
-
   const updateUserRoleArray = async () => {
     setLoading(true);
     try {
@@ -57,8 +52,8 @@ function Sectores({
           label="Selecciona un rol"
           fullWidth
           radius="full"
-          defaultSelectedKeys={defaultSelectKeys}
-          errorMessage="Elegí un rol"
+          defaultSelectedKeys={[selectedRole.name]}
+          errorMessage="Ingrese un rol"
           isInvalid={hasError}
           onChange={(e) => onChangeRole(e.target.value)}
           classNames={{

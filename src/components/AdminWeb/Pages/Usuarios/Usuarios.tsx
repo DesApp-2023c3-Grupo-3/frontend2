@@ -1,6 +1,5 @@
 import { Helmet } from 'react-helmet';
-import { FormEvent, useEffect, useRef, useState } from 'react';
-import TableMain from '../../components/Table/Table';
+import { FormEvent, useEffect, useState } from 'react';
 import Button from '../../components/Buttons/Button';
 import { userApi } from '../../../../services/users';
 import { useModal } from '../../hooks/useModal';
@@ -17,34 +16,62 @@ import ListOfUsersCards from '../../components/Mobile/ListOfUsersCards';
 import useSearchTerm from '../../hooks/useSearchTermAdvertising';
 import { Input } from '@nextui-org/react';
 import EyeIcon from './components/Icons/EyeIcon';
+import TablaNextUI from '../../components/Table/TablaNextUI';
+
+const initialStateFields = {
+  username: '',
+  password: '',
+  dni: '',
+  role: {
+    id: -1,
+    name: 'Rol del usuario',
+  },
+};
 
 function Usuarios() {
   const [usersJSON, setUsersJSON] = useState<User[]>([]);
   const [loading, setLoading] = useState(false);
   const [loadingCreate, setLoadingCreate] = useState(false);
 
-  const [_, updateState] = useState({});
   const { isOpen, openModal, closeModal } = useModal();
-  const usernameRef = useRef<HTMLInputElement>(null);
-  const passwordRef = useRef<HTMLInputElement>(null);
-  const dniRef = useRef<HTMLInputElement>(null);
+
+  const [error, setError] = useState(false);
+
+  const onCloseModal = () => {
+    closeModal();
+    setError(false);
+    setFields({
+      username: '',
+      password: '',
+      dni: '',
+      role: {
+        id: -1,
+        name: 'Rol del usuario',
+      },
+    });
+  };
+
   const [editRow, setEditRow] = useState<User>();
   const [isEditing, setIsEditing] = useState(false);
-  const [selectedRole, setSelectedRole] = useState<UserRole>({
-    id: -1,
-    name: 'Rol del usuario',
-  });
+
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const { setSearchTerm } = useSearchTerm();
 
+  const [fields, setFields] = useState(initialStateFields);
+
   const handleRowClick = (user: User) => {
+    const { name, password, role, dni } = user;
+
+    setFields({
+      username: name,
+      password: password,
+      dni: dni,
+      role: role || fields.role,
+    });
+
     setEditRow(user);
-    setSelectedRole(user.role || selectedRole);
     setIsEditing(true);
     openModal();
-    setTimeout(() => {
-      updateState({});
-    }, 60);
   };
 
   const tableColumns = new Map<string, (user: any) => void>();
@@ -54,8 +81,10 @@ function Usuarios() {
   tableColumns.set('Creación', (user: User) => createdUserDate(user));
 
   const handleSelectedUserRoleChange = (newSelectedRole: any) => {
-    console.log(newSelectedRole);
-    setSelectedRole(newSelectedRole);
+    setFields({
+      ...fields,
+      role: newSelectedRole,
+    });
   };
 
   const hasValidUser = () => {
@@ -63,19 +92,22 @@ function Usuarios() {
       !invalidUsername &&
       !invalidPassword &&
       !invalidDNI &&
-      selectedRole.id !== -1
+      fields.role.id !== -1
     );
   };
 
-  const invalidUsername = usernameRef.current?.value.trim() === '';
-  const invalidPassword = passwordRef.current?.value.trim() === '';
-  const invalidDNI = dniRef.current?.value.trim() === '';
+  const invalidUsername = fields.username.trim() === '';
+  const invalidPassword = fields.password.trim() === '';
+  const invalidDNI = fields.dni.trim() === '';
 
   const createdUserDate = (user: User) =>
     dayjs(user.createdAt).format('D/MM/YY - hh:mm');
 
   const createNewUser = (e: FormEvent) => {
     e.preventDefault();
+
+    setError(!hasValidUser());
+
     if (!hasValidUser()) return;
 
     setLoadingCreate(true);
@@ -84,27 +116,29 @@ function Usuarios() {
       userApi
         .update({
           id: editRow?.id,
-          name: usernameRef.current?.value + '',
-          dni: dniRef.current?.value + '',
-          password: passwordRef.current?.value + '',
-          role: selectedRole,
+          name: fields.username,
+          dni: fields.dni,
+          password: fields.password,
+          role: fields.role,
         })
         .then(() => {
           updateUsersTable();
           closeModal();
+          setFields(initialStateFields);
           setLoadingCreate(false);
         });
     } else {
       userApi
         .create({
-          name: usernameRef.current?.value + '',
-          dni: dniRef.current?.value + '',
-          password: passwordRef.current?.value + '',
-          role: selectedRole,
+          name: fields.username,
+          dni: fields.dni,
+          password: fields.password,
+          role: fields.role,
         })
         .then(() => {
           updateUsersTable();
           closeModal();
+          setFields(initialStateFields);
           setLoadingCreate(false);
         });
     }
@@ -121,7 +155,6 @@ function Usuarios() {
         name: 'Rol del usuario',
       },
     });
-    updateState({});
     openModal();
   };
 
@@ -211,41 +244,56 @@ function Usuarios() {
           {loading ? (
             <Loader />
           ) : (
-            <div className="mt-[-70px] mr-[3.1%]">
-              <TableMain
-                dataJSON={usersJSON}
+            <div className=" mr-[3.1%]">
+              <TablaNextUI
+                datasJSON={usersJSON}
                 columns={tableColumns}
-                searchableColumns={['DNI', 'Nombre', 'Rol']}
+                type={3}
                 onRowClick={handleRowClick}
                 placeholder="Buscar usuarios..."
+                setDatasJSON={setUsersJSON}
               />
               <div className="flex justify-end">
                 <Modal
                   isOpen={isOpen}
                   openModal={handleOpenModal}
-                  closeModal={closeModal}
+                  closeModal={onCloseModal}
                   label={'NUEVO USUARIO'}
                 >
                   <div className="p-5">
                     <form className="flex justify-evenly items-center">
                       <div className="flex flex-col gap-4 w-2/4">
                         <Input
-                          type="text"
+                          type="number"
                           label="DNI"
                           placeholder="Ingrese el DNI"
-                          defaultValue={editRow?.dni}
-                          ref={dniRef}
+                          value={fields.dni}
                           radius="full"
+                          onChange={(e) => {
+                            setFields({
+                              ...fields,
+                              dni: e.target.value,
+                            });
+                          }}
+                          classNames={{
+                            errorMessage: 'dark:text-red-300',
+                          }}
+                          isInvalid={!fields.dni && error}
+                          errorMessage="Ingrese un DNI"
                         />
                         <Roles
-                          selectedRole={selectedRole}
+                          selectedRole={fields.role}
                           onSelectedRoleChange={handleSelectedUserRoleChange}
+                          hasError={fields.role.id === -1 && error}
                         />
                         <Input
                           label="Password"
                           placeholder="Ingrese la contraseña"
                           radius="full"
                           fullWidth
+                          classNames={{
+                            errorMessage: 'dark:text-red-300',
+                          }}
                           endContent={
                             <EyeIcon
                               isVisible={isPasswordVisible}
@@ -254,17 +302,33 @@ function Usuarios() {
                               }
                             />
                           }
-                          ref={passwordRef}
+                          errorMessage="Ingrese una contraseña"
+                          isInvalid={!fields.password && error}
+                          onChange={(e) => {
+                            setFields({
+                              ...fields,
+                              password: e.target.value,
+                            });
+                          }}
                           type={isPasswordVisible ? 'text' : 'password'}
                         />
                         <Input
                           type="text"
                           label="Nombre"
                           placeholder="Ingrese su nombre"
-                          defaultValue={editRow?.name}
-                          ref={usernameRef}
-                          onChange={() => updateState({})}
+                          classNames={{
+                            errorMessage: 'dark:text-red-300',
+                          }}
+                          onChange={(e) => {
+                            setFields({
+                              ...fields,
+                              username: e.target.value,
+                            });
+                          }}
+                          errorMessage="Ingrese un nombre de usuario"
                           radius="full"
+                          isInvalid={!fields.username && error}
+                          value={fields.username}
                         />
                       </div>
                       <div className="flex flex-col justify-center items-center gap-4 w-2/4">
@@ -276,14 +340,14 @@ function Usuarios() {
                           />
                           <div className="bg-[#2C9CBF] aspect-square h-32 rounded-full relative mx-auto">
                             <span className="text-white text-5xl text-center w-fit h-fit m-auto absolute inset-0 itim">
-                              {selectedRole.name[0]}
+                              {fields.role.name[0]}
                             </span>
                           </div>
                           <h4 className="text-xl dark:text-white font-bold mt-2">
-                            {usernameRef.current?.value}
+                            {fields.username || 'Nombre del usuario'}
                           </h4>
                           <span className="dark:text-white">
-                            {selectedRole.name}
+                            {fields.role.name}
                           </span>
                         </article>
                         {loadingCreate ? (
