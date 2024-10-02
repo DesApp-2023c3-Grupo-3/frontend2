@@ -16,6 +16,7 @@ import ListOfAdvertisingCards from '../../components/Mobile/ListOfAdvertisingCar
 import useSearchTerm from '../../hooks/useSearchTermAdvertising';
 import { Chip } from '@nextui-org/react';
 import { useTabla } from '../../hooks/useTable';
+import { useUser } from '../../hooks/useUser';
 
 function Avisos() {
   const {
@@ -137,13 +138,17 @@ function Avisos() {
       });
   };
 
+  const { user } = useUser();
+
   useEffect(() => {
-    GetData();
+    if (user) {
+      GetData();
+    }
 
     return () => {
       setSearchTerm('');
     };
-  }, []);
+  }, [user]);
 
   return (
     <>

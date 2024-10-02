@@ -16,6 +16,7 @@ import ListOfCommissionCards from '../../components/Mobile/ListOfCommissionCards
 import useSearchTerm from '../../hooks/useSearchTermAdvertising';
 import TablaNextUi from '../../components/Table/TablaNextUI';
 import { useTabla } from '../../hooks/useTable';
+import { useUser } from '../../hooks/useUser';
 
 function Comisiones() {
   const {
@@ -44,13 +45,17 @@ function Comisiones() {
     }
   };
 
+  const { user } = useUser();
+
   useEffect(() => {
-    updateCommissionsTable();
+    if (user) {
+      updateCommissionsTable();
+    }
 
     return () => {
       setSearchTerm('');
     };
-  }, []);
+  }, [user]);
 
   const { isOpen, openModal, closeModal } = useModal();
 

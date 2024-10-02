@@ -17,6 +17,7 @@ import ListOfUsersCards from '../../components/Mobile/ListOfUsersCards';
 import useSearchTerm from '../../hooks/useSearchTermAdvertising';
 import { Input } from '@nextui-org/react';
 import EyeIcon from './components/Icons/EyeIcon';
+import { useUser } from '../../hooks/useUser';
 
 function Usuarios() {
   const [usersJSON, setUsersJSON] = useState<User[]>([]);
@@ -181,8 +182,12 @@ function Usuarios() {
     }
   };
 
+  const { user } = useUser();
+
   useEffect(() => {
-    updateUsersTable();
+    if (user) {
+      updateUsersTable();
+    }
 
     return () => {
       setSearchTerm('');
