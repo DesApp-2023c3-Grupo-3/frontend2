@@ -38,14 +38,14 @@ function ImageUp({ image, setImage }: ImageUpProps) {
   };
 
   return (
-    <div className="w-[330px] h-[300px] relative flex justify-center">
+    <div className="bg-[#D9D9D9] rounded-2xl md:w-[330px] md:h-[300px] h-full relative flex justify-center">
       {loading ? (
         <div className="translate-y-[10%]">
           <Loader />
         </div>
       ) : (
         <div>
-          <div className="absolute top-0 right-0">
+          <div className="absolute top-2 right-[0.4rem]">
             {image && (
               <button
                 onClick={(e) => {
@@ -72,13 +72,13 @@ function ImageUp({ image, setImage }: ImageUpProps) {
           </div>
           <div>
             {image ? (
-              <div className="flex items-center justify-center w-[330px] h-[300px]">
+              <div className="flex items-center justify-center md:w-[330px] md:h-[300px] h-[400px]">
                 <img
                   src={image}
                   alt="Imagen cargada"
                   width="330"
                   height="300"
-                  className={`rounded-b-[20px] w-[330px] h-[300px] object-contain`}
+                  className={`rounded-b-[20px] md:w-[330px] md:h-[300px] h-full object-contain`}
                 />
               </div>
             ) : (

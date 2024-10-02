@@ -81,6 +81,16 @@ function FormAdvertising({
   const [loading, setLoading] = React.useState(false);
   const [loadingDelete, setLoadingDelete] = React.useState(false);
 
+  const canSubmit =
+    advertisingName &&
+    startHour?.isValid() &&
+    endHour?.isValid() &&
+    startDate?.isValid() &&
+    endDate?.isValid() &&
+    selectedDays.length > 0 &&
+    selectedSector.length > 0 &&
+    ((!!text && text !== '<p><br></p>') || !!image || !!video);
+
   const invalidName = () => {
     return advertisingName === '';
   };
@@ -207,26 +217,7 @@ function FormAdvertising({
     };
     setEmptyFields(emptyFieldsUpdate);
 
-    if (Object.values(emptyFieldsUpdate).filter((value) => value).length > 1) {
-      //TODO: Faltaría agregar una lista de los campos que estan incompletos y ponerlo en el mensaje de error.
-      messageError('Hay campos incompletos.');
-    } else if (!advertisingName) {
-      messageError('Falta completar el nombre del aviso.');
-    } else if (selectedSector.length === 0) {
-      messageError('Falta completar los sectores.');
-    } else if (validationDate(startDate, endDate)) {
-      messageError('Falta completar las fechas del aviso.');
-    } else if (selectedDays.length === 0) {
-      messageError('Falta seleccionar los días de la semana.');
-    } else if (validationDate(startHour, endHour)) {
-      messageError('Falta completar el horario de los avisos.');
-    } else if (endDate !== null && startDate !== null && endDate < startDate) {
-      messageError('La fecha final no debe ser anterior a la de inicio.');
-    } else if (payload === '') {
-      messageError('Falta agregarle al aviso un texto, video o imagen.');
-    } else if (type === 2 && !payload) {
-      messageError('URL YouTube incorrecta.');
-    } else {
+    if (canSubmit) {
       if (isCreate) {
         setLoading(true);
         advertisingsAPI
@@ -262,10 +253,10 @@ function FormAdvertising({
   };
 
   return (
-    <div>
-      <form className="mx-10">
-        <div className=" flex my-5 justify-between items-center">
-          <div className="flex-col w-[365px] h-[50px]">
+    <div className="p-5 flex flex-col gap-3">
+      <form className="flex flex-col justify-center gap-3">
+        <div className="flex gap-5 justify-center items-center w-full">
+          <div className="w-[400px]">
             <InputName
               emptyFields={emptyFields}
               invalidName={invalidName}
@@ -273,11 +264,11 @@ function FormAdvertising({
               setAdvertisingName={setAdvertisingName}
             />
             {ErrorMessage(
-              '*Falta completar el nombre del aviso.',
+              'Falta completar el nombre del aviso.',
               invalidName() && emptyFields.advertisingName,
             )}
           </div>
-          <div className="flex-col w-[365px] h-[50px]">
+          <div className="w-[400px]">
             <Sectores
               selectedSector={selectedSector}
               onSelectedSectorChange={setSelectedSector}
@@ -286,51 +277,54 @@ function FormAdvertising({
             />
             <div className="">
               {ErrorMessage(
-                '*Falta seleccionar los sectores.',
+                'Falta seleccionar los sectores.',
                 emptyFields.selectedSector && invalidSectors(),
               )}
             </div>
           </div>
         </div>
-        <div className="flex justify-between h-[348px]">
-          <div className="flex-col justify-center items-center m-5 ">
-            <div className="flex-col justify-center">
+        <div className="flex items-center justify-center gap-3 mt-5">
+          <div className="flex flex-col items-center gap-7 w-2/4">
+            <div className="flex flex-col w-full">
               <DatePickerDays
                 onChangeStartDate={setStartDate}
                 onChangeEndDate={setEndDate}
                 selectedDateInit={startDate}
                 selectedDateFinal={endDate}
                 isCreate={isCreate}
+                hasError={emptyFields.date && invalidDate()}
               />
               {ErrorMessage(
-                '*Falta completar las fechas.',
+                'Falta completar las fechas.',
                 emptyFields.date && invalidDate(),
               )}
             </div>
-            <div className="flex-col justify-center pt-10">
+            <div className="flex flex-col w-full">
               <DayPicker
                 onSelectedDaysChange={setSelectedDays}
                 selectedDays={selectedDays}
+                hasError={emptyFields.selectedDays && invalidselectedDays()}
               />
               {ErrorMessage(
-                '*Falta elegir los días.',
+                'Falta elegir los días.',
                 emptyFields.selectedDays && invalidselectedDays(),
               )}
             </div>
-            <div className="flex-col justify-center pt-10">
+            <div className="flex flex-col w-full">
               <PickerTime
                 onChangeStartHour={setStartHour}
                 onChangeEndHour={setEndHour}
                 selectedHourInit={startHour}
                 selectedHourFinal={endHour}
+                hasError={emptyFields.hour && invalidHours()}
               />
               {ErrorMessage(
-                '*Falta completar los horarios',
+                'Falta completar los horarios',
                 emptyFields.hour && invalidHours(),
               )}
             </div>
           </div>
-          <div className="pr-[1em] pt-[20px]">
+          <div className="flex flex-col">
             <ImageTextVideo
               text={text}
               image={image}
@@ -342,13 +336,13 @@ function FormAdvertising({
               setType={setType}
             />
             {ErrorMessage(
-              '*Falta completar el tipo del aviso',
-              emptyFields.type && invalidadType(),
+              'Falta completar el tipo del aviso',
+              (emptyFields.type && invalidadType()) || text === '<p><br></p>',
             )}
           </div>
         </div>
       </form>
-      <div className="flex justify-between mt-[2em] mx-[4.5em]">
+      <div className="flex justify-center gap-10">
         <div>
           {!isCreate && (
             <div className="w-[300px]">
@@ -375,7 +369,7 @@ function FormAdvertising({
           ) : (
             <Button
               onClick={handleSendAdvertisingClick}
-              active={true}
+              active={canSubmit}
               type={1}
               label="GUARDAR"
             />

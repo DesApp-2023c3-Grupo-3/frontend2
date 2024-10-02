@@ -1,11 +1,10 @@
 import Loader from '../../../../components/Loader';
 import Modal from '../../../../components/Modal/Modal';
-import Table from '../../../../components/Table/Table';
+import TablaNextUi from '../../../../components/Table/TablaNextUI';
 import { Advertising } from '../../../../types/customTypes';
 import FormAdvertising from '../Form/FormAdvertising';
 
 interface DesktopBodyProps {
-  advertisingsJSON: any[];
   tableColumns: Map<string, (data: any) => void>;
   handleRowClick: (data: any) => void;
   isOpen: boolean;
@@ -15,13 +14,11 @@ interface DesktopBodyProps {
   isEditing: boolean;
   editRow?: Advertising;
   loading: boolean;
-  currentPages?: number;
-  totalItems?: number;
-  setCurrentPage?: any;
+  datasJSON: Advertising[];
+  setAdvertisingJSON: React.Dispatch<React.SetStateAction<Advertising[]>>;
 }
 
 export function DesktopBody({
-  advertisingsJSON,
   tableColumns,
   handleRowClick,
   isOpen,
@@ -31,30 +28,28 @@ export function DesktopBody({
   isEditing,
   editRow,
   loading,
-  currentPages,
-  totalItems,
-  setCurrentPage,
+  datasJSON,
+  setAdvertisingJSON,
 }: DesktopBodyProps) {
   return (
     <>
       <section className="mx-[3%] w-full flex flex-col pb-12">
-        <h1 className="text-[4rem] font-[700] text-[#484848] tracking-[-1.28px] mt-[20px]">
+        <h1 className="text-[4rem] font-[700] text-[#484848] tracking-[-1.28px] mt-[20px] dark:text-[white]">
           Avisos
         </h1>
 
         {loading ? (
           <Loader />
         ) : (
-          <div className="mt-[-70px] flex flex-col h-full">
-            <Table
-              dataJSON={advertisingsJSON}
+          <div className="lex flex-col h-full">
+            <TablaNextUi
+              datasJSON={datasJSON}
+              type={1}
               columns={tableColumns}
               onRowClick={handleRowClick}
               placeholder="Buscar Aviso"
-              currentPage={currentPages}
-              totalItems={totalItems}
-              setCurrentPage={setCurrentPage}
-            />
+              setDatasJSON={setAdvertisingJSON}
+            ></TablaNextUi>
             <div className="flex justify-end">
               <Modal
                 isOpen={isOpen}

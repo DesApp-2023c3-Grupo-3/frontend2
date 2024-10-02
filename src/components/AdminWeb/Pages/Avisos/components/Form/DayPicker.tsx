@@ -1,3 +1,4 @@
+import { Checkbox } from '@nextui-org/react';
 import * as React from 'react';
 
 export const daysOfTheWeek: Days[] = [
@@ -12,9 +13,14 @@ export const daysOfTheWeek: Days[] = [
 interface DayPickerProps {
   selectedDays: Days[];
   onSelectedDaysChange: React.Dispatch<React.SetStateAction<Days[]>>;
+  hasError: boolean;
 }
 
-function DayPicker({ onSelectedDaysChange, selectedDays }: DayPickerProps) {
+function DayPicker({
+  onSelectedDaysChange,
+  selectedDays,
+  hasError,
+}: DayPickerProps) {
   const [selectAllDays, setSelectAllDays] = React.useState(false);
 
   const handleSelectAllDaysChange = () => {
@@ -55,11 +61,13 @@ function DayPicker({ onSelectedDaysChange, selectedDays }: DayPickerProps) {
                 handleDayClick(day);
                 e.preventDefault();
               }}
-              className={`rounded-full w-[41px] h-[41px] flex justify-center items-center font-[400] text-black text-[24px] m-1 cursor-pointer ${
+              className={`rounded-full transition-all w-[41px] h-[41px] flex justify-center items-center font-[400] text-black text-[24px] m-1 cursor-pointer ${
                 selectedDays.includes(day)
-                  ? 'bg-[#2C9CBF] text-white'
-                  : 'bg-[#D9D9D9] text-black'
-              }`}
+                  ? 'bg-[#2C9CBF] hover:bg-[#2387a5] text-white'
+                  : 'bg-[#D9D9D9] hover:bg-[#b8b7b7] text-black'
+              }
+              ${hasError && 'bg-danger/50 text-white'}
+              `}
             >
               {day.name.slice(0, 2)}
             </button>
@@ -67,13 +75,12 @@ function DayPicker({ onSelectedDaysChange, selectedDays }: DayPickerProps) {
         ))}
       </div>
       <label className="flex justify-center pt-3">
-        <input
-          className="mr-3 select-none"
-          type="checkbox"
-          checked={!!selectAllDays}
+        <Checkbox
+          isSelected={selectAllDays}
           onChange={handleSelectAllDaysChange}
-        />
-        <span className="select-none">Seleccionar todos los días</span>
+        >
+          Seleccionar todos los días
+        </Checkbox>
       </label>
     </div>
   );

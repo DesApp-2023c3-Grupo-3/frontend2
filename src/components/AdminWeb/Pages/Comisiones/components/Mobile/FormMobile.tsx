@@ -98,8 +98,8 @@ export function FormMobile({
 
   return (
     <div className={``}>
-      <div className="">
-        <h2 className="flex justify-center items-center font-bold text-[24px]">
+      <div className="dark:text-white">
+        <h2 className="flex justify-center items-center font-bold text-[24px] mt-2 ">
           COMISIONES
         </h2>
         {currentStep === 1 ? (
@@ -107,7 +107,7 @@ export function FormMobile({
             <h4 className="flex justify-center items-center font-semibold text-[16px]">
               Sector y Fecha
             </h4>
-            <div className="absolute m-auto inset-0 h-[80vw]">
+            <div className="mt-4">
               <Step1
                 selectedSector={selectedSector}
                 setSelectedSector={setSelectedSector}
@@ -120,7 +120,7 @@ export function FormMobile({
             </div>
           </div>
         ) : (
-          <div className="h-[100%] pb-[250px]">
+          <div className="">
             <h4 className="flex justify-center items-center font-semibold text-[16px]">
               Archivo de comisiones
             </h4>

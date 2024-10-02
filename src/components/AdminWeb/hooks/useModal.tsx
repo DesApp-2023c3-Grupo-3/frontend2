@@ -1,19 +1,16 @@
-import * as React from 'react';
+import { useDisclosure } from '@nextui-org/react';
 
 export function useModal() {
-  const [isOpen, setIsOpen] = React.useState(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
-  function closeModal() {
-    setIsOpen(false);
-  }
-
-  function openModal() {
-    setIsOpen(true);
-  }
+  const openModal = () => {
+    window.scrollTo(0, 0);
+    onOpen();
+  };
 
   return {
     isOpen,
     openModal,
-    closeModal,
+    closeModal: onClose,
   };
 }

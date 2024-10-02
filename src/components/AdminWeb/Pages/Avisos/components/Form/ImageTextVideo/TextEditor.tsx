@@ -32,14 +32,16 @@ function TextEditor({ editorHtml, setEditorHtml }: TextEditorProps) {
   ];
 
   return (
-    <ReactQuill
-      theme="snow"
-      modules={modules}
-      formats={formats}
-      value={editorHtml}
-      onChange={(html) => setEditorHtml(html)}
-      className="bg-white m-1 h-[280px] overflow-y-hidden"
-    />
+    <div className="flex items-center justify-center rounded-2xl md:w-[330px] md:h-[300px] h-[450px] bg-[#D9D9D9]">
+      <ReactQuill
+        theme="snow"
+        modules={modules}
+        formats={formats}
+        value={editorHtml}
+        onChange={(html) => setEditorHtml(html)}
+        className="rounded-2xl border-[1px] scrollbar-none overflow-y-scroll bg-white h-[450px] md:w-[310px] md:h-[285px]"
+      />
+    </div>
   );
 }
 

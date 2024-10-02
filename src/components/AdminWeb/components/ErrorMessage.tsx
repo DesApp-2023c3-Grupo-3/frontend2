@@ -4,7 +4,9 @@ function ErrorMessage(message: string, condition: boolean) {
   }
 
   return (
-    <span className="text-[red] text-[12px] ml-3 relative">{message}</span>
+    <span className="text-danger dark:text-red-400 text-[12px] ml-3 ">
+      {message}
+    </span>
   );
 }
 

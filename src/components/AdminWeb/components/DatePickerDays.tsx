@@ -1,5 +1,12 @@
-import { DatePicker } from '@mui/x-date-pickers';
+import { DatePicker, DateValue } from '@nextui-org/react';
 import dayjs, { Dayjs } from 'dayjs';
+import {
+  CalendarDate,
+  getLocalTimeZone,
+  parseDate,
+  today,
+} from '@internationalized/date';
+import { I18nProvider } from '@react-aria/i18n';
 
 interface DatePickerDaysProps {
   onChangeStartDate: (newStartDate: Dayjs) => void;
@@ -7,6 +14,7 @@ interface DatePickerDaysProps {
   selectedDateInit: null | Dayjs;
   selectedDateFinal: null | Dayjs;
   isCreate: boolean;
+  hasError: boolean;
 }
 
 function DatePickerDays({
@@ -14,39 +22,60 @@ function DatePickerDays({
   onChangeEndDate,
   selectedDateInit,
   selectedDateFinal,
+  hasError,
   isCreate,
 }: DatePickerDaysProps) {
-  const dateStart = selectedDateInit ? dayjs(selectedDateInit) : null;
+  const dayjsToDateValue = (date: Dayjs | null) => {
+    return date ? parseDate(date.format('YYYY-MM-DD')) : null;
+  };
+
+  const dateValueToDayjs = (dateValue: DateValue | null) => {
+    if (dateValue) {
+      const { year, month, day } = dateValue;
+      const dateValueDayjs = dayjs(new Date(year, month - 1, day));
+      const today = dayjs().startOf('day');
+
+      return dateValueDayjs.isBefore(today, 'day');
+    }
+    return false;
+  };
 
   return (
-    <div className="flex items-center justify-center">
-      <div className="w-[40%] min-w-[120px] mr-3">
+    <I18nProvider>
+      <div className="flex md:flex-row gap-2 flex-col md:p-0 p-3 items-center ">
+        <span className="md:hidden block text-center text-xl font-semibold dark:text-white">
+          Fecha
+        </span>
         <DatePicker
-          disablePast={isCreate}
-          className=""
-          value={selectedDateInit}
-          onChange={(newDate: any) => {
-            onChangeStartDate(newDate);
+          value={
+            !isCreate
+              ? today(getLocalTimeZone())
+              : dayjsToDateValue(selectedDateInit)
+          }
+          onChange={(newDate: CalendarDate) => {
+            onChangeStartDate(
+              dayjs(new Date(newDate.year, newDate.month - 1, newDate.day)),
+            );
           }}
+          isInvalid={hasError}
           label="Fecha de Inicio"
-          defaultValue={dateStart}
+          isDateUnavailable={dateValueToDayjs}
+          minValue={today(getLocalTimeZone())}
         />
-      </div>
-      <div className="w-[40%] min-w-[120px]">
         <DatePicker
-          disablePast={isCreate}
-          className=""
-          value={selectedDateFinal}
-          onChange={(newDate: any) => {
-            onChangeEndDate(newDate);
+          value={dayjsToDateValue(selectedDateFinal)}
+          onChange={(newDate: CalendarDate) => {
+            onChangeEndDate(
+              dayjs(new Date(newDate.year, newDate.month - 1, newDate.day)),
+            );
           }}
+          isInvalid={hasError}
           label="Fecha Final"
-          minDate={selectedDateInit || null}
-          defaultValue={dateStart}
-          disabled={!selectedDateInit}
+          isDisabled={!selectedDateInit}
+          minValue={today(getLocalTimeZone())}
         />
       </div>
-    </div>
+    </I18nProvider>
   );
 }
 

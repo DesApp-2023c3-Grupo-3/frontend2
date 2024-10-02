@@ -16,7 +16,7 @@ function ScreenHeader({ openConfig }: { openConfig: () => void }) {
 
   return (
     <header className="flex flex-col justify-between items-center w-full xl:flex-row">
-      <h1 className="text-[3rem] font-[700] text-[#484848] xl:text-[4rem]">
+      <h1 className="text-[3rem] font-[700] text-[#484848] xl:text-[4rem] dark:text-[white]">
         Pantallas
       </h1>
       <form

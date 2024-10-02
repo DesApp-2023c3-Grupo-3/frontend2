@@ -15,6 +15,8 @@ import { userDiv } from '../../utils/userDiv';
 import { useIsMobile } from '../../hooks/useIsMobile';
 import ListOfUsersCards from '../../components/Mobile/ListOfUsersCards';
 import useSearchTerm from '../../hooks/useSearchTermAdvertising';
+import { Input } from '@nextui-org/react';
+import EyeIcon from './components/Icons/EyeIcon';
 
 function Usuarios() {
   const [usersJSON, setUsersJSON] = useState<User[]>([]);
@@ -26,14 +28,13 @@ function Usuarios() {
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const dniRef = useRef<HTMLInputElement>(null);
-  const roleRef = useRef<HTMLInputElement>(null);
   const [editRow, setEditRow] = useState<User>();
   const [isEditing, setIsEditing] = useState(false);
   const [selectedRole, setSelectedRole] = useState<UserRole>({
     id: -1,
     name: 'Rol del usuario',
   });
-
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const { setSearchTerm } = useSearchTerm();
 
   const handleRowClick = (user: User) => {
@@ -53,21 +54,22 @@ function Usuarios() {
   tableColumns.set('Creación', (user: User) => createdUserDate(user));
 
   const handleSelectedUserRoleChange = (newSelectedRole: any) => {
+    console.log(newSelectedRole);
     setSelectedRole(newSelectedRole);
   };
 
   const hasValidUser = () => {
     return (
-      !invalidUsername() &&
-      !invalidPassword() &&
-      !invalidDNI() &&
+      !invalidUsername &&
+      !invalidPassword &&
+      !invalidDNI &&
       selectedRole.id !== -1
     );
   };
 
-  const invalidUsername = () => usernameRef.current?.value.trim() === '';
-  const invalidPassword = () => passwordRef.current?.value.trim() === '';
-  const invalidDNI = () => dniRef.current?.value.trim() === '';
+  const invalidUsername = usernameRef.current?.value.trim() === '';
+  const invalidPassword = passwordRef.current?.value.trim() === '';
+  const invalidDNI = dniRef.current?.value.trim() === '';
 
   const createdUserDate = (user: User) =>
     dayjs(user.createdAt).format('D/MM/YY - hh:mm');
@@ -203,7 +205,7 @@ function Usuarios() {
       </Helmet>
       {!isMobile ? (
         <div className="flex flex-col w-full pl-12">
-          <h1 className="text-[4rem] font-[700] text-[#484848] tracking-[-1.28px] mt-[20px]">
+          <h1 className="text-[4rem] font-[700] text-[#484848] tracking-[-1.28px] mt-[20px] dark:text-[white]">
             Usuarios
           </h1>
           {loading ? (
@@ -224,45 +226,48 @@ function Usuarios() {
                   closeModal={closeModal}
                   label={'NUEVO USUARIO'}
                 >
-                  <>
-                    <h1 className="text-7xl font-bold px-12 mt-8 mb-4">
-                      {!isEditing ? 'Crear' : 'Editar'} nuevo usuario
-                    </h1>
-                    <form className="grid grid-cols-2 px-12">
-                      <div className="flex flex-col gap-4">
-                        <input
+                  <div className="p-5">
+                    <form className="flex justify-evenly items-center">
+                      <div className="flex flex-col gap-4 w-2/4">
+                        <Input
                           type="text"
-                          placeholder="DNI"
+                          label="DNI"
+                          placeholder="Ingrese el DNI"
                           defaultValue={editRow?.dni}
                           ref={dniRef}
-                          className="text-[20px] font-[400] tracking-[-0.4px] rounded-[30px] bg-[#D9D9D9] flex w-[365px] h-[50px] px-[40px] py-[12px] items-center"
-                        />
-                        <input
-                          type="password"
-                          placeholder="Contraseña"
-                          ref={passwordRef}
-                          className="text-[20px] font-[400] tracking-[-0.4px] rounded-[30px] bg-[#D9D9D9] flex w-[365px] h-[50px] px-[40px] py-[12px] items-center"
-                        />
-                        <input
-                          type="text"
-                          placeholder="Nombre"
-                          defaultValue={editRow?.name}
-                          ref={usernameRef}
-                          onChange={() => updateState({})}
-                          className="text-[20px] font-[400] tracking-[-0.4px] rounded-[30px] bg-[#D9D9D9] flex w-[365px] h-[50px] px-[40px] py-[12px] items-center"
-                        />
-                        <input
-                          type="text"
-                          placeholder="Rol del usuario"
-                          ref={roleRef}
-                          className="text-[20px] font-[400] tracking-[-0.4px] rounded-[30px] bg-[#D9D9D9] flex w-[365px] h-[50px] px-[40px] py-[12px] items-center"
+                          radius="full"
                         />
                         <Roles
                           selectedRole={selectedRole}
                           onSelectedRoleChange={handleSelectedUserRoleChange}
                         />
+                        <Input
+                          label="Password"
+                          placeholder="Ingrese la contraseña"
+                          radius="full"
+                          fullWidth
+                          endContent={
+                            <EyeIcon
+                              isVisible={isPasswordVisible}
+                              onClick={() =>
+                                setIsPasswordVisible(!isPasswordVisible)
+                              }
+                            />
+                          }
+                          ref={passwordRef}
+                          type={isPasswordVisible ? 'text' : 'password'}
+                        />
+                        <Input
+                          type="text"
+                          label="Nombre"
+                          placeholder="Ingrese su nombre"
+                          defaultValue={editRow?.name}
+                          ref={usernameRef}
+                          onChange={() => updateState({})}
+                          radius="full"
+                        />
                       </div>
-                      <div className="flex flex-col items-center gap-8">
+                      <div className="flex flex-col justify-center items-center gap-4 w-2/4">
                         <article className="text-center">
                           <img
                             src="https://cdn.discordapp.com/attachments/1143714208404471908/1165447224805826601/Usuario.png?ex=6546e24f&is=65346d4f&hm=9d49d67482396f4d8b724cfc900d52b7a47382794abf63292d137ebafb7b0bc2&"
@@ -274,10 +279,12 @@ function Usuarios() {
                               {selectedRole.name[0]}
                             </span>
                           </div>
-                          <h4 className="text-xl font-bold mt-2">
+                          <h4 className="text-xl dark:text-white font-bold mt-2">
                             {usernameRef.current?.value}
                           </h4>
-                          <span className="">{selectedRole.name}</span>
+                          <span className="dark:text-white">
+                            {selectedRole.name}
+                          </span>
                         </article>
                         {loadingCreate ? (
                           <Loader />
@@ -301,7 +308,7 @@ function Usuarios() {
                         )}
                       </div>
                     </form>
-                  </>
+                  </div>
                 </Modal>
               </div>
             </div>

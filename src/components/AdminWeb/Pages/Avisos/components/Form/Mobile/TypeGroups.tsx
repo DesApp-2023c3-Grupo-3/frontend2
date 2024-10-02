@@ -26,7 +26,7 @@ export function TypeGroup({ type, setType }: TypeGroupProp) {
     <div>
       <div className="w-full px-4 pt-16">
         <div className="mb-3">
-          <span className="text-[#484848] text-[14px] font-[700]">
+          <span className="text-[#484848] dark:text-white text-[14px] font-[700]">
             Selecciona el tipo de aviso
           </span>
         </div>
@@ -48,7 +48,11 @@ export function TypeGroup({ type, setType }: TypeGroupProp) {
                       ? 'ring-2 ring-white/60 ring-offset-2 ring-offset-sky-300'
                       : ''
                   }
-                  ${checked ? 'bg-[#4DAE30] text-white' : 'bg-white'}
+                  ${
+                    checked
+                      ? 'bg-[#4DAE30] text-white'
+                      : 'bg-white dark:bg-zinc-300'
+                  }
                     relative flex cursor-pointer rounded-[20px] px-5 py-4 shadow-md focus:outline-none`
                   }
                 >

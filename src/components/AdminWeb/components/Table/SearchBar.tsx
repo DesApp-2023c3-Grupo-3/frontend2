@@ -38,10 +38,10 @@ function SearchBar({
             type="text"
             placeholder={placeholder}
             value={searchTerm}
-            className="z-[-1]"
+            className="z-[-1] dark:bg-white"
             onChange={(e) => onSearchChange(e.target.value)}
           />
-          <div className="search"></div>
+          <div className="search dark:bg-white"></div>
         </div>
       )}
     </div>
