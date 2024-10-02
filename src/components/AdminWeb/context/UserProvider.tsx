@@ -7,6 +7,7 @@ interface UserContextType {
   iduser: number;
   rol: string;
   roleId: number;
+  user: any;
 }
 
 export const UserContext = createContext<UserContextType>({
@@ -14,6 +15,7 @@ export const UserContext = createContext<UserContextType>({
   iduser: 0,
   rol: '',
   roleId: 0,
+  user: null,
 });
 
 function UserProvider({ children }: { children: ReactNode }) {
@@ -47,6 +49,7 @@ function UserProvider({ children }: { children: ReactNode }) {
         iduser,
         rol,
         roleId,
+        user,
       }}
     >
       {children}
