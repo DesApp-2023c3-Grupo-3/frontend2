@@ -15,8 +15,8 @@ import { convertDaysToNumbers } from '../../../../utils/ConvertDaysToCode';
 import { validationDate } from '../../../../utils/validationDate';
 import { useAdvertisingData } from '../../../../hooks/useAdvertisingData';
 import { InputName } from './InputNameAdvertising';
-import { getPayload } from '../../../../../../services/validationMiddleware';
 import Loader from '../../../../components/Loader';
+import { useUser } from '../../../../hooks/useUser';
 
 export function messageError(message: string) {
   Swal.fire({
@@ -172,6 +172,8 @@ function FormAdvertising({
       .finally(() => setLoadingDelete(false));
   };
 
+  const { iduser } = useUser();
+
   const handleSendAdvertisingClick = () => {
     const daysCode = convertDaysToNumbers(selectedDays);
 
@@ -201,7 +203,7 @@ function FormAdvertising({
         id: type,
       },
       user: {
-        id: getPayload().userId,
+        id: iduser,
       },
       sectors: sectores,
       schedules: schedules,

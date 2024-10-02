@@ -1,7 +1,7 @@
 import axios from "axios";
 import { ROUTES_RELATIVE } from "../routes/route.relatives";
-import { getTokens, setTokens, redirectToLogin, handleCall, getHeaders } from "./validationMiddleware";
-import { tokenApi } from "./auth";
+import { handleCall, getHeaders } from "./validationMiddleware";
+import keycloak from "./keycloak/keycloack";
 
 export const imageAPI = {
     viewId: function(id : number) {
@@ -13,21 +13,18 @@ export const imageAPI = {
                 return axios.post(ROUTES_RELATIVE.image.image, image, {
                     headers: {
                         "Content-Type": 'multipart/form-data',
-                        "Authorization": `Bearer ${getTokens().accessToken}`
+                        "Authorization": `Bearer ${keycloak.token}`
                 }
             })} catch {
-                const { data } = await tokenApi.refresh({ "refreshToken": `${getTokens().refreshToken}` });
-                setTokens(data.accessToken, data.refreshToken);
                 return axios.post(ROUTES_RELATIVE.image.image, image, {
                     headers: {
                         "Content-Type": 'multipart/form-data',
-                        "Authorization": `Bearer ${getTokens().accessToken}`
+                        "Authorization": `Bearer ${keycloak.token}`
                     }
                 })
             }
         } catch (error) {
             console.error("Refresh Token Error:", error);
-            redirectToLogin()
         }
         
     },

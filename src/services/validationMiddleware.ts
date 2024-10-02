@@ -1,56 +1,9 @@
-// TODO: Persistir obtencion del token
-import { tokenApi } from "./auth"
-import { useNavigate } from "react-router-dom";
-
-export const getTokens = () => {
-    let accessToken = localStorage.getItem("accessToken");
-    let refreshToken = localStorage.getItem("refreshToken")
-    if (!accessToken) {
-        localStorage.setItem("accessToken", ``);
-        accessToken = ''
-    }
-    if (!refreshToken) {
-        localStorage.setItem("refreshToken", ``);
-        refreshToken = ''
-    }
-    return {
-        accessToken,
-        refreshToken
-    }
-}
-
-export const getPayload = () => {
-    let accessToken = getTokens().accessToken.split('.');
-    const payload =JSON.parse(atob(accessToken[1])).payload
-      const tokenRoleId =payload.role.id
-      const userId =payload.id
-    return {
-        userId,
-        tokenRoleId,payload
-    }
-}
-
-export const setTokens = (accessToken: string, refreshToken: string) => {
-    localStorage.setItem("accessToken", accessToken);
-    localStorage.setItem("refreshToken", refreshToken);
-}
+import keycloak from "./keycloak/keycloack";
 
 export const getHeaders = () => {
-    const accessToken = getTokens().accessToken
     return {headers: {
-        'Authorization': `Bearer ${accessToken}`
+        'Authorization': `Bearer ${keycloak.token}`
     }}
-}
-
-export function RedirectToLogin() {
-    const navigate = useNavigate() 
-    navigate('/');
-}
-
-export function redirectToLogin() {
-    window.history.pushState({}, '', '/')
-    window.history.go(0)
-    setTokens('', '');
 }
 
 export const handleCall = async (callBack: any, args: any[]) => {
@@ -59,13 +12,11 @@ export const handleCall = async (callBack: any, args: any[]) => {
             const serverResponse = await callBack(...args, getHeaders());
             return serverResponse;
         } catch (error) {
-            const { data } = await tokenApi.refresh({ "refreshToken": `${getTokens().refreshToken}` });
-            setTokens(data.accessToken, data.refreshToken);
+            await keycloak.updateToken()
             const serverResponse = await callBack(...args, getHeaders());
             return serverResponse;
         }
     } catch (error) {
-        console.error("Refresh Token Error:", error);
-        redirectToLogin()
+        console.error("Refresh Token Erroradsasd:", error);
     }
 }

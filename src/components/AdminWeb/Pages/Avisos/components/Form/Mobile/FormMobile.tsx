@@ -12,7 +12,7 @@ import { advertisingsAPI } from '../../../../../../../services/advertisings';
 import { Toast } from '../FormAdvertising';
 import { convertDaysToNumbers } from '../../../../../utils/ConvertDaysToCode';
 import Loader from '../../../../../components/Loader';
-import { getPayload } from '../../../../../../../services/validationMiddleware';
+import { useUser } from '../../../../../hooks/useUser';
 
 interface FormMobileProps {
   setAdvertisingsJSON: () => void;
@@ -202,6 +202,8 @@ export function FormMobile({
     }
   };
 
+  const { iduser } = useUser();
+
   const handleSendAdvertisingClick = () => {
     setEmptyFieldsStep3({ payload: payload === '' });
 
@@ -232,7 +234,7 @@ export function FormMobile({
         id: type,
       },
       user: {
-        id: getPayload().userId,
+        id: iduser,
       },
       sectors: sectores,
       schedules: schedules,

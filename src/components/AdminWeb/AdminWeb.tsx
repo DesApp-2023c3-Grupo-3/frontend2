@@ -7,6 +7,7 @@ import Pantallas from './Pages/Pantallas/Pantallas';
 import Avisos from './Pages/Avisos/Avisos';
 import SearchTermProvider from './context/SearchTerm/SearchTermProvider';
 import TableProvider from './context/TableProvider';
+import UserProvider from './context/UserProvider';
 
 function AdminWeb() {
   return (
@@ -14,17 +15,19 @@ function AdminWeb() {
       id="SectionWeb"
       className="h-screen flex flex-row dark text-foreground bg-background"
     >
-      <Navbar />
-      <TableProvider>
-        <SearchTermProvider>
-          <Routes>
-            <Route path="/advertising" element={<Avisos />} />
-            <Route path="/comission" element={<Comisiones />} />
-            <Route path="/screen" element={<Pantallas />} />
-            <Route path="/user" element={<Usuarios />} />
-          </Routes>
-        </SearchTermProvider>
-      </TableProvider>
+      <UserProvider>
+        <Navbar />
+        <TableProvider>
+          <SearchTermProvider>
+            <Routes>
+              <Route path="/advertising" element={<Avisos />} />
+              <Route path="/comission" element={<Comisiones />} />
+              <Route path="/screen" element={<Pantallas />} />
+              <Route path="/user" element={<Usuarios />} />
+            </Routes>
+          </SearchTermProvider>
+        </TableProvider>
+      </UserProvider>
     </section>
   );
 }

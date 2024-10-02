@@ -15,4 +15,7 @@ export const userApi = {
   getAll: async function(){
     return handleCall(axios.get, [ROUTES_RELATIVE.user.users])
   },
+  getBySub: async function(sub: string){
+    return handleCall(axios.get, [ROUTES_RELATIVE.user.users + '/keycloak/'+sub])
+  }
 }

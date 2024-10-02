@@ -1,26 +1,36 @@
 import './LoginScreen.sass';
 import unahurLogo from './assets/unahur.png';
-import { FormEvent, useRef, useState } from 'react';
+import { FormEvent, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import { tokenApi } from '../../services/auth';
-import { getPayload } from '../../services/validationMiddleware';
+import { Button } from '@nextui-org/button';
+import { useKeycloak } from '@react-keycloak/web';
+import { userApi } from '../../services/users';
 
-function LoginScreen({
-  setScreenId,
-  setTokensOnLogin,
-}: {
-  setScreenId: any;
-  setTokensOnLogin: Function;
-}) {
+function LoginScreen({ setScreenId }: { setScreenId: any }) {
   const navigate = useNavigate();
-  const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const screenIdRef = useRef<HTMLInputElement>(null);
   const [invalidNotice, setInvalidNotice] = useState('');
   const [isMobile, setIsMobile] = useState(
     /Mobi|Android/i.test(navigator.userAgent),
   );
+
+  const routeNavigation: any = () => {
+    const rolId: number = 1 || 0;
+    return rolId === 3 ? '/comission' : '/advertising';
+  };
+
+  const invalidScreenId = () => {
+    return passwordRef.current?.value.trim() === '1';
+  };
+
+  const navigateToScreen = () => {
+    if (/Mobi|Android/i.test(navigator.userAgent)) return;
+
+    setScreenId(screenIdRef.current?.value || 1);
+    navigate('/screen');
+  };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -33,64 +43,19 @@ function LoginScreen({
       navigateToScreen();
       return;
     }
+  };
 
-    // Validacion login
-    if (invalidUsername()) {
-      setInvalidNotice('No se ha encontrado el usuario.');
-      return;
+  const { keycloak } = useKeycloak();
+
+  const handleLogin = () => {
+    keycloak.login();
+  };
+
+  useEffect(() => {
+    if (keycloak.authenticated) {
+      navigate('/BulletinBoardClient/admin' + routeNavigation());
     }
-    if (invalidPassword()) {
-      setInvalidNotice('La contraseña es incorrecta.');
-      return;
-    }
-    const routeNavigation: any = () => {
-      const rolId: number = getPayload().tokenRoleId;
-      return rolId == 3 ? '/comission' : '/advertising';
-    };
-    // TODO Login para ingresar a AdminWeb
-    try {
-      await generateTokens(
-        `${usernameRef.current?.value}`,
-        `${passwordRef.current?.value}`,
-      );
-    } catch (error) {
-      setInvalidNotice('El usuario o contraseña son incorrectos.');
-      console.error(error);
-      return;
-    }
-
-    navigate('/admin' + routeNavigation());
-  };
-
-  const invalidUsername = () => {
-    return usernameRef.current?.value.trim() === '';
-  };
-
-  const invalidPassword = () => {
-    return passwordRef.current?.value.trim() === '';
-  };
-
-  const invalidScreenId = () => {
-    return passwordRef.current?.value.trim() === '1';
-  };
-
-  const generateTokens = async (dni: string, password: string) => {
-    const tokensRecibidos = await tokenApi.login({
-      dni: `${dni}`,
-      password: `${password}`,
-    });
-    setTokensOnLogin(
-      tokensRecibidos.data.accessToken,
-      tokensRecibidos.data.refreshToken,
-    );
-  };
-
-  const navigateToScreen = () => {
-    if (/Mobi|Android/i.test(navigator.userAgent)) return;
-
-    setScreenId(screenIdRef.current?.value || 1);
-    navigate('/screen');
-  };
+  }, [keycloak.authenticated]);
 
   return (
     <>
@@ -120,22 +85,17 @@ function LoginScreen({
           <span className="text-sm mt-8 opacity-80">
             Inicia sesión con tus datos
           </span>
+          <Button
+            className="mt-4 text-white hover:text-[black]"
+            variant="ghost"
+            onClick={handleLogin}
+          >
+            Iniciar Sesión
+          </Button>
           <form
             onSubmit={(e) => handleSubmit(e)}
             className="flex flex-col mt-4 gap-4 w-max"
           >
-            <input
-              type="text"
-              placeholder="Nombre de usuario"
-              name="username"
-              ref={usernameRef}
-            />
-            <input
-              type="password"
-              placeholder="Contraseña"
-              name="password"
-              ref={passwordRef}
-            />
             <span
               className={
                 'text-sm text-center mt-4 opacity-80 ' +
