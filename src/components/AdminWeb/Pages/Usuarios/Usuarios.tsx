@@ -17,6 +17,7 @@ import useSearchTerm from '../../hooks/useSearchTermAdvertising';
 import { Input } from '@nextui-org/react';
 import EyeIcon from './components/Icons/EyeIcon';
 import TablaNextUI from '../../components/Table/TablaNextUI';
+import { useTabla } from '../../hooks/useTable';
 
 const initialStateFields = {
   username: '',
@@ -29,7 +30,6 @@ const initialStateFields = {
 };
 
 function Usuarios() {
-  const [usersJSON, setUsersJSON] = useState<User[]>([]);
   const [loading, setLoading] = useState(false);
   const [loadingCreate, setLoadingCreate] = useState(false);
 
@@ -203,15 +203,29 @@ function Usuarios() {
     });
   };
 
+  const {
+    usersJSON,
+    setUsersJSON,
+    rowsPerPageU,
+    setPages,
+    setTotalItems,
+    currentPages,
+  } = useTabla();
+
   const updateUsersTable = async () => {
     setLoading(true);
-    try {
-      const updatedUsers: { data: User[] } = await userApi.getAll();
-      setUsersJSON(updatedUsers.data || []);
-      setLoading(false);
-    } catch (error) {
-      console.error(error);
-    }
+    userApi
+      .getPaginated(currentPages, rowsPerPageU)
+      .then((r) => {
+        console.log(r);
+        setUsersJSON(r.data.data);
+        setTotalItems(r.data.total);
+        setPages(r.data.totalPages);
+        setLoading(false);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
   };
 
   useEffect(() => {

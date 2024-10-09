@@ -13,6 +13,7 @@ import useSearchTerm from '../../hooks/useSearchTermAdvertising';
 import { useTabla } from '../../hooks/useTable';
 import useDebounce from '../../hooks/useDebounce';
 import { advertisingsAPI } from '../../../../services/advertisings';
+import { userApi } from '../../../../services/users';
 
 interface TablaNextUiProps {
   datasJSON: any[];
@@ -37,9 +38,13 @@ function TablaNextUi({
     pages,
     setRowsPerPage,
     rowsPerPage,
+    rowsPerPageC,
+    rowsPerPageU,
     setCurrentPage,
     setTotalItems,
     setPages,
+    setRowsPerPageC,
+    setRowsPerPageU,
   } = useTabla();
 
   const columnsArray = Array.from(columns, ([key, handler]) => ({
@@ -83,10 +88,16 @@ function TablaNextUi({
 
   const onRowsPerPageChange = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
-      setRowsPerPage(Number(e.target.value));
+      if (type === 1) {
+        setRowsPerPage(Number(e.target.value));
+      } else if (type === 2) {
+        setRowsPerPageC(Number(e.target.value));
+      } else {
+        setRowsPerPageU(Number(e.target.value));
+      }
       setCurrentPage(1);
     },
-    [setRowsPerPage, setCurrentPage],
+    [setRowsPerPage, setCurrentPage, setRowsPerPageC, setRowsPerPageU],
   );
 
   const topContent = React.useMemo(() => {
@@ -115,7 +126,13 @@ function TablaNextUi({
             <select
               className="bg-transparent outline-none text-default-400 text-small"
               onChange={onRowsPerPageChange}
-              value={rowsPerPage}
+              value={
+                type === 1
+                  ? rowsPerPage
+                  : type === 2
+                  ? rowsPerPageC
+                  : rowsPerPageU
+              }
             >
               <option value="5">5</option>
               <option value="7">7</option>
@@ -149,25 +166,46 @@ function TablaNextUi({
       });
   };
 
+  const getUser = () => {
+    userApi
+      .getPaginated(currentPages, rowsPerPage, searchTerm)
+      .then((r) => {
+        setDatasJSON(r.data.data);
+        setTotalItems(r.data.total);
+        setPages(r.data.totalPages);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  };
+
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
   const [firstRender, setFirstRender] = React.useState(true);
 
   useEffect(() => {
-    switch (type) {
-      case 1:
-        if (!firstRender) {
+    if (firstRender) {
+      setFirstRender(false);
+    } else {
+      switch (type) {
+        case 1:
           getAdvertising();
-        } else {
-          setFirstRender(false);
-        }
-        break;
-      case 2:
-        break;
-      case 3:
-        break;
+          break;
+        case 2:
+          break;
+        case 3:
+          getUser();
+          break;
+      }
     }
-  }, [currentPages, rowsPerPage, setDatasJSON, debouncedSearchTerm]);
+  }, [
+    currentPages,
+    rowsPerPage,
+    setDatasJSON,
+    debouncedSearchTerm,
+    rowsPerPageU,
+    rowsPerPageC,
+  ]);
 
   return (
     <div>
