@@ -22,40 +22,32 @@ function Comisiones() {
   const {
     commissionsJSON,
     setCommissionsJSON,
+    currentPages,
     setPages,
     setTotalItems,
-    rowsPerPage,
+    rowsPerPageC,
   } = useTabla();
 
   const [loading, setLoading] = useState(false);
 
   const { setSearchTerm } = useSearchTerm();
 
-  const updateCommissionsTable = async () => {
+  const updateCommissionsTable = () => {
     setLoading(true);
-    try {
-      const updatedCommissions: { data: Commission[] } =
-        await commissionApi.getAll();
-      setCommissionsJSON(updatedCommissions.data || []);
-      setTotalItems(updatedCommissions.data.length);
-      setPages(Math.ceil(updatedCommissions.data.length / rowsPerPage));
-      setLoading(false);
-    } catch (error) {
-      console.error(error);
-    }
+    commissionApi
+      .getPaginated(currentPages, rowsPerPageC)
+      .then((r) => {
+        setCommissionsJSON(r.data.data);
+        setTotalItems(r.data.total);
+        setPages(r.data.totalPages);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   const { user } = useUser();
-
-  useEffect(() => {
-    if (user) {
-      updateCommissionsTable();
-    }
-
-    return () => {
-      setSearchTerm('');
-    };
-  }, [user]);
 
   const { isOpen, openModal, closeModal } = useModal();
 
@@ -146,12 +138,13 @@ function Comisiones() {
   };
 
   useEffect(() => {
-    updateCommissionsTable();
-
+    if (user) {
+      updateCommissionsTable();
+    }
     return () => {
       setSearchTerm('');
     };
-  }, []);
+  }, [user]);
 
   return (
     <>

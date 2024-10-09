@@ -13,6 +13,7 @@ import useSearchTerm from '../../hooks/useSearchTermAdvertising';
 import { useTabla } from '../../hooks/useTable';
 import useDebounce from '../../hooks/useDebounce';
 import { advertisingsAPI } from '../../../../services/advertisings';
+import { commissionApi } from '../../../../services/commissions';
 
 interface TablaNextUiProps {
   datasJSON: any[];
@@ -37,6 +38,8 @@ function TablaNextUi({
     pages,
     setRowsPerPage,
     rowsPerPage,
+    setRowsPerPageC,
+    rowsPerPageC,
     setCurrentPage,
     setTotalItems,
     setPages,
@@ -83,10 +86,14 @@ function TablaNextUi({
 
   const onRowsPerPageChange = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
-      setRowsPerPage(Number(e.target.value));
+      if (type === 1) {
+        setRowsPerPage(Number(e.target.value));
+      } else if (type === 2) {
+        setRowsPerPageC(Number(e.target.value));
+      }
       setCurrentPage(1);
     },
-    [setRowsPerPage, setCurrentPage],
+    [setRowsPerPage, setCurrentPage, setRowsPerPageC],
   );
 
   const topContent = React.useMemo(() => {
@@ -115,7 +122,7 @@ function TablaNextUi({
             <select
               className="bg-transparent outline-none text-default-400 text-small"
               onChange={onRowsPerPageChange}
-              value={rowsPerPage}
+              value={type === 1 ? rowsPerPage : type === 2 ? rowsPerPageC : 3}
             >
               <option value="5">5</option>
               <option value="7">7</option>
@@ -149,25 +156,45 @@ function TablaNextUi({
       });
   };
 
+  const getCommision = () => {
+    commissionApi
+      .getPaginated(currentPages, rowsPerPageC, searchTerm)
+      .then((r) => {
+        setDatasJSON(r.data.data);
+        setTotalItems(r.data.total);
+        setPages(r.data.totalPages);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  };
+
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
   const [firstRender, setFirstRender] = React.useState(true);
 
   useEffect(() => {
-    switch (type) {
-      case 1:
-        if (!firstRender) {
+    if (firstRender) {
+      setFirstRender(false);
+    } else {
+      switch (type) {
+        case 1:
           getAdvertising();
-        } else {
-          setFirstRender(false);
-        }
-        break;
-      case 2:
-        break;
-      case 3:
-        break;
+          break;
+        case 2:
+          getCommision();
+          break;
+        case 3:
+          break;
+      }
     }
-  }, [currentPages, rowsPerPage, setDatasJSON, debouncedSearchTerm]);
+  }, [
+    currentPages,
+    rowsPerPage,
+    setDatasJSON,
+    debouncedSearchTerm,
+    rowsPerPageC,
+  ]);
 
   return (
     <div>
