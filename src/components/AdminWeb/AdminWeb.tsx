@@ -8,6 +8,7 @@ import Avisos from './Pages/Avisos/Avisos';
 import SearchTermProvider from './context/SearchTerm/SearchTermProvider';
 import TableProvider from './context/TableProvider';
 import UserProvider from './context/UserProvider';
+import Mapas from './Pages/Mapas/Mapas';
 
 function AdminWeb() {
   return (
@@ -23,6 +24,7 @@ function AdminWeb() {
               <Route path="/advertising" element={<Avisos />} />
               <Route path="/comission" element={<Comisiones />} />
               <Route path="/screen" element={<Pantallas />} />
+              <Route path="/map" element={<Mapas />} />
               <Route path="/user" element={<Usuarios />} />
             </Routes>
           </SearchTermProvider>

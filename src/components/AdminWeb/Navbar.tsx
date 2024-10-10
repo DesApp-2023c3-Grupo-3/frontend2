@@ -109,6 +109,7 @@ function Navbar() {
         {roleId === 1 ? (
           <NavLink to="/BulletinBoardClient/admin/screen">Pantallas</NavLink>
         ) : null}
+        <NavLink to="/BulletinBoardClient/admin/map">Mapas</NavLink>
         {roleId === 1 ? (
           <NavLink to="/BulletinBoardClient/admin/user">
             Administrar usuarios
