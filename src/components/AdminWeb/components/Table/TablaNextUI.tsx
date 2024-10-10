@@ -14,6 +14,7 @@ import { useTabla } from '../../hooks/useTable';
 import useDebounce from '../../hooks/useDebounce';
 import { advertisingsAPI } from '../../../../services/advertisings';
 import { userApi } from '../../../../services/users';
+import { commissionApi } from '../../../../services/commissions';
 
 interface TablaNextUiProps {
   datasJSON: any[];
@@ -40,10 +41,10 @@ function TablaNextUi({
     rowsPerPage,
     rowsPerPageC,
     rowsPerPageU,
+    setRowsPerPageC,
     setCurrentPage,
     setTotalItems,
     setPages,
-    setRowsPerPageC,
     setRowsPerPageU,
   } = useTabla();
 
@@ -179,6 +180,19 @@ function TablaNextUi({
       });
   };
 
+  const getCommision = () => {
+    commissionApi
+      .getPaginated(currentPages, rowsPerPageC, searchTerm)
+      .then((r) => {
+        setDatasJSON(r.data.data);
+        setTotalItems(r.data.total);
+        setPages(r.data.totalPages);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  };
+
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
   const [firstRender, setFirstRender] = React.useState(true);
@@ -192,6 +206,7 @@ function TablaNextUi({
           getAdvertising();
           break;
         case 2:
+          getCommision();
           break;
         case 3:
           getUser();
