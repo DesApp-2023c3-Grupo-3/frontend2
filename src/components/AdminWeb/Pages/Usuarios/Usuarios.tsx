@@ -217,7 +217,6 @@ function Usuarios() {
     userApi
       .getPaginated(currentPages, rowsPerPageU)
       .then((r) => {
-        console.log(r);
         setUsersJSON(r.data.data);
         setTotalItems(r.data.total);
         setPages(r.data.totalPages);

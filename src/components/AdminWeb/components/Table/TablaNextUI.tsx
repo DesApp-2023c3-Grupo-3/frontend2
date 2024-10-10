@@ -168,7 +168,7 @@ function TablaNextUi({
 
   const getUser = () => {
     userApi
-      .getPaginated(currentPages, rowsPerPage, searchTerm)
+      .getPaginated(currentPages, rowsPerPageU, searchTerm)
       .then((r) => {
         setDatasJSON(r.data.data);
         setTotalItems(r.data.total);
