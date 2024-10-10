@@ -10,6 +10,8 @@ interface TablaContextType {
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
   rowsPerPage: number;
   setRowsPerPage: React.Dispatch<React.SetStateAction<number>>;
+  rowsPerPageC: number;
+  setRowsPerPageC: React.Dispatch<React.SetStateAction<number>>;
   totalItems: number;
   setTotalItems: React.Dispatch<React.SetStateAction<number>>;
   pages: number;
@@ -25,6 +27,8 @@ export const TablaContext = createContext<TablaContextType>({
   setCurrentPage: () => {},
   rowsPerPage: 7,
   setRowsPerPage: () => {},
+  rowsPerPageC: 12,
+  setRowsPerPageC: () => {},
   totalItems: 0,
   setTotalItems: () => {},
   pages: 0,
@@ -36,6 +40,7 @@ function TablaProvider({ children }: { children: ReactNode }) {
   const [commissionsJSON, setCommissionsJSON] = useState<Commission[]>([]);
   const [currentPages, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(7);
+  const [rowsPerPageC, setRowsPerPageC] = useState(12);
   const [totalItems, setTotalItems] = useState(0);
   const [pages, setPages] = useState(0);
 
@@ -50,6 +55,8 @@ function TablaProvider({ children }: { children: ReactNode }) {
         setCurrentPage,
         rowsPerPage,
         setRowsPerPage,
+        rowsPerPageC,
+        setRowsPerPageC,
         totalItems,
         setTotalItems,
         pages,

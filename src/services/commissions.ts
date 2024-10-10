@@ -70,5 +70,16 @@ export const commissionApi = {
   },
   delete: function(id:number) {
     return handleCall(axios.delete, [`${ROUTES_RELATIVE.course.commission}/${id}`])
-}
+},
+  getPaginated: function(page: number, limit: number, find = "") {
+    if (find === "") {
+        return handleCall(axios.get, [
+            `${ROUTES_RELATIVE.course.commission}/all?page=${page}&limit=${limit}`
+        ]);
+    } else {
+        return handleCall(axios.get, [
+            `${ROUTES_RELATIVE.course.commission}/all?page=${page}&limit=${limit}&search=${find}`
+        ]);
+    }
+  }
 }
