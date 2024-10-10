@@ -13,6 +13,7 @@ import useSearchTerm from '../../hooks/useSearchTermAdvertising';
 import { useTabla } from '../../hooks/useTable';
 import useDebounce from '../../hooks/useDebounce';
 import { advertisingsAPI } from '../../../../services/advertisings';
+import { userApi } from '../../../../services/users';
 import { commissionApi } from '../../../../services/commissions';
 
 interface TablaNextUiProps {
@@ -38,11 +39,13 @@ function TablaNextUi({
     pages,
     setRowsPerPage,
     rowsPerPage,
-    setRowsPerPageC,
     rowsPerPageC,
+    rowsPerPageU,
+    setRowsPerPageC,
     setCurrentPage,
     setTotalItems,
     setPages,
+    setRowsPerPageU,
   } = useTabla();
 
   const columnsArray = Array.from(columns, ([key, handler]) => ({
@@ -90,10 +93,12 @@ function TablaNextUi({
         setRowsPerPage(Number(e.target.value));
       } else if (type === 2) {
         setRowsPerPageC(Number(e.target.value));
+      } else {
+        setRowsPerPageU(Number(e.target.value));
       }
       setCurrentPage(1);
     },
-    [setRowsPerPage, setCurrentPage, setRowsPerPageC],
+    [setRowsPerPage, setCurrentPage, setRowsPerPageC, setRowsPerPageU],
   );
 
   const topContent = React.useMemo(() => {
@@ -122,7 +127,13 @@ function TablaNextUi({
             <select
               className="bg-transparent outline-none text-default-400 text-small"
               onChange={onRowsPerPageChange}
-              value={type === 1 ? rowsPerPage : type === 2 ? rowsPerPageC : 3}
+              value={
+                type === 1
+                  ? rowsPerPage
+                  : type === 2
+                  ? rowsPerPageC
+                  : rowsPerPageU
+              }
             >
               <option value="5">5</option>
               <option value="7">7</option>
@@ -146,6 +157,19 @@ function TablaNextUi({
   const getAdvertising = () => {
     advertisingsAPI
       .getPaginated(currentPages, rowsPerPage, searchTerm)
+      .then((r) => {
+        setDatasJSON(r.data.data);
+        setTotalItems(r.data.total);
+        setPages(r.data.totalPages);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  };
+
+  const getUser = () => {
+    userApi
+      .getPaginated(currentPages, rowsPerPageU, searchTerm)
       .then((r) => {
         setDatasJSON(r.data.data);
         setTotalItems(r.data.total);
@@ -185,6 +209,7 @@ function TablaNextUi({
           getCommision();
           break;
         case 3:
+          getUser();
           break;
       }
     }
@@ -193,6 +218,7 @@ function TablaNextUi({
     rowsPerPage,
     setDatasJSON,
     debouncedSearchTerm,
+    rowsPerPageU,
     rowsPerPageC,
   ]);
 

@@ -17,5 +17,12 @@ export const userApi = {
   },
   getBySub: async function(sub: string){
     return handleCall(axios.get, [ROUTES_RELATIVE.user.users + '/keycloak/'+sub])
+  },
+  getPaginated: async function(page: number, limit: number, search = ""){
+    if (search === "") {
+      return handleCall(axios.get, [`${ROUTES_RELATIVE.user.users}/all?page=${page}&limit=${limit}`]);
+    } else {
+      return handleCall(axios.get, [`${ROUTES_RELATIVE.user.users}/all?page=${page}&limit=${limit}&search=${search}`]);
+    }
   }
 }
