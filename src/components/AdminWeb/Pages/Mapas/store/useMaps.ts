@@ -12,13 +12,13 @@ export const useMaps = create<StoreUseMaps>()((set) => ({
     maps: [],
     selectedMap: undefined,
 
-    setMaps: (newMaps: Map[]) => {
+    setMaps: (newMaps) => {
         set(({
             maps: newMaps
         }))
     },
 
-    setSelectedMap: (newSelectedMap: Map) => {
+    setSelectedMap: (newSelectedMap) => {
         set(({
             selectedMap: newSelectedMap
         }))
