@@ -19,6 +19,7 @@ function DeleteMapButton({
         Toast.fire({
           icon: 'success',
           title: 'Se eliminó correctamente',
+          position: 'bottom-end',
         });
         setMaps(maps.filter((map) => map.id !== selectedMap.id));
       });

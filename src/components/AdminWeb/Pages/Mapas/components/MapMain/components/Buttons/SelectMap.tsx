@@ -38,7 +38,7 @@ function SelectMapButton({
       color="primary"
       radius="full"
       onClick={handleSelect}
-      isDisabled={isLoading}
+      isDisabled={isLoading || selectedMap?.estaSeleccionado}
     >
       Seleccionar
     </Button>

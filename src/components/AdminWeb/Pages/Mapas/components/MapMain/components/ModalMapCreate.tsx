@@ -17,7 +17,7 @@ function ModalMapCreate({ isOpen, closeModal, openModal }: ModalMapProps) {
   };
 
   const createMap = () => {
-    if (file) {
+    if (file && name) {
       const formData = new FormData();
       formData.append('file', file);
       formData.append('name', name);
@@ -102,6 +102,7 @@ function ModalMapCreate({ isOpen, closeModal, openModal }: ModalMapProps) {
           className="h-[3rem] w-[20rem] text-white text-xl font-semibold"
           color="primary"
           onClick={createMap}
+          isDisabled={!file || !name}
         >
           Guardar
         </Button>

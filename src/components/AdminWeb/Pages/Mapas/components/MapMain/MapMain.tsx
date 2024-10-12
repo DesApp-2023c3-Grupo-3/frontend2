@@ -15,16 +15,20 @@ function MapMain() {
 
   return (
     <div className="flex flex-wrap justify-center items-center gap-4">
-      {maps.map((map) => (
-        <MapCard
-          onClick={openModal}
-          key={map.id}
-          id={map.id}
-          name={map.name}
-          estaSeleccionado={map.estaSeleccionado}
-          originalName={map.originalName}
-        />
-      ))}
+      {maps.length === 0 ? (
+        <p className="text-3xl font-bold">No hay mapas para mostrar</p>
+      ) : (
+        maps.map((map) => (
+          <MapCard
+            onClick={openModal}
+            key={map.id}
+            id={map.id}
+            name={map.name}
+            estaSeleccionado={map.estaSeleccionado}
+            originalName={map.originalName}
+          />
+        ))
+      )}
       <ModalMapView
         isOpen={isOpen}
         closeModal={closeModal}

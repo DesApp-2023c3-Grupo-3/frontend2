@@ -9,31 +9,52 @@ import DownloadMapButton from './Buttons/DownloadMap';
 import DeleteMapButton from './Buttons/DeleteMap';
 import SelectMapButton from './Buttons/SelectMap';
 import EditMapButton from './Buttons/EditMapButton';
+import SaveMapButton from './Buttons/SaveMapButton';
+import { useFormMap } from '../../../store/useFormMap';
 
 function ModalMapView({ isOpen, closeModal, openModal }: ModalMapProps) {
   const { selectedMap } = useMaps();
 
   const [isLoading, setIsLoading] = useState(true);
-  const [image, setImage] = useState('');
+  const [image, setImage] = useState<File>();
 
   const [isEditing, setIsEditing] = useState(false);
+
+  const { name, setName, file, setFile } = useFormMap();
+
+  useEffect(() => {
+    if (!isOpen) setIsEditing(false);
+  }, [isOpen]);
 
   useEffect(() => {
     if (selectedMap) {
       setIsLoading(true);
       mapApi.getImageById(selectedMap?.id).then((res) => {
         const blob = new Blob([res.data], { type: 'image/png' });
-        const imageUrl = URL.createObjectURL(blob);
-        setImage(imageUrl);
+        const newImage = new File([blob], selectedMap.originalName, {
+          type: 'image/png',
+        });
+        setFile(newImage);
+        setImage(newImage);
         setIsLoading(false);
+        setName(selectedMap.name);
       });
     }
   }, [selectedMap]);
 
+  const isValidChange =
+    name !== selectedMap?.name || file?.name !== image?.name;
+
+  const onCloseModal = () => {
+    setFile(undefined);
+    setName('');
+    closeModal();
+  };
+
   return (
     <Modal
       isOpen={isOpen}
-      closeModal={closeModal}
+      closeModal={onCloseModal}
       openModal={openModal}
       label=""
     >
@@ -41,7 +62,12 @@ function ModalMapView({ isOpen, closeModal, openModal }: ModalMapProps) {
         <div>
           <div className={`flex flex-col gap-1 text-center`}>
             {isEditing ? (
-              <Input size="lg" value={selectedMap?.name} />
+              <Input
+                size="lg"
+                placeholder="Escribe un nombre"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
             ) : (
               <h3 className="text-3xl font-bold">{selectedMap?.name}</h3>
             )}
@@ -54,7 +80,12 @@ function ModalMapView({ isOpen, closeModal, openModal }: ModalMapProps) {
             isEditing ? (
               <>
                 <div className="cursor-pointer">
-                  <Image src={image} className="max-h-[328px] max-w-[700px]" />
+                  {image && (
+                    <Image
+                      src={URL.createObjectURL(image)}
+                      className="max-h-[328px] max-w-[700px]"
+                    />
+                  )}
                 </div>
                 <label className="text-slate-200 cursor-pointer text-4xl font-bold flex items-center justify-center h-full w-full opacity-0 rounded-[20px] transition-all bg-black/80 absolute z-50 hover:opacity-100">
                   Click para elegir un mapa
@@ -62,11 +93,22 @@ function ModalMapView({ isOpen, closeModal, openModal }: ModalMapProps) {
                     type="file"
                     accept="image/*"
                     className="hidden h-full w-full"
+                    onChange={(e) => {
+                      const files = e.target.files;
+                      if (files && files.length > 0) {
+                        setImage(files[0]);
+                      }
+                    }}
                   />
                 </label>
               </>
             ) : (
-              <Image src={image} className="max-h-[328px] max-w-[700px]" />
+              file && (
+                <Image
+                  src={URL.createObjectURL(file)}
+                  className="max-h-[328px] max-w-[700px]"
+                />
+              )
             )
           ) : (
             <Loader />
@@ -75,13 +117,11 @@ function ModalMapView({ isOpen, closeModal, openModal }: ModalMapProps) {
         <div className="flex gap-3 w-full px-10 justify-center">
           {isEditing ? (
             <>
-              <Button
-                radius="full"
-                className="h-[3rem] w-[30rem] font-semibold text-xl text-white"
-                color="success"
-              >
-                Guardar
-              </Button>
+              <SaveMapButton
+                newMap={image}
+                onClick={closeModal}
+                isDisabled={isLoading || !isValidChange}
+              />
               <Button
                 color="primary"
                 className="h-[3rem] font-semibold text-xl"
