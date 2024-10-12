@@ -4,6 +4,7 @@ import { useFormMap } from '../../../store/useFormMap';
 import { ModalMapProps } from '../../../types/ModalMap';
 import { mapApi } from '../../../../../../../services/map';
 import { useMaps } from '../../../store/useMaps';
+import { Toast } from '../../../../Avisos/components/Form/FormAdvertising';
 
 function ModalMapCreate({ isOpen, closeModal, openModal }: ModalMapProps) {
   const { name, setName, file, setFile } = useFormMap();
@@ -20,9 +21,21 @@ function ModalMapCreate({ isOpen, closeModal, openModal }: ModalMapProps) {
       const formData = new FormData();
       formData.append('file', file);
       formData.append('name', name);
+      formData.append('estaSeleccionado', String(false));
 
       mapApi.create(formData).then((res) => {
-        setMaps([res.data, ...maps]);
+        setMaps([
+          {
+            ...res.data,
+            estaSeleccionado: false,
+          },
+          ...maps,
+        ]);
+        Toast.fire({
+          icon: 'success',
+          title: 'Se creó correctamente',
+          position: 'bottom-end',
+        });
         onCloseModal();
       });
     }
@@ -50,6 +63,7 @@ function ModalMapCreate({ isOpen, closeModal, openModal }: ModalMapProps) {
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
+
         <div className="rounded-[20px] flex justify-center items-center bg-[#D9D9D9] w-[700px] h-[328px] relative">
           <label className="rounded-t-[20px] rounded-[20px] flex flex-col items-center cursor-pointer justify-center">
             {file ? (

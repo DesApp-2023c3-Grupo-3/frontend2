@@ -2,6 +2,7 @@ import axios from "axios"
 import { getHeaders, handleCall } from "./validationMiddleware"
 import { ROUTES_RELATIVE } from "../routes/route.relatives"
 import keycloak from "./keycloak/keycloack"
+import { Map } from "../components/AdminWeb/Pages/Mapas/types/Map"
 
 export const mapApi = {
   create: async function (newMap: any) {
@@ -41,5 +42,8 @@ export const mapApi = {
         "Authorization": `Bearer ${keycloak.token}`
       },
     })
+  },
+  update: async function (map: any, mapId: number) {
+    return handleCall(axios.patch, [ROUTES_RELATIVE.map.update + "/" + mapId, map])
   }
 }

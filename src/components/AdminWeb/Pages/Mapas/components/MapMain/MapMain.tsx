@@ -21,6 +21,7 @@ function MapMain() {
           key={map.id}
           id={map.id}
           name={map.name}
+          estaSeleccionado={map.estaSeleccionado}
           originalName={map.originalName}
         />
       ))}

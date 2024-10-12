@@ -45,5 +45,6 @@ export const ROUTES_RELATIVE = {
     getImageById: `${API}/map`,
     downloadImageById: `${API}/map`,
     delete: `${API}/map`,
+    update: `${API}/map`,
   }
 }

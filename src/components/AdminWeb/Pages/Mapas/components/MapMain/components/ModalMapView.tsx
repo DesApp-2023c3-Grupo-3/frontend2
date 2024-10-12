@@ -106,7 +106,7 @@ function ModalMapView({ isOpen, closeModal, openModal }: ModalMapProps) {
             </>
           ) : (
             <>
-              <SelectMapButton isLoading={isLoading} />
+              <SelectMapButton isLoading={isLoading} closeModal={closeModal} />
               <EditMapButton
                 isLoading={isLoading}
                 onClick={() => setIsEditing(!isEditing)}
