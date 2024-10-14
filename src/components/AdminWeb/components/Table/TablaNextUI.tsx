@@ -1,4 +1,10 @@
-import React, { Dispatch, SetStateAction, useCallback, useEffect } from 'react';
+import React, {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useRef,
+} from 'react';
 import {
   Table,
   TableHeader,
@@ -213,6 +219,14 @@ function TablaNextUi({
           break;
       }
     }
+
+    adjustItemsPerPage();
+
+    window.addEventListener('resize', adjustItemsPerPage);
+
+    return () => {
+      window.removeEventListener('resize', adjustItemsPerPage);
+    };
   }, [
     currentPages,
     rowsPerPage,
@@ -221,6 +235,40 @@ function TablaNextUi({
     rowsPerPageU,
     rowsPerPageC,
   ]);
+
+  const typeSetRowsPerPage = (type: number, rows: number) => {
+    switch (type) {
+      case 1:
+        setRowsPerPage(rows);
+        break;
+      case 2:
+        setRowsPerPageC(rows);
+        break;
+      case 3:
+        setRowsPerPageU(rows);
+        break;
+    }
+  };
+
+  const rowRef = useRef<HTMLTableRowElement>(null);
+
+  //Ajustar la cantidad de filas a mostrar en función del tamaño de la ventana.
+
+  const adjustItemsPerPage = () => {
+    const row = rowRef.current;
+
+    if (row) {
+      const windowHeight = window.innerHeight - 350;
+      const maxRowsToShow = Math.floor(
+        windowHeight / row.getBoundingClientRect().height,
+      );
+      if (maxRowsToShow <= 0) {
+        typeSetRowsPerPage(type, 1);
+      } else {
+        typeSetRowsPerPage(type, maxRowsToShow);
+      }
+    }
+  };
 
   return (
     <div>
@@ -233,6 +281,9 @@ function TablaNextUi({
         isCompact
         bottomContent={bottomContent}
         topContent={topContent}
+        onRowAction={(row) => {
+          handleRowClick(datasJSON[parseInt(row.toLocaleString())]);
+        }}
       >
         <TableHeader columns={columnsArray}>
           {(column) => <TableColumn key={column.key}>{column.key}</TableColumn>}
@@ -242,10 +293,7 @@ function TablaNextUi({
             <TableRow key={index}>
               {columnsArray.map((columnName) => {
                 return (
-                  <TableCell
-                    onClick={() => handleRowClick(data)}
-                    key={columnName.key}
-                  >
+                  <TableCell key={columnName.key}>
                     {columns.get(columnName.key)?.call(data, data) || '-'}
                   </TableCell>
                 );
