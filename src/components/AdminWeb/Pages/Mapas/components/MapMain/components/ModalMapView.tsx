@@ -42,14 +42,14 @@ function ModalMapView({ isOpen, closeModal, openModal }: ModalMapProps) {
     }
   }, [selectedMap]);
 
-  const isValidChange =
-    name !== selectedMap?.name || file?.name !== image?.name;
-
   const onCloseModal = () => {
     setFile(undefined);
     setName('');
     closeModal();
   };
+
+  const isValidChange =
+    name !== selectedMap?.name || image?.name !== file?.name;
 
   return (
     <Modal
@@ -120,7 +120,7 @@ function ModalMapView({ isOpen, closeModal, openModal }: ModalMapProps) {
               <SaveMapButton
                 newMap={image}
                 onClick={closeModal}
-                isDisabled={isLoading || !isValidChange}
+                isDisabled={isLoading || !isValidChange || !name}
               />
               <Button
                 color="primary"
