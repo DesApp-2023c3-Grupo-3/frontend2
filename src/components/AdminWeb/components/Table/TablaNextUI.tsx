@@ -212,16 +212,15 @@ function TablaNextUi({
 
   const [firstRender, setFirstRender] = React.useState(true);
   const adjustItemsPerPage = () => {
-    const row = 70;
+    const rowA = 70;
+    const row = 40;
 
-    if (row) {
-      const windowHeight = window.innerHeight - 450;
-      const maxRowsToShow = Math.floor(windowHeight / row);
-      if (maxRowsToShow <= 0) {
-        typeSetRowsPerPage(type, 1);
-      } else {
-        typeSetRowsPerPage(type, maxRowsToShow);
-      }
+    const windowHeight = window.innerHeight - 450;
+    const maxRowsToShow = Math.floor(windowHeight / (type === 1 ? rowA : row));
+    if (maxRowsToShow <= 0) {
+      typeSetRowsPerPage(type, 1);
+    } else {
+      typeSetRowsPerPage(type, maxRowsToShow);
     }
   };
 
@@ -294,7 +293,7 @@ function TablaNextUi({
           handleRowClick(datasJSON[parseInt(row.toLocaleString())]);
         }}
         classNames={{
-          tr: 'h-[50px]',
+          tr: `${type === 1 ? 'h-[50px]' : 'h-[40px]'} `,
           wrapper: `h-[calc(100vh-250px)] overflow-hidden`,
           base: 'overflow-hidden',
         }}
