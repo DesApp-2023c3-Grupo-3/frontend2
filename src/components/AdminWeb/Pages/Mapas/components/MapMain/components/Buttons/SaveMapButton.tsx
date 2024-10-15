@@ -42,7 +42,7 @@ function SaveMapButton({
   return (
     <Button
       radius="full"
-      className="h-[3rem] w-[30rem] font-semibold text-xl text-white"
+      className="h-[3rem] md:w-[30rem] w-full font-semibold text-xl text-white"
       color="success"
       isDisabled={isDisabled}
       onClick={handleEdit}

@@ -6,7 +6,7 @@ function MapHeader() {
   const { isOpen, closeModal, openModal } = useModal();
 
   return (
-    <div className="flex justify-between items-center">
+    <div className="flex md:justify-between md:mb-0 mb-2 justify-center items-center">
       <h1 className="text-[3rem] font-[700] text-[#484848] xl:text-[4rem] dark:text-[white]">
         Mapas
       </h1>

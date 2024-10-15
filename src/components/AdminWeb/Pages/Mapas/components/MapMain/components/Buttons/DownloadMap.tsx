@@ -14,6 +14,7 @@ function DownloadMapButton({ isLoading }: { isLoading: boolean }) {
           Toast.fire({
             icon: 'success',
             title: 'Se descargó correctamente',
+            position: 'bottom-end',
           });
         });
     }
