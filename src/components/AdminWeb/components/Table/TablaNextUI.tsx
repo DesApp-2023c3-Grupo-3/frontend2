@@ -95,6 +95,9 @@ function TablaNextUi({
   const bottomContent = React.useMemo(() => {
     return (
       <Pagination
+        classNames={{
+          base: 'overflow-hidden',
+        }}
         color="primary"
         className="scrollbar-none flex justify-center w-full mt-[20px]"
         showControls
@@ -212,7 +215,7 @@ function TablaNextUi({
     const row = 70;
 
     if (row) {
-      const windowHeight = window.innerHeight - 350;
+      const windowHeight = window.innerHeight - 450;
       const maxRowsToShow = Math.floor(windowHeight / row);
       if (maxRowsToShow <= 0) {
         typeSetRowsPerPage(type, 1);
@@ -292,6 +295,8 @@ function TablaNextUi({
         }}
         classNames={{
           tr: 'h-[50px]',
+          wrapper: `h-[calc(100vh-250px)] overflow-hidden`,
+          base: 'overflow-hidden',
         }}
       >
         <TableHeader columns={columnsArray}>
