@@ -12,10 +12,13 @@ function MapMain() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    mapApi.getAll().then((res) => {
-      setMaps(res.data);
-      setIsLoading(false);
-    });
+    mapApi
+      .getAll()
+      .then((res) => {
+        setMaps(res.data);
+        setIsLoading(false);
+      })
+      .catch(() => setIsLoading(true));
   }, []);
 
   return (
