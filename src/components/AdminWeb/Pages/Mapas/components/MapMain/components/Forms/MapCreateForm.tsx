@@ -62,9 +62,9 @@ function MapCreateForm({ onCloseModal }: { onCloseModal: () => void }) {
   };
 
   return (
-    <div className="flex p-3 flex-col items-center gap-2">
+    <div className="flex p-3 flex-col items-center justify-center gap-2">
       <h4 className="md:hidden text-3xl font-bold">Crear mapa</h4>
-      <div className="w-full">
+      <div className="md:w-auto w-full">
         <Input
           placeholder="Ingrese el nombre"
           label="Nombre"
