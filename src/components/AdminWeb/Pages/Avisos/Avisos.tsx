@@ -25,7 +25,7 @@ function Avisos() {
     currentPages,
     setCurrentPage,
     rowsPerPage,
-    totalItems,
+    pages,
     setTotalItems,
     setPages,
   } = useTabla();
@@ -169,7 +169,7 @@ function Avisos() {
           loading={loading}
           title="Avisos"
           currentPage={currentPages}
-          totalItems={totalItems}
+          totalPages={pages}
           getData={GetData}
           setCurrentPage={setCurrentPage}
         >

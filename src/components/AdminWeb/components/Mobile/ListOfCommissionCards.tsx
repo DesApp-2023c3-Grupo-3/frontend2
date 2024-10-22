@@ -17,7 +17,7 @@ function ListOfCommissionCards({
           key={commission.id}
           onClick={() => handleCardClick && handleCardClick(commission)}
         >
-          <CardMobileInfo.Picture text={commission.name} />
+          <CardMobileInfo.Picture text={commission.name[0].toUpperCase()} />
           <CardMobileInfo.Name>{commission.subject.name}</CardMobileInfo.Name>
           <CardMobileInfo.Text>
             Aula: {commission.classroom.name}

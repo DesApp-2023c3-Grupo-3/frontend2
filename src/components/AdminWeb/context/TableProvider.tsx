@@ -24,6 +24,10 @@ interface TablaContextType {
   setTotalItems: React.Dispatch<React.SetStateAction<number>>;
   pages: number;
   setPages: React.Dispatch<React.SetStateAction<number>>;
+  pagesC: number;
+  setPagesC: React.Dispatch<React.SetStateAction<number>>;
+  pagesU: number;
+  setPagesU: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export const TablaContext = createContext<TablaContextType>({
@@ -41,14 +45,18 @@ export const TablaContext = createContext<TablaContextType>({
   setCurrentPageU: () => {},
   rowsPerPage: 7,
   setRowsPerPage: () => {},
-  rowsPerPageC: 12,
+  rowsPerPageC: 7,
   setRowsPerPageC: () => {},
-  rowsPerPageU: 12,
+  rowsPerPageU: 7,
   setRowsPerPageU: () => {},
   totalItems: 0,
   setTotalItems: () => {},
   pages: 0,
   setPages: () => {},
+  pagesC: 0,
+  setPagesC: () => {},
+  pagesU: 0,
+  setPagesU: () => {},
 });
 
 function TablaProvider({ children }: { children: ReactNode }) {
@@ -59,10 +67,12 @@ function TablaProvider({ children }: { children: ReactNode }) {
   const [currentPagesC, setCurrentPageC] = useState(1);
   const [currentPagesU, setCurrentPageU] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(7);
-  const [rowsPerPageC, setRowsPerPageC] = useState(12);
-  const [rowsPerPageU, setRowsPerPageU] = useState(12);
+  const [rowsPerPageC, setRowsPerPageC] = useState(7);
+  const [rowsPerPageU, setRowsPerPageU] = useState(7);
   const [totalItems, setTotalItems] = useState(0);
   const [pages, setPages] = useState(0);
+  const [pagesC, setPagesC] = useState(0);
+  const [pagesU, setPagesU] = useState(0);
 
   return (
     <TablaContext.Provider
@@ -89,6 +99,10 @@ function TablaProvider({ children }: { children: ReactNode }) {
         setTotalItems,
         pages,
         setPages,
+        pagesC,
+        setPagesC,
+        pagesU,
+        setPagesU,
       }}
     >
       {children}

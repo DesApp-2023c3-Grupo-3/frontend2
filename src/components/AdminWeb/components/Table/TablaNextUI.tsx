@@ -41,6 +41,8 @@ function TablaNextUi({
     setCurrentPageU,
     totalItems,
     pages,
+    pagesC,
+    pagesU,
     setRowsPerPage,
     rowsPerPage,
     rowsPerPageC,
@@ -49,6 +51,8 @@ function TablaNextUi({
     setCurrentPage,
     setTotalItems,
     setPages,
+    setPagesC,
+    setPagesU,
     setRowsPerPageU,
   } = useTabla();
 
@@ -92,16 +96,28 @@ function TablaNextUi({
     }
   };
 
+  const pagesType = (type: number) => {
+    switch (type) {
+      case 1:
+        return pages;
+      case 2:
+        return pagesC;
+      case 3:
+        return pagesU;
+      default:
+        return 0;
+    }
+  };
+
   const bottomContent = React.useMemo(() => {
     return (
       <Pagination
         classNames={{
-          base: 'flex justify-center items-center overflow-x-hidden',
-          item: 'h-[100%]',
+          base: 'flex justify-center items-center m-[0px] p-[20px] overflow-hidden',
         }}
         color="primary"
         showControls
-        total={pages}
+        total={pagesType(type)}
         page={currentPageType(type)}
         onChange={handlePageChange}
         variant="light"
@@ -210,7 +226,7 @@ function TablaNextUi({
       .then((r) => {
         setDatasJSON(r.data.data);
         setTotalItems(r.data.total);
-        setPages(r.data.totalPages);
+        setPagesU(r.data.totalPages);
       })
       .catch((e) => {
         console.error(e);
@@ -223,7 +239,7 @@ function TablaNextUi({
       .then((r) => {
         setDatasJSON(r.data.data);
         setTotalItems(r.data.total);
-        setPages(r.data.totalPages);
+        setPagesC(r.data.totalPages);
       })
       .catch((e) => {
         console.error(e);

@@ -203,7 +203,7 @@ function Usuarios() {
     });
   };
 
-  const { usersJSON, setUsersJSON, setPages, setTotalItems, currentPagesU } =
+  const { usersJSON, setUsersJSON, setPagesU, setTotalItems, currentPagesU } =
     useTabla();
 
   const updateUsersTable = async () => {
@@ -217,7 +217,7 @@ function Usuarios() {
       .then((r) => {
         setUsersJSON(r.data.data);
         setTotalItems(r.data.total);
-        setPages(r.data.totalPages);
+        setPagesU(r.data.totalPages);
         setLoading(false);
       })
       .catch((e) => {

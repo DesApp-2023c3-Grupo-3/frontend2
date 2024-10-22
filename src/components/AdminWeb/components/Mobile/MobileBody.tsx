@@ -14,7 +14,7 @@ interface MobileBodyProps {
   title: string;
   ListOfData: React.ReactElement;
   currentPage?: number;
-  totalItems?: number;
+  totalPages?: number;
   setCurrentPage?: (page: number) => void;
   getData?: () => void;
 }
@@ -28,7 +28,7 @@ export function MobileBody({
   children,
   title,
   currentPage,
-  totalItems,
+  totalPages,
   getData,
   setCurrentPage,
 }: MobileBodyProps) {
@@ -73,9 +73,11 @@ export function MobileBody({
         {ListOfData}
         <Pagination
           color="primary"
-          className="scrollbar-none flex justify-center w-full"
+          classNames={{
+            base: 'flex justify-center items-center m-[0px] p-[20px] overflow-hidden',
+          }}
           showControls
-          total={totalItems ? Math.ceil(totalItems / 10) : 0}
+          total={totalPages ? totalPages : 0}
           page={currentPage}
           onChange={handlePageChange}
         />
