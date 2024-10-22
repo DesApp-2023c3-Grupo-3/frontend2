@@ -30,12 +30,12 @@ function Comisiones() {
 
   const [loading, setLoading] = useState(false);
 
-  const { setSearchTerm } = useSearchTerm();
+  const { searchTerm, setSearchTerm } = useSearchTerm();
 
   const updateCommissionsTable = () => {
     setLoading(true);
     commissionApi
-      .getPaginated(currentPagesC, rowsPerPageC)
+      .getPaginated(currentPagesC, rowsPerPageC, searchTerm)
       .then((r) => {
         setCommissionsJSON(r.data.data);
         setTotalItems(r.data.total);

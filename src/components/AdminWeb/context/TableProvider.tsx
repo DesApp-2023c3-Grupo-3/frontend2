@@ -43,7 +43,7 @@ export const TablaContext = createContext<TablaContextType>({
   setRowsPerPage: () => {},
   rowsPerPageC: 12,
   setRowsPerPageC: () => {},
-  rowsPerPageU: 5,
+  rowsPerPageU: 12,
   setRowsPerPageU: () => {},
   totalItems: 0,
   setTotalItems: () => {},
@@ -60,7 +60,7 @@ function TablaProvider({ children }: { children: ReactNode }) {
   const [currentPagesU, setCurrentPageU] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(7);
   const [rowsPerPageC, setRowsPerPageC] = useState(12);
-  const [rowsPerPageU, setRowsPerPageU] = useState(5);
+  const [rowsPerPageU, setRowsPerPageU] = useState(12);
   const [totalItems, setTotalItems] = useState(0);
   const [pages, setPages] = useState(0);
 

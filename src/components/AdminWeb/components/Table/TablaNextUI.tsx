@@ -96,10 +96,10 @@ function TablaNextUi({
     return (
       <Pagination
         classNames={{
-          base: 'overflow-hidden',
+          base: 'flex justify-center items-center overflow-x-hidden',
+          item: 'h-[100%]',
         }}
         color="primary"
-        className="scrollbar-none flex justify-center w-full mt-[20px]"
         showControls
         total={pages}
         page={currentPageType(type)}
@@ -119,19 +119,24 @@ function TablaNextUi({
     [],
   );
 
-  const onRowsPerPageChange = useCallback(
-    (e: React.ChangeEvent<HTMLSelectElement>) => {
-      if (type === 1) {
-        setRowsPerPage(Number(e.target.value));
-      } else if (type === 2) {
-        setRowsPerPageC(Number(e.target.value));
-      } else {
-        setRowsPerPageU(Number(e.target.value));
-      }
-      setCurrentPageType(type, 1);
-    },
-    [setRowsPerPage, setCurrentPage, setRowsPerPageC, setRowsPerPageU],
-  );
+  const setRowsType = (type: number, rows: number) => {
+    switch (type) {
+      case 1:
+        setRowsPerPage(rows);
+        break;
+      case 2:
+        setRowsPerPageC(rows);
+        break;
+      case 3:
+        setRowsPerPageU(rows);
+        break;
+    }
+  };
+
+  const onRowsPerPageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setRowsType(type, parseInt(e.target.value));
+    setCurrentPageType(type, 1);
+  };
 
   const topContent = React.useMemo(() => {
     return (
@@ -154,6 +159,26 @@ function TablaNextUi({
             {type === 1 ? 'Avisos' : type === 2 ? 'Comisiones' : 'Usuarios'}{' '}
             totales: {totalItems}{' '}
           </span>
+          <label className="flex items-center text-default-400 text-small">
+            Filas por página:
+            <select
+              className="bg-transparent outline-none text-default-400 text-small"
+              onChange={onRowsPerPageChange}
+              value={
+                type === 1
+                  ? rowsPerPage
+                  : type === 2
+                  ? rowsPerPageC
+                  : rowsPerPageU
+              }
+            >
+              <option value="5">5</option>
+              <option value="7">7</option>
+              <option value="10">10</option>
+              <option value="12">12</option>
+              <option value="15">15</option>
+            </select>
+          </label>
         </div>
       </div>
     );
@@ -167,7 +192,6 @@ function TablaNextUi({
   ]);
 
   const getAdvertising = () => {
-    adjustItemsPerPage();
     advertisingsAPI
       .getPaginated(currentPages, rowsPerPage, searchTerm)
       .then((r) => {
@@ -181,7 +205,6 @@ function TablaNextUi({
   };
 
   const getUser = () => {
-    adjustItemsPerPage();
     userApi
       .getPaginated(currentPagesU, rowsPerPageU, searchTerm)
       .then((r) => {
@@ -195,7 +218,6 @@ function TablaNextUi({
   };
 
   const getCommision = () => {
-    adjustItemsPerPage();
     commissionApi
       .getPaginated(currentPagesC, rowsPerPageC, searchTerm)
       .then((r) => {
@@ -211,45 +233,23 @@ function TablaNextUi({
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
   const [firstRender, setFirstRender] = React.useState(true);
-  const adjustItemsPerPage = () => {
-    const rowA = 70;
-    const row = 40;
-
-    const windowHeight = window.innerHeight - 450;
-    const maxRowsToShow = Math.floor(windowHeight / (type === 1 ? rowA : row));
-    if (maxRowsToShow <= 0) {
-      typeSetRowsPerPage(type, 1);
-    } else {
-      typeSetRowsPerPage(type, maxRowsToShow);
-    }
-  };
 
   useEffect(() => {
-    adjustItemsPerPage();
     if (firstRender) {
       setFirstRender(false);
     } else {
       switch (type) {
         case 1:
-          adjustItemsPerPage();
           getAdvertising();
           break;
         case 2:
-          adjustItemsPerPage();
           getCommision();
           break;
         case 3:
-          adjustItemsPerPage();
           getUser();
           break;
       }
     }
-
-    window.addEventListener('resize', adjustItemsPerPage);
-
-    return () => {
-      window.removeEventListener('resize', adjustItemsPerPage);
-    };
   }, [
     currentPages,
     currentPagesC,
@@ -264,24 +264,10 @@ function TablaNextUi({
     setRowsPerPageU,
   ]);
 
-  const typeSetRowsPerPage = (type: number, rows: number) => {
-    switch (type) {
-      case 1:
-        setRowsPerPage(rows);
-        break;
-      case 2:
-        setRowsPerPageC(rows);
-        break;
-      case 3:
-        setRowsPerPageU(rows);
-        break;
-    }
-  };
-
   return (
     <div>
       <Table
-        className="mb-[20px]"
+        className="pb-[20px]"
         aria-labelledby="Tabla"
         isStriped
         selectionMode="single"
@@ -294,7 +280,7 @@ function TablaNextUi({
         }}
         classNames={{
           tr: `${type === 1 ? 'h-[50px]' : 'h-[40px]'} `,
-          wrapper: `h-[calc(100vh-250px)] overflow-hidden`,
+          wrapper: `h-[calc(100vh-250px)]`,
           base: 'overflow-hidden',
         }}
       >

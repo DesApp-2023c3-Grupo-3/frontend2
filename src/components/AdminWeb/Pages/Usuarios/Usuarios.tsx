@@ -55,7 +55,7 @@ function Usuarios() {
   const [isEditing, setIsEditing] = useState(false);
 
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const { setSearchTerm } = useSearchTerm();
+  const { searchTerm, setSearchTerm } = useSearchTerm();
 
   const [fields, setFields] = useState(initialStateFields);
 
@@ -209,7 +209,11 @@ function Usuarios() {
   const updateUsersTable = async () => {
     setLoading(true);
     userApi
-      .getPaginated(currentPagesU, Math.floor(window.innerHeight / 70), '')
+      .getPaginated(
+        currentPagesU,
+        Math.floor(window.innerHeight / 70),
+        searchTerm,
+      )
       .then((r) => {
         setUsersJSON(r.data.data);
         setTotalItems(r.data.total);

@@ -35,7 +35,7 @@ function Avisos() {
 
   const [loading, setLoading] = React.useState(false);
 
-  const { setSearchTerm } = useSearchTerm();
+  const { searchTerm, setSearchTerm } = useSearchTerm();
 
   const handleRowClick = (advertising: Advertising) => {
     setEditRow(advertising);
@@ -126,7 +126,7 @@ function Avisos() {
   const GetData = () => {
     setLoading(true);
     advertisingsAPI
-      .getPaginated(currentPages, rowsPerPage)
+      .getPaginated(currentPages, rowsPerPage, searchTerm)
       .then((r) => {
         setAdvertisingJSON(r.data.data);
         setTotalItems(r.data.total);
