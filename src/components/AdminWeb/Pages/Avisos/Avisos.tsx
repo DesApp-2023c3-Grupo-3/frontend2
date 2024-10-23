@@ -25,7 +25,7 @@ function Avisos() {
     currentPages,
     setCurrentPage,
     rowsPerPage,
-    totalItems,
+    pages,
     setTotalItems,
     setPages,
   } = useTabla();
@@ -35,7 +35,7 @@ function Avisos() {
 
   const [loading, setLoading] = React.useState(false);
 
-  const { setSearchTerm } = useSearchTerm();
+  const { searchTerm, setSearchTerm } = useSearchTerm();
 
   const handleRowClick = (advertising: Advertising) => {
     setEditRow(advertising);
@@ -126,7 +126,7 @@ function Avisos() {
   const GetData = () => {
     setLoading(true);
     advertisingsAPI
-      .getPaginated(currentPages, rowsPerPage)
+      .getPaginated(currentPages, rowsPerPage, searchTerm)
       .then((r) => {
         setAdvertisingJSON(r.data.data);
         setTotalItems(r.data.total);
@@ -169,7 +169,7 @@ function Avisos() {
           loading={loading}
           title="Avisos"
           currentPage={currentPages}
-          totalItems={totalItems}
+          totalPages={pages}
           getData={GetData}
           setCurrentPage={setCurrentPage}
         >

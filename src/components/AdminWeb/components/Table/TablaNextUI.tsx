@@ -35,8 +35,14 @@ function TablaNextUi({
 }: TablaNextUiProps) {
   const {
     currentPages,
+    currentPagesC,
+    currentPagesU,
+    setCurrentPageC,
+    setCurrentPageU,
     totalItems,
     pages,
+    pagesC,
+    pagesU,
     setRowsPerPage,
     rowsPerPage,
     rowsPerPageC,
@@ -45,6 +51,8 @@ function TablaNextUi({
     setCurrentPage,
     setTotalItems,
     setPages,
+    setPagesC,
+    setPagesU,
     setRowsPerPageU,
   } = useTabla();
 
@@ -60,46 +68,91 @@ function TablaNextUi({
   };
 
   const handlePageChange = useCallback((page: number) => {
-    setCurrentPage(page);
+    setCurrentPageType(type, page);
   }, []);
+
+  const currentPageType = (type: number) => {
+    switch (type) {
+      case 1:
+        return currentPages;
+      case 2:
+        return currentPagesC;
+      case 3:
+        return currentPagesU;
+    }
+  };
+
+  const setCurrentPageType = (type: number, page: number) => {
+    switch (type) {
+      case 1:
+        setCurrentPage(page);
+        break;
+      case 2:
+        setCurrentPageC(page);
+        break;
+      case 3:
+        setCurrentPageU(page);
+        break;
+    }
+  };
+
+  const pagesType = (type: number) => {
+    switch (type) {
+      case 1:
+        return pages;
+      case 2:
+        return pagesC;
+      case 3:
+        return pagesU;
+      default:
+        return 0;
+    }
+  };
 
   const bottomContent = React.useMemo(() => {
     return (
       <Pagination
+        classNames={{
+          base: 'flex justify-center items-center m-[0px] p-[20px] overflow-hidden',
+        }}
         color="primary"
-        className="scrollbar-none flex justify-center w-full mt-[20px]"
         showControls
-        total={pages}
-        page={currentPages}
+        total={pagesType(type)}
+        page={currentPageType(type)}
         onChange={handlePageChange}
         variant="light"
       ></Pagination>
     );
-  }, [pages, currentPages]);
+  }, [pages, currentPagesC, currentPagesU, currentPages]);
 
   const { searchTerm, setSearchTerm } = useSearchTerm();
 
   const onSearchChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setSearchTerm(event.target.value);
-      setCurrentPage(1);
+      setCurrentPageType(type, 1);
     },
     [],
   );
 
-  const onRowsPerPageChange = useCallback(
-    (e: React.ChangeEvent<HTMLSelectElement>) => {
-      if (type === 1) {
-        setRowsPerPage(Number(e.target.value));
-      } else if (type === 2) {
-        setRowsPerPageC(Number(e.target.value));
-      } else {
-        setRowsPerPageU(Number(e.target.value));
-      }
-      setCurrentPage(1);
-    },
-    [setRowsPerPage, setCurrentPage, setRowsPerPageC, setRowsPerPageU],
-  );
+  const setRowsType = (type: number, rows: number) => {
+    switch (type) {
+      case 1:
+        setRowsPerPage(rows);
+        break;
+      case 2:
+        setRowsPerPageC(rows);
+        break;
+      case 3:
+        setRowsPerPageU(rows);
+        break;
+    }
+  };
+
+  const onRowsPerPageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setRowsType(type, parseInt(e.target.value));
+    setCurrentPageType(type, 1);
+  };
 
   const topContent = React.useMemo(() => {
     return (
@@ -169,11 +222,11 @@ function TablaNextUi({
 
   const getUser = () => {
     userApi
-      .getPaginated(currentPages, rowsPerPageU, searchTerm)
+      .getPaginated(currentPagesU, rowsPerPageU, searchTerm)
       .then((r) => {
         setDatasJSON(r.data.data);
         setTotalItems(r.data.total);
-        setPages(r.data.totalPages);
+        setPagesU(r.data.totalPages);
       })
       .catch((e) => {
         console.error(e);
@@ -182,11 +235,11 @@ function TablaNextUi({
 
   const getCommision = () => {
     commissionApi
-      .getPaginated(currentPages, rowsPerPageC, searchTerm)
+      .getPaginated(currentPagesC, rowsPerPageC, searchTerm)
       .then((r) => {
         setDatasJSON(r.data.data);
         setTotalItems(r.data.total);
-        setPages(r.data.totalPages);
+        setPagesC(r.data.totalPages);
       })
       .catch((e) => {
         console.error(e);
@@ -215,17 +268,22 @@ function TablaNextUi({
     }
   }, [
     currentPages,
+    currentPagesC,
+    currentPagesU,
     rowsPerPage,
     setDatasJSON,
     debouncedSearchTerm,
     rowsPerPageU,
     rowsPerPageC,
+    setRowsPerPage,
+    setRowsPerPageC,
+    setRowsPerPageU,
   ]);
 
   return (
     <div>
       <Table
-        className="mb-[20px]"
+        className="pb-[20px]"
         aria-labelledby="Tabla"
         isStriped
         selectionMode="single"
@@ -233,6 +291,14 @@ function TablaNextUi({
         isCompact
         bottomContent={bottomContent}
         topContent={topContent}
+        onRowAction={(row) => {
+          handleRowClick(datasJSON[parseInt(row.toLocaleString())]);
+        }}
+        classNames={{
+          tr: `${type === 1 ? 'h-[50px]' : 'h-[40px]'} `,
+          wrapper: `h-[calc(100vh-250px)]`,
+          base: 'overflow-hidden',
+        }}
       >
         <TableHeader columns={columnsArray}>
           {(column) => <TableColumn key={column.key}>{column.key}</TableColumn>}
@@ -242,10 +308,7 @@ function TablaNextUi({
             <TableRow key={index}>
               {columnsArray.map((columnName) => {
                 return (
-                  <TableCell
-                    onClick={() => handleRowClick(data)}
-                    key={columnName.key}
-                  >
+                  <TableCell key={columnName.key} itemRef="ref">
                     {columns.get(columnName.key)?.call(data, data) || '-'}
                   </TableCell>
                 );

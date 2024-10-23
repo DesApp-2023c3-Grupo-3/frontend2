@@ -55,7 +55,7 @@ function Usuarios() {
   const [isEditing, setIsEditing] = useState(false);
 
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const { setSearchTerm } = useSearchTerm();
+  const { searchTerm, setSearchTerm } = useSearchTerm();
 
   const [fields, setFields] = useState(initialStateFields);
 
@@ -203,23 +203,21 @@ function Usuarios() {
     });
   };
 
-  const {
-    usersJSON,
-    setUsersJSON,
-    rowsPerPageU,
-    setPages,
-    setTotalItems,
-    currentPages,
-  } = useTabla();
+  const { usersJSON, setUsersJSON, setPagesU, setTotalItems, currentPagesU } =
+    useTabla();
 
   const updateUsersTable = async () => {
     setLoading(true);
     userApi
-      .getPaginated(currentPages, rowsPerPageU)
+      .getPaginated(
+        currentPagesU,
+        Math.floor(window.innerHeight / 70),
+        searchTerm,
+      )
       .then((r) => {
         setUsersJSON(r.data.data);
         setTotalItems(r.data.total);
-        setPages(r.data.totalPages);
+        setPagesU(r.data.totalPages);
         setLoading(false);
       })
       .catch((e) => {

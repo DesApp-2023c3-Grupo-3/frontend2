@@ -22,24 +22,26 @@ function Comisiones() {
   const {
     commissionsJSON,
     setCommissionsJSON,
-    currentPages,
-    setPages,
+    currentPagesC,
+    setPagesC,
+    pagesC,
     setTotalItems,
     rowsPerPageC,
+    setCurrentPageC,
   } = useTabla();
 
   const [loading, setLoading] = useState(false);
 
-  const { setSearchTerm } = useSearchTerm();
+  const { searchTerm, setSearchTerm } = useSearchTerm();
 
   const updateCommissionsTable = () => {
     setLoading(true);
     commissionApi
-      .getPaginated(currentPages, rowsPerPageC)
+      .getPaginated(currentPagesC, rowsPerPageC, searchTerm)
       .then((r) => {
         setCommissionsJSON(r.data.data);
         setTotalItems(r.data.total);
-        setPages(r.data.totalPages);
+        setPagesC(r.data.totalPages);
         setLoading(false);
       })
       .catch((error) => {
@@ -153,6 +155,10 @@ function Comisiones() {
       </Helmet>
       {isMobile ? (
         <MobileBody
+          currentPage={currentPagesC}
+          getData={updateCommissionsTable}
+          totalPages={pagesC}
+          setCurrentPage={setCurrentPageC}
           isOpen={isOpen}
           onCloseClick={closeModal}
           openModal={openModal}
