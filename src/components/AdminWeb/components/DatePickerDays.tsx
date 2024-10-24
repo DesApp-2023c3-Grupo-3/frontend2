@@ -29,8 +29,6 @@ function DatePickerDays({
     return date ? parseDate(date.format('YYYY-MM-DD')) : null;
   };
 
-  console.log(selectedDateFinal);
-
   const dateValueToDayjs = (dateValue: DateValue | null) => {
     if (dateValue) {
       const { year, month, day } = dateValue;
