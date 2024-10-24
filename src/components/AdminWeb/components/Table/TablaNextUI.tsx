@@ -13,6 +13,8 @@ import useSearchTerm from '../../hooks/useSearchTermAdvertising';
 import { useTabla } from '../../hooks/useTable';
 import useDebounce from '../../hooks/useDebounce';
 import { advertisingsAPI } from '../../../../services/advertisings';
+import { userApi } from '../../../../services/users';
+import { commissionApi } from '../../../../services/commissions';
 
 interface TablaNextUiProps {
   datasJSON: any[];
@@ -33,13 +35,25 @@ function TablaNextUi({
 }: TablaNextUiProps) {
   const {
     currentPages,
+    currentPagesC,
+    currentPagesU,
+    setCurrentPageC,
+    setCurrentPageU,
     totalItems,
     pages,
+    pagesC,
+    pagesU,
     setRowsPerPage,
     rowsPerPage,
+    rowsPerPageC,
+    rowsPerPageU,
+    setRowsPerPageC,
     setCurrentPage,
     setTotalItems,
     setPages,
+    setPagesC,
+    setPagesU,
+    setRowsPerPageU,
   } = useTabla();
 
   const columnsArray = Array.from(columns, ([key, handler]) => ({
@@ -54,40 +68,91 @@ function TablaNextUi({
   };
 
   const handlePageChange = useCallback((page: number) => {
-    setCurrentPage(page);
+    setCurrentPageType(type, page);
   }, []);
+
+  const currentPageType = (type: number) => {
+    switch (type) {
+      case 1:
+        return currentPages;
+      case 2:
+        return currentPagesC;
+      case 3:
+        return currentPagesU;
+    }
+  };
+
+  const setCurrentPageType = (type: number, page: number) => {
+    switch (type) {
+      case 1:
+        setCurrentPage(page);
+        break;
+      case 2:
+        setCurrentPageC(page);
+        break;
+      case 3:
+        setCurrentPageU(page);
+        break;
+    }
+  };
+
+  const pagesType = (type: number) => {
+    switch (type) {
+      case 1:
+        return pages;
+      case 2:
+        return pagesC;
+      case 3:
+        return pagesU;
+      default:
+        return 0;
+    }
+  };
 
   const bottomContent = React.useMemo(() => {
     return (
       <Pagination
+        classNames={{
+          base: 'flex justify-center items-center m-[0px] p-[20px] overflow-hidden',
+        }}
         color="primary"
-        className="scrollbar-none flex justify-center w-full mt-[20px]"
         showControls
-        total={pages}
-        page={currentPages}
+        total={pagesType(type)}
+        page={currentPageType(type)}
         onChange={handlePageChange}
         variant="light"
       ></Pagination>
     );
-  }, [pages, currentPages]);
+  }, [pages, currentPagesC, currentPagesU, currentPages]);
 
   const { searchTerm, setSearchTerm } = useSearchTerm();
 
   const onSearchChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setSearchTerm(event.target.value);
-      setCurrentPage(1);
+      setCurrentPageType(type, 1);
     },
     [],
   );
 
-  const onRowsPerPageChange = useCallback(
-    (e: React.ChangeEvent<HTMLSelectElement>) => {
-      setRowsPerPage(Number(e.target.value));
-      setCurrentPage(1);
-    },
-    [setRowsPerPage, setCurrentPage],
-  );
+  const setRowsType = (type: number, rows: number) => {
+    switch (type) {
+      case 1:
+        setRowsPerPage(rows);
+        break;
+      case 2:
+        setRowsPerPageC(rows);
+        break;
+      case 3:
+        setRowsPerPageU(rows);
+        break;
+    }
+  };
+
+  const onRowsPerPageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setRowsType(type, parseInt(e.target.value));
+    setCurrentPageType(type, 1);
+  };
 
   const topContent = React.useMemo(() => {
     return (
@@ -115,7 +180,13 @@ function TablaNextUi({
             <select
               className="bg-transparent outline-none text-default-400 text-small"
               onChange={onRowsPerPageChange}
-              value={rowsPerPage}
+              value={
+                type === 1
+                  ? rowsPerPage
+                  : type === 2
+                  ? rowsPerPageC
+                  : rowsPerPageU
+              }
             >
               <option value="5">5</option>
               <option value="7">7</option>
@@ -149,30 +220,70 @@ function TablaNextUi({
       });
   };
 
+  const getUser = () => {
+    userApi
+      .getPaginated(currentPagesU, rowsPerPageU, searchTerm)
+      .then((r) => {
+        setDatasJSON(r.data.data);
+        setTotalItems(r.data.total);
+        setPagesU(r.data.totalPages);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  };
+
+  const getCommision = () => {
+    commissionApi
+      .getPaginated(currentPagesC, rowsPerPageC, searchTerm)
+      .then((r) => {
+        setDatasJSON(r.data.data);
+        setTotalItems(r.data.total);
+        setPagesC(r.data.totalPages);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  };
+
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
   const [firstRender, setFirstRender] = React.useState(true);
 
   useEffect(() => {
-    switch (type) {
-      case 1:
-        if (!firstRender) {
+    if (firstRender) {
+      setFirstRender(false);
+    } else {
+      switch (type) {
+        case 1:
           getAdvertising();
-        } else {
-          setFirstRender(false);
-        }
-        break;
-      case 2:
-        break;
-      case 3:
-        break;
+          break;
+        case 2:
+          getCommision();
+          break;
+        case 3:
+          getUser();
+          break;
+      }
     }
-  }, [currentPages, rowsPerPage, setDatasJSON, debouncedSearchTerm]);
+  }, [
+    currentPages,
+    currentPagesC,
+    currentPagesU,
+    rowsPerPage,
+    setDatasJSON,
+    debouncedSearchTerm,
+    rowsPerPageU,
+    rowsPerPageC,
+    setRowsPerPage,
+    setRowsPerPageC,
+    setRowsPerPageU,
+  ]);
 
   return (
     <div>
       <Table
-        className="mb-[20px]"
+        className="pb-[20px]"
         aria-labelledby="Tabla"
         isStriped
         selectionMode="single"
@@ -180,6 +291,14 @@ function TablaNextUi({
         isCompact
         bottomContent={bottomContent}
         topContent={topContent}
+        onRowAction={(row) => {
+          handleRowClick(datasJSON[parseInt(row.toLocaleString())]);
+        }}
+        classNames={{
+          tr: `${type === 1 ? 'h-[50px]' : 'h-[40px]'} `,
+          wrapper: `h-[calc(100vh-250px)]`,
+          base: 'overflow-hidden',
+        }}
       >
         <TableHeader columns={columnsArray}>
           {(column) => <TableColumn key={column.key}>{column.key}</TableColumn>}
@@ -189,10 +308,7 @@ function TablaNextUi({
             <TableRow key={index}>
               {columnsArray.map((columnName) => {
                 return (
-                  <TableCell
-                    onClick={() => handleRowClick(data)}
-                    key={columnName.key}
-                  >
+                  <TableCell key={columnName.key} itemRef="ref">
                     {columns.get(columnName.key)?.call(data, data) || '-'}
                   </TableCell>
                 );

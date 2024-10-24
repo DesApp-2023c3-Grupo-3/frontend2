@@ -22,40 +22,34 @@ function Comisiones() {
   const {
     commissionsJSON,
     setCommissionsJSON,
-    setPages,
+    currentPagesC,
+    setPagesC,
+    pagesC,
     setTotalItems,
-    rowsPerPage,
+    rowsPerPageC,
+    setCurrentPageC,
   } = useTabla();
 
   const [loading, setLoading] = useState(false);
 
-  const { setSearchTerm } = useSearchTerm();
+  const { searchTerm, setSearchTerm } = useSearchTerm();
 
-  const updateCommissionsTable = async () => {
+  const updateCommissionsTable = () => {
     setLoading(true);
-    try {
-      const updatedCommissions: { data: Commission[] } =
-        await commissionApi.getAll();
-      setCommissionsJSON(updatedCommissions.data || []);
-      setTotalItems(updatedCommissions.data.length);
-      setPages(Math.ceil(updatedCommissions.data.length / rowsPerPage));
-      setLoading(false);
-    } catch (error) {
-      console.error(error);
-    }
+    commissionApi
+      .getPaginated(currentPagesC, rowsPerPageC, searchTerm)
+      .then((r) => {
+        setCommissionsJSON(r.data.data);
+        setTotalItems(r.data.total);
+        setPagesC(r.data.totalPages);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   const { user } = useUser();
-
-  useEffect(() => {
-    if (user) {
-      updateCommissionsTable();
-    }
-
-    return () => {
-      setSearchTerm('');
-    };
-  }, [user]);
 
   const { isOpen, openModal, closeModal } = useModal();
 
@@ -146,12 +140,13 @@ function Comisiones() {
   };
 
   useEffect(() => {
-    updateCommissionsTable();
-
+    if (user) {
+      updateCommissionsTable();
+    }
     return () => {
       setSearchTerm('');
     };
-  }, []);
+  }, [user]);
 
   return (
     <>
@@ -160,6 +155,10 @@ function Comisiones() {
       </Helmet>
       {isMobile ? (
         <MobileBody
+          currentPage={currentPagesC}
+          getData={updateCommissionsTable}
+          totalPages={pagesC}
+          setCurrentPage={setCurrentPageC}
           isOpen={isOpen}
           onCloseClick={closeModal}
           openModal={openModal}
