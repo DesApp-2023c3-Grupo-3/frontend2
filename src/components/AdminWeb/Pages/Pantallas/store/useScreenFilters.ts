@@ -2,7 +2,7 @@ import { create } from "zustand";
 
 export interface Screen {
     id: number
-    screenTitle: string, 
+    screenTitle: string,
     sectorTitle: string,
     typeScreen: string,
     subscription: string,
@@ -10,32 +10,34 @@ export interface Screen {
     advertisingIntervalTime: number
     courseIntervalTime: number
     sector: {
-        id:number,
-        topic:string,
-        name:string
+        id: number,
+        topic: string,
+        name: string
     }
 }
 
 interface StoreScreen {
     screens: Screen[]
-    selectAllTheScreens: () => void
+    selectAllTheScreens: (screens: Screen[]) => void
     deselectAllTheScreens: () => void
-    selectScreen: (id:number) => void
-    addScreens: (screens:Screen[]) => void
+    selectScreen: (id: number) => void
+    addScreens: (screens: Screen[]) => void
 }
 
 export const useScreenFilters = create<StoreScreen>()((set, get) => ({
     screens: [],
 
-    selectAllTheScreens: () => {
-        const newScreens = get().screens.map(screen => {
-            screen.isSelected = true
+    selectAllTheScreens: (selectedScreens: Screen[]) => {
+        const newSelectedScreens = get().screens.map(screen => {
+            if (selectedScreens.some(selectedScreen => selectedScreen.id === screen.id)) {
+                screen.isSelected = true
+            }
             return screen
         })
         set({
-            screens: newScreens
+            screens: newSelectedScreens
         })
-    }, 
+    },
 
     deselectAllTheScreens: () => {
         const newScreens = get().screens.map(screen => {
@@ -47,24 +49,24 @@ export const useScreenFilters = create<StoreScreen>()((set, get) => ({
         })
     },
 
-    
-    selectScreen : (id:number) => {
+
+    selectScreen: (id: number) => {
         const newScreens = get().screens.map(screen => {
             const screenAux = screen
-            if(screenAux.id === id) {
-                screenAux.isSelected = !screenAux.isSelected 
+            if (screenAux.id === id) {
+                screenAux.isSelected = !screenAux.isSelected
             }
-            return screenAux     
+            return screenAux
         })
         set({
             screens: newScreens
         })
     },
 
-    addScreens: (screens:Screen[]) => {
+    addScreens: (screens: Screen[]) => {
         set({
             screens
         })
     }
-    
+
 }))
