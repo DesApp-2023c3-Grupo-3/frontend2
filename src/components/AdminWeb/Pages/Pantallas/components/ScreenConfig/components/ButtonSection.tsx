@@ -51,7 +51,9 @@ export default function ButtonSection({
   const updateScreens = () => {
     selectedScreens.forEach((screen) => {
       screen.typeScreen = String(cardSelected?.id);
-      screen.sector = selectedSector[0];
+      if (selectedScreens.length === 1) {
+        screen.sector = selectedSector[0];
+      }
     });
 
     const mappedScreens = selectedScreens.map((screen) => {
@@ -92,7 +94,10 @@ export default function ButtonSection({
     const newScreens = selectedScreens.map((screen) => {
       screen.advertisingIntervalTime = config.advertisingIntervalTime;
       screen.courseIntervalTime = config.courseIntervalTime;
-      screen.sectorTitle = selectedSector[0].name;
+
+      if (selectedScreens.length === 1) {
+        screen.sectorTitle = selectedSector[0].name;
+      }
 
       return screen;
     });
