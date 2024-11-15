@@ -47,14 +47,8 @@ function DatePickerDays({
           Fecha
         </span>
         <DatePicker
-          value={dayjsToDateValue(selectedDateInit)}
-          defaultValue={
-            !isCreate
-              ? today(getLocalTimeZone())
-              : dayjsToDateValue(selectedDateInit)
-          }
+          defaultValue={isCreate ? null : dayjsToDateValue(selectedDateInit)}
           onChange={(newDate: CalendarDate | null) => {
-            console.log(newDate?.year);
             if (!newDate) {
               onChangeStartDate(null);
             } else {
@@ -69,7 +63,7 @@ function DatePickerDays({
           minValue={today(getLocalTimeZone())}
         />
         <DatePicker
-          value={dayjsToDateValue(selectedDateFinal)}
+          defaultValue={dayjsToDateValue(selectedDateFinal)}
           onChange={(newDate: CalendarDate | null) => {
             if (newDate) {
               onChangeEndDate(

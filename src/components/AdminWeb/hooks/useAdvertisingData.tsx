@@ -26,6 +26,7 @@ export function useAdvertisingData(advertising: Advertising | undefined) {
       ? dayjs(advertising?.advertisingSchedules[0].schedule.startDate)
       : null,
   );
+
   const [endDate, setEndDate] = React.useState<Dayjs | null>(
     advertising
       ? dayjs(advertising?.advertisingSchedules[0].schedule.endDate)
