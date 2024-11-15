@@ -12,7 +12,10 @@ import Button from '../../../../components/Buttons/Button';
 import * as React from 'react';
 import { advertisingsAPI } from '../../../../../../services/advertisings';
 import { convertDaysToNumbers } from '../../../../utils/ConvertDaysToCode';
-import { validationDate } from '../../../../utils/validationDate';
+import {
+  validateYears,
+  validationDate,
+} from '../../../../utils/validationDate';
 import { useAdvertisingData } from '../../../../hooks/useAdvertisingData';
 import { InputName } from './InputNameAdvertising';
 import Loader from '../../../../components/Loader';
@@ -298,7 +301,9 @@ function FormAdvertising({
                 hasError={emptyFields.date && invalidDate()}
               />
               {ErrorMessage(
-                'Falta completar las fechas.',
+                validateYears(startDate, endDate)
+                  ? 'Fecha inválida'
+                  : 'Falta completar las fechas.',
                 emptyFields.date && invalidDate(),
               )}
             </div>

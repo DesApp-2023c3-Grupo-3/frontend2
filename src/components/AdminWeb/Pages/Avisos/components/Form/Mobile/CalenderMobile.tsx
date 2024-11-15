@@ -3,7 +3,10 @@ import DatePickerDays from '../../../../../components/DatePickerDays';
 import PickerTime from '../../../../../components/PickerTime';
 import DayPicker, { Days } from '../DayPicker';
 import ErrorMessage from '../../../../../components/ErrorMessage';
-import { validationDate } from '../../../../../utils/validationDate';
+import {
+  validateYears,
+  validationDate,
+} from '../../../../../utils/validationDate';
 
 interface CalenderMobileProp {
   setStartDate: (newStartDate: Dayjs) => void;
@@ -61,7 +64,9 @@ export function CalenderMobile({
           isCreate={isCreate}
         />
         {ErrorMessage(
-          'Falta completar las fechas.',
+          validateYears(startDate, endDate)
+            ? 'Fecha inválida'
+            : 'Falta completar las fechas.',
           emptyFields.date && invalidDate(),
         )}
       </div>

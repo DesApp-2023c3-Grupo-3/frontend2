@@ -2,7 +2,10 @@ import * as React from 'react';
 import Sectores from '../../../../components/Sectores';
 import DatePickerDays from '../../../../components/DatePickerDays';
 import ErrorMessage from '../../../../components/ErrorMessage';
-import { validationDate } from '../../../../utils/validationDate';
+import {
+  validateYears,
+  validationDate,
+} from '../../../../utils/validationDate';
 
 interface Step1Props {
   selectedSector: any[];
@@ -57,7 +60,9 @@ export function Step1({
           isCreate={true}
         />
         {ErrorMessage(
-          'Falta seleccionar las fechas.',
+          validateYears(startDate, endDate)
+            ? 'Fecha inválida'
+            : 'Falta seleccionar las fechas.',
           invalidDate() && emptyFields.date,
         )}
       </div>

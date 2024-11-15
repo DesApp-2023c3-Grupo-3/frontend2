@@ -5,7 +5,10 @@ import { Commission } from '../../../../types/customTypes';
 import { commissionApi } from '../../../../../../services/commissions';
 import Loader from '../../../../components/Loader';
 import ErrorMessage from '../../../../components/ErrorMessage';
-import { validationDate } from '../../../../utils/validationDate';
+import {
+  validateYears,
+  validationDate,
+} from '../../../../utils/validationDate';
 import DatePickerDays from '../../../../components/DatePickerDays';
 
 interface FormCommissionProps {
@@ -143,7 +146,9 @@ function FormCommission({
             />
             <div className="absoltue translate-x-[40px]">
               {ErrorMessage(
-                'Falta seleccionar las fechas.',
+                validateYears(startDate, endDate)
+                  ? 'Fecha inválida'
+                  : 'Falta seleccionar las fechas.',
                 invalidDate() && emptyFields.date,
               )}
             </div>
