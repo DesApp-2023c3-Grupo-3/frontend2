@@ -90,6 +90,7 @@ function FormAdvertising({
     endHour?.isValid() &&
     startDate?.isValid() &&
     endDate?.isValid() &&
+    !validateYears(startDate, endDate) &&
     selectedDays.length > 0 &&
     selectedSector.length > 0 &&
     ((!!text && text !== '<p><br></p>') || !!image || !!video);

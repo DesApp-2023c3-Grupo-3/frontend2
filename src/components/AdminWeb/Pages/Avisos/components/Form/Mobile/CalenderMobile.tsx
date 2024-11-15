@@ -9,12 +9,12 @@ import {
 } from '../../../../../utils/validationDate';
 
 interface CalenderMobileProp {
-  setStartDate: (newStartDate: Dayjs) => void;
-  setEndDate: (newEndDate: Dayjs) => void;
+  setStartDate: (newStartDate: Dayjs | null) => void;
+  setEndDate: (newEndDate: Dayjs | null) => void;
   startDate: null | Dayjs;
   endDate: null | Dayjs;
-  setStartHour: (a: Dayjs) => void;
-  setEndHour: (a: Dayjs) => void;
+  setStartHour: (a: Dayjs | null) => void;
+  setEndHour: (a: Dayjs | null) => void;
   startHour: null | Dayjs;
   endHour: null | Dayjs;
   setSelectedDays: (a: any) => void;

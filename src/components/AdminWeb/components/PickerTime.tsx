@@ -5,8 +5,8 @@ import dayjs, { Dayjs } from 'dayjs';
 import * as React from 'react';
 
 interface PickerTimeProps {
-  onChangeStartHour: (newStartHour: Dayjs) => void;
-  onChangeEndHour: (newEndHour: Dayjs) => void;
+  onChangeStartHour: (newStartHour: Dayjs | null) => void;
+  onChangeEndHour: (newEndHour: Dayjs | null) => void;
   selectedHourInit?: Dayjs | null;
   selectedHourFinal?: Dayjs | null;
   hasError: boolean;
@@ -24,6 +24,10 @@ function PickerTime({
   };
 
   const timeValueToDayjs = (time: Time) => {
+    if (time === null) {
+      return null;
+    }
+
     return dayjs(`${time.hour}:${time.minute}`, 'HH:mm');
   };
 
