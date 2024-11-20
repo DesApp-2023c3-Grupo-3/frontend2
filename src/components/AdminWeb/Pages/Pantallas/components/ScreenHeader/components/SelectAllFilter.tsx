@@ -3,9 +3,10 @@ import { useScreenFilters } from '../../../store/useScreenFilters';
 import { useFilters } from '../../../store/useFilters';
 
 function SelectAllFilter() {
-  const [isSelectedAll, setIsSelectedAll] = useFilters((state) => [
+  const [isSelectedAll, setIsSelectedAll, sector] = useFilters((state) => [
     state.isSelectedAll,
     state.setIsSelectedAll,
+    state.sector,
   ]);
   const [screens, deselectAllTheScreens, selectAllTheScreens] =
     useScreenFilters((state) => [
@@ -14,15 +15,19 @@ function SelectAllFilter() {
       state.selectAllTheScreens,
     ]);
 
+  const filteredScreens = screens.filter(
+    (screen) => screen.sectorTitle === sector || sector === 'Todos',
+  );
+
   useEffect(() => {
-    setIsSelectedAll(screens.every((screen) => screen.isSelected));
+    setIsSelectedAll(filteredScreens.every((screen) => screen.isSelected));
   }, [screens]);
 
   const handleChange = () => {
     if (isSelectedAll) {
       deselectAllTheScreens();
     } else {
-      selectAllTheScreens();
+      selectAllTheScreens(filteredScreens);
     }
   };
 
