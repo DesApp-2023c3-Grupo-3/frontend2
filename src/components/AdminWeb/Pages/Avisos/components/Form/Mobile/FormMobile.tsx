@@ -4,6 +4,7 @@ import React from 'react';
 import {
   validateTwoDates,
   validationDate,
+  validationHour,
 } from '../../../../../utils/validationDate';
 import { useAdvertisingData } from '../../../../../hooks/useAdvertisingData';
 import Button from '../../../../../components/Buttons/Button';
@@ -77,7 +78,7 @@ export function FormMobile({
   };
 
   const invalidHours = () => {
-    return validationDate(startHour, endHour);
+    return validationHour(startHour, endHour);
   };
 
   const invalidType = () => {
@@ -172,7 +173,7 @@ export function FormMobile({
     const update = {
       selectedDays: selectedDays.length === 0,
       date: validationDate(startDate, endDate),
-      hour: validationDate(startHour, endHour),
+      hour: validationHour(startDate, endDate),
     };
     setEmptyFieldsStep2(update);
 

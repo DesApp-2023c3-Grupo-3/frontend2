@@ -15,7 +15,9 @@ import { convertDaysToNumbers } from '../../../../utils/ConvertDaysToCode';
 import {
   validateDates,
   validateTwoDates,
+  validateTwoHours,
   validationDate,
+  validationHour,
 } from '../../../../utils/validationDate';
 import { useAdvertisingData } from '../../../../hooks/useAdvertisingData';
 import { InputName } from './InputNameAdvertising';
@@ -93,6 +95,7 @@ function FormAdvertising({
     endDate?.isValid() &&
     !validateDates(startDate, endDate) &&
     !validateTwoDates(startDate, endDate) &&
+    !validationHour(startHour, endHour) &&
     selectedDays.length > 0 &&
     selectedSector.length > 0 &&
     ((!!text && text !== '<p><br></p>') || !!image || !!video);
@@ -114,7 +117,7 @@ function FormAdvertising({
   };
 
   const invalidHours = () => {
-    return validationDate(startHour, endHour);
+    return validationHour(startHour, endHour);
   };
 
   let payload = '';
@@ -221,7 +224,7 @@ function FormAdvertising({
       selectedSector: selectedSector.length === 0,
       selectedDays: selectedDays.length === 0,
       date: validationDate(startDate, endDate),
-      hour: validationDate(startHour, endHour),
+      hour: validationHour(startHour, endHour),
       type: payload === '',
     };
     setEmptyFields(emptyFieldsUpdate);
@@ -337,7 +340,9 @@ function FormAdvertising({
                 hasError={emptyFields.hour && invalidHours()}
               />
               {ErrorMessage(
-                'Falta completar los horarios',
+                validateTwoHours(startHour, endHour)
+                  ? 'La hora de inicio es mayor o igual que la hora fin'
+                  : 'Falta completar los horarios',
                 emptyFields.hour && invalidHours(),
               )}
             </div>

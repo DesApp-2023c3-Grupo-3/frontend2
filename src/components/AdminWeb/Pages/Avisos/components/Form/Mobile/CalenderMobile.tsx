@@ -6,7 +6,9 @@ import ErrorMessage from '../../../../../components/ErrorMessage';
 import {
   validateDates,
   validateTwoDates,
+  validateTwoHours,
   validationDate,
+  validationHour,
 } from '../../../../../utils/validationDate';
 
 interface CalenderMobileProp {
@@ -43,7 +45,7 @@ export function CalenderMobile({
   };
 
   const invalidHours = () => {
-    return validationDate(startHour, endHour);
+    return validationHour(startHour, endHour);
   };
 
   const invalidselectedDays = () => {
@@ -85,7 +87,9 @@ export function CalenderMobile({
           selectedHourFinal={endHour}
         />
         {ErrorMessage(
-          'Falta completar los horarios',
+          validateTwoHours(startHour, endHour)
+            ? 'La hora de inicio es mayor o igual que la hora fin'
+            : 'Falta completar los horarios',
           emptyFields.hour && invalidHours(),
         )}
       </div>

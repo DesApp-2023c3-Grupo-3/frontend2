@@ -8,6 +8,18 @@ export function validationDate(start: Date | null | Dayjs, end: Date | null | Da
   );
 }
 
+export function validationHour(start: Date | null | Dayjs, end: Date | null | Dayjs) {
+  return (
+    dayjs(start).format() === 'Invalid Date' ||
+    dayjs(end).format() === 'Invalid Date' ||
+    validateTwoHours(start, end)
+  )
+}
+
+export function validateTwoHours(date1: Date | null | Dayjs, date2: Date | null | Dayjs): boolean {
+  return dayjs(date1).hour() > dayjs(date2).hour() || dayjs(date1).minute() >= dayjs(date2).minute()
+}
+
 export function validateTwoDates(date1: Date | null | Dayjs, date2: Date | null | Dayjs): boolean {
   const firstDate = dayjs(date1).startOf('day');
   const secondDate = dayjs(date2).startOf('day');
