@@ -36,7 +36,7 @@ function ScreenCard({
           : 'hover:border-8 hover:border-[#9F9F9F]'
       }  relative flex flex-col justify-center items-center bg-[#222222] w-48 h-48 rounded-3xl `}
     >
-      <div className="flex flex-col justify-center items-center h-full w-full  text-white">
+      <div className="flex flex-col justify-center items-center h-full w-full text-white">
         <span className="text-3xl">{screenTitle}</span>
         <span className="text-lg">{sectorTitle}</span>
       </div>
@@ -44,7 +44,7 @@ function ScreenCard({
         <img
           src={imageScreen[typeScreen]}
           alt="pantalla"
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover rounded-3xl"
         />
       </div>
     </button>

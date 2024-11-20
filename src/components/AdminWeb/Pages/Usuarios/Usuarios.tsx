@@ -298,32 +298,34 @@ function Usuarios() {
                           onSelectedRoleChange={handleSelectedUserRoleChange}
                           hasError={fields.role.id === -1 && error}
                         />
-                        <Input
-                          label="Password"
-                          placeholder="Ingrese la contraseña"
-                          radius="full"
-                          fullWidth
-                          classNames={{
-                            errorMessage: 'dark:text-red-300',
-                          }}
-                          endContent={
-                            <EyeIcon
-                              isVisible={isPasswordVisible}
-                              onClick={() =>
-                                setIsPasswordVisible(!isPasswordVisible)
-                              }
-                            />
-                          }
-                          errorMessage="Ingrese una contraseña"
-                          isInvalid={!fields.password && error}
-                          onChange={(e) => {
-                            setFields({
-                              ...fields,
-                              password: e.target.value,
-                            });
-                          }}
-                          type={isPasswordVisible ? 'text' : 'password'}
-                        />
+                        {!isEditing ? (
+                          <Input
+                            label="Password"
+                            placeholder="Ingrese la contraseña"
+                            radius="full"
+                            fullWidth
+                            classNames={{
+                              errorMessage: 'dark:text-red-300',
+                            }}
+                            endContent={
+                              <EyeIcon
+                                isVisible={isPasswordVisible}
+                                onClick={() =>
+                                  setIsPasswordVisible(!isPasswordVisible)
+                                }
+                              />
+                            }
+                            errorMessage="Ingrese una contraseña"
+                            isInvalid={!fields.password && error}
+                            onChange={(e) => {
+                              setFields({
+                                ...fields,
+                                password: e.target.value,
+                              });
+                            }}
+                            type={isPasswordVisible ? 'text' : 'password'}
+                          />
+                        ) : null}
                         <Input
                           type="text"
                           label="Nombre"
