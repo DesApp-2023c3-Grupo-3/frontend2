@@ -20,28 +20,28 @@ function App() {
 
   return (
     <ReactKeycloakProvider authClient={keycloak} initOptions={initOptions}>
-      <NextUIProvider>
-        <BrowserRouter>
-          <Routes>
-            <Route
-              path="/BulletinBoardClient"
-              element={<LoginScreen setScreenId={setScreenId} />}
-            />
-            <Route
-              path="/screen"
-              element={<ScreenClient screenId={screenId} />}
-            />
-            <Route
-              path="/BulletinBoardClient/admin/*"
-              element={
-                <PrivateRoute>
+      <BrowserRouter>
+        <Routes>
+          <Route
+            path="/BulletinBoardClient"
+            element={<LoginScreen setScreenId={setScreenId} />}
+          />
+          <Route
+            path="/screen"
+            element={<ScreenClient screenId={screenId} />}
+          />
+          <Route
+            path="/BulletinBoardClient/admin/*"
+            element={
+              <PrivateRoute>
+                <NextUIProvider>
                   <AdminWeb />
-                </PrivateRoute>
-              }
-            />
-          </Routes>
-        </BrowserRouter>
-      </NextUIProvider>
+                </NextUIProvider>
+              </PrivateRoute>
+            }
+          />
+        </Routes>
+      </BrowserRouter>
     </ReactKeycloakProvider>
   );
 }
