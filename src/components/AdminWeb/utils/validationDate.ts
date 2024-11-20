@@ -4,18 +4,27 @@ export function validationDate(start: Date | null | Dayjs, end: Date | null | Da
   return (
     dayjs(start).format() === 'Invalid Date' ||
     dayjs(end).format() === 'Invalid Date' ||
-    validateYears(start, end)
+    validateDates(start, end)
   );
 }
 
-export function validateYears(firstDate: Date | null | Dayjs, secondDate: Date | null | Dayjs) {
+export function validateTwoDates(date1: Date | null | Dayjs, date2: Date | null | Dayjs): boolean {
+  const firstDate = dayjs(date1).startOf('day');
+  const secondDate = dayjs(date2).startOf('day');
+
+  return firstDate.isAfter(secondDate);
+}
+
+export function validateDates(firstDate: Date | null | Dayjs, secondDate: Date | null | Dayjs) {
   return (
-    validateYear(firstDate) || validateYear(secondDate)
+    validateDate(firstDate) || validateDate(secondDate)
   )
 }
 
-export function validateYear(date: Date | null | Dayjs) {
+export function validateDate(date: Date | null | Dayjs) {
+  const dateConverted = dayjs(date).startOf('day')
+  const now = dayjs(new Date()).startOf('day')
   return (
-    dayjs(date).year() < dayjs(new Date()).year()
+    dateConverted.isBefore(now)
   )
 }

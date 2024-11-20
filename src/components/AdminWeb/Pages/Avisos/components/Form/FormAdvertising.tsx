@@ -13,7 +13,8 @@ import * as React from 'react';
 import { advertisingsAPI } from '../../../../../../services/advertisings';
 import { convertDaysToNumbers } from '../../../../utils/ConvertDaysToCode';
 import {
-  validateYears,
+  validateDates,
+  validateTwoDates,
   validationDate,
 } from '../../../../utils/validationDate';
 import { useAdvertisingData } from '../../../../hooks/useAdvertisingData';
@@ -90,7 +91,8 @@ function FormAdvertising({
     endHour?.isValid() &&
     startDate?.isValid() &&
     endDate?.isValid() &&
-    !validateYears(startDate, endDate) &&
+    !validateDates(startDate, endDate) &&
+    !validateTwoDates(startDate, endDate) &&
     selectedDays.length > 0 &&
     selectedSector.length > 0 &&
     ((!!text && text !== '<p><br></p>') || !!image || !!video);
@@ -299,13 +301,20 @@ function FormAdvertising({
                 selectedDateInit={startDate}
                 selectedDateFinal={endDate}
                 isCreate={isCreate}
-                hasError={emptyFields.date && invalidDate()}
+                hasError={
+                  (emptyFields.date && invalidDate()) ||
+                  (validateTwoDates(startDate, endDate) && !emptyFields.date)
+                }
               />
               {ErrorMessage(
-                validateYears(startDate, endDate)
+                validateDates(startDate, endDate)
                   ? 'Fecha inválida'
-                  : 'Falta completar las fechas.',
-                emptyFields.date && invalidDate(),
+                  : 'Falta seleccionar las fechas.',
+                invalidDate() && emptyFields.date,
+              )}
+              {ErrorMessage(
+                'La fecha inicio es más grande que la fecha fin',
+                validateTwoDates(startDate, endDate) && !emptyFields.date,
               )}
             </div>
             <div className="flex flex-col w-full">

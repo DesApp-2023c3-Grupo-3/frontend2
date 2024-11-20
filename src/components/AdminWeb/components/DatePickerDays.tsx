@@ -47,7 +47,7 @@ function DatePickerDays({
           Fecha
         </span>
         <DatePicker
-          defaultValue={isCreate ? null : dayjsToDateValue(selectedDateInit)}
+          defaultValue={dayjsToDateValue(selectedDateInit)}
           onChange={(newDate: CalendarDate | null) => {
             if (!newDate) {
               onChangeStartDate(null);

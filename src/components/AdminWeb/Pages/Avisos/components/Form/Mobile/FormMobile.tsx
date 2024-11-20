@@ -1,7 +1,10 @@
 import { Advertising } from '../../../../../types/customTypes';
 import { NewAdvertising } from './NewAdvertising';
 import React from 'react';
-import { validationDate } from '../../../../../utils/validationDate';
+import {
+  validateTwoDates,
+  validationDate,
+} from '../../../../../utils/validationDate';
 import { useAdvertisingData } from '../../../../../hooks/useAdvertisingData';
 import Button from '../../../../../components/Buttons/Button';
 import { CalenderMobile } from './CalenderMobile';
@@ -70,12 +73,7 @@ export function FormMobile({
   };
 
   const invalidDate = () => {
-    return (
-      validationDate(startDate, endDate) &&
-      endDate !== null &&
-      startDate !== null &&
-      endDate <= startDate
-    );
+    return validationDate(startDate, endDate);
   };
 
   const invalidHours = () => {
@@ -191,7 +189,11 @@ export function FormMobile({
       if (currentStep === 1 && validateStep1()) {
         setCurrentStep(currentStep + 1);
       }
-      if (currentStep === 2 && validateStep2()) {
+      if (
+        currentStep === 2 &&
+        validateStep2() &&
+        !validateTwoDates(startDate, endDate)
+      ) {
         setCurrentStep(currentStep + 1);
       }
     }

@@ -3,7 +3,10 @@ import Button from '../../../../components/Buttons/Button';
 import { Step1 } from './Step1';
 import { Step2 } from './Step2';
 import { commissionApi } from '../../../../../../services/commissions';
-import { validationDate } from '../../../../utils/validationDate';
+import {
+  validateTwoDates,
+  validationDate,
+} from '../../../../utils/validationDate';
 import Loader from '../../../../components/Loader';
 
 interface FormMobileProps {
@@ -85,7 +88,14 @@ export function FormMobile({
     };
     setEmptyFieldsStep1(update);
 
-    return !update.selectedSector && !update.date;
+    return (
+      !update.selectedSector &&
+      !update.date &&
+      startDate &&
+      endDate &&
+      !validationDate(startDate, endDate) &&
+      !validateTwoDates(startDate, endDate)
+    );
   };
 
   const [isValidateStep2, setValidateStep2] = React.useState(true);
@@ -97,7 +107,7 @@ export function FormMobile({
   };
 
   return (
-    <div className={``}>
+    <div>
       <div className="dark:text-white">
         <h2 className="flex justify-center items-center font-bold text-[24px] mt-2 ">
           COMISIONES
@@ -140,10 +150,10 @@ export function FormMobile({
 
         <div
           id="buttons"
-          className="absolute m-auto bottom-[15vw] left-0 right-0"
+          className=" m-auto absolute bottom-[6vw] left-0 right-0"
         >
           {currentStep === 1 ? (
-            <div className="flex justify-center ">
+            <div className="flex justify-center">
               <Button
                 onClick={handleNextStep}
                 active={true}

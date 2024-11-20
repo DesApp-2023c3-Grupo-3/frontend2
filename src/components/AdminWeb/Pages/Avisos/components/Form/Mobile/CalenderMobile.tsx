@@ -4,7 +4,8 @@ import PickerTime from '../../../../../components/PickerTime';
 import DayPicker, { Days } from '../DayPicker';
 import ErrorMessage from '../../../../../components/ErrorMessage';
 import {
-  validateYears,
+  validateDates,
+  validateTwoDates,
   validationDate,
 } from '../../../../../utils/validationDate';
 
@@ -56,7 +57,10 @@ export function CalenderMobile({
       </div>
       <div>
         <DatePickerDays
-          hasError={emptyFields.date && invalidDate()}
+          hasError={
+            (emptyFields.date && invalidDate()) ||
+            (validateTwoDates(startDate, endDate) && !emptyFields.date)
+          }
           onChangeStartDate={setStartDate}
           onChangeEndDate={setEndDate}
           selectedDateInit={startDate}
@@ -64,13 +68,15 @@ export function CalenderMobile({
           isCreate={isCreate}
         />
         {ErrorMessage(
-          validateYears(startDate, endDate)
-            ? 'Fecha inválida'
-            : 'Falta completar las fechas.',
-          emptyFields.date && invalidDate(),
+          (validateDates(startDate, endDate) && 'Fecha inválida') ||
+            (validateTwoDates(startDate, endDate) &&
+              'La fecha de inicio es más grande que la fecha final') ||
+            'Falta completar las fechas.',
+          (emptyFields.date && invalidDate()) ||
+            (validateTwoDates(startDate, endDate) && !emptyFields.date),
         )}
       </div>
-      <div>
+      <div className="z-[1050]">
         <PickerTime
           hasError={emptyFields.hour && invalidHours()}
           onChangeStartHour={setStartHour}
@@ -83,16 +89,18 @@ export function CalenderMobile({
           emptyFields.hour && invalidHours(),
         )}
       </div>
-      <div className="md:my-[3em] my-[1.1em]">
+      <div className="absolute bottom-[6.7rem] left-0 right-0">
         <DayPicker
           onSelectedDaysChange={setSelectedDays}
           selectedDays={selectedDays}
           hasError={emptyFields.selectedDays && invalidselectedDays()}
         />
-        {ErrorMessage(
-          'Falta elegir los días.',
-          emptyFields.selectedDays && invalidselectedDays(),
-        )}
+        <div className="absolute">
+          {ErrorMessage(
+            'Falta elegir los días.',
+            emptyFields.selectedDays && invalidselectedDays(),
+          )}
+        </div>
       </div>
     </>
   );

@@ -3,7 +3,8 @@ import Sectores from '../../../../components/Sectores';
 import DatePickerDays from '../../../../components/DatePickerDays';
 import ErrorMessage from '../../../../components/ErrorMessage';
 import {
-  validateYears,
+  validateDates,
+  validateTwoDates,
   validationDate,
 } from '../../../../utils/validationDate';
 
@@ -52,7 +53,10 @@ export function Step1({
       </div>
       <div className="w-full">
         <DatePickerDays
-          hasError={invalidDate() && emptyFields.date}
+          hasError={
+            (emptyFields.date && invalidDate()) ||
+            (validateTwoDates(startDate, endDate) && !emptyFields.date)
+          }
           onChangeStartDate={setStartDate}
           onChangeEndDate={setEndDate}
           selectedDateInit={startDate}
@@ -60,10 +64,14 @@ export function Step1({
           isCreate={true}
         />
         {ErrorMessage(
-          validateYears(startDate, endDate)
+          validateDates(startDate, endDate)
             ? 'Fecha inválida'
             : 'Falta seleccionar las fechas.',
           invalidDate() && emptyFields.date,
+        )}
+        {ErrorMessage(
+          'La fecha inicio es más grande que la fecha fin',
+          validateTwoDates(startDate, endDate) && !emptyFields.date,
         )}
       </div>
     </div>
