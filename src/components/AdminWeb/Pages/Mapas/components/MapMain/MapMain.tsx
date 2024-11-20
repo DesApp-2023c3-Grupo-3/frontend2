@@ -24,7 +24,9 @@ function MapMain() {
   return (
     <div className="flex flex-wrap justify-center items-center gap-4">
       {isLoading ? (
-        <Loader />
+        <div className="h-[70vh] flex justify-center items-center">
+          <Loader />
+        </div>
       ) : maps.length === 0 ? (
         <p className="text-3xl font-bold">No hay mapas para mostrar</p>
       ) : (
