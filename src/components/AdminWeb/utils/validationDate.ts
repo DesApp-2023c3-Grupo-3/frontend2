@@ -17,7 +17,12 @@ export function validationHour(start: Date | null | Dayjs, end: Date | null | Da
 }
 
 export function validateTwoHours(date1: Date | null | Dayjs, date2: Date | null | Dayjs): boolean {
-  return dayjs(date1).hour() > dayjs(date2).hour() || dayjs(date1).minute() >= dayjs(date2).minute()
+  const time1 = dayjs(date1).set("year", 2000).set("month", 0).set("date", 1);
+  const time2 = dayjs(date2).set("year", 2000).set("month", 0).set("date", 1);
+
+  const diffInMinutes = dayjs(time2).diff(dayjs(time1), "minute");
+
+  return diffInMinutes <= 0;
 }
 
 export function validateTwoDates(date1: Date | null | Dayjs, date2: Date | null | Dayjs): boolean {
