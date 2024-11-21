@@ -28,7 +28,7 @@ export const ROUTES_RELATIVE = {
   },
   user: {
     users: `${API}/user`,
-    createUser: `${API}/auth/register`,
+    createUser: `${API}/user`,
     deleteUser: `${API}/user`,
     updateUser: `${API}/user`
   },
