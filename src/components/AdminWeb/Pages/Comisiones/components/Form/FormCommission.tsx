@@ -5,7 +5,11 @@ import { Commission } from '../../../../types/customTypes';
 import { commissionApi } from '../../../../../../services/commissions';
 import Loader from '../../../../components/Loader';
 import ErrorMessage from '../../../../components/ErrorMessage';
-import { validationDate } from '../../../../utils/validationDate';
+import {
+  validateDates,
+  validateTwoDates,
+  validationDate,
+} from '../../../../utils/validationDate';
 import DatePickerDays from '../../../../components/DatePickerDays';
 
 interface FormCommissionProps {
@@ -74,7 +78,14 @@ function FormCommission({
   };
 
   const hasValidCommission = () => {
-    return hasDocument && selectedSector.length === 0 && startDate && endDate;
+    return (
+      hasDocument &&
+      selectedSector.length !== 0 &&
+      startDate &&
+      endDate &&
+      !invalidDate() &&
+      !validateTwoDates(startDate, endDate)
+    );
   };
 
   const [emptyFields, setEmptyFields] = React.useState({
@@ -91,7 +102,12 @@ function FormCommission({
     };
     setEmptyFields(update);
 
-    return !update.selectedSector && !update.date && !update.file;
+    return (
+      !update.selectedSector &&
+      !update.date &&
+      !update.file &&
+      hasValidCommission()
+    );
   };
 
   const uploadTemplate = () => {
@@ -134,7 +150,10 @@ function FormCommission({
           </div>
           <div className="w-[400px]">
             <DatePickerDays
-              hasError={invalidDate() && emptyFields.date}
+              hasError={
+                (emptyFields.date && invalidDate()) ||
+                (validateTwoDates(startDate, endDate) && !emptyFields.date)
+              }
               onChangeStartDate={setStartDate}
               onChangeEndDate={setEndDate}
               isCreate={true}
@@ -143,8 +162,14 @@ function FormCommission({
             />
             <div className="absoltue translate-x-[40px]">
               {ErrorMessage(
-                'Falta seleccionar las fechas.',
+                validateDates(startDate, endDate)
+                  ? 'Fecha inválida'
+                  : 'Falta seleccionar las fechas.',
                 invalidDate() && emptyFields.date,
+              )}
+              {ErrorMessage(
+                'La fecha inicio es más grande que la fecha fin',
+                validateTwoDates(startDate, endDate) && !emptyFields.date,
               )}
             </div>
           </div>

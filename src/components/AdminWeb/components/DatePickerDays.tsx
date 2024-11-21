@@ -9,8 +9,8 @@ import {
 import { I18nProvider } from '@react-aria/i18n';
 
 interface DatePickerDaysProps {
-  onChangeStartDate: (newStartDate: Dayjs) => void;
-  onChangeEndDate: (newEndDate: Dayjs) => void;
+  onChangeStartDate: (newStartDate: Dayjs | null) => void;
+  onChangeEndDate: (newEndDate: Dayjs | null) => void;
   selectedDateInit: null | Dayjs;
   selectedDateFinal: null | Dayjs;
   isCreate: boolean;
@@ -47,16 +47,15 @@ function DatePickerDays({
           Fecha
         </span>
         <DatePicker
-          value={dayjsToDateValue(selectedDateInit)}
-          defaultValue={
-            !isCreate
-              ? today(getLocalTimeZone())
-              : dayjsToDateValue(selectedDateInit)
-          }
-          onChange={(newDate: CalendarDate) => {
-            onChangeStartDate(
-              dayjs(new Date(newDate.year, newDate.month - 1, newDate.day)),
-            );
+          defaultValue={dayjsToDateValue(selectedDateInit)}
+          onChange={(newDate: CalendarDate | null) => {
+            if (!newDate) {
+              onChangeStartDate(null);
+            } else {
+              onChangeStartDate(
+                dayjs(new Date(newDate.year, newDate.month - 1, newDate.day)),
+              );
+            }
           }}
           isInvalid={hasError}
           label="Fecha de Inicio"
@@ -64,11 +63,15 @@ function DatePickerDays({
           minValue={today(getLocalTimeZone())}
         />
         <DatePicker
-          value={dayjsToDateValue(selectedDateFinal)}
-          onChange={(newDate: CalendarDate) => {
-            onChangeEndDate(
-              dayjs(new Date(newDate.year, newDate.month - 1, newDate.day)),
-            );
+          defaultValue={dayjsToDateValue(selectedDateFinal)}
+          onChange={(newDate: CalendarDate | null) => {
+            if (newDate) {
+              onChangeEndDate(
+                dayjs(new Date(newDate.year, newDate.month - 1, newDate.day)),
+              );
+            } else {
+              onChangeEndDate(null);
+            }
           }}
           isInvalid={hasError}
           label="Fecha Final"

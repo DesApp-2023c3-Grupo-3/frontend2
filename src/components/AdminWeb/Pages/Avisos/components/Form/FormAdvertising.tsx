@@ -12,7 +12,13 @@ import Button from '../../../../components/Buttons/Button';
 import * as React from 'react';
 import { advertisingsAPI } from '../../../../../../services/advertisings';
 import { convertDaysToNumbers } from '../../../../utils/ConvertDaysToCode';
-import { validationDate } from '../../../../utils/validationDate';
+import {
+  validateDates,
+  validateTwoDates,
+  validateTwoHours,
+  validationDate,
+  validationHour,
+} from '../../../../utils/validationDate';
 import { useAdvertisingData } from '../../../../hooks/useAdvertisingData';
 import { InputName } from './InputNameAdvertising';
 import Loader from '../../../../components/Loader';
@@ -87,6 +93,9 @@ function FormAdvertising({
     endHour?.isValid() &&
     startDate?.isValid() &&
     endDate?.isValid() &&
+    !validateDates(startDate, endDate) &&
+    !validateTwoDates(startDate, endDate) &&
+    !validationHour(startHour, endHour) &&
     selectedDays.length > 0 &&
     selectedSector.length > 0 &&
     ((!!text && text !== '<p><br></p>') || !!image || !!video);
@@ -108,7 +117,7 @@ function FormAdvertising({
   };
 
   const invalidHours = () => {
-    return validationDate(startHour, endHour);
+    return validationHour(startHour, endHour);
   };
 
   let payload = '';
@@ -215,7 +224,7 @@ function FormAdvertising({
       selectedSector: selectedSector.length === 0,
       selectedDays: selectedDays.length === 0,
       date: validationDate(startDate, endDate),
-      hour: validationDate(startHour, endHour),
+      hour: validationHour(startHour, endHour),
       type: payload === '',
     };
     setEmptyFields(emptyFieldsUpdate);
@@ -295,11 +304,20 @@ function FormAdvertising({
                 selectedDateInit={startDate}
                 selectedDateFinal={endDate}
                 isCreate={isCreate}
-                hasError={emptyFields.date && invalidDate()}
+                hasError={
+                  (emptyFields.date && invalidDate()) ||
+                  (validateTwoDates(startDate, endDate) && !emptyFields.date)
+                }
               />
               {ErrorMessage(
-                'Falta completar las fechas.',
-                emptyFields.date && invalidDate(),
+                validateDates(startDate, endDate)
+                  ? 'Fecha inválida'
+                  : 'Falta seleccionar las fechas.',
+                invalidDate() && emptyFields.date,
+              )}
+              {ErrorMessage(
+                'La fecha inicio es más grande que la fecha fin',
+                validateTwoDates(startDate, endDate) && !emptyFields.date,
               )}
             </div>
             <div className="flex flex-col w-full">
@@ -322,7 +340,9 @@ function FormAdvertising({
                 hasError={emptyFields.hour && invalidHours()}
               />
               {ErrorMessage(
-                'Falta completar los horarios',
+                validateTwoHours(startHour, endHour)
+                  ? 'La hora de inicio es mayor o igual que la hora fin'
+                  : 'Falta completar los horarios',
                 emptyFields.hour && invalidHours(),
               )}
             </div>

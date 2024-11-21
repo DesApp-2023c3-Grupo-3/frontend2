@@ -3,15 +3,21 @@ import DatePickerDays from '../../../../../components/DatePickerDays';
 import PickerTime from '../../../../../components/PickerTime';
 import DayPicker, { Days } from '../DayPicker';
 import ErrorMessage from '../../../../../components/ErrorMessage';
-import { validationDate } from '../../../../../utils/validationDate';
+import {
+  validateDates,
+  validateTwoDates,
+  validateTwoHours,
+  validationDate,
+  validationHour,
+} from '../../../../../utils/validationDate';
 
 interface CalenderMobileProp {
-  setStartDate: (newStartDate: Dayjs) => void;
-  setEndDate: (newEndDate: Dayjs) => void;
+  setStartDate: (newStartDate: Dayjs | null) => void;
+  setEndDate: (newEndDate: Dayjs | null) => void;
   startDate: null | Dayjs;
   endDate: null | Dayjs;
-  setStartHour: (a: Dayjs) => void;
-  setEndHour: (a: Dayjs) => void;
+  setStartHour: (a: Dayjs | null) => void;
+  setEndHour: (a: Dayjs | null) => void;
   startHour: null | Dayjs;
   endHour: null | Dayjs;
   setSelectedDays: (a: any) => void;
@@ -39,7 +45,7 @@ export function CalenderMobile({
   };
 
   const invalidHours = () => {
-    return validationDate(startHour, endHour);
+    return validationHour(startHour, endHour);
   };
 
   const invalidselectedDays = () => {
@@ -53,7 +59,10 @@ export function CalenderMobile({
       </div>
       <div>
         <DatePickerDays
-          hasError={emptyFields.date && invalidDate()}
+          hasError={
+            (emptyFields.date && invalidDate()) ||
+            (validateTwoDates(startDate, endDate) && !emptyFields.date)
+          }
           onChangeStartDate={setStartDate}
           onChangeEndDate={setEndDate}
           selectedDateInit={startDate}
@@ -61,11 +70,15 @@ export function CalenderMobile({
           isCreate={isCreate}
         />
         {ErrorMessage(
-          'Falta completar las fechas.',
-          emptyFields.date && invalidDate(),
+          (validateDates(startDate, endDate) && 'Fecha inválida') ||
+            (validateTwoDates(startDate, endDate) &&
+              'La fecha de inicio es más grande que la fecha final') ||
+            'Falta completar las fechas.',
+          (emptyFields.date && invalidDate()) ||
+            (validateTwoDates(startDate, endDate) && !emptyFields.date),
         )}
       </div>
-      <div>
+      <div className="z-[1050]">
         <PickerTime
           hasError={emptyFields.hour && invalidHours()}
           onChangeStartHour={setStartHour}
@@ -74,20 +87,24 @@ export function CalenderMobile({
           selectedHourFinal={endHour}
         />
         {ErrorMessage(
-          'Falta completar los horarios',
+          validateTwoHours(startHour, endHour)
+            ? 'La hora de inicio es mayor o igual que la hora fin'
+            : 'Falta completar los horarios',
           emptyFields.hour && invalidHours(),
         )}
       </div>
-      <div className="md:my-[3em] my-[1.1em]">
+      <div className="absolute bottom-[6.7rem] left-0 right-0">
         <DayPicker
           onSelectedDaysChange={setSelectedDays}
           selectedDays={selectedDays}
           hasError={emptyFields.selectedDays && invalidselectedDays()}
         />
-        {ErrorMessage(
-          'Falta elegir los días.',
-          emptyFields.selectedDays && invalidselectedDays(),
-        )}
+        <div className="absolute">
+          {ErrorMessage(
+            'Falta elegir los días.',
+            emptyFields.selectedDays && invalidselectedDays(),
+          )}
+        </div>
       </div>
     </>
   );
